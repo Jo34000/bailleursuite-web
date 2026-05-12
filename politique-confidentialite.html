@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Politique de confidentialité — BailleurSuite</title>
+  <meta name="description" content="Politique de confidentialité de BailleurSuite. Vos données restent sur votre iPhone, point.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:       #F5F0E8;
+      --cream:    #FDFCF8;
+      --ink:      #1C1C1E;
+      --ink-mid:  #4A4A4C;
+      --ink-light:#8A8A8E;
+      --mint:     #2D6A4F;
+      --mint-dark:#1A4A35;
+      --gold:     #C9A84C;
+      --border:   rgba(28,28,30,0.08);
+      --serif:    'Instrument Serif', Georgia, serif;
+      --sans:     'DM Sans', system-ui, sans-serif;
+      --radius:   16px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245,240,232,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--mint); }
+    .nav-logo-icon {
+      width: 32px; height: 32px;
+      background: var(--mint);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-back {
+      font-size: 0.82rem;
+      color: var(--mint);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .nav-back:hover { color: var(--mint-dark); }
+
+    /* ── HERO ── */
+    .page-hero {
+      background: var(--mint);
+      padding: 64px 24px 56px;
+      text-align: center;
+    }
+    .page-hero-label {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 16px;
+    }
+    .page-hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .page-hero p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.75);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .page-hero-date {
+      margin-top: 24px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── CONTENU ── */
+    .page-content {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 64px 24px 100px;
+    }
+
+    /* Résumé en encadré vert clair */
+    .tldr {
+      background: rgba(45,106,79,0.07);
+      border: 1px solid rgba(45,106,79,0.2);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 56px;
+    }
+    .tldr-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--mint);
+      margin-bottom: 12px;
+    }
+    .tldr p {
+      font-size: 0.95rem;
+      color: var(--ink);
+      font-weight: 500;
+      line-height: 1.6;
+    }
+    .tldr strong { color: var(--mint); }
+
+    /* Sections */
+    .section {
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .section-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 24px 0 10px;
+    }
+    p {
+      font-size: 0.92rem;
+      color: var(--ink-mid);
+      margin-bottom: 14px;
+      line-height: 1.75;
+    }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--ink); font-weight: 600; }
+    a { color: var(--mint); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Liste */
+    ul {
+      list-style: none;
+      margin: 14px 0;
+    }
+    ul li {
+      font-size: 0.92rem;
+      color: var(--ink-mid);
+      padding: 6px 0 6px 24px;
+      position: relative;
+      line-height: 1.6;
+    }
+    ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--mint);
+      font-weight: 600;
+    }
+
+    /* Badge "Données locales" */
+    .badge-local {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--mint);
+      margin: 16px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .badge-local::before {
+      content: '🔒';
+      font-size: 0.9rem;
+    }
+
+    /* Contact card */
+    .contact-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      margin-top: 20px;
+    }
+    .contact-card p { margin: 4px 0; }
+    .contact-card .contact-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-light);
+      margin-bottom: 12px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.78rem;
+    }
+    footer a { color: rgba(255,255,255,0.6); }
+    footer a:hover { color: white; }
+
+    @media (max-width: 600px) {
+      .page-hero { padding: 48px 20px 40px; }
+      .page-content { padding: 40px 20px 72px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <circle cx="7.5" cy="7.5" r="4.5" stroke="white" stroke-width="1.8"/>
+        <path d="M10.5 10.5L14 14" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M5 12h5M7.5 9.5v5" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    Bailleur <span>Suite</span>
+  </a>
+  <a href="index.html" class="nav-back">← Retour au site</a>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-label">Légal</div>
+  <h1>Politique de<br><em>confidentialité</em></h1>
+  <p>Vos données ne nous appartiennent pas. Elles restent sur votre iPhone.</p>
+  <div class="page-hero-date">Dernière mise à jour : mai 2026</div>
+</div>
+
+<!-- CONTENU -->
+<div class="page-content">
+
+  <!-- TL;DR -->
+  <div class="tldr">
+    <div class="tldr-label">En résumé — la version courte</div>
+    <p>BailleurSuite ne collecte <strong>aucune donnée personnelle</strong> depuis l'application. Vos informations (biens, loyers, charges, documents) sont stockées <strong>uniquement sur votre iPhone et dans votre iCloud privé</strong>. Nous n'avons jamais accès à vos données, nous ne les vendons pas, nous ne les partageons pas.</p>
+  </div>
+
+  <!-- 1. Éditeur -->
+  <div class="section">
+    <div class="section-num">Article 01</div>
+    <h2>Éditeur du service</h2>
+    <p>L'application BailleurSuite et le site <strong>bailleursuite.fr</strong> sont édités par :</p>
+    <div class="contact-card">
+      <div class="contact-label">Identité de l'éditeur</div>
+      <p><strong>Joachim [Nom]</strong> — Entrepreneur individuel</p>
+      <p>SIRET : <em>en cours d'immatriculation</em></p>
+      <p>Adresse : Montpellier, France</p>
+      <p>Email : <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a></p>
+    </div>
+    <p style="margin-top:16px; font-size:0.82rem; color:var(--ink-light);">Cette politique sera mise à jour dès obtention du SIRET définitif.</p>
+  </div>
+
+  <!-- 2. Données app -->
+  <div class="section">
+    <div class="section-num">Article 02</div>
+    <h2>Données dans l'application iOS</h2>
+
+    <div class="badge-local">Données 100% locales — aucun serveur BailleurSuite</div>
+
+    <p>BailleurSuite fonctionne en <strong>mode entièrement local</strong>. Toutes les données que vous saisissez dans l'application sont stockées exclusivement sur votre appareil via <strong>SwiftData</strong> et, si vous l'activez, synchronisées dans votre propre espace <strong>iCloud privé</strong> (CloudKit).</p>
+
+    <h3>Ce que nous ne faisons pas</h3>
+    <ul>
+      <li>Nous ne collectons aucune donnée de l'application sur nos serveurs</li>
+      <li>Nous n'avons aucun accès à vos biens, loyers, charges ou documents</li>
+      <li>Nous ne transmettons aucune donnée à des tiers</li>
+      <li>Nous n'utilisons pas vos données à des fins publicitaires ou commerciales</li>
+    </ul>
+
+    <h3>Synchronisation iCloud (optionnelle)</h3>
+    <p>Si vous activez la synchronisation iCloud, vos données transitent exclusivement via l'infrastructure Apple (CloudKit). Cette synchronisation est soumise à la <a href="https://www.apple.com/fr/legal/privacy/" target="_blank">politique de confidentialité d'Apple</a>, sur laquelle nous n'avons aucun contrôle et aucun accès.</p>
+
+    <h3>Scanner de documents</h3>
+    <p>L'accès à l'appareil photo (scanner de justificatifs) est utilisé uniquement pour capturer vos documents. Les images sont stockées localement sur votre appareil. Elles ne sont jamais transmises à nos serveurs.</p>
+  </div>
+
+  <!-- 3. Données site web -->
+  <div class="section">
+    <div class="section-num">Article 03</div>
+    <h2>Données collectées sur le site web</h2>
+
+    <h3>Formulaire d'inscription (liste d'attente)</h3>
+    <p>Lorsque vous renseignez votre adresse email sur <strong>bailleursuite.fr</strong> pour rejoindre la liste d'attente ou recevoir le guide gratuit, nous collectons uniquement :</p>
+    <ul>
+      <li>Votre adresse email</li>
+      <li>La date d'inscription</li>
+    </ul>
+    <p>Ces données sont utilisées exclusivement pour :</p>
+    <ul>
+      <li>Vous envoyer le guide PDF promis</li>
+      <li>Vous notifier du lancement de l'application</li>
+      <li>Vous informer des mises à jour importantes de BailleurSuite</li>
+    </ul>
+    <p>Elles sont stockées via <strong>Brevo</strong> (Sendinblue SAS, société française), prestataire d'emailing conforme RGPD. Vos données ne sont jamais vendues ni transmises à d'autres tiers.</p>
+
+    <h3>Données de navigation</h3>
+    <p>Le site peut collecter des données de navigation anonymisées (pages visitées, durée de session) via un outil d'analyse conforme RGPD et sans cookie de traçage. Aucune donnée personnelle n'est collectée à cette fin.</p>
+  </div>
+
+  <!-- 4. Base légale -->
+  <div class="section">
+    <div class="section-num">Article 04</div>
+    <h2>Base légale du traitement</h2>
+    <p>Conformément au Règlement Général sur la Protection des Données (RGPD — Règlement UE 2016/679), le traitement de votre adresse email repose sur votre <strong>consentement explicite</strong> au moment de l'inscription.</p>
+    <p>Vous pouvez retirer ce consentement à tout moment en nous contactant à <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a> ou en cliquant sur le lien de désinscription présent dans chaque email que nous vous envoyons.</p>
+  </div>
+
+  <!-- 5. Durée de conservation -->
+  <div class="section">
+    <div class="section-num">Article 05</div>
+    <h2>Durée de conservation</h2>
+    <ul>
+      <li><strong>Adresses email (liste d'attente) :</strong> conservées jusqu'à votre désinscription ou 3 ans après le dernier contact, conformément aux recommandations CNIL</li>
+      <li><strong>Données de l'application :</strong> conservées sur votre appareil tant que vous ne les supprimez pas — nous n'y avons aucun accès</li>
+      <li><strong>Données de navigation anonymisées :</strong> 13 mois maximum</li>
+    </ul>
+  </div>
+
+  <!-- 6. Vos droits -->
+  <div class="section">
+    <div class="section-num">Article 06</div>
+    <h2>Vos droits</h2>
+    <p>Conformément au RGPD, vous disposez des droits suivants sur vos données personnelles :</p>
+    <ul>
+      <li><strong>Droit d'accès :</strong> obtenir une copie des données que nous détenons vous concernant</li>
+      <li><strong>Droit de rectification :</strong> corriger des données inexactes</li>
+      <li><strong>Droit à l'effacement :</strong> demander la suppression de vos données</li>
+      <li><strong>Droit d'opposition :</strong> vous opposer au traitement de vos données</li>
+      <li><strong>Droit à la portabilité :</strong> recevoir vos données dans un format structuré</li>
+      <li><strong>Droit de retrait du consentement :</strong> à tout moment, sans justification</li>
+    </ul>
+    <p>Pour exercer ces droits, contactez-nous à : <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a>. Nous répondrons dans un délai maximum de <strong>30 jours</strong>.</p>
+    <p>Vous disposez également du droit d'introduire une réclamation auprès de la <strong>CNIL</strong> (<a href="https://www.cnil.fr" target="_blank">cnil.fr</a>) si vous estimez que vos droits ne sont pas respectés.</p>
+  </div>
+
+  <!-- 7. Cookies -->
+  <div class="section">
+    <div class="section-num">Article 07</div>
+    <h2>Cookies</h2>
+    <p>Le site <strong>bailleursuite.fr</strong> n'utilise pas de cookies publicitaires ou de traçage tiers. Le seul cookie éventuellement déposé est un cookie de session technique, strictement nécessaire au fonctionnement du site, qui ne nécessite pas de consentement selon la réglementation CNIL.</p>
+    <p>Aucun cookie Google Analytics, Facebook Pixel ou assimilé n'est présent sur ce site.</p>
+  </div>
+
+  <!-- 8. Sécurité -->
+  <div class="section">
+    <div class="section-num">Article 08</div>
+    <h2>Sécurité des données</h2>
+    <p>Les données de l'application sont protégées par le <strong>chiffrement natif iOS</strong> (encryption at rest) et, dans le cadre de la synchronisation iCloud, par le chiffrement de bout en bout d'Apple.</p>
+    <p>Les adresses email collectées via le formulaire du site sont hébergées chez Brevo, certifié <strong>ISO 27001</strong> et conforme aux exigences RGPD.</p>
+  </div>
+
+  <!-- 9. Modifications -->
+  <div class="section">
+    <div class="section-num">Article 09</div>
+    <h2>Modifications de cette politique</h2>
+    <p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment, notamment pour nous conformer à d'éventuelles évolutions législatives. La date de dernière mise à jour est indiquée en haut de cette page.</p>
+    <p>En cas de modification substantielle, nous vous en informerons par email si vous êtes inscrit sur notre liste d'attente.</p>
+  </div>
+
+  <!-- 10. Contact -->
+  <div class="section">
+    <div class="section-num">Article 10</div>
+    <h2>Contact</h2>
+    <p>Pour toute question relative à cette politique de confidentialité ou à vos données personnelles :</p>
+    <div class="contact-card">
+      <div class="contact-label">Responsable du traitement</div>
+      <p><strong>BailleurSuite</strong></p>
+      <p>Email : <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a></p>
+      <p>Réponse garantie sous 30 jours ouvrés.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 BailleurSuite — <a href="index.html">Retour au site</a></p>
+  <p style="margin-top:8px;">Données 100% locales · Conforme RGPD · Made in Montpellier 🇫🇷</p>
+</footer>
+
+</body>
+</html>
