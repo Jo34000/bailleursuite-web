@@ -1659,20 +1659,38 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Waitlist form
-  function handleWaitlist(e) {
+  async function handleWaitlist(e) {
     e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
     const msg = document.getElementById('waitlist-msg');
-    const counter = document.getElementById('counter-display');
-    // Incrémenter le compteur visuellement
-    if (counter) {
-      const current = parseInt(counter.textContent);
-      counter.textContent = current + 1;
+    const emailInput = document.getElementById('waitlist-email');
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours…';
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailInput.value }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        const counter = document.getElementById('counter-display');
+        if (counter) counter.textContent = parseInt(counter.textContent) + 1;
+        msg.innerHTML = `✅ <strong>Parfait !</strong> Votre guide PDF arrive dans votre boîte mail dans quelques minutes.`;
+        msg.style.color = 'white';
+        msg.style.fontWeight = '400';
+        msg.style.fontSize = '0.85rem';
+        emailInput.value = '';
+        btn.textContent = 'Envoyé ✓';
+      } else {
+        throw new Error(data.error || 'Erreur');
+      }
+    } catch (err) {
+      msg.innerHTML = `⚠️ Une erreur est survenue. Réessayez.`;
+      msg.style.color = '#E2C47A';
+      btn.disabled = false;
+      btn.textContent = 'Je veux le guide + l\'accès bêta →';
     }
-    msg.innerHTML = `✅ <strong>Parfait !</strong> Votre guide PDF arrive dans votre boîte mail dans quelques minutes. Vous serez notifié au lancement.`;
-    msg.style.color = 'white';
-    msg.style.fontWeight = '400';
-    msg.style.fontSize = '0.85rem';
-    document.getElementById('waitlist-email').value = '';
   }
 
   // Animated chart bars on load
