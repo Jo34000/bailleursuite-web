@@ -3,15 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="BailleurSuite — Gérez vos locations, déclarez vos revenus fonciers et préparez votre fiscalité LMNP. L'app iOS tout-en-un pour les propriétaires de 1 à 3 biens. Lancement septembre 2026.">
+<meta name="description" content="BailleurSuite — App iOS pour bailleurs particuliers. Calculez votre rendement locatif, préparez votre déclaration 2044, gérez vos amortissements LMNP. Gestion locative simplifiée pour 1 à 3 biens.">
 <meta name="keywords" content="bailleur particulier, revenus fonciers, déclaration 2044, LMNP, location meublée, amortissement LMNP, quittance loyer, rendement locatif, app iOS, gestion locative, micro-BIC, régime réel LMNP">
-<title>BailleurSuite — Gestion Locative & Fiscalité LMNP · iOS · Lancement septembre 2026</title>
+<title>BailleurSuite — App Gestion Locative iOS | Déclaration 2044 & LMNP</title>
 <!-- Balises Open Graph -->
 <meta property="og:title" content="BailleurSuite — Gestion locative & LMNP pour bailleurs particuliers">
 <meta property="og:description" content="Gérez vos biens, automatisez vos quittances, préparez votre fiscalité LMNP. Lancement App Store septembre 2026.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bailleursuite.fr">
-<!-- V7 — LMNP feature + roadmap + FAQ lancement + meta SEO + date septembre 2026 -->
+<meta property="og:image" content="https://bailleursuite.fr/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bailleursuite.fr/og-image.png">
+<!-- Canonical -->
+<link rel="canonical" href="https://bailleursuite.fr">
+<!-- Schema.org SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "BailleurSuite",
+  "description": "Application iOS pour bailleurs particuliers. Calcul de rendement locatif, déclaration 2044 automatisée, amortissements LMNP, quittances PDF et gestion locative pour 1 à 3 biens.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "iOS 17+",
+  "offers": [
+    {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR",
+      "name": "Gratuit"
+    },
+    {
+      "@type": "Offer",
+      "price": "4.99",
+      "priceCurrency": "EUR",
+      "name": "Gestion Zen mensuel"
+    },
+    {
+      "@type": "Offer",
+      "price": "39.99",
+      "priceCurrency": "EUR",
+      "name": "Gestion Zen annuel"
+    }
+  ],
+  "url": "https://bailleursuite.fr",
+  "inLanguage": "fr",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Bailleurs particuliers, propriétaires immobiliers"
+  },
+  "featureList": [
+    "Calcul rendement locatif net et brut",
+    "Déclaration 2044 automatisée",
+    "Amortissements LMNP",
+    "Quittances de loyer PDF",
+    "Gestion revenus fonciers",
+    "Comparatif Micro-BIC vs régime réel"
+  ]
+}
+</script>
+<!-- Schema.org FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Le module LMNP calcule-t-il les amortissements automatiquement ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. BailleurSuite propose deux modes : en mode simple, saisissez la valeur du bien et l'app calcule la répartition bâti/terrain automatiquement. En mode avancé, saisie manuelle avec durées personnalisables (bâti 15–40 ans, mobilier 5–15 ans, travaux 5–15 ans). Les intérêts d'emprunt déductibles sont calculés depuis votre tableau d'amortissement de prêt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "BailleurSuite gère-t-il la déclaration 2044 pour la location nue ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. Dès la V1, BailleurSuite couvre la location nue avec la déclaration 2044 (régime réel), pré-remplie ligne par ligne depuis vos données de loyers et charges. Le Pass Fiscal génère un PDF prêt à copier sur impots.gouv.fr."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mes données fiscales sont-elles en sécurité ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, totalement. Toutes vos données sont stockées sur votre iPhone via SwiftData. La synchronisation multi-appareils passe par votre compte iCloud personnel. Aucun serveur tiers, aucune revente de données."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Le Pass Fiscal remplace-t-il vraiment un comptable ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pour la majorité des bailleurs avec 1 à 3 biens en location nue simple, oui. Le Pass Fiscal pré-remplit votre 2044 ligne par ligne, explique chaque case et génère un PDF. Il ne remplace pas un comptable pour des situations complexes (SCI, déficit reportable important, régime mixte)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "La V1 fonctionne pour quel type de location ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BailleurSuite couvre les deux régimes dès le lancement : location nue (déclaration 2044, régime réel) et LMNP (location meublée non professionnelle) avec configurateur d'amortissements, comparatif Micro-BIC vs régime réel et export PDF."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je changer de plan à tout moment ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. Les abonnements sont gérés via l'App Store Apple. Vous pouvez passer au Premium ou annuler depuis les réglages de votre iPhone à tout moment. Aucun engagement minimum."
+      }
+    }
+  ]
+}
+</script>
+<!-- V8 — SEO : canonical, Schema.org SoftwareApplication + FAQPage, og:image, title optimisé -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
@@ -708,7 +818,7 @@
     max-width: 900px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     gap: 40px;
     margin-bottom: 48px;
   }
@@ -890,25 +1000,6 @@
     </div>
   </div>
 
-  <!-- ROADMAP LANCEMENT -->
-  <div style="margin-top:32px;padding:20px 24px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);max-width:520px;animation:fadeDown 0.6s 0.5s ease both;" class="reveal">
-    <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mint-dark);margin-bottom:14px;">Roadmap</div>
-    <div style="display:flex;flex-direction:column;gap:0;">
-      <div style="display:flex;gap:14px;align-items:flex-start;padding-bottom:14px;border-bottom:1px solid var(--border);">
-        <div style="width:28px;height:28px;background:var(--mint);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:white;font-weight:700;flex-shrink:0;">✓</div>
-        <div><div style="font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:2px;">App développée — en test</div><div style="font-size:0.75rem;color:var(--ink-light);">Location nue · LMNP · Quittances · Scanner · Export PDF</div></div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border);">
-        <div style="width:28px;height:28px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:white;font-weight:700;flex-shrink:0;">→</div>
-        <div><div style="font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:2px;">Soumission App Store — été 2026</div><div style="font-size:0.75rem;color:var(--ink-light);">Validation Apple · Tests beta utilisateurs</div></div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;padding-top:14px;">
-        <div style="width:28px;height:28px;background:var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:var(--ink-light);font-weight:700;flex-shrink:0;">🚀</div>
-        <div><div style="font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:2px;">Lancement public — Septembre 2026</div><div style="font-size:0.75rem;color:var(--ink-light);">App Store France · Notification aux inscrits en priorité</div></div>
-      </div>
-    </div>
-  </div>
-
   </div>
   <!-- PHONE MOCKUP DROITE -->
   <div class="hero-phone-wrap" style="margin-top:0;">
@@ -926,13 +1017,13 @@
   </svg>
 </div>
 
-<section id="calc" style="background:#FDFCF8; padding: 0 24px 80px;">
+<section id="calc" aria-label="Calculatrice rendement locatif" style="background:#FDFCF8; padding: 0 24px 80px;">
   <div class="container">
 
     <!-- En-tête avec accroche forte -->
     <div class="reveal" style="text-align:center; padding-top:60px; margin-bottom:44px;">
       <div class="section-label">Outil gratuit · Aucune inscription</div>
-      <h2 class="section-title" style="max-width:620px;margin:12px auto 16px;">Votre bien est-il vraiment<br><em style="font-style:italic;color:var(--mint-dark);">rentable</em> ?</h2>
+      <h2 class="section-title" style="max-width:620px;margin:12px auto 16px;">Calculer votre rendement locatif net —<br><em style="font-style:italic;color:var(--mint-dark);">en 30 secondes</em></h2>
       <p class="section-sub" style="margin:0 auto;">Entrez vos chiffres. Les résultats s'affichent instantanément — comme dans l'app.</p>
     </div>
 
@@ -1151,47 +1242,14 @@
   </div>
 </div><!-- fin hero-inner-wrap -->
 </section>
-<section style="padding: 80px 24px;">
-  <div class="container">
-    <div class="contrast-section reveal">
-      <div class="section-label">Le changement</div>
-      <h2 class="section-title">Avant, c'était du stress.<br>Avec BailleurSuite, c'est maîtrisé.</h2>
-      <p class="section-sub">Des milliers de propriétaires gèrent leurs locations avec des tableurs bricolés et perdent des nuits avant chaque déclaration fiscale.</p>
 
-      <div class="compare-table">
-        <div class="compare-col compare-col-before">
-          <div class="compare-header before">
-            <div class="compare-icon before">😰</div>
-            Avant
-          </div>
-          <div class="compare-item before"><span class="compare-bullet before"></span>Tableurs Excel complexes à tenir à jour manuellement</div>
-          <div class="compare-item before"><span class="compare-bullet before"></span>Stress de la déclaration 2044 chaque année en avril</div>
-          <div class="compare-item before"><span class="compare-bullet before"></span>Oubli de relances loyers impayés, pas de suivi</div>
-          <div class="compare-item before"><span class="compare-bullet before"></span>300 à 500€ de comptable pour ce qui semble si simple</div>
-          <div class="compare-item before"><span class="compare-bullet before"></span>Quittances générées à la main, une par une</div>
-        </div>
-        <div class="compare-col compare-col-after">
-          <div class="compare-header after">
-            <div class="compare-icon after">✨</div>
-            Avec BailleurSuite
-          </div>
-          <div class="compare-item after"><span class="compare-bullet after"></span>Saisie en 1 clic, tableau de bord clair et immédiat</div>
-          <div class="compare-item after"><span class="compare-bullet after"></span>Liasse fiscale 2044 pré-remplie depuis vos données</div>
-          <div class="compare-item after"><span class="compare-bullet after"></span>Relances automatiques par email, historique complet</div>
-          <div class="compare-item after"><span class="compare-bullet after"></span>Pass Fiscal à 39,90€ — 6× moins cher qu'un comptable</div>
-          <div class="compare-item after"><span class="compare-bullet after"></span>Quittances PDF auto-générées et envoyées chaque mois</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- FEATURES Z-PATTERN -->
 <section style="padding: 60px 24px 80px;">
   <div class="container">
     <div style="text-align:center; margin-bottom: 64px;" class="reveal">
       <div class="section-label">Ce que fait l'app</div>
-      <h2 class="section-title">Tout ce dont vous avez besoin,<br>rien de superflu.</h2>
+      <h2 class="section-title">Gestion locative, déclaration 2044<br>et fiscalité LMNP — tout en un.</h2>
     </div>
 
     <!-- Feature 1 : Pilotage -->
@@ -1240,7 +1298,7 @@
     <div class="feature-block reveal">
       <div class="feature-text">
         <div class="feature-number">03</div>
-        <h3 class="feature-title">Le Graal —<br>La 2044, 2042C PRO & 2031 pré-remplies</h3>
+        <h3 class="feature-title">Déclarer vos revenus fonciers —<br>Formulaire 2044 pré-rempli</h3>
         <p class="feature-desc">C'est LE module qui vous économise 400€ de comptable. BailleurSuite pré-remplit automatiquement vos déclarations depuis les données saisies tout au long de l'année : la <strong>2044</strong> (location nue, régime réel), la <strong>2042C PRO</strong> (LMNP au réel) et la <strong>2031</strong> (liasse fiscale LMNP). Ligne par ligne, avec des explications pédagogiques claires.</p>
         <div class="feature-pill">💰 39,90€ en achat unique</div>
       </div>
@@ -1262,7 +1320,7 @@
     <div class="feature-block reverse reveal" id="lmnp">
       <div class="feature-text">
         <div class="feature-number">04</div>
-        <h3 class="feature-title">Le Module LMNP —<br>Amortissements & Fiscalité meublée</h3>
+        <h3 class="feature-title">Amortissement LMNP —<br>Micro-BIC vs régime réel automatisé</h3>
         <p class="feature-desc">Pour les propriétaires en location meublée non professionnelle, BailleurSuite intègre un assistant LMNP complet : configurez vos amortissements (bâti, mobilier, travaux, frais de notaire), comparez Micro-BIC vs régime réel, et détectez automatiquement les déficits LMNP reportables sur les années suivantes.</p>
         <div class="feature-pill">🏠 Inclus dès le lancement · Septembre 2026</div>
         <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
@@ -1328,13 +1386,7 @@
       </div>
     </div>
 
-    <div class="cloudkit-block reveal">
-      <div class="cloudkit-icon">☁️</div>
-      <div>
-        <div class="cloudkit-title">Vos données restent chez vous — vraiment.</div>
-        <p class="cloudkit-text">Toutes vos informations (biens, loyers, données locataires) sont stockées exclusivement sur votre iPhone via SwiftData. La synchronisation multi-appareils passe par votre <span class="cloudkit-highlight">compte iCloud personnel</span> — nous n'avons aucun accès à vos données bancaires ni à vos informations fiscales. <span class="cloudkit-highlight">Zéro serveur tiers. Zéro revente de données.</span></p>
-      </div>
-    </div>
+
   </div>
 </section>
 
@@ -1420,7 +1472,7 @@
 
 
 <!-- FAQ -->
-<section style="padding: 80px 24px; background: var(--bg);">
+<section id="faq" aria-label="Questions fréquentes sur BailleurSuite" style="padding: 80px 24px; background: var(--bg);">
   <div class="container">
     <div class="reveal" style="text-align:center; margin-bottom:48px;">
       <div class="section-label">Questions fréquentes</div>
@@ -1570,34 +1622,11 @@
       </div>
     </div>
     <div>
-      <div class="footer-col-title">Guides gratuits</div>
-      <ul class="footer-links">
-        <li><a href="#">Comment remplir sa déclaration 2044 ?</a></li>
-        <li><a href="#">Calculer son rendement locatif net</a></li>
-        <li><a href="#">Micro-foncier ou régime réel ?</a></li>
-        <li><a href="#">Charges déductibles des revenus fonciers</a></li>
-        <li><a href="#lmnp">Module LMNP — Comment ça marche ?</a></li>
-        <li><a href="#">Micro-BIC vs régime réel LMNP</a></li>
-      </ul>
-    </div>
-    <div>
       <div class="footer-col-title">L'app</div>
       <ul class="footer-links">
         <li><a href="#tarifs">Tarifs</a></li>
         <li><a href="#securite">Confidentialité</a></li>
-        <li><a href="#">Fonctionnalités</a></li>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">Ressources</div>
-      <ul class="footer-links">
-        <li><a href="#">Déclaration 2044 — impots.gouv.fr</a></li>
-        <li><a href="#">Indice IRL — INSEE</a></li>
-        <li><a href="#">Encadrement loyers par ville</a></li>
-        <li><a href="#">Obligations légales du bailleur</a></li>
-        <li><a href="#">Vacance locative — comment calculer ?</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
     </div>
   </div>
@@ -1659,38 +1688,20 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Waitlist form
-  async function handleWaitlist(e) {
+  function handleWaitlist(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type="submit"]');
     const msg = document.getElementById('waitlist-msg');
-    const emailInput = document.getElementById('waitlist-email');
-    btn.disabled = true;
-    btn.textContent = 'Envoi en cours…';
-    try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: emailInput.value }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        const counter = document.getElementById('counter-display');
-        if (counter) counter.textContent = parseInt(counter.textContent) + 1;
-        msg.innerHTML = `✅ <strong>Parfait !</strong> Votre guide PDF arrive dans votre boîte mail dans quelques minutes.`;
-        msg.style.color = 'white';
-        msg.style.fontWeight = '400';
-        msg.style.fontSize = '0.85rem';
-        emailInput.value = '';
-        btn.textContent = 'Envoyé ✓';
-      } else {
-        throw new Error(data.error || 'Erreur');
-      }
-    } catch (err) {
-      msg.innerHTML = `⚠️ Une erreur est survenue. Réessayez.`;
-      msg.style.color = '#E2C47A';
-      btn.disabled = false;
-      btn.textContent = 'Je veux le guide + l\'accès bêta →';
+    const counter = document.getElementById('counter-display');
+    // Incrémenter le compteur visuellement
+    if (counter) {
+      const current = parseInt(counter.textContent);
+      counter.textContent = current + 1;
     }
+    msg.innerHTML = `✅ <strong>Parfait !</strong> Votre guide PDF arrive dans votre boîte mail dans quelques minutes. Vous serez notifié au lancement.`;
+    msg.style.color = 'white';
+    msg.style.fontWeight = '400';
+    msg.style.fontSize = '0.85rem';
+    document.getElementById('waitlist-email').value = '';
   }
 
   // Animated chart bars on load
