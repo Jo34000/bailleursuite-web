@@ -1,3 +1,13 @@
 User-agent: *
 Allow: /
+
+# Bloquer les ressources inutiles pour l'indexation
+Disallow: /api/
+Disallow: /admin/
+Disallow: /*.json$
+
+# Sitemap
 Sitemap: https://bailleursuite.fr/sitemap.xml
+
+# Délai de crawl conseillé (optionnel)
+Crawl-delay: 1
