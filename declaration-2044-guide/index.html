@@ -96,11 +96,7 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .guide-btn:hover{transform:translateY(-1px)}
 
 /* MOBILE TOC */
-.mobile-toc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);padding:20px 24px;margin-bottom:40px;display:none}
-@media(max-width:900px){.mobile-toc{display:block}}
-.mobile-toc ol{padding-left:18px;display:flex;flex-direction:column;gap:6px}
-.mobile-toc li{font-size:.88rem}
-.mobile-toc a{color:var(--mint);text-decoration:none}
+.mobile-toc{display:none}
 
 /* TYPOGRAPHIE */
 .article-content h2{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-top:64px;margin-bottom:18px;line-height:1.2;letter-spacing:-0.03em;scroll-margin-top:90px}
@@ -237,18 +233,9 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
 
   <main class="article-content" id="guide">
 
-    <nav class="mobile-toc" aria-label="Sommaire">
-      <div class="toc-title">Sommaire</div>
-      <ol>
-        <li><a href="#qui-doit-remplir">Qui doit remplir la 2044 ?</a></li>
-        <li><a href="#micro-vs-reel">Micro-foncier ou régime réel ?</a></li>
-        <li><a href="#charges-deductibles">Charges déductibles ligne par ligne</a></li>
-        <li><a href="#comment-remplir">Remplir le formulaire 2044</a></li>
-        <li><a href="#deficit-foncier">Le déficit foncier</a></li>
-        <li><a href="#pieges">Les 5 pièges courants</a></li>
-        <li><a href="#faq">Questions fréquentes</a></li>
-      </ol>
-    </nav>
+    <p style="font-size:.75rem;color:var(--ink-light);margin-bottom:28px;display:flex;align-items:center;gap:6px;">
+      <a href="https://bailleursuite.fr">BailleurSuite</a> <span>›</span> <span>Guide déclaration 2044</span>
+    </p>
 
     <div class="guide-box fade-up">
       <div class="guide-icon">📋</div>
