@@ -99,19 +99,6 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .calc-input{width:100%;min-height:52px;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--radius-xs);font-family:var(--sans);font-size:16px;background:var(--surface-strong);color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none}
 .calc-input:focus{border-color:var(--mint);background:white;box-shadow:0 0 0 3px rgba(45,106,79,.1)}
 
-/* Mode avancé */
-.mode-avance-toggle{margin-bottom:16px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;width:fit-content}
-.mode-avance-toggle input{width:14px;height:14px;accent-color:var(--mint);cursor:pointer}
-.mode-avance-toggle span{font-size:.8rem;color:var(--ink-soft)}
-.mode-avance-fields{display:none;padding:18px;background:rgba(249,243,227,.6);border-radius:var(--radius-sm);border:1px solid rgba(201,168,76,.2);margin-bottom:16px}
-.mode-avance-fields.open{display:block}
-.avance-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:580px){.avance-grid{grid-template-columns:1fr}}
-.avance-label{display:block;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-light);margin-bottom:6px}
-.avance-input{width:100%;min-height:44px;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:var(--sans);font-size:15px;background:white;color:var(--ink);outline:none;transition:border-color .2s;-webkit-appearance:none}
-.avance-input:focus{border-color:var(--gold)}
-.avance-note{font-size:.72rem;color:var(--ink-light);margin-top:10px;line-height:1.5}
-
 /* Toggle crédit */
 .toggle-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-size:.9rem;color:var(--ink-soft)}
 .toggle-btn{width:46px;height:26px;border-radius:13px;background:rgba(45,106,79,.2);border:none;cursor:pointer;position:relative;transition:background .25s;flex-shrink:0}
@@ -268,8 +255,8 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
         <span class="hero-stat-label">Brut · Net · Crédit</span>
       </div>
       <div class="hero-stat">
-        <span class="hero-stat-val">Mode avancé</span>
-        <span class="hero-stat-label">Vacance · PNO · Gestion</span>
+        <span class="hero-stat-val">Mode crédit</span>
+        <span class="hero-stat-label">Cashflow · Mensualité</span>
       </div>
       <div class="hero-stat">
         <span class="hero-stat-val">100%</span>
@@ -308,33 +295,6 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
         <label class="calc-label" for="c-taxe">Taxe foncière (€)</label>
         <input id="c-taxe" type="number" value="1200" class="calc-input" inputmode="numeric" oninput="calcRentab()">
       </div>
-    </div>
-
-    <!-- Mode avancé -->
-    <label class="mode-avance-toggle">
-      <input type="checkbox" id="toggle-avance" onchange="toggleAvance()">
-      <span>⚙️ Mode avancé — vacance locative, assurance PNO, gestion, travaux</span>
-    </label>
-    <div class="mode-avance-fields" id="fields-avance">
-      <div class="avance-grid">
-        <div>
-          <label class="avance-label" for="c-vacance">Vacance locative (semaines/an)</label>
-          <input id="c-vacance" type="number" value="2" min="0" max="52" class="avance-input" inputmode="numeric" oninput="calcRentab()">
-        </div>
-        <div>
-          <label class="avance-label" for="c-pno">Assurance PNO (€/an)</label>
-          <input id="c-pno" type="number" value="200" class="avance-input" inputmode="numeric" oninput="calcRentab()">
-        </div>
-        <div>
-          <label class="avance-label" for="c-gestion">Frais de gestion (%)</label>
-          <input id="c-gestion" type="number" value="0" step="0.5" min="0" max="15" class="avance-input" inputmode="decimal" oninput="calcRentab()">
-        </div>
-        <div>
-          <label class="avance-label" for="c-travaux">Provision travaux (€/an)</label>
-          <input id="c-travaux" type="number" value="500" class="avance-input" inputmode="numeric" oninput="calcRentab()">
-        </div>
-      </div>
-      <p class="avance-note">💡 Ces paramètres affinent le calcul du cashflow réel. La vacance locative réduit les loyers perçus. Les frais de gestion sont calculés en % des loyers bruts.</p>
     </div>
 
     <!-- Toggle crédit -->
@@ -527,17 +487,14 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     <button class="faq-q" onclick="toggleFaq(this)">Comment intégrer la fiscalité dans le calcul ?<span class="faq-icon">+</span></button>
     <div class="faq-a">Le rendement net-net intègre l'impôt sur les revenus fonciers. En TMI à 30% + prélèvements sociaux à 17,2%, les revenus fonciers sont taxés à 47,2%. Le déficit foncier (si charges &gt; loyers) peut être déduit du revenu global jusqu'à 10 700€/an, réduisant directement votre impôt sur le revenu.</div>
   </div>
-  <div class="faq-item fade-up">
-    <button class="faq-q" onclick="toggleFaq(this)">À quoi sert le mode avancé de la calculatrice ?<span class="faq-icon">+</span></button>
-    <div class="faq-a">Le mode avancé permet d'affiner le calcul en intégrant la vacance locative (semaines sans loyer), l'assurance PNO (propriétaire non occupant), les frais de gestion locative (en % des loyers) et une provision annuelle pour travaux. Ces paramètres donnent une vision plus réaliste du cashflow net réel, particulièrement utile pour les investisseurs expérimentés.</div>
-  </div>
+
 </section>
 
 <!-- CTA APP -->
 <div class="app-promo fade-up">
   <div class="app-promo-badge">🍎 Disponible septembre 2026</div>
   <h2>Allez plus loin avec BailleurSuite</h2>
-  <p>Calculatrice en temps réel sur votre iPhone, déclaration 2044 pré-remplie, optimisation fiscale LMNP et quittances automatiques.</p>
+  <p>Calculatrice en temps réel sur votre iPhone, module fiscal complet et quittances automatiques.</p>
   <div class="promo-cards">
     <div class="promo-card">
       <div class="promo-card-icon">📊</div>
@@ -546,8 +503,8 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     </div>
     <div class="promo-card">
       <div class="promo-card-icon">🧾</div>
-      <span class="promo-card-val">2044 auto</span>
-      <span class="promo-card-label">Déclaration pré-remplie</span>
+      <span class="promo-card-val">2044 · 2042C PRO · 2031</span>
+      <span class="promo-card-label">Module Fiscal complet</span>
     </div>
     <div class="promo-card">
       <div class="promo-card-icon">📄</div>
@@ -600,14 +557,6 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
       el.textContent = Math.round(start);
       if (start >= target) { el.textContent = target; clearInterval(timer); }
     }, step);
-  }
-
-  // Mode avancé
-  let avanceActif = false;
-  function toggleAvance() {
-    avanceActif = document.getElementById('toggle-avance').checked;
-    document.getElementById('fields-avance').classList.toggle('open', avanceActif);
-    calcRentab();
   }
 
   // Toggle crédit
@@ -663,19 +612,8 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     const c = parseFloat(document.getElementById('c-charges').value) || 0;
     const t = parseFloat(document.getElementById('c-taxe').value) || 0;
 
-    // Mode avancé
-    let vacanceSemaines = 0, pno = 0, gestionPct = 0, travaux = 0;
-    if (avanceActif) {
-      vacanceSemaines = parseFloat(document.getElementById('c-vacance').value) || 0;
-      pno = parseFloat(document.getElementById('c-pno').value) || 0;
-      gestionPct = parseFloat(document.getElementById('c-gestion').value) || 0;
-      travaux = parseFloat(document.getElementById('c-travaux').value) || 0;
-    }
-
-    const loyerAnnuel = l * (52 - vacanceSemaines) / 52 * 12;
-    const fraisGestion = loyerAnnuel * gestionPct / 100;
-    const annuel = loyerAnnuel;
-    const chargesTotal = c + t + pno + fraisGestion + travaux;
+    const annuel = l * 12;
+    const chargesTotal = c + t;
     const brut = p > 0 ? (l * 12 / p * 100) : 0;
     const net = p > 0 ? ((annuel - chargesTotal) / p * 100) : 0;
     const cashAnnuel = annuel - chargesTotal;
