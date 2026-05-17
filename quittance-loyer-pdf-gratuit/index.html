@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quittance de Loyer PDF Gratuite — Générateur Instantané 2026 | BailleurSuite</title>
+  <meta name="description" content="Générez votre quittance de loyer PDF gratuitement en 30 secondes. Conforme loi ALUR, personnalisable, téléchargement immédiat. Aucune inscription requise." />
+  <link rel="canonical" href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit" />
+  <meta property="og:title" content="Quittance de Loyer PDF Gratuite — Générateur Instantané 2026 | BailleurSuite" />
+  <meta property="og:description" content="Générez votre quittance de loyer PDF gratuitement en 30 secondes. Conforme loi ALUR, personnalisable, téléchargement immédiat." />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bailleursuite.fr/quittance-loyer-pdf-gratuit" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Générateur de quittance de loyer PDF gratuit",
+    "description": "Outil gratuit pour générer une quittance de loyer PDF conforme loi ALUR en 30 secondes.",
+    "url": "https://bailleursuite.fr/quittance-loyer-pdf-gratuit",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+    "publisher": { "@type": "Organization", "name": "BailleurSuite", "url": "https://bailleursuite.fr" }
+  }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --green-dark:   #1B4332;
+      --green-main:   #2D6A4F;
+      --green-mid:    #40916C;
+      --green-light:  #74C69D;
+      --green-pale:   #D8F3DC;
+      --green-bg:     #F0FAF4;
+      --cream:        #FAF7F2;
+      --cream-dark:   #F2EDE4;
+      --gold:         #B7973A;
+      --gold-light:   #D4AF37;
+      --text-dark:    #1A2E1E;
+      --text-mid:     #3D5A45;
+      --text-muted:   #6B7E72;
+      --border:       #D4E8DA;
+      --white:        #FFFFFF;
+      --shadow-sm:    0 1px 3px rgba(27,67,50,.08);
+      --shadow-md:    0 4px 16px rgba(27,67,50,.12);
+      --shadow-lg:    0 12px 40px rgba(27,67,50,.16);
+      --radius:       12px;
+      --radius-lg:    20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-logo {
+      font-family: 'Georgia', serif;
+      font-size: 17px;
+      font-weight: bold;
+      color: var(--green-dark);
+      text-decoration: none;
+      letter-spacing: -.3px;
+    }
+    .nav-cta {
+      background: var(--green-main);
+      color: var(--white);
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: -apple-system, sans-serif;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .nav-cta:hover { background: var(--green-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, var(--green-dark) 0%, var(--green-main) 100%);
+      color: var(--white);
+      padding: 44px 24px 52px;
+      text-align: center;
+    }
+    @media (max-width: 580px) {
+      .hero { padding: 32px 16px 40px; }
+    }
+    .breadcrumb {
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,.65);
+      margin-bottom: 20px;
+    }
+    .breadcrumb a { color: rgba(255,255,255,.65); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--white); }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-family: -apple-system, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--green-pale);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: normal;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--green-light);
+    }
+    .hero-sub {
+      font-family: -apple-system, sans-serif;
+      font-size: 16px;
+      color: rgba(255,255,255,.8);
+      max-width: 520px;
+      margin: 0 auto 32px;
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,.6);
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 6px; }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .container-wide {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ── SECTION ── */
+    section { padding: 40px 0; }
+    section + section { padding-top: 0; }
+    @media (max-width: 580px) {
+      section { padding: 28px 0; }
+      .content-section { padding: 22px 16px !important; }
+      .generator-body { padding: 18px 16px; }
+      .generator-header { padding: 14px 16px; }
+      .generator-footer { padding: 12px 16px; }
+      .upsell-banner { padding: 24px 20px; }
+      .proof-bar { padding: 12px 16px; gap: 12px; margin-bottom: 24px; }
+    }
+
+    /* ── GÉNÉRATEUR ── */
+    #generateur {
+      padding: 44px 0 40px;
+      background: var(--cream);
+    }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: -apple-system, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: normal;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+    .section-sub {
+      font-family: -apple-system, sans-serif;
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+
+    .generator-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    .generator-header {
+      background: var(--green-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .generator-header-title {
+      font-family: -apple-system, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+    .badge-free {
+      background: var(--green-pale);
+      color: var(--green-dark);
+      font-family: -apple-system, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid var(--green-light);
+    }
+
+    .generator-body { padding: 28px; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 580px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-label {
+      font-family: -apple-system, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-mid);
+      letter-spacing: .3px;
+      text-transform: uppercase;
+    }
+    .form-input, .form-select {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: -apple-system, sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      background: var(--white);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+      width: 100%;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--green-mid);
+      box-shadow: 0 0 0 3px rgba(64,145,108,.12);
+    }
+    .form-hint {
+      font-family: -apple-system, sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+      grid-column: 1 / -1;
+    }
+
+    .section-group-title {
+      font-family: -apple-system, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      grid-column: 1 / -1;
+      margin-bottom: -8px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      grid-column: 1 / -1;
+    }
+    .checkbox-row input[type="checkbox"] { accent-color: var(--green-main); width: 16px; height: 16px; }
+    .checkbox-row label {
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      color: var(--text-mid);
+      cursor: pointer;
+    }
+
+    .btn-generate {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--green-main);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-family: -apple-system, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 24px;
+      transition: background .2s, transform .1s;
+      letter-spacing: -.2px;
+    }
+    .btn-generate:hover { background: var(--green-dark); }
+    .btn-generate:active { transform: scale(.99); }
+
+    .generator-footer {
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .generator-footer span {
+      font-family: -apple-system, sans-serif;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ── PREVIEW ── */
+    #preview-section {
+      display: none;
+      margin-top: 24px;
+    }
+    #preview-section.visible { display: block; }
+    .preview-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 40px;
+      box-shadow: var(--shadow-sm);
+      font-family: 'Georgia', serif;
+      font-size: 14px;
+      line-height: 1.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .preview-title {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      color: var(--green-dark);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .preview-subtitle {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      font-family: -apple-system, sans-serif;
+    }
+    .preview-separator {
+      border: none;
+      border-top: 2px solid var(--green-dark);
+      margin: 20px 0;
+    }
+    .preview-separator-light {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 16px 0;
+    }
+    .preview-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .preview-label { color: var(--text-muted); font-size: 13px; }
+    .preview-value { font-weight: bold; color: var(--text-dark); }
+    .preview-body { margin: 20px 0; font-size: 14px; line-height: 1.9; }
+    .preview-montant {
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--green-dark);
+      text-align: center;
+      margin: 20px 0;
+    }
+    .preview-signature {
+      margin-top: 36px;
+      text-align: right;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .preview-legal {
+      margin-top: 24px;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: -apple-system, sans-serif;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      line-height: 1.5;
+    }
+
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto 0;
+      padding: 14px 24px;
+      background: var(--green-dark);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-family: -apple-system, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-download:hover { background: var(--green-main); }
+
+    /* ── UPSELL BANNER ── */
+    .upsell-banner {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-main) 100%);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      box-shadow: var(--shadow-lg);
+    }
+    .upsell-content h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      font-weight: normal;
+    }
+    .upsell-content h3 em { font-style: italic; color: var(--green-light); }
+    .upsell-content p {
+      font-family: -apple-system, sans-serif;
+      font-size: 14px;
+      color: rgba(255,255,255,.75);
+      max-width: 400px;
+    }
+    .upsell-features {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .upsell-feature {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,.85);
+    }
+    .upsell-feature::before {
+      content: '✓';
+      color: var(--green-light);
+      font-weight: bold;
+    }
+    .upsell-cta {
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .upsell-price {
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--white);
+      line-height: 1;
+    }
+    .upsell-price-sub {
+      font-family: -apple-system, sans-serif;
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 14px;
+    }
+    .btn-upsell {
+      display: block;
+      background: var(--white);
+      color: var(--green-dark);
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-family: -apple-system, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity .2s;
+      white-space: nowrap;
+    }
+    .btn-upsell:hover { opacity: .9; }
+
+    /* ── CONTENT SEO ── */
+    .content-section {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 30px 36px;
+      margin-bottom: 20px;
+    }
+
+    .content-section h2 {
+      font-size: 20px;
+      font-weight: normal;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .content-section h3 {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--green-dark);
+      margin: 18px 0 8px;
+      font-family: -apple-system, sans-serif;
+    }
+    .content-section p {
+      font-size: 14px;
+      color: var(--text-mid);
+      margin-bottom: 10px;
+      line-height: 1.7;
+      font-family: -apple-system, sans-serif;
+    }
+    .content-section ul {
+      padding-left: 0;
+      list-style: none;
+      margin-bottom: 14px;
+    }
+    .content-section ul li {
+      font-family: -apple-system, sans-serif;
+      font-size: 15px;
+      color: var(--text-mid);
+      padding: 6px 0 6px 24px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .content-section ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--green-mid);
+      font-weight: bold;
+    }
+
+    .info-box {
+      background: var(--green-bg);
+      border: 1px solid var(--green-pale);
+      border-left: 3px solid var(--green-mid);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+    .info-box p {
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      color: var(--green-dark);
+      margin: 0;
+    }
+    .info-box strong { font-weight: 700; }
+
+    .warning-box {
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+    .warning-box p {
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      color: #5D4E00;
+      margin: 0;
+    }
+
+    /* ── COMPARISON TABLE ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      margin: 20px 0;
+    }
+    .compare-table th {
+      background: var(--green-bg);
+      color: var(--green-dark);
+      font-weight: 700;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    .compare-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-mid);
+      vertical-align: top;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table .yes { color: var(--green-mid); font-weight: 600; }
+    .compare-table .no { color: #999; }
+    .compare-table .highlight-col { background: rgba(45,106,79,.04); }
+
+    /* ── FAQ ── */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      font-family: -apple-system, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .faq-q::after {
+      content: '+';
+      font-size: 20px;
+      color: var(--green-mid);
+      flex-shrink: 0;
+      transition: transform .2s;
+    }
+    .faq-item.open .faq-q::after { transform: rotate(45deg); }
+    .faq-a {
+      font-family: -apple-system, sans-serif;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      display: none;
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-dark);
+      color: rgba(255,255,255,.6);
+      padding: 32px 24px;
+      text-align: center;
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+    }
+    footer a { color: rgba(255,255,255,.6); text-decoration: none; margin: 0 12px; }
+    footer a:hover { color: var(--white); }
+    .footer-links { margin-bottom: 12px; }
+
+    /* ── STEPS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin: 28px 0;
+    }
+    @media (max-width: 580px) { .steps { grid-template-columns: 1fr; } }
+    .step {
+      background: var(--green-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+    }
+    .step-num {
+      width: 36px;
+      height: 36px;
+      background: var(--green-main);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0 auto 12px;
+    }
+    .step-title {
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+    }
+    .step-desc {
+      font-family: -apple-system, sans-serif;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── SOCIAL PROOF ── */
+    .proof-bar {
+      background: var(--green-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .proof-item {
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .proof-item strong { color: var(--green-dark); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://bailleursuite.fr" class="nav-logo">BailleurSuite</a>
+  <a href="https://bailleursuite.fr#waitlist" class="nav-cta">Accès bêta gratuit →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <p class="breadcrumb">
+      <a href="https://bailleursuite.fr">BailleurSuite</a> › Quittance de loyer PDF gratuite
+    </p>
+    <div class="hero-badge">🧾 Outil gratuit · Mis à jour mai 2026</div>
+    <h1>Votre quittance de loyer PDF <em>prête en 30 secondes</em></h1>
+    <p class="hero-sub">Plus besoin de Word, Excel ou modèles bricolés. PDF conforme loi ALUR, généré localement, téléchargement immédiat — sans compte.</p>
+    <div class="hero-meta">
+      <span>✓ 100% gratuit</span>
+      <span>✓ Conforme loi ALUR &amp; art. 21</span>
+      <span>✓ Aucune donnée envoyée</span>
+      <span>✓ PDF instantané</span>
+    </div>
+  </div>
+</div>
+
+<!-- GÉNÉRATEUR -->
+<section id="generateur">
+  <div class="container">
+
+    <div class="proof-bar">
+      <div class="proof-item">🔒 <strong>Données 100% locales</strong> — rien n'est envoyé</div>
+      <div class="proof-item">📄 <strong>PDF généré</strong> dans votre navigateur</div>
+      <div class="proof-item">⚖️ <strong>Conforme</strong> loi ALUR 2014</div>
+    </div>
+
+    <div class="section-label">⚡ Générateur instantané</div>
+    <h2 class="section-title">Remplissez et téléchargez</h2>
+    <p class="section-sub">Toutes les mentions obligatoires sont incluses automatiquement.</p>
+
+    <div class="generator-card">
+      <div class="generator-header">
+        <span class="generator-header-title">📋 Générateur de quittance de loyer</span>
+        <span class="badge-free">Gratuit · Sans inscription</span>
+      </div>
+
+      <div class="generator-body">
+        <div class="form-grid">
+
+          <div class="section-group-title">🏠 Propriétaire bailleur</div>
+
+          <div class="form-group">
+            <label class="form-label" for="bailleur-nom">Nom & prénom</label>
+            <input class="form-input" id="bailleur-nom" type="text" placeholder="ex : Martin Sophie" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bailleur-adresse">Adresse du bailleur</label>
+            <input class="form-input" id="bailleur-adresse" type="text" placeholder="ex : 12 rue des Lilas, 75011 Paris" />
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-group-title">👤 Locataire</div>
+
+          <div class="form-group">
+            <label class="form-label" for="locataire-nom">Nom & prénom</label>
+            <input class="form-input" id="locataire-nom" type="text" placeholder="ex : Dupont Jean" />
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="bien-adresse">Adresse du logement loué</label>
+            <input class="form-input" id="bien-adresse" type="text" placeholder="ex : 8 avenue Gambetta, 69003 Lyon" />
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-group-title">💶 Loyer & période</div>
+
+          <div class="form-group">
+            <label class="form-label" for="loyer-hc">Loyer hors charges (€)</label>
+            <input class="form-input" id="loyer-hc" type="number" min="0" step="0.01" placeholder="ex : 750" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="charges">Charges (€)</label>
+            <input class="form-input" id="charges" type="number" min="0" step="0.01" placeholder="ex : 80" />
+            <span class="form-hint">Provisions pour charges — 0 si non applicable</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="periode-debut">Période — début</label>
+            <input class="form-input" id="periode-debut" type="date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="periode-fin">Période — fin</label>
+            <input class="form-input" id="periode-fin" type="date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="date-paiement">Date de paiement</label>
+            <input class="form-input" id="date-paiement" type="date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mode-paiement">Mode de paiement</label>
+            <select class="form-select" id="mode-paiement">
+              <option value="virement bancaire">Virement bancaire</option>
+              <option value="prélèvement automatique">Prélèvement automatique</option>
+              <option value="chèque">Chèque</option>
+              <option value="espèces">Espèces</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-group-title">✍️ Options</div>
+
+          <div class="checkbox-row">
+            <input type="checkbox" id="include-signature" checked />
+            <label for="include-signature">Inclure la ligne de signature bailleur</label>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="include-legal" checked />
+            <label for="include-legal">Inclure la mention légale (recommandé)</label>
+          </div>
+
+        </div>
+
+        <button class="btn-generate" onclick="generateQuittance()">
+          📄 Générer ma quittance PDF
+        </button>
+      </div>
+
+      <div class="generator-footer">
+        <span>🔒 Aucune donnée envoyée — PDF généré localement</span>
+        <span>📋 Mentions ALUR incluses automatiquement</span>
+      </div>
+    </div>
+
+    <!-- PREVIEW -->
+    <div id="preview-section">
+      <h3 style="font-family:-apple-system,sans-serif;font-size:15px;font-weight:700;color:var(--text-mid);margin:28px 0 16px;text-align:center;letter-spacing:.5px;text-transform:uppercase;">Aperçu de votre quittance</h3>
+      <div class="preview-card" id="preview-content">
+        <!-- filled by JS -->
+      </div>
+      <button class="btn-download" onclick="downloadPDF()">
+        ⬇️ Télécharger le PDF
+      </button>
+    </div>
+
+    <!-- UPSELL -->
+    <div class="upsell-banner">
+      <div class="upsell-content">
+        <h3>Arrêtez de faire ça <em>à la main</em> chaque mois</h3>
+        <p>BailleurSuite génère et envoie vos quittances automatiquement le 1er du mois, pour chaque locataire, avec archivage.</p>
+        <div class="upsell-features">
+          <span class="upsell-feature">Quittances PDF auto + envoi email au locataire</span>
+          <span class="upsell-feature">Alertes IRL et échéances importantes</span>
+          <span class="upsell-feature">Module fiscal 2044 et LMNP inclus</span>
+          <span class="upsell-feature">Biens illimités, données 100% sur iPhone</span>
+        </div>
+      </div>
+      <div class="upsell-cta">
+        <div class="upsell-price">4,99€</div>
+        <div class="upsell-price-sub">/ mois — ou 39,99€/an</div>
+        <a href="https://bailleursuite.fr#waitlist" class="btn-upsell">Accès bêta gratuit →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTENT SEO -->
+<section style="background:var(--cream-dark); padding: 56px 0;">
+  <div class="container">
+
+    <!-- E-E-A-T -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;padding:14px 20px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);font-family:-apple-system,sans-serif;font-size:12px;color:var(--text-muted);">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:18px;">📋</span>
+        <div>
+          <div style="font-weight:700;color:var(--text-dark);font-size:13px;">Contenu BailleurSuite</div>
+          <div>Rédigé pour les bailleurs particuliers français · Conforme <strong style="color:var(--text-mid);">loi n° 89-462 du 6 juillet 1989</strong> et <strong style="color:var(--text-mid);">loi ALUR 2014</strong></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <span>📅 Publié : janvier 2026</span>
+        <span>🔄 Mis à jour : mai 2026</span>
+        <span>⏱ Lecture : 6 min</span>
+      </div>
+    </div>
+
+    <!-- Sommaire -->
+    <div class="content-section" style="background:var(--green-bg); border-color:var(--border);">
+      <p style="font-family:-apple-system,sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--green-mid);margin-bottom:12px;">Sommaire</p>
+      <ul style="margin:0;">
+        <li><a href="#quest-ce" style="color:var(--green-main);text-decoration:none;">1. Qu'est-ce qu'une quittance de loyer ?</a></li>
+        <li><a href="#obligatoire" style="color:var(--green-main);text-decoration:none;">2. Est-elle obligatoire ?</a></li>
+        <li><a href="#mentions" style="color:var(--green-main);text-decoration:none;">3. Les mentions obligatoires</a></li>
+        <li><a href="#loyer-recu" style="color:var(--green-main);text-decoration:none;">4. Quittance vs reçu de loyer</a></li>
+        <li><a href="#comment-envoyer" style="color:var(--green-main);text-decoration:none;">5. Comment et quand l'envoyer ?</a></li>
+        <li><a href="#faq" style="color:var(--green-main);text-decoration:none;">6. FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- 1 -->
+    <div class="content-section" id="quest-ce">
+      <h2>1. Qu'est-ce qu'une quittance de loyer ?</h2>
+      <p>La quittance de loyer est un document remis par le bailleur au locataire qui atteste que le loyer et les charges du mois ont bien été payés. C'est un reçu officiel qui a valeur de preuve en cas de litige.</p>
+      <p>Elle protège les deux parties : le locataire prouve qu'il a payé, le bailleur prouve qu'il a bien reçu le paiement. Ce document est distinct du bail (contrat de location) et de l'avis d'échéance (demande de paiement).</p>
+      <div class="info-box">
+        <p><strong>À retenir :</strong> La quittance ne peut être remise que si le loyer a été intégralement payé. Si le paiement est partiel, on parle de <strong>reçu</strong>, non de quittance.</p>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="content-section" id="obligatoire">
+      <h2>2. La quittance de loyer est-elle obligatoire ?</h2>
+      <p>Le bailleur n'est pas obligé de fournir spontanément une quittance. En revanche, <strong>dès que le locataire en fait la demande, le bailleur est légalement tenu de la lui remettre gratuitement</strong>, selon l'article 21 de la loi du 6 juillet 1989.</p>
+
+      <h3>Ce que dit la loi</h3>
+      <p>Article 21 de la loi n° 89-462 du 6 juillet 1989 : <em>"Si le locataire en fait la demande, le bailleur ou son mandataire est tenu de lui remettre une quittance pour chaque période de paiement."</em></p>
+
+      <div class="warning-box">
+        <p>⚠️ <strong>Refuser de délivrer une quittance</strong> quand le locataire la demande est passible d'une amende. La quittance doit être remise gratuitement — tout frais facturé est illégal.</p>
+      </div>
+
+      <h3>Pour quelle durée conserver les quittances ?</h3>
+      <p>Le locataire doit conserver ses quittances <strong>3 ans après la fin du bail</strong>. Le bailleur doit conserver les preuves de paiement pendant la même durée pour les besoins d'un éventuel contrôle fiscal.</p>
+    </div>
+
+    <!-- 3 -->
+    <div class="content-section" id="mentions">
+      <h2>3. Les mentions obligatoires d'une quittance conforme</h2>
+      <p>Pour être valide et conforme à la loi ALUR, une quittance doit obligatoirement contenir les éléments suivants. Notre générateur les inclut tous automatiquement.</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Mention</th>
+            <th>Obligatoire ?</th>
+            <th>Remarque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Nom du bailleur</td><td class="yes">✓ Oui</td><td>Ou nom de la société bailleresse</td></tr>
+          <tr><td>Adresse du bailleur</td><td class="yes">✓ Oui</td><td>Adresse de correspondance</td></tr>
+          <tr><td>Nom du locataire</td><td class="yes">✓ Oui</td><td>Tous les co-locataires si colocation</td></tr>
+          <tr><td>Adresse du logement loué</td><td class="yes">✓ Oui</td><td>Adresse complète</td></tr>
+          <tr><td>Période couverte</td><td class="yes">✓ Oui</td><td>Ex : du 1er au 31 mai 2026</td></tr>
+          <tr><td>Loyer hors charges</td><td class="yes">✓ Oui</td><td>Montant exact</td></tr>
+          <tr><td>Montant des charges</td><td class="yes">✓ Oui</td><td>0 si forfait inclus ou charges nulles</td></tr>
+          <tr><td>Total TTC perçu</td><td class="yes">✓ Oui</td><td>Loyer HC + charges</td></tr>
+          <tr><td>Date de paiement</td><td class="yes">✓ Recommandé</td><td>Non imposée mais fortement conseillée</td></tr>
+          <tr><td>Mode de paiement</td><td class="no">— Facultatif</td><td>Virement, chèque, espèces…</td></tr>
+          <tr><td>Signature du bailleur</td><td class="no">— Facultatif</td><td>Mais fortement recommandée</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4 -->
+    <div class="content-section" id="loyer-recu">
+      <h2>4. Quittance de loyer vs reçu de loyer : quelle différence ?</h2>
+      <p>La confusion est fréquente. Voici la distinction essentielle :</p>
+      <ul>
+        <li><strong>Quittance de loyer</strong> — atteste un paiement <em>intégral</em>. Le bailleur certifie avoir reçu la totalité du loyer et des charges.</li>
+        <li><strong>Reçu de loyer</strong> — atteste un paiement <em>partiel</em>. Utilisé quand le locataire n'a payé qu'une partie du loyer dû.</li>
+      </ul>
+      <div class="info-box">
+        <p><strong>Important :</strong> Remettre une quittance pour un paiement partiel est une erreur grave. Si le locataire n'a payé que 500€ sur 750€, vous devez émettre un reçu de 500€, pas une quittance. La quittance vaut reconnaissance de paiement complet.</p>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="content-section" id="comment-envoyer">
+      <h2>5. Comment et quand envoyer la quittance ?</h2>
+
+      <h3>Quand l'envoyer ?</h3>
+      <p>Dès réception du paiement intégral. En pratique, si votre locataire paie par virement le 1er du mois, vous pouvez envoyer la quittance le même jour ou dans les 48h.</p>
+
+      <h3>Par quel moyen ?</h3>
+      <p>La loi ne précise pas le format. Vous pouvez envoyer la quittance :</p>
+      <ul>
+        <li>Par email (PDF en pièce jointe) — le moyen le plus simple et traçable</li>
+        <li>Par courrier postal — valable mais chronophage</li>
+        <li>En main propre — à éviter, difficile à prouver</li>
+      </ul>
+
+      <h3>Quittance dématérialisée : est-ce valide ?</h3>
+      <p>Oui, une quittance PDF envoyée par email est parfaitement valide juridiquement depuis la loi ALUR de 2014. Le locataire peut s'y opposer et demander un format papier — mais c'est rare en pratique.</p>
+
+      <div class="info-box">
+        <p>💡 <strong>Conseil pratique :</strong> conservez une copie de chaque quittance envoyée (par email ou dans un dossier classé par locataire). En cas de litige, vous devrez prouver que les paiements ont bien eu lieu.</p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="content-section" id="faq">
+      <h2>FAQ — Questions fréquentes</h2>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Puis-je facturer l'envoi d'une quittance ?</div>
+        <div class="faq-a">Non. La remise d'une quittance est gratuite et obligatoire sur demande du locataire. Facturer des frais pour ce service est illégal selon l'article 21 de la loi du 6 juillet 1989.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Ma quittance doit-elle être signée ?</div>
+        <div class="faq-a">La signature n'est pas légalement obligatoire, mais elle est fortement recommandée. Elle renforce la valeur probatoire du document en cas de litige. Notre générateur inclut une ligne de signature optionnelle.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Colocation : une quittance par locataire ou une seule ?</div>
+        <div class="faq-a">En colocation avec bail commun, une seule quittance est émise au nom de tous les colocataires. En colocation avec baux individuels (chambre par chambre), chaque locataire reçoit sa propre quittance pour sa part de loyer.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Mon locataire peut-il refuser de payer parce qu'il n'a pas reçu sa quittance ?</div>
+        <div class="faq-a">Non. L'absence de quittance ne justifie pas le non-paiement du loyer. Ces deux obligations sont indépendantes. En revanche, si vous refusez de la délivrer malgré la demande, le locataire peut vous mettre en demeure.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Quelle différence entre une quittance et un avis d'échéance ?</div>
+        <div class="faq-a">L'avis d'échéance est envoyé avant le paiement pour rappeler au locataire le montant à régler. La quittance est émise après le paiement pour en attester la réception. Ce sont deux documents distincts avec des fonctions opposées.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">BailleurSuite génère-t-il les quittances automatiquement ?</div>
+        <div class="faq-a">Oui. Dans l'app BailleurSuite (disponible septembre 2026), les quittances sont générées et envoyées automatiquement chaque mois, en PDF, directement depuis votre iPhone. Vous n'avez rien à faire — l'app récupère les données du bail, génère le document et l'envoie au locataire.</div>
+      </div>
+
+    </div>
+
+    <!-- Final CTA -->
+    <div class="upsell-banner" style="margin-top:0;">
+      <div class="upsell-content">
+        <h3>Automatisez vos quittances <em>pour toujours</em></h3>
+        <p>Plus jamais de quittance oubliée. BailleurSuite les génère et les envoie chaque mois, automatiquement, pour chaque locataire.</p>
+        <div class="upsell-features">
+          <span class="upsell-feature">Quittances automatiques le 1er du mois</span>
+          <span class="upsell-feature">Envoi PDF par email au locataire</span>
+          <span class="upsell-feature">Archivage et historique complet</span>
+          <span class="upsell-feature">Pass Fiscal 2044 + LMNP inclus</span>
+        </div>
+      </div>
+      <div class="upsell-cta">
+        <div class="upsell-price">4,99€</div>
+        <div class="upsell-price-sub">/ mois · lancement sept. 2026</div>
+        <a href="https://bailleursuite.fr#waitlist" class="btn-upsell">Être notifié au lancement →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="https://bailleursuite.fr">BailleurSuite</a>
+    <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+    <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+    <a href="https://bailleursuite.fr/politique-confidentialite.html">Confidentialité</a>
+  </div>
+  <p>© 2026 BailleurSuite — Outil indicatif. La quittance générée engage votre responsabilité en tant que bailleur.</p>
+</footer>
+
+<script>
+  // ── Dates par défaut ──
+  (function() {
+    const now = new Date();
+    const y = now.getFullYear(), m = now.getMonth();
+    const firstDay = new Date(y, m, 1);
+    const lastDay  = new Date(y, m + 1, 0);
+    const fmt = d => d.toISOString().split('T')[0];
+    document.getElementById('periode-debut').value = fmt(firstDay);
+    document.getElementById('periode-fin').value   = fmt(lastDay);
+    document.getElementById('date-paiement').value = fmt(firstDay);
+  })();
+
+  // ── Helpers ──
+  function fmtDate(str) {
+    if (!str) return '—';
+    const [y, m, d] = str.split('-');
+    const months = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    return `${parseInt(d)} ${months[parseInt(m)-1]} ${y}`;
+  }
+  function fmtMoney(val) {
+    const n = parseFloat(val) || 0;
+    return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  }
+
+  // ── Générer aperçu ──
+  function generateQuittance() {
+    const bail    = document.getElementById('bailleur-nom').value.trim()    || '[Nom du bailleur]';
+    const bailAdr = document.getElementById('bailleur-adresse').value.trim()|| '[Adresse bailleur]';
+    const loc     = document.getElementById('locataire-nom').value.trim()   || '[Nom du locataire]';
+    const bien    = document.getElementById('bien-adresse').value.trim()    || '[Adresse du logement]';
+    const hc      = parseFloat(document.getElementById('loyer-hc').value)   || 0;
+    const ch      = parseFloat(document.getElementById('charges').value)    || 0;
+    const total   = hc + ch;
+    const debut   = document.getElementById('periode-debut').value;
+    const fin     = document.getElementById('periode-fin').value;
+    const datePai = document.getElementById('date-paiement').value;
+    const mode    = document.getElementById('mode-paiement').value;
+    const sig     = document.getElementById('include-signature').checked;
+    const legal   = document.getElementById('include-legal').checked;
+
+    const html = `
+      <div class="preview-title">Quittance de loyer</div>
+      <div class="preview-subtitle">Période du ${fmtDate(debut)} au ${fmtDate(fin)}</div>
+      <hr class="preview-separator" />
+
+      <div class="preview-row"><span class="preview-label">Bailleur</span><span class="preview-value">${bail}</span></div>
+      <div class="preview-row"><span class="preview-label">Adresse bailleur</span><span class="preview-value">${bailAdr}</span></div>
+      <hr class="preview-separator-light" />
+      <div class="preview-row"><span class="preview-label">Locataire</span><span class="preview-value">${loc}</span></div>
+      <div class="preview-row"><span class="preview-label">Logement loué</span><span class="preview-value">${bien}</span></div>
+      <hr class="preview-separator" />
+
+      <div class="preview-body">
+        Je soussigné(e) <strong>${bail}</strong>, bailleur du logement situé au <strong>${bien}</strong>, déclare avoir reçu de <strong>${loc}</strong> la somme de :
+      </div>
+
+      <div class="preview-montant">${fmtMoney(total)}</div>
+
+      <div class="preview-body" style="font-size:13px;">
+        au titre du loyer et des charges du logement ci-dessus désigné, pour la période du <strong>${fmtDate(debut)}</strong> au <strong>${fmtDate(fin)}</strong>, dont le détail est le suivant :
+      </div>
+
+      <div class="preview-row"><span class="preview-label">Loyer hors charges</span><span class="preview-value">${fmtMoney(hc)}</span></div>
+      <div class="preview-row"><span class="preview-label">Provisions pour charges</span><span class="preview-value">${fmtMoney(ch)}</span></div>
+      <div class="preview-row" style="border-top:1px solid var(--border);padding-top:8px;margin-top:6px;"><span class="preview-label" style="font-weight:700;">Total perçu</span><span class="preview-value" style="color:var(--green-dark);font-size:16px;">${fmtMoney(total)}</span></div>
+
+      <div class="preview-body" style="font-size:13px;margin-top:16px;">
+        Paiement reçu le <strong>${fmtDate(datePai)}</strong> par <strong>${mode}</strong>.
+      </div>
+
+      ${sig ? `
+      <div class="preview-signature">
+        <p>Fait le ${fmtDate(new Date().toISOString().split('T')[0])}</p>
+        <p style="margin-top:48px;border-top:1px solid var(--border);padding-top:8px;width:200px;margin-left:auto;">Signature du bailleur</p>
+      </div>` : ''}
+
+      ${legal ? `
+      <div class="preview-legal">
+        Cette quittance est délivrée conformément à l'article 21 de la loi n° 89-462 du 6 juillet 1989. Elle ne vaut que pour la période et le montant indiqués ci-dessus. Toute quittance partielle reste un reçu de paiement.
+      </div>` : ''}
+    `;
+
+    document.getElementById('preview-content').innerHTML = html;
+    const ps = document.getElementById('preview-section');
+    ps.classList.add('visible');
+    setTimeout(() => ps.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  }
+
+  // ── Télécharger PDF ──
+  function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+
+    const bail    = document.getElementById('bailleur-nom').value.trim()    || '[Nom du bailleur]';
+    const bailAdr = document.getElementById('bailleur-adresse').value.trim()|| '[Adresse bailleur]';
+    const loc     = document.getElementById('locataire-nom').value.trim()   || '[Nom du locataire]';
+    const bien    = document.getElementById('bien-adresse').value.trim()    || '[Adresse du logement]';
+    const hc      = parseFloat(document.getElementById('loyer-hc').value)   || 0;
+    const ch      = parseFloat(document.getElementById('charges').value)    || 0;
+    const total   = hc + ch;
+    const debut   = document.getElementById('periode-debut').value;
+    const fin     = document.getElementById('periode-fin').value;
+    const datePai = document.getElementById('date-paiement').value;
+    const mode    = document.getElementById('mode-paiement').value;
+    const sig     = document.getElementById('include-signature').checked;
+    const legal   = document.getElementById('include-legal').checked;
+
+    const W = 210, M = 20, CW = W - M * 2;
+    let y = 20;
+
+    const ln = (n = 6) => { y += n; };
+    const line = (x1, x2) => { doc.setDrawColor(180, 210, 190); doc.line(x1, y, x2, y); ln(5); };
+
+    // Header vert
+    doc.setFillColor(27, 67, 50);
+    doc.rect(0, 0, W, 28, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text('QUITTANCE DE LOYER', W / 2, 13, { align: 'center' });
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(180, 220, 195);
+    doc.text(`Période du ${fmtDate(debut)} au ${fmtDate(fin)}`, W / 2, 21, { align: 'center' });
+
+    y = 38;
+    doc.setTextColor(30, 46, 30);
+
+    // Bailleur / Locataire
+    const col = (label, val, cx, cy) => {
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(100, 130, 110);
+      doc.text(label.toUpperCase(), cx, cy);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor(20, 40, 25);
+      doc.text(val, cx, cy + 5);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(80, 100, 90);
+    };
+
+    col('Bailleur', bail, M, y);
+    col('Locataire', loc, W / 2 + 5, y);
+    y += 12;
+    col('Adresse', bailAdr, M, y);
+    col('Logement loué', bien, W / 2 + 5, y);
+    y += 12;
+
+    doc.setDrawColor(45, 106, 79); doc.setLineWidth(.5);
+    doc.line(M, y, W - M, y); y += 8;
+
+    // Corps
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(40, 60, 45);
+    const bodyText = `Je soussigné(e) ${bail}, bailleur du logement situé au ${bien}, déclare avoir reçu de ${loc} la somme de :`;
+    const lines = doc.splitTextToSize(bodyText, CW);
+    doc.text(lines, M, y); y += lines.length * 5 + 4;
+
+    // Montant central
+    doc.setFillColor(240, 250, 244);
+    doc.roundedRect(M, y, CW, 18, 3, 3, 'F');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(22); doc.setTextColor(27, 67, 50);
+    doc.text(fmtMoney(total), W / 2, y + 12, { align: 'center' });
+    y += 24;
+
+    const bodyText2 = `au titre du loyer et des charges pour la période du ${fmtDate(debut)} au ${fmtDate(fin)}, selon le détail ci-dessous :`;
+    const lines2 = doc.splitTextToSize(bodyText2, CW);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(40, 60, 45);
+    doc.text(lines2, M, y); y += lines2.length * 5 + 8;
+
+    // Tableau détail
+    const row = (label, val, bold = false) => {
+      doc.setFont('helvetica', bold ? 'bold' : 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(bold ? 27 : 60, bold ? 67 : 80, bold ? 50 : 70);
+      doc.text(label, M, y);
+      doc.text(val, W - M, y, { align: 'right' });
+      y += 7;
+    };
+    row('Loyer hors charges', fmtMoney(hc));
+    row('Provisions pour charges', fmtMoney(ch));
+    doc.setDrawColor(180, 210, 190); doc.line(M, y, W - M, y); y += 4;
+    row('Total perçu', fmtMoney(total), true);
+    y += 4;
+
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(40, 60, 45);
+    doc.text(`Paiement reçu le ${fmtDate(datePai)} par ${mode}.`, M, y); y += 10;
+
+    if (sig) {
+      y += 6;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(100, 130, 110);
+      const today = fmtDate(new Date().toISOString().split('T')[0]);
+      doc.text(`Fait le ${today}`, W - M, y, { align: 'right' });
+      y += 16;
+      doc.setDrawColor(150, 180, 160); doc.line(W - M - 50, y, W - M, y); y += 5;
+      doc.text('Signature du bailleur', W - M, y, { align: 'right' });
+      y += 8;
+    }
+
+    if (legal) {
+      y += 4;
+      doc.setDrawColor(200, 225, 210); doc.line(M, y, W - M, y); y += 5;
+      doc.setFont('helvetica', 'italic'); doc.setFontSize(7.5); doc.setTextColor(130, 155, 140);
+      const legalText = "Cette quittance est délivrée conformément à l'article 21 de la loi n° 89-462 du 6 juillet 1989. Elle ne vaut que pour la période et le montant indiqués ci-dessus.";
+      const legalLines = doc.splitTextToSize(legalText, CW);
+      doc.text(legalLines, M, y); y += legalLines.length * 4 + 4;
+    }
+
+    // Footer
+    doc.setFillColor(240, 250, 244);
+    doc.rect(0, 285, W, 12, 'F');
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(100, 140, 115);
+    doc.text('Généré par BailleurSuite · bailleursuite.fr · Outil gratuit pour bailleurs particuliers', W / 2, 292, { align: 'center' });
+
+    doc.save(`quittance-${loc.replace(/\s+/g,'-').toLowerCase()}-${debut?.slice(0,7) || 'loyer'}.pdf`);
+  }
+
+  // ── FAQ toggle ──
+  function toggleFaq(el) {
+    el.closest('.faq-item').classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
