@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Conditions Générales d'Utilisation de l'application BailleurSuite — iOS app de gestion locative pour bailleurs particuliers français.">
+<title>Conditions Générales d'Utilisation | BailleurSuite</title>
+<link rel="canonical" href="https://bailleursuite.fr/conditions-utilisation.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F4EE; --surface: rgba(255,255,255,.75); --surface-strong: rgba(255,255,255,.92);
+  --ink: #111315; --ink-soft: #50545A; --ink-light: #8A8D92;
+  --mint: #2D6A4F; --mint-pale: #E6F2EC; --gold: #C9A84C;
+  --border: rgba(17,19,21,.07);
+  --serif: 'Instrument Serif', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  --radius: 20px;
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#111315;--surface:rgba(255,255,255,.05);--surface-strong:rgba(255,255,255,.08);
+  --ink:#F0EDE8;--ink-soft:#9A9DA3;--ink-light:#5A5D63;--mint:#3D8B68;--mint-pale:#0D2E20;--border:rgba(255,255,255,.08)}
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:-20%;background:radial-gradient(circle at 15% 10%,rgba(45,106,79,.07),transparent 35%);pointer-events:none;z-index:-1}
+
+/* NAV */
+nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:1200px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,244,238,.85);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.55);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.06);z-index:100}
+@media(prefers-color-scheme:dark){nav{background:rgba(17,19,21,.88);border-color:rgba(255,255,255,.1)}}
+.nav-logo{font-family:var(--sans);font-size:1.05rem;font-weight:600;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:9px;text-decoration:none}
+.nav-logo-icon{width:30px;height:30px;background:var(--mint);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-logo-suite{color:var(--mint)}
+.nav-back{font-size:.82rem;color:var(--ink-soft);text-decoration:none;display:flex;align-items:center;gap:5px}
+.nav-back:hover{color:var(--mint)}
+
+/* PAGE */
+.page-wrap{max-width:720px;margin:0 auto;padding:110px 24px 80px}
+.breadcrumb{font-size:.75rem;color:var(--ink-light);margin-bottom:20px;display:flex;align-items:center;gap:6px}
+.breadcrumb a{color:var(--mint);text-decoration:none}
+.page-badge{display:inline-flex;align-items:center;gap:6px;background:var(--surface-strong);border:1px solid rgba(45,106,79,.2);color:var(--mint);font-size:.7rem;font-weight:600;padding:5px 14px;border-radius:100px;margin-bottom:20px;letter-spacing:.06em;text-transform:uppercase}
+h1{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1.1;color:var(--ink);letter-spacing:-0.03em;margin-bottom:12px}
+.page-meta{font-size:.82rem;color:var(--ink-light);margin-bottom:48px;display:flex;gap:16px;flex-wrap:wrap}
+
+/* ARTICLES */
+.article{background:var(--surface);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.4);border-radius:var(--radius);padding:28px 32px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,.04)}
+@media(max-width:600px){.article{padding:22px 20px}}
+.article-num{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--mint);margin-bottom:8px}
+.article h2{font-family:var(--serif);font-size:1.25rem;color:var(--ink);margin-bottom:14px;letter-spacing:-0.02em}
+.article p{font-size:.95rem;color:var(--ink-soft);line-height:1.75;font-weight:300;margin-bottom:12px}
+.article p:last-child{margin-bottom:0}
+.article p strong{color:var(--ink);font-weight:600}
+.article ul{padding-left:20px;display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.article li{font-size:.92rem;color:var(--ink-soft);line-height:1.6;font-weight:300}
+
+/* Callout */
+.callout{background:var(--mint-pale);border:1px solid rgba(45,106,79,.2);border-radius:14px;padding:16px 20px;margin-top:14px}
+.callout p{font-size:.88rem;color:var(--mint);margin-bottom:0;font-weight:400}
+
+/* Tag */
+.tag{display:inline-block;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#7A5800;font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:100px;margin-right:6px;margin-bottom:4px}
+@media(prefers-color-scheme:dark){.tag{color:#C9A84C}}
+
+/* Contact box */
+.contact-box{background:linear-gradient(135deg,var(--mint),#1A4A35);border-radius:var(--radius);padding:28px 32px;margin-top:32px;text-align:center}
+.contact-box p{color:rgba(255,255,255,.7);font-size:.9rem;margin-bottom:16px}
+.contact-box a{display:inline-flex;align-items:center;gap:8px;background:white;color:var(--mint);padding:12px 24px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.88rem}
+
+footer{background:var(--ink);color:rgba(255,255,255,.45);padding:32px 24px;text-align:center;font-size:.8rem;margin-top:80px}
+footer a{color:var(--mint);text-decoration:none;margin:0 10px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://bailleursuite.fr" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="18" height="18" viewBox="0 0 46 46" fill="none">
+        <circle cx="17" cy="18" r="7.5" stroke="#F5F0E8" stroke-width="2.8" fill="none"/>
+        <circle cx="17" cy="18" r="2.5" fill="#C9A84C"/>
+        <line x1="22.5" y1="23.5" x2="35" y2="36" stroke="#F5F0E8" stroke-width="2.8" stroke-linecap="round"/>
+        <line x1="27" y1="33" x2="27" y2="30" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="30.5" y1="33" x2="30.5" y2="28" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="34" y1="33" x2="34" y2="26" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    Bailleur<span class="nav-logo-suite">Suite</span>
+  </a>
+  <a href="https://bailleursuite.fr" class="nav-back">← Retour au site</a>
+</nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="https://bailleursuite.fr">BailleurSuite</a>
+    <span>›</span>
+    <span>Conditions d'utilisation</span>
+  </div>
+
+  <div class="page-badge">Document légal</div>
+  <h1>Conditions Générales d'Utilisation</h1>
+  <div class="page-meta">
+    <span>📅 Dernière mise à jour : juin 2026</span>
+    <span>🍎 Application iOS BailleurSuite</span>
+  </div>
+
+  <!-- Art. 01 -->
+  <div class="article">
+    <div class="article-num">Article 01</div>
+    <h2>Objet</h2>
+    <p>Les présentes Conditions Générales d'Utilisation régissent l'utilisation de l'application mobile <strong>BailleurSuite</strong>, disponible sur l'App Store d'Apple.</p>
+    <p>En téléchargeant ou en utilisant l'application, l'utilisateur accepte sans réserve les présentes CGU.</p>
+  </div>
+
+  <!-- Art. 02 -->
+  <div class="article">
+    <div class="article-num">Article 02</div>
+    <h2>Éditeur</h2>
+    <p>BailleurSuite est édité par :</p>
+    <p>
+      <strong>Joachim ANTONA</strong><br>
+      Entrepreneur individuel<br>
+      SIREN : 104 828 579<br>
+      Montpellier, France<br>
+      Email : <a href="mailto:contact@bailleursuite.fr" style="color:var(--mint);">contact@bailleursuite.fr</a>
+    </p>
+  </div>
+
+  <!-- Art. 03 -->
+  <div class="article">
+    <div class="article-num">Article 03</div>
+    <h2>Description du service</h2>
+    <p>BailleurSuite est une application iOS d'aide à la gestion locative et à la préparation fiscale destinée aux bailleurs particuliers français.</p>
+    <p>L'application propose notamment :</p>
+    <ul>
+      <li>Suivi des loyers et charges</li>
+      <li>Génération de quittances PDF</li>
+      <li>Simulations fiscales (déclaration 2044, LMNP régime réel)</li>
+      <li>Exports PDF indicatifs</li>
+    </ul>
+  </div>
+
+  <!-- Art. 04 -->
+  <div class="article">
+    <div class="article-num">Article 04</div>
+    <h2>Caractère indicatif des simulations</h2>
+    <p>Les calculs, simulations et synthèses fiscales produits par BailleurSuite sont fournis <strong>à titre indicatif uniquement</strong>.</p>
+    <p>Ils ne constituent pas :</p>
+    <ul>
+      <li>Un conseil fiscal personnalisé</li>
+      <li>Une validation de déclaration fiscale</li>
+      <li>Une consultation d'expertise comptable</li>
+    </ul>
+    <div class="callout">
+      <p>⚠️ L'utilisateur demeure seul responsable des montants déclarés auprès de l'administration fiscale. Une vérification par un professionnel qualifié est recommandée avant toute déclaration.</p>
+    </div>
+  </div>
+
+  <!-- Art. 05 -->
+  <div class="article">
+    <div class="article-num">Article 05</div>
+    <h2>Abonnements et achats</h2>
+
+    <p><strong>Gestion Zen</strong> <span class="tag">Abonnement annuel</span></p>
+    <p>Accès aux fonctionnalités premium de gestion locative. Résiliable à tout moment depuis les Réglages iOS. L'abonnement annuel est souscrit pour une durée de 12 mois.</p>
+
+    <p style="margin-top:16px;"><strong>Pass Fiscal</strong> <span class="tag">Achat unique annuel</span></p>
+    <p>Accès aux exports PDF fiscaux pour l'exercice en cours. Non renouvelable automatiquement. Valable pour l'année fiscale d'achat uniquement. Un nouveau Pass est nécessaire chaque année en raison des mises à jour légales annuelles.</p>
+
+    <p style="margin-top:16px;">Les prix sont indiqués TTC en euros. Les paiements sont traités par <strong>Apple via l'App Store</strong>. BailleurSuite n'a accès à aucune donnée bancaire.</p>
+  </div>
+
+  <!-- Art. 06 -->
+  <div class="article">
+    <div class="article-num">Article 06</div>
+    <h2>Données et confidentialité</h2>
+    <p>Le traitement des données personnelles est décrit dans notre Politique de Confidentialité disponible à l'adresse :</p>
+    <p><a href="https://bailleursuite.fr/politique-confidentialite.html" style="color:var(--mint);font-weight:500;">bailleursuite.fr/politique-confidentialite.html</a></p>
+  </div>
+
+  <!-- Art. 07 -->
+  <div class="article">
+    <div class="article-num">Article 07</div>
+    <h2>Propriété intellectuelle</h2>
+    <p>L'application BailleurSuite, son code, son design, ses contenus et sa marque sont la propriété exclusive de leur éditeur.</p>
+    <p>Toute reproduction, même partielle, est interdite sans autorisation écrite préalable.</p>
+  </div>
+
+  <!-- Art. 08 -->
+  <div class="article">
+    <div class="article-num">Article 08</div>
+    <h2>Disponibilité du service</h2>
+    <p>BailleurSuite s'efforce d'assurer la disponibilité continue de l'application. Des interruptions temporaires peuvent survenir pour maintenance ou mise à jour.</p>
+    <p>L'éditeur ne peut être tenu responsable des interruptions de service liées à l'infrastructure Apple (App Store, iCloud, StoreKit).</p>
+  </div>
+
+  <!-- Art. 09 -->
+  <div class="article">
+    <div class="article-num">Article 09</div>
+    <h2>Limitation de responsabilité</h2>
+    <p>Dans les limites autorisées par la loi française, BailleurSuite ne peut être tenu responsable :</p>
+    <ul>
+      <li>Des erreurs déclaratives de l'utilisateur</li>
+      <li>Des pertes financières liées à l'utilisation des simulations fiscales</li>
+      <li>Des interruptions de service</li>
+    </ul>
+  </div>
+
+  <!-- Art. 10 -->
+  <div class="article">
+    <div class="article-num">Article 10</div>
+    <h2>Droit applicable</h2>
+    <p>Les présentes CGU sont soumises au <strong>droit français</strong>. En cas de litige, les tribunaux français sont compétents.</p>
+  </div>
+
+  <!-- Art. 11 -->
+  <div class="article">
+    <div class="article-num">Article 11</div>
+    <h2>Contact</h2>
+    <p>Pour toute question relative aux présentes CGU :</p>
+    <p><a href="mailto:contact@bailleursuite.fr" style="color:var(--mint);font-weight:500;">contact@bailleursuite.fr</a></p>
+    <p style="margin-top:8px;font-size:.85rem;color:var(--ink-light);">Réponse garantie sous 30 jours ouvrés.</p>
+  </div>
+
+  <div class="contact-box">
+    <p>Une question sur vos droits ou l'utilisation de l'app ?</p>
+    <a href="mailto:contact@bailleursuite.fr">✉️ Nous contacter</a>
+  </div>
+
+</main>
+
+<footer>
+  <a href="https://bailleursuite.fr">BailleurSuite</a>
+  <a href="https://bailleursuite.fr/politique-confidentialite.html">Politique de confidentialité</a>
+  <a href="https://bailleursuite.fr/conditions-utilisation.html">CGU</a>
+  <p style="margin-top:16px;">© 2026 BailleurSuite — Joachim ANTONA — SIREN 104 828 579</p>
+</footer>
+
+</body>
+</html>
