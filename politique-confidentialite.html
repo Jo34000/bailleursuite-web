@@ -120,7 +120,6 @@
       padding: 64px 24px 100px;
     }
 
-    /* Résumé en encadré vert clair */
     .tldr {
       background: rgba(45,106,79,0.07);
       border: 1px solid rgba(45,106,79,0.2);
@@ -144,7 +143,6 @@
     }
     .tldr strong { color: var(--mint); }
 
-    /* Sections */
     .section {
       margin-bottom: 48px;
       padding-bottom: 48px;
@@ -175,6 +173,12 @@
       color: var(--ink);
       margin: 24px 0 10px;
     }
+    h4 {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 20px 0 8px;
+    }
     p {
       font-size: 0.92rem;
       color: var(--ink-mid);
@@ -186,7 +190,6 @@
     a { color: var(--mint); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* Liste */
     ul {
       list-style: none;
       margin: 14px 0;
@@ -206,7 +209,6 @@
       font-weight: 600;
     }
 
-    /* Badge "Données locales" */
     .badge-local {
       display: inline-flex;
       align-items: center;
@@ -226,7 +228,26 @@
       font-size: 0.9rem;
     }
 
-    /* Contact card */
+    /* Bloc tiers service */
+    .tiers-block {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 16px 0;
+    }
+    .tiers-block h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+    .tiers-block p {
+      font-size: 0.88rem;
+      margin-bottom: 8px;
+    }
+    .tiers-block p:last-child { margin-bottom: 0; }
+
     .contact-card {
       background: white;
       border-radius: var(--radius);
@@ -244,7 +265,6 @@
       margin-bottom: 12px;
     }
 
-    /* Footer */
     footer {
       background: var(--ink);
       color: rgba(255,255,255,0.5);
@@ -283,7 +303,7 @@
   <div class="page-hero-label">Légal</div>
   <h1>Politique de<br><em>confidentialité</em></h1>
   <p>Vos données ne nous appartiennent pas. Elles restent sur votre iPhone.</p>
-  <div class="page-hero-date">Dernière mise à jour : mai 2026</div>
+  <div class="page-hero-date">Dernière mise à jour : juin 2026</div>
 </div>
 
 <!-- CONTENU -->
@@ -295,22 +315,21 @@
     <p>BailleurSuite ne collecte <strong>aucune donnée personnelle</strong> depuis l'application. Vos informations (biens, loyers, charges, documents) sont stockées <strong>uniquement sur votre iPhone et dans votre iCloud privé</strong>. Nous n'avons jamais accès à vos données, nous ne les vendons pas, nous ne les partageons pas.</p>
   </div>
 
-  <!-- 1. Éditeur -->
+  <!-- 1. Éditeur — MIS À JOUR -->
   <div class="section">
     <div class="section-num">Article 01</div>
     <h2>Éditeur du service</h2>
     <p>L'application BailleurSuite et le site <strong>bailleursuite.fr</strong> sont édités par :</p>
     <div class="contact-card">
       <div class="contact-label">Identité de l'éditeur</div>
-      <p><strong>Joachim [Nom]</strong> — Entrepreneur individuel</p>
-      <p>SIRET : <em>en cours d'immatriculation</em></p>
+      <p><strong>Joachim ANTONA</strong> — Entrepreneur individuel</p>
+      <p>SIREN : 104 828 579</p>
       <p>Adresse : Montpellier, France</p>
       <p>Email : <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a></p>
     </div>
-    <p style="margin-top:16px; font-size:0.82rem; color:var(--ink-light);">Cette politique sera mise à jour dès obtention du SIRET définitif.</p>
   </div>
 
-  <!-- 2. Données app -->
+  <!-- 2. Données app — MIS À JOUR avec RevenueCat + StoreKit -->
   <div class="section">
     <div class="section-num">Article 02</div>
     <h2>Données dans l'application iOS</h2>
@@ -332,6 +351,21 @@
 
     <h3>Scanner de documents</h3>
     <p>L'accès à l'appareil photo (scanner de justificatifs) est utilisé uniquement pour capturer vos documents. Les images sont stockées localement sur votre appareil. Elles ne sont jamais transmises à nos serveurs.</p>
+
+    <h3>Services tiers dans l'application</h3>
+
+    <div class="tiers-block">
+      <h4>RevenueCat — gestion des abonnements in-app</h4>
+      <p>BailleurSuite utilise RevenueCat pour gérer les abonnements et achats in-app. RevenueCat collecte un <strong>identifiant anonyme d'appareil</strong> pour valider vos achats. Aucune donnée personnelle identifiable (nom, email, données de biens) n'est transmise.</p>
+      <p>Politique de confidentialité RevenueCat : <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">revenuecat.com/privacy</a></p>
+    </div>
+
+    <div class="tiers-block">
+      <h4>Apple StoreKit — paiements in-app</h4>
+      <p>Les transactions d'achat sont traitées <strong>exclusivement par Apple</strong> via StoreKit. BailleurSuite n'a accès à aucune donnée bancaire ou de paiement.</p>
+      <p>Politique Apple : <a href="https://www.apple.com/legal/privacy" target="_blank" rel="noopener">apple.com/legal/privacy</a></p>
+    </div>
+
   </div>
 
   <!-- 3. Données site web -->
@@ -424,9 +458,10 @@
     <p>Pour toute question relative à cette politique de confidentialité ou à vos données personnelles :</p>
     <div class="contact-card">
       <div class="contact-label">Responsable du traitement</div>
-      <p><strong>BailleurSuite</strong></p>
+      <p><strong>Joachim ANTONA — BailleurSuite</strong></p>
+      <p>SIREN : 104 828 579</p>
       <p>Email : <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a></p>
-      <p>Réponse garantie sous 30 jours ouvrés.</p>
+      <p style="margin-top:8px; font-size:0.85rem; color:var(--ink-light);">Réponse garantie sous 30 jours ouvrés.</p>
     </div>
   </div>
 
@@ -434,7 +469,11 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 BailleurSuite — <a href="index.html">Retour au site</a></p>
+  <p>© 2026 BailleurSuite — Joachim ANTONA — SIREN 104 828 579</p>
+  <p style="margin-top:8px;">
+    <a href="index.html">Retour au site</a> ·
+    <a href="/conditions-utilisation.html">CGU</a>
+  </p>
   <p style="margin-top:8px;">Données 100% locales · Conforme RGPD · Made in Montpellier 🇫🇷</p>
 </footer>
 
