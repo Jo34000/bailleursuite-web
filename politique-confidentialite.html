@@ -37,7 +37,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── NAV ── */
     nav {
       position: sticky;
       top: 0;
@@ -79,7 +78,6 @@
     }
     .nav-back:hover { color: var(--mint-dark); }
 
-    /* ── HERO ── */
     .page-hero {
       background: var(--mint);
       padding: 64px 24px 56px;
@@ -113,7 +111,6 @@
       color: rgba(255,255,255,0.5);
     }
 
-    /* ── CONTENU ── */
     .page-content {
       max-width: 740px;
       margin: 0 auto;
@@ -148,10 +145,7 @@
       padding-bottom: 48px;
       border-bottom: 1px solid var(--border);
     }
-    .section:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-    }
+    .section:last-child { border-bottom: none; margin-bottom: 0; }
     .section-num {
       font-size: 0.65rem;
       font-weight: 700;
@@ -167,110 +161,40 @@
       line-height: 1.2;
       margin-bottom: 20px;
     }
-    h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin: 24px 0 10px;
-    }
-    h4 {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin: 20px 0 8px;
-    }
-    p {
-      font-size: 0.92rem;
-      color: var(--ink-mid);
-      margin-bottom: 14px;
-      line-height: 1.75;
-    }
+    h3 { font-size: 0.95rem; font-weight: 600; color: var(--ink); margin: 24px 0 10px; }
+    h4 { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin: 20px 0 8px; }
+    p { font-size: 0.92rem; color: var(--ink-mid); margin-bottom: 14px; line-height: 1.75; }
     p:last-child { margin-bottom: 0; }
     strong { color: var(--ink); font-weight: 600; }
     a { color: var(--mint); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    ul {
-      list-style: none;
-      margin: 14px 0;
-    }
+    ul { list-style: none; margin: 14px 0; }
     ul li {
-      font-size: 0.92rem;
-      color: var(--ink-mid);
-      padding: 6px 0 6px 24px;
-      position: relative;
-      line-height: 1.6;
+      font-size: 0.92rem; color: var(--ink-mid);
+      padding: 6px 0 6px 24px; position: relative; line-height: 1.6;
     }
-    ul li::before {
-      content: '—';
-      position: absolute;
-      left: 0;
-      color: var(--mint);
-      font-weight: 600;
-    }
+    ul li::before { content: '—'; position: absolute; left: 0; color: var(--mint); font-weight: 600; }
 
     .badge-local {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 8px 16px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--mint);
-      margin: 16px 0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      display: inline-flex; align-items: center; gap: 8px;
+      background: white; border: 1px solid var(--border); border-radius: 100px;
+      padding: 8px 16px; font-size: 0.78rem; font-weight: 600; color: var(--mint);
+      margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .badge-local::before {
-      content: '🔒';
-      font-size: 0.9rem;
-    }
+    .badge-local::before { content: '🔒'; font-size: 0.9rem; }
 
-    /* Bloc tiers service */
     .tiers-block {
-      background: var(--cream);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      margin: 16px 0;
+      background: var(--cream); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 24px; margin: 16px 0;
     }
-    .tiers-block h4 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-      color: var(--ink);
-    }
-    .tiers-block p {
-      font-size: 0.88rem;
-      margin-bottom: 8px;
-    }
+    .tiers-block h4 { margin-top: 0; margin-bottom: 10px; font-size: 0.9rem; color: var(--ink); }
+    .tiers-block p { font-size: 0.88rem; margin-bottom: 8px; }
     .tiers-block p:last-child { margin-bottom: 0; }
 
-    .contact-card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 24px 28px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      margin-top: 20px;
-    }
-    .contact-card p { margin: 4px 0; }
-    .contact-card .contact-label {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink-light);
-      margin-bottom: 12px;
-    }
-
     footer {
-      background: var(--ink);
-      color: rgba(255,255,255,0.5);
-      text-align: center;
-      padding: 32px 24px;
-      font-size: 0.78rem;
+      background: var(--ink); color: rgba(255,255,255,0.5);
+      text-align: center; padding: 32px 24px; font-size: 0.78rem;
     }
     footer a { color: rgba(255,255,255,0.6); }
     footer a:hover { color: white; }
@@ -283,7 +207,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
     <div class="nav-logo-icon">
@@ -298,7 +221,6 @@
   <a href="index.html" class="nav-back">← Retour au site</a>
 </nav>
 
-<!-- HERO -->
 <div class="page-hero">
   <div class="page-hero-label">Légal</div>
   <h1>Politique de<br><em>confidentialité</em></h1>
@@ -306,30 +228,21 @@
   <div class="page-hero-date">Dernière mise à jour : juin 2026</div>
 </div>
 
-<!-- CONTENU -->
 <div class="page-content">
 
-  <!-- TL;DR -->
   <div class="tldr">
     <div class="tldr-label">En résumé — la version courte</div>
     <p>BailleurSuite ne collecte <strong>aucune donnée personnelle</strong> depuis l'application. Vos informations (biens, loyers, charges, documents) sont stockées <strong>uniquement sur votre iPhone et dans votre iCloud privé</strong>. Nous n'avons jamais accès à vos données, nous ne les vendons pas, nous ne les partageons pas.</p>
   </div>
 
-  <!-- 1. Éditeur — MIS À JOUR -->
+  <!-- 1. Éditeur — DISCRET -->
   <div class="section">
     <div class="section-num">Article 01</div>
     <h2>Éditeur du service</h2>
-    <p>L'application BailleurSuite et le site <strong>bailleursuite.fr</strong> sont édités par :</p>
-    <div class="contact-card">
-      <div class="contact-label">Identité de l'éditeur</div>
-      <p><strong>Joachim ANTONA</strong> — Entrepreneur individuel</p>
-      <p>SIREN : 104 828 579</p>
-      <p>Adresse : Montpellier, France</p>
-      <p>Email : <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a></p>
-    </div>
+    <p>L'application BailleurSuite et le site <strong>bailleursuite.fr</strong> sont édités par Joachim ANTONA, entrepreneur individuel, SIREN 104 828 579, Montpellier, France. Contact : <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a></p>
   </div>
 
-  <!-- 2. Données app — MIS À JOUR avec RevenueCat + StoreKit -->
+  <!-- 2. Données app -->
   <div class="section">
     <div class="section-num">Article 02</div>
     <h2>Données dans l'application iOS</h2>
@@ -365,7 +278,6 @@
       <p>Les transactions d'achat sont traitées <strong>exclusivement par Apple</strong> via StoreKit. BailleurSuite n'a accès à aucune donnée bancaire ou de paiement.</p>
       <p>Politique Apple : <a href="https://www.apple.com/legal/privacy" target="_blank" rel="noopener">apple.com/legal/privacy</a></p>
     </div>
-
   </div>
 
   <!-- 3. Données site web -->
@@ -451,25 +363,18 @@
     <p>En cas de modification substantielle, nous vous en informerons par email si vous êtes inscrit sur notre liste d'attente.</p>
   </div>
 
-  <!-- 10. Contact -->
+  <!-- 10. Contact — DISCRET -->
   <div class="section">
     <div class="section-num">Article 10</div>
     <h2>Contact</h2>
-    <p>Pour toute question relative à cette politique de confidentialité ou à vos données personnelles :</p>
-    <div class="contact-card">
-      <div class="contact-label">Responsable du traitement</div>
-      <p><strong>Joachim ANTONA — BailleurSuite</strong></p>
-      <p>SIREN : 104 828 579</p>
-      <p>Email : <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a></p>
-      <p style="margin-top:8px; font-size:0.85rem; color:var(--ink-light);">Réponse garantie sous 30 jours ouvrés.</p>
-    </div>
+    <p>Pour toute question relative à cette politique de confidentialité ou à vos données personnelles, contactez-nous à <a href="mailto:contact@bailleursuite.fr">contact@bailleursuite.fr</a>. Réponse garantie sous 30 jours ouvrés.</p>
   </div>
 
 </div>
 
-<!-- FOOTER -->
+<!-- FOOTER — DISCRET -->
 <footer>
-  <p>© 2026 BailleurSuite — Joachim ANTONA — SIREN 104 828 579</p>
+  <p>© 2026 BailleurSuite</p>
   <p style="margin-top:8px;">
     <a href="index.html">Retour au site</a> ·
     <a href="/conditions-utilisation.html">CGU</a>
