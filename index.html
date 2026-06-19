@@ -167,7 +167,7 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     font-family: var(--sans);
@@ -869,7 +869,8 @@
   .footer-bottom p { font-size: 0.75rem; }
   .footer-legal {
     display: flex;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 8px 20px;
     font-size: 0.72rem;
   }
   .footer-legal a {
