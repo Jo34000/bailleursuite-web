@@ -529,6 +529,7 @@
       align-items: baseline;
       justify-content: center;
       gap: 2px;
+      white-space: nowrap;
     }
     .upsell-price-period {
       font-size: 14px;
@@ -1160,10 +1161,10 @@
   }
   function fmtMoney(val) {
     const n = parseFloat(val) || 0;
-    // toLocaleString fr-FR uses narrow no-break space (U+202F) as thousands separator
-    // which jsPDF maps to "/" glyph — replace with regular ASCII space
-    return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-             .replace(/[  ]/g, ' ') + ' €';
+    const fixed = n.toFixed(2);
+    const [intPart, decPart] = fixed.split('.');
+    const intFmt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return intFmt + ',' + decPart + ' €';
   }
 
   // ── Générer aperçu ──
