@@ -26,6 +26,9 @@
     "publisher": { "@type": "Organization", "name": "BailleurSuite", "url": "https://bailleursuite.fr" }
   }
   </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Puis-je facturer l'envoi d'une quittance de loyer ?","acceptedAnswer":{"@type":"Answer","text":"Non. La remise d'une quittance est gratuite et obligatoire sur demande du locataire. Facturer des frais pour ce service est illégal selon l'article 21 de la loi du 6 juillet 1989."}},{"@type":"Question","name":"La quittance de loyer doit-elle être signée ?","acceptedAnswer":{"@type":"Answer","text":"La signature n'est pas légalement obligatoire, mais elle est fortement recommandée. Elle renforce la valeur probatoire du document en cas de litige."}},{"@type":"Question","name":"Quelle différence entre une quittance et un avis d'échéance ?","acceptedAnswer":{"@type":"Answer","text":"L'avis d'échéance est envoyé avant le paiement pour rappeler au locataire le montant à régler. La quittance est émise après le paiement pour en attester la réception. Ce sont deux documents distincts avec des fonctions opposées."}},{"@type":"Question","name":"En colocation, faut-il une quittance par locataire ?","acceptedAnswer":{"@type":"Answer","text":"En colocation avec bail commun, une seule quittance est émise au nom de tous les colocataires. En colocation avec baux individuels, chaque locataire reçoit sa propre quittance pour sa part de loyer."}}]}
+  </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -522,6 +525,16 @@
       font-weight: bold;
       color: var(--white);
       line-height: 1;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 2px;
+      white-space: nowrap;
+    }
+    .upsell-price-period {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,.7);
     }
     .upsell-price-sub {
       font-family: -apple-system, sans-serif;
@@ -925,8 +938,8 @@
         </div>
       </div>
       <div class="upsell-cta">
-        <div class="upsell-price">5,99€</div>
-        <div class="upsell-price-sub">/ mois — ou 49,99€/an</div>
+        <div class="upsell-price">5,99€<span class="upsell-price-period">/mois</span></div>
+        <div class="upsell-price-sub">ou 49,99€/an</div>
         <a href="https://bailleursuite.fr#waitlist" class="btn-upsell">Accès bêta gratuit →</a>
       </div>
     </div>
@@ -1107,8 +1120,8 @@
         </div>
       </div>
       <div class="upsell-cta">
-        <div class="upsell-price">5,99€</div>
-        <div class="upsell-price-sub">/ mois · lancement sept. 2026</div>
+        <div class="upsell-price">5,99€<span class="upsell-price-period">/mois</span></div>
+        <div class="upsell-price-sub">lancement sept. 2026</div>
         <a href="https://bailleursuite.fr#waitlist" class="btn-upsell">Être notifié au lancement →</a>
       </div>
     </div>
@@ -1150,7 +1163,10 @@
   }
   function fmtMoney(val) {
     const n = parseFloat(val) || 0;
-    return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    const fixed = n.toFixed(2);
+    const [intPart, decPart] = fixed.split('.');
+    const intFmt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return intFmt + ',' + decPart + ' €';
   }
 
   // ── Générer aperçu ──

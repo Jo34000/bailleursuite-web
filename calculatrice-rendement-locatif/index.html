@@ -390,15 +390,13 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
         </div>
       </div>
 
-      <!-- Capture email inline après score -->
+      <!-- CTA app inline après score -->
       <div class="email-capture" id="email-capture">
-        <div class="email-capture-title">📩 Recevoir l'analyse complète de ce bien</div>
-        <div class="email-capture-sub">Charges optimisables, régime fiscal recommandé, projection 10 ans — par email, gratuit.</div>
-        <div class="email-capture-form" id="capture-form">
-          <input type="email" class="email-input" id="capture-email" placeholder="votre@email.fr" inputmode="email">
-          <button class="email-btn" onclick="submitCapture()">Débloquer l'analyse →</button>
+        <div class="email-capture-title">📱 Aller plus loin avec ce bien</div>
+        <div class="email-capture-sub">Charges optimisables, régime fiscal recommandé, projection 10 ans — disponibles directement dans l'app BailleurSuite. Accès bêta gratuit.</div>
+        <div class="email-capture-form">
+          <a href="https://bailleursuite.fr#waitlist" class="email-btn">Découvrir l'app →</a>
         </div>
-        <div class="email-success" id="capture-success">✓ Analyse en route — vérifiez votre boîte mail.</div>
       </div>
 
       <div class="result-row">
@@ -691,16 +689,6 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
       document.getElementById('calc-cta').classList.remove('visible');
       lastScore = 0;
     }
-  }
-
-  // Capture email
-  function submitCapture() {
-    const email = document.getElementById('capture-email').value;
-    if (!email || !email.includes('@')) { document.getElementById('capture-email').focus(); return; }
-    // Redirection vers la waitlist avec l'email pré-rempli
-    window.location.href = `https://bailleursuite.fr#waitlist`;
-    document.getElementById('capture-form').style.display = 'none';
-    document.getElementById('capture-success').style.display = 'block';
   }
 
   // FAQ
