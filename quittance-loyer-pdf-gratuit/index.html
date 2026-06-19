@@ -525,6 +525,15 @@
       font-weight: bold;
       color: var(--white);
       line-height: 1;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 2px;
+    }
+    .upsell-price-period {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,.7);
     }
     .upsell-price-sub {
       font-family: -apple-system, sans-serif;
@@ -926,8 +935,8 @@
         </div>
       </div>
       <div class="upsell-cta">
-        <div class="upsell-price">4,99€</div>
-        <div class="upsell-price-sub">/ mois — ou 39,99€/an</div>
+        <div class="upsell-price">5,99€<span class="upsell-price-period">/mois</span></div>
+        <div class="upsell-price-sub">ou 49,99€/an</div>
         <a href="https://bailleursuite.fr#waitlist" class="btn-upsell">Accès bêta gratuit →</a>
       </div>
     </div>
@@ -1108,8 +1117,8 @@
         </div>
       </div>
       <div class="upsell-cta">
-        <div class="upsell-price">4,99€</div>
-        <div class="upsell-price-sub">/ mois · lancement sept. 2026</div>
+        <div class="upsell-price">5,99€<span class="upsell-price-period">/mois</span></div>
+        <div class="upsell-price-sub">lancement sept. 2026</div>
         <a href="https://bailleursuite.fr#waitlist" class="btn-upsell">Être notifié au lancement →</a>
       </div>
     </div>
@@ -1151,7 +1160,10 @@
   }
   function fmtMoney(val) {
     const n = parseFloat(val) || 0;
-    return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    // toLocaleString fr-FR uses narrow no-break space (U+202F) as thousands separator
+    // which jsPDF maps to "/" glyph — replace with regular ASCII space
+    return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+             .replace(/[  ]/g, ' ') + ' €';
   }
 
   // ── Générer aperçu ──
