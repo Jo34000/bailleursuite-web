@@ -954,10 +954,11 @@
     .waitlist-btn { width: 100%; }
   }
 
-  
+  .reading-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--mint),var(--gold));z-index:9999;transition:width .1s linear}
 </style>
 </head>
 <body>
+<div class="reading-progress" id="reading-progress"></div>
 
 <nav>
   <a class="nav-logo" href="#hero">
@@ -1904,6 +1905,13 @@
     stickyObs.observe(heroEl);
     stickyCta.style.transition = 'opacity .3s, transform .3s';
   }
+
+  // Barre de progression
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('reading-progress').style.width = (s / h * 100) + '%';
+  });
 </script>
 </body>
 </html>

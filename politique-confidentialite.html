@@ -203,9 +203,11 @@
       .page-hero { padding: 48px 20px 40px; }
       .page-content { padding: 40px 20px 72px; }
     }
+    .reading-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--mint),var(--gold));z-index:9999;transition:width .1s linear}
   </style>
 </head>
 <body>
+<div class="reading-progress" id="reading-progress"></div>
 
 <nav>
   <a href="index.html" class="nav-logo">
@@ -382,5 +384,12 @@
   <p style="margin-top:8px;">Données 100% locales · Conforme RGPD · Made in Montpellier 🇫🇷</p>
 </footer>
 
+<script>
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('reading-progress').style.width = (s / h * 100) + '%';
+  });
+</script>
 </body>
 </html>
