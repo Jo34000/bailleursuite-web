@@ -711,38 +711,41 @@
 
   .pack-fiscal-block {
     margin-top: 28px;
-    background: var(--ink);
+    background: white;
+    border: 2px solid var(--gold);
     border-radius: var(--radius);
     padding: 36px;
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 24px;
     align-items: center;
-    color: white;
+    box-shadow: 0 8px 40px rgba(201,168,76,.18), 0 0 0 4px rgba(201,168,76,.07);
   }
   .pack-fiscal-tag {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(46,204,138,0.2);
-    color: var(--mint);
+    background: rgba(201,168,76,0.12);
+    color: var(--gold);
     font-size: 0.72rem;
     padding: 4px 12px;
     border-radius: 100px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     margin-bottom: 10px;
+    border: 1px solid rgba(201,168,76,.3);
   }
   .pack-fiscal-title {
     font-family: var(--serif);
     font-size: 1.5rem;
+    color: var(--ink);
     margin-bottom: 8px;
   }
   .pack-fiscal-desc {
     font-size: 0.85rem;
-    color: rgba(255,255,255,0.6);
-    line-height: 1.5;
+    color: var(--ink-mid);
+    line-height: 1.6;
   }
   .pack-fiscal-price {
     text-align: right;
@@ -751,18 +754,18 @@
   .pack-fiscal-amount {
     font-family: var(--serif);
     font-size: 2.4rem;
-    color: var(--mint);
+    color: var(--gold);
     display: block;
   }
   .pack-fiscal-original {
     font-size: 0.78rem;
-    color: rgba(255,255,255,0.35);
+    color: var(--ink-light);
     text-decoration: line-through;
     display: block;
   }
   .pack-fiscal-note {
     font-size: 0.72rem;
-    color: rgba(255,255,255,0.5);
+    color: var(--ink-light);
     margin-top: 4px;
     display: block;
   }
@@ -1292,15 +1295,15 @@
     <div class="feature-block reverse reveal">
       <div class="feature-text">
         <div class="feature-number">02</div>
-        <h3 class="feature-title">L'Automatisation —<br>Quittances sans effort</h3>
-        <p class="feature-desc">Chaque mois, BailleurSuite génère et envoie automatiquement les quittances PDF à vos locataires. Plus aucun oubli. Les relances de loyers impayés partent également sans intervention de votre part.</p>
+        <h3 class="feature-title">L'Automatisation —<br>Quittances en un geste</h3>
+        <p class="feature-desc">Dès l'encaissement enregistré dans l'app, BailleurSuite génère la quittance PDF conforme et vous propose de l'envoyer à votre locataire en un tap. Les relances de loyers impayés sont pré-rédigées et prêtes à partir — vous gardez le contrôle, sans jamais rien oublier.</p>
         <div class="feature-pill">🏠 Disponible à partir du plan Gestion Zen 5,99€/mois</div>
       </div>
       <div class="feature-visual">
         <div class="feature-card">
           <div class="feature-card-icon">📄</div>
-          <div class="feature-card-title">Quittances automatiques</div>
-          <div class="feature-card-body">Génération PDF conforme à la réglementation française + envoi email automatique à date fixe. Historique complet des quittances par locataire.</div>
+          <div class="feature-card-title">Quittances à l'encaissement</div>
+          <div class="feature-card-body">PDF conforme loi ALUR généré à chaque encaissement, envoi email en un tap. Relances impayés guidées. Historique complet par locataire.</div>
           <div class="feature-stat">
             <span class="stat-number">0 min</span>
             <span class="stat-label">de temps passé par mois sur vos quittances</span>
@@ -1313,15 +1316,15 @@
     <div class="feature-block reveal">
       <div class="feature-text">
         <div class="feature-number">03</div>
-        <h3 class="feature-title">Déclarer vos revenus fonciers —<br>Formulaire 2044 pré-rempli</h3>
-        <p class="feature-desc">BailleurSuite est une aide à la déclaration : l'application pré-remplit automatiquement vos formulaires depuis les données saisies tout au long de l'année — la <strong>2044</strong> (location nue, régime réel), la <strong>2042C PRO</strong> (LMNP au réel) et la <strong>2031</strong> (liasse fiscale LMNP) — avec des explications pédagogiques à chaque étape. Les montants restent sous votre responsabilité.</p>
+        <h3 class="feature-title">Votre déclaration fiscale —<br>Guidée, case par case</h3>
+        <p class="feature-desc">BailleurSuite calcule et organise vos données tout au long de l'année, puis génère un <strong>PDF pédagogique</strong> avec vos montants exacts et les cases à reporter sur impots.gouv.fr — <strong>2044</strong> (location nue, régime réel), <strong>2042C PRO</strong> et <strong>2031</strong> (LMNP au réel). Vous copiez les chiffres, vous validez, vous soumettez. Clair, rapide, sans erreur.</p>
         <div class="feature-pill">💰 29,90€ en achat unique</div>
       </div>
       <div class="feature-visual">
         <div class="feature-card" style="border-color: var(--mint); background: var(--mint-pale);">
           <div class="feature-card-icon" style="background: rgba(46,204,138,0.25);">🧾</div>
           <div class="feature-card-title">Module Fiscal 2044 · 2042C PRO · 2031</div>
-          <div class="feature-card-body">Pré-remplissage automatique de vos déclarations : 2044 (location nue), 2042C PRO et 2031 (LMNP au réel). Comparaison micro-foncier vs régime réel. Export PDF prêt à copier sur impots.gouv.fr.</div>
+          <div class="feature-card-body">PDF pédagogique avec vos montants précalculés et les cases exactes à reporter sur impots.gouv.fr : 2044, 2042C PRO, 2031. Comparaison micro-foncier vs régime réel incluse.</div>
           <div class="feature-stat" style="border-color: rgba(46,204,138,0.3);">
             <span class="stat-number">29,90€</span>
             <span class="stat-label">vs 150–300€ chez un expert-comptable</span>
@@ -1346,10 +1349,10 @@
             <span style="color:var(--mint);font-weight:700;">✓</span> Calcul intérêts d'emprunt déductibles par année
           </div>
           <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--ink-mid);">
-            <span style="color:var(--mint);font-weight:700;">✓</span> Scanner de justificatifs (caméra Apple)
+            <span style="color:var(--ink-light);font-weight:700;">⏳</span> Scanner de justificatifs — Prochainement
           </div>
           <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--ink-mid);">
-            <span style="color:var(--mint);font-weight:700;">✓</span> Export PDF synthèse LMNP 2 pages
+            <span style="color:var(--mint);font-weight:700;">✓</span> Export PDF synthèse LMNP
           </div>
         </div>
       </div>
@@ -1474,7 +1477,7 @@
       <div>
         <div class="pack-fiscal-tag">⭐ Achat unique</div>
         <div class="pack-fiscal-title">Pass Fiscal</div>
-        <p class="pack-fiscal-desc">Valable 6 mois à compter de l'achat. Nécessite un abonnement Gestion Zen actif. Export PDF synthèse fiscale complète (2044 ou LMNP), détail ligne par ligne, guide de déclaration étape par étape, document daté et archivable.</p>
+        <p class="pack-fiscal-desc">Valable 6 mois à compter de l'achat. Nécessite un abonnement Gestion Zen actif. Génère un PDF pédagogique avec vos montants précalculés et les cases exactes à reporter sur impots.gouv.fr — 2044 (location nue) ou LMNP. Détail ligne par ligne, guide étape par étape, document daté et archivable.</p>
       </div>
       <div class="pack-fiscal-price">
         <span class="pack-fiscal-amount">29,90€</span>
@@ -1523,7 +1526,7 @@
           <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
         </button>
         <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
-          BailleurSuite couvre <strong>les deux régimes dès le lancement en septembre 2026</strong> : location nue (déclaration 2044, régime réel) et <strong>LMNP</strong> (location meublée non professionnelle) avec configurateur d'amortissements, comparatif Micro-BIC vs régime réel, scanner de justificatifs et export PDF synthèse.
+          BailleurSuite couvre <strong>les deux régimes dès le lancement en septembre 2026</strong> : location nue (déclaration 2044, régime réel) et <strong>LMNP</strong> (location meublée non professionnelle) avec configurateur d'amortissements, comparatif Micro-BIC vs régime réel et export PDF pédagogique avec les cases à reporter sur impots.gouv.fr.
         </div>
       </div>
 
