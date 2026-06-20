@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Preconnect & fonts — non-blocking -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+
 <meta name="theme-color" content="#2D6A4F">
 <meta name="description" content="Calculatrice de rendement locatif gratuite : calculez en 30 secondes le rendement brut, net et net-net de votre bien immobilier. Mode crédit inclus. Outil conçu pour les bailleurs français.">
 <title>Calculatrice Rendement Locatif Gratuite — Brut, Net & Crédit | BailleurSuite</title>
@@ -18,13 +24,10 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Quelle est la différence entre rendement brut et rendement net ?","acceptedAnswer":{"@type":"Answer","text":"Le rendement brut est le rapport entre les loyers annuels et le prix d'achat. Le rendement net déduit les charges et la taxe foncière. Pour un investissement rentable, visez un rendement net supérieur à 4% en zone tendue, 6% en zone secondaire."}},{"@type":"Question","name":"Un bon rendement locatif c'est combien ?","acceptedAnswer":{"@type":"Answer","text":"En France, un rendement net inférieur à 3% est faible. Entre 3 et 5%, le profil est correct. Au-delà de 5%, le bien présente un profil attractif. Au-delà de 7%, le rendement est très compétitif."}},{"@type":"Question","name":"Faut-il inclure les frais de notaire dans le calcul du rendement ?","acceptedAnswer":{"@type":"Answer","text":"Oui, pour avoir le rendement réel d'acquisition. Les frais de notaire représentent environ 7,5% pour un bien ancien. Un bien à 200 000€ coûte réellement 215 000€."}}]}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #F7F4EE; --surface: rgba(255,255,255,.72); --surface-strong: rgba(255,255,255,.9);
-  --ink: #111315; --ink-soft: #50545A; --ink-light: #8A8D92;
+  --ink: #111315; --ink-soft: #50545A; --ink-light: #6A6D72;
   --mint: #2D6A4F; --mint-dark: #2D6A4F; --mint-pale: #E6F2EC;
   --gold: #C9A84C; --gold-pale: #F9F3E3;
   --border: rgba(17,19,21,.08); --cream: rgba(255,255,255,.6);
@@ -39,6 +42,7 @@
     --border: rgba(255,255,255,.08); --cream: rgba(255,255,255,.04); }
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:-20%;background:radial-gradient(circle at 20% 20%,rgba(45,106,79,.12),transparent 35%),radial-gradient(circle at 80% 30%,rgba(201,168,76,.08),transparent 35%);pointer-events:none;z-index:-1}
@@ -117,7 +121,7 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .result-val{font-family:var(--serif);font-size:1.3rem;color:var(--ink);font-weight:400;transition:color .3s}
 
 /* Score cercle premium */
-.score-section{display:none;padding:20px;border-bottom:1px solid var(--border);background:var(--cream)}
+.score-section{padding:20px;border-bottom:1px solid var(--border);background:var(--cream);visibility:hidden}
 .score-inner{display:flex;align-items:center;gap:20px}
 .score-circle-wrap{flex-shrink:0;position:relative;width:72px;height:72px}
 .score-circle-bg{fill:none;stroke:var(--border);stroke-width:5}
@@ -131,7 +135,7 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .score-insight{font-size:.78rem;color:var(--mint);font-weight:500;background:var(--mint-pale);padding:6px 12px;border-radius:8px;display:none;line-height:1.45}
 
 /* Capture email inline — après score */
-.email-capture{display:none;margin:0 0 0;padding:20px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(45,106,79,.06),rgba(201,168,76,.04))}
+.email-capture{margin:0 0 0;padding:20px;visibility:hidden;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(45,106,79,.06),rgba(201,168,76,.04))}
 .email-capture-title{font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:4px}
 .email-capture-sub{font-size:.75rem;color:var(--ink-soft);margin-bottom:12px}
 .email-capture-form{display:flex;gap:8px;flex-wrap:wrap}
@@ -214,14 +218,15 @@ tr:hover td{background:rgba(45,106,79,.025)}
 .mobile-cta-sticky a{background:var(--mint);color:white;padding:11px 20px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.82rem;white-space:nowrap;flex-shrink:0;box-shadow:0 4px 14px rgba(45,106,79,.3)}
 
 footer{background:var(--ink);color:rgba(255,255,255,.45);padding:36px 24px;text-align:center;font-size:.8rem}
-footer a{color:var(--mint);text-decoration:none;margin:0 10px}
+footer a{color:var(--mint);text-decoration:none;margin:0 4px;padding:14px 10px;display:inline-block}
 </style>
 </head>
 <body>
 
 <div class="reading-progress" id="reading-progress"></div>
 
-<nav>
+<header>
+<nav aria-label="Navigation principale">
   <a href="https://bailleursuite.fr" class="nav-logo">
     <div class="nav-logo-icon">
       <svg width="18" height="18" viewBox="0 0 46 46" fill="none">
@@ -237,6 +242,9 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   </a>
   <a href="https://bailleursuite.fr#waitlist" class="nav-cta">Accès bêta gratuit</a>
 </nav>
+</header>
+
+<main>
 
 <!-- HERO -->
 <section class="hero">
@@ -299,7 +307,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
 
     <!-- Toggle crédit -->
     <div class="toggle-row">
-      <button id="toggle-credit" class="toggle-btn" onclick="toggleCredit()" aria-label="Activer la simulation crédit">
+      <button id="toggle-credit" class="toggle-btn" onclick="toggleCredit()" aria-label="Activer la simulation crédit" aria-pressed="false">
         <div id="toggle-thumb" class="toggle-thumb"></div>
       </button>
       <span>Simuler avec un crédit immobilier</span>
@@ -327,15 +335,15 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     <div class="results">
       <div class="result-row">
         <span class="result-label">Rendement brut</span>
-        <strong id="r-brut" class="result-val">—</strong>
+        <strong id="r-brut" class="result-val">5.40 %</strong>
       </div>
       <div class="result-row">
         <span class="result-label">Rendement net de charges</span>
-        <strong id="r-net" class="result-val">—</strong>
+        <strong id="r-net" class="result-val" style="color:#f39c12;">3.90 %</strong>
       </div>
       <div class="result-row">
         <span class="result-label">Cashflow hors crédit / an</span>
-        <strong id="r-cash" class="result-val">—</strong>
+        <strong id="r-cash" class="result-val">7 800 €</strong>
       </div>
       <div id="r-credit-row" style="display:none;flex-direction:column;padding:15px 20px;border-bottom:1px solid var(--border);background:rgba(232,242,236,.35);">
         <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -369,29 +377,29 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
       </div>
 
       <!-- Score cercle animé -->
-      <div id="score-row" class="score-section">
+      <div id="score-row" class="score-section" style="visibility:visible;">
         <div class="score-inner">
           <div class="score-circle-wrap">
             <svg width="72" height="72" viewBox="0 0 72 72">
               <circle class="score-circle-bg" cx="36" cy="36" r="30"/>
               <circle id="score-circle" class="score-circle-prog" cx="36" cy="36" r="30"
-                stroke-dasharray="188.5" stroke-dashoffset="188.5" stroke="var(--mint)"/>
+                stroke-dasharray="188.5" stroke-dashoffset="113.1" stroke="#e67e22"/>
             </svg>
             <div class="score-circle-txt">
-              <span id="score-val" class="score-num-big">—</span>
+              <span id="score-val" class="score-num-big" style="color:#e67e22;">4</span>
               <span class="score-denom">/10</span>
             </div>
           </div>
           <div class="score-details">
             <div class="score-title">Score de Santé Fiscale</div>
-            <div id="score-msg" class="score-msg-txt"></div>
+            <div id="score-msg" class="score-msg-txt">En dessous de la moyenne</div>
             <div id="score-insight" class="score-insight"></div>
           </div>
         </div>
       </div>
 
       <!-- CTA app inline après score -->
-      <div class="email-capture" id="email-capture">
+      <div class="email-capture" id="email-capture" style="visibility:visible;">
         <div class="email-capture-title">📱 Aller plus loin avec ce bien</div>
         <div class="email-capture-sub">Charges optimisables, régime fiscal recommandé, projection 10 ans — disponibles directement dans l'app BailleurSuite. Accès bêta gratuit.</div>
         <div class="email-capture-form">
@@ -401,7 +409,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
 
       <div class="result-row">
         <span class="result-label">Verdict</span>
-        <strong id="r-verdict" class="result-val" style="color:var(--mint-dark);">—</strong>
+        <strong id="r-verdict" class="result-val" style="color:#f39c12;">Profil en dessous de la moyenne</strong>
       </div>
     </div>
 
@@ -470,19 +478,19 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
 <section class="faq-section" aria-label="Questions fréquentes sur le rendement locatif">
   <h2 class="fade-up">Questions fréquentes</h2>
   <div class="faq-item fade-up">
-    <button class="faq-q" onclick="toggleFaq(this)">Quelle est la différence entre rendement brut et rendement net ?<span class="faq-icon">+</span></button>
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Quelle est la différence entre rendement brut et rendement net ?<span class="faq-icon">+</span></button>
     <div class="faq-a">Le rendement brut divise les loyers annuels par le prix d'achat. Le rendement net déduit les charges récurrentes et la taxe foncière. L'écart entre les deux est souvent de 1,5 à 2,5 points selon le bien. Pour comparer deux investissements, toujours utiliser le net.</div>
   </div>
   <div class="faq-item fade-up">
-    <button class="faq-q" onclick="toggleFaq(this)">Faut-il inclure les frais de notaire dans le calcul ?<span class="faq-icon">+</span></button>
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Faut-il inclure les frais de notaire dans le calcul ?<span class="faq-icon">+</span></button>
     <div class="faq-a">Oui, pour obtenir le rendement réel d'acquisition. Les frais de notaire représentent environ 7,5% du prix pour un bien ancien (3% pour du neuf). Un bien à 200 000€ coûte réellement 215 000€. Le calcul sur le prix seul surestime le rendement de 0,3 à 0,7 point.</div>
   </div>
   <div class="faq-item fade-up">
-    <button class="faq-q" onclick="toggleFaq(this)">Quel rendement net viser en 2026 ?<span class="faq-icon">+</span></button>
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Quel rendement net viser en 2026 ?<span class="faq-icon">+</span></button>
     <div class="faq-a">Un rendement net entre 4% et 6% dans une ville à marché tendu est généralement considéré comme un profil attractif. Il surpasse les fonds euros d'assurance-vie (2,5–3,5%) tout en offrant une protection contre l'inflation. Un rendement supérieur à 7% peut indiquer un marché secondaire avec un risque de vacance plus élevé.</div>
   </div>
   <div class="faq-item fade-up">
-    <button class="faq-q" onclick="toggleFaq(this)">Comment intégrer la fiscalité dans le calcul ?<span class="faq-icon">+</span></button>
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Comment intégrer la fiscalité dans le calcul ?<span class="faq-icon">+</span></button>
     <div class="faq-a">Le rendement net-net intègre l'impôt sur les revenus fonciers. En TMI à 30% + prélèvements sociaux à 17,2%, les revenus fonciers sont taxés à 47,2%. Le déficit foncier (si charges &gt; loyers) peut être déduit du revenu global jusqu'à 10 700€/an, réduisant directement votre impôt sur le revenu.</div>
   </div>
 
@@ -521,6 +529,8 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   <span>Calculatrice rendement gratuite</span>
   <a href="#calculatrice">Lancer la simulation →</a>
 </div>
+
+</main>
 
 <footer>
   <a href="https://bailleursuite.fr">BailleurSuite</a>
@@ -562,6 +572,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   let creditActif = false;
   function toggleCredit() {
     creditActif = !creditActif;
+    document.getElementById('toggle-credit').setAttribute('aria-pressed', creditActif ? 'true' : 'false');
     const btn = document.getElementById('toggle-credit');
     const thumb = document.getElementById('toggle-thumb');
     btn.style.background = creditActif ? 'var(--mint)' : 'rgba(45,106,79,0.2)';
@@ -660,7 +671,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
       const circumference = 188.5;
       circle.style.strokeDashoffset = circumference - (score / 10) * circumference;
       circle.style.stroke = scoreColors[score];
-      document.getElementById('score-row').style.display = 'block';
+      document.getElementById('score-row').style.visibility = 'visible';
 
       const scoreEl = document.getElementById('score-val');
       if (score !== lastScore) {
@@ -676,7 +687,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
       else { insightEl.style.display = 'none'; }
 
       // Capture email — apparaît dès qu'il y a un résultat
-      document.getElementById('email-capture').style.display = 'block';
+      document.getElementById('email-capture').style.visibility = 'visible';
 
       const netStr = net.toFixed(1);
       let msg = `Votre bien affiche ${netStr}% net — profil fiscal ${score}/10.`;
@@ -684,8 +695,8 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
       document.getElementById('calc-cta-text').textContent = msg;
       document.getElementById('calc-cta').classList.add('visible');
     } else {
-      document.getElementById('score-row').style.display = 'none';
-      document.getElementById('email-capture').style.display = 'none';
+      document.getElementById('score-row').style.visibility = 'hidden';
+      document.getElementById('email-capture').style.visibility = 'hidden';
       document.getElementById('calc-cta').classList.remove('visible');
       lastScore = 0;
     }
@@ -696,8 +707,9 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     const a = btn.nextElementSibling, icon = btn.querySelector('.faq-icon');
     const open = a.style.display === 'block';
     document.querySelectorAll('.faq-a').forEach(x => x.style.display = 'none');
+    document.querySelectorAll('.faq-q').forEach(b => b.setAttribute('aria-expanded', 'false'));
     document.querySelectorAll('.faq-icon').forEach(i => { i.textContent = '+'; i.style.transform = 'rotate(0)'; });
-    if (!open) { a.style.display = 'block'; icon.textContent = '×'; icon.style.transform = 'rotate(90deg)'; }
+    if (!open) { a.style.display = 'block'; btn.setAttribute('aria-expanded', 'true'); icon.textContent = '×'; icon.style.transform = 'rotate(90deg)'; }
   }
 
   calcRentab();

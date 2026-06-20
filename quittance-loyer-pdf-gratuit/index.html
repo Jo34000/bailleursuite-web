@@ -778,9 +778,11 @@
       gap: 6px;
     }
     .proof-item strong { color: var(--green-dark); }
+    .reading-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--mint),var(--gold));z-index:9999;transition:width .1s linear}
   </style>
 </head>
 <body>
+<div class="reading-progress" id="reading-progress"></div>
 
 <!-- NAV -->
 <nav>
@@ -931,7 +933,7 @@
         <div class="upsell-features">
           <span class="upsell-feature">Quittances PDF auto + envoi email au locataire</span>
           <span class="upsell-feature">Alertes IRL et échéances importantes</span>
-          <span class="upsell-feature">Module fiscal 2044 et LMNP inclus</span>
+          <span class="upsell-feature">Analyse fiscale complète (réel vs micro)</span>
           <span class="upsell-feature">Biens illimités, données 100% sur iPhone</span>
         </div>
       </div>
@@ -1114,7 +1116,7 @@
           <span class="upsell-feature">Quittances automatiques le 1er du mois</span>
           <span class="upsell-feature">Envoi PDF par email au locataire</span>
           <span class="upsell-feature">Archivage et historique complet</span>
-          <span class="upsell-feature">Pass Fiscal 2044 + LMNP inclus</span>
+          <span class="upsell-feature">Pass Fiscal disponible en option (29,90€ · achat séparé)</span>
         </div>
       </div>
       <div class="upsell-cta">
@@ -1359,6 +1361,13 @@
   function toggleFaq(el) {
     el.closest('.faq-item').classList.toggle('open');
   }
+
+  // Barre de progression
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('reading-progress').style.width = (s / h * 100) + '%';
+  });
 </script>
 
 </body>

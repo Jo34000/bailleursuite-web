@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Conditions Générales d'Utilisation de l'application BailleurSuite — iOS app de gestion locative pour bailleurs particuliers français.">
 <title>Conditions Générales d'Utilisation | BailleurSuite</title>
+<meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://bailleursuite.fr/conditions-utilisation.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,9 +71,11 @@ h1{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1.1;color
 
 footer{background:var(--ink);color:rgba(255,255,255,.45);padding:32px 24px;text-align:center;font-size:.8rem;margin-top:80px}
 footer a{color:var(--mint);text-decoration:none;margin:0 10px}
+.reading-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--mint),var(--gold));z-index:9999;transition:width .1s linear}
 </style>
 </head>
 <body>
+<div class="reading-progress" id="reading-progress"></div>
 
 <nav>
   <a href="https://bailleursuite.fr" class="nav-logo">
@@ -136,10 +139,10 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   </div>
 
   <!-- Art. 04 -->
-  <div class="article">
+  <div class="article" id="nature-service">
     <div class="article-num">Article 04</div>
-    <h2>Caractère indicatif des simulations</h2>
-    <p>Les calculs, simulations et synthèses fiscales produits par BailleurSuite sont fournis <strong>à titre indicatif uniquement</strong>.</p>
+    <h2>Nature du service</h2>
+    <p>BailleurSuite est un outil d'aide à la gestion locative et à la préparation de déclarations fiscales relatives aux revenus fonciers et aux revenus de location meublée non professionnelle (LMNP). L'Application ne constitue ni un service de conseil fiscal, comptable ou juridique réglementé, ni un cabinet d'expertise comptable. Les estimations, calculs et recommandations fournis par l'Application sont générés automatiquement à partir des données saisies par l'Utilisateur et sont fournis <strong>à titre indicatif uniquement</strong>.</p>
     <p>Ils ne constituent pas :</p>
     <ul>
       <li>Un conseil fiscal personnalisé</li>
@@ -156,11 +159,15 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     <div class="article-num">Article 05</div>
     <h2>Abonnements et achats</h2>
 
-    <p><strong>Gestion Zen</strong> <span class="tag">Abonnement annuel</span></p>
-    <p>Accès aux fonctionnalités premium de gestion locative. Résiliable à tout moment depuis les Réglages iOS. L'abonnement annuel est souscrit pour une durée de 12 mois.</p>
+    <p><strong>Gestion Zen</strong> <span class="tag">Abonnement mensuel</span> <span class="tag">Abonnement annuel</span></p>
+    <p>Accès aux fonctionnalités premium de gestion locative. Résiliable à tout moment depuis les Réglages iOS.</p>
+    <ul style="margin-top:8px;">
+      <li><strong>Mensuel</strong> : 5,99€/mois, sans engagement, résiliable à tout moment.</li>
+      <li><strong>Annuel</strong> : 49,99€/an, souscrit pour une durée de 12 mois.</li>
+    </ul>
 
-    <p style="margin-top:16px;"><strong>Pass Fiscal</strong> <span class="tag">Achat unique annuel</span></p>
-    <p>Accès aux exports PDF fiscaux pour l'exercice en cours. Non renouvelable automatiquement. Valable pour l'année fiscale d'achat uniquement. Un nouveau Pass est nécessaire chaque année en raison des mises à jour légales annuelles.</p>
+    <p style="margin-top:16px;"><strong>Pass Fiscal</strong> <span class="tag">Achat unique</span></p>
+    <p>Accès aux exports PDF fiscaux pour l'exercice en cours. <strong>Nécessite un abonnement Gestion Zen actif.</strong> Valable <strong>6 mois à compter de la date d'achat</strong>. Non renouvelable automatiquement. Un nouveau Pass est nécessaire chaque année en raison des mises à jour légales annuelles.</p>
 
     <p style="margin-top:16px;">Les prix sont indiqués TTC en euros. Les paiements sont traités par <strong>Apple via l'App Store</strong>. BailleurSuite n'a accès à aucune donnée bancaire.</p>
   </div>
@@ -190,15 +197,12 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   </div>
 
   <!-- Art. 09 -->
-  <div class="article">
+  <div class="article" id="limitation-responsabilite">
     <div class="article-num">Article 09</div>
     <h2>Limitation de responsabilité</h2>
-    <p>Dans les limites autorisées par la loi française, BailleurSuite ne peut être tenu responsable :</p>
-    <ul>
-      <li>Des erreurs déclaratives de l'utilisateur</li>
-      <li>Des pertes financières liées à l'utilisation des simulations fiscales</li>
-      <li>Des interruptions de service</li>
-    </ul>
+    <p>L'Utilisateur reconnaît que l'exactitude des résultats fournis par l'Application dépend entièrement de l'exactitude et de l'exhaustivité des données qu'il saisit. L'Éditeur décline toute responsabilité en cas d'erreur de saisie, d'omission, ou d'inexactitude comptable ou fiscale résultant de l'utilisation de l'Application.</p>
+    <p>L'Éditeur ne garantit pas l'exactitude, l'exhaustivité ou la conformité réglementaire des calculs, synthèses et documents générés par l'Application. Il appartient à l'Utilisateur de vérifier ces éléments, le cas échéant avec l'aide d'un professionnel qualifié (expert-comptable, avocat fiscaliste), avant toute déclaration auprès de l'administration fiscale.</p>
+    <p>Dans la limite permise par la loi applicable, l'Éditeur ne pourra être tenu responsable des dommages directs ou indirects résultant de l'utilisation de l'Application, y compris en cas de redressement fiscal, de pénalité ou de tout préjudice financier lié à une déclaration effectuée sur la base des informations fournies par l'Application.</p>
   </div>
 
   <!-- Art. 10 -->
@@ -231,5 +235,12 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   <p style="margin-top:16px;">© 2026 BailleurSuite</p>
 </footer>
 
+<script>
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('reading-progress').style.width = (s / h * 100) + '%';
+  });
+</script>
 </body>
 </html>
