@@ -185,6 +185,7 @@
     color: var(--ink);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
   }
 
   /* ── NAV ── */
@@ -201,6 +202,8 @@
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
     transition: all 0.3s ease;
+    box-sizing: border-box;
+    overflow: hidden;
   }
   .nav-logo {
     font-family: var(--sans);
@@ -231,6 +234,12 @@
     text-decoration: none;
     letter-spacing: 0.01em;
     transition: background 0.2s, transform 0.15s;
+    flex-shrink: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
   }
   .nav-cta:hover { background: #1A4A35; transform: translateY(-1px); }
 
@@ -349,6 +358,15 @@
     max-width: 380px;
     width: 100%;
     animation: fadeUp 0.8s 0.5s ease both;
+    position: relative;
+  }
+  .hero-phone-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -25% -35%;
+    background: radial-gradient(ellipse at center, rgba(45,106,79,0.14) 0%, transparent 65%);
+    z-index: 0;
+    pointer-events: none;
   }
   .phone-img {
     width: 100%;
@@ -356,8 +374,16 @@
     height: auto;
     object-fit: contain;
     display: block;
+    position: relative;
+    z-index: 1;
     animation: float-premium 6s ease-in-out infinite;
     transform-origin: center bottom;
+  }
+  /* feature pill gold variant (fiscal) */
+  .feature-pill-gold {
+    background: var(--gold-pale);
+    color: #6B4E10;
+    border: 1px solid rgba(201,168,76,0.35);
   }
   @keyframes float-premium {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -371,7 +397,7 @@
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--mint-dark);
+    color: var(--gold);
     font-weight: 600;
     margin-bottom: 12px;
   }
@@ -380,8 +406,19 @@
     font-size: clamp(1.8rem, 4vw, 2.8rem);
     line-height: 1.2;
     color: var(--ink);
+    letter-spacing: -0.02em;
     margin-bottom: 16px;
   }
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: var(--gold);
+    margin: 14px auto 0;
+  }
+  .contrast-section .section-title::after { opacity: 0.35; }
+  .waitlist-section .section-title::after { display: none; }
   .section-sub {
     font-size: 1.05rem;
     color: var(--ink-mid);
@@ -486,8 +523,9 @@
   .feature-number {
     font-family: var(--serif);
     font-size: 4rem;
-    color: var(--border);
+    color: var(--gold);
     line-height: 1;
+    letter-spacing: -0.02em;
     margin-bottom: 4px;
   }
   .feature-title {
@@ -503,6 +541,7 @@
     line-height: 1.7;
     font-weight: 300;
     margin-bottom: 20px;
+    max-width: 65ch;
   }
   .feature-pill {
     display: inline-flex;
@@ -522,7 +561,7 @@
     padding: 28px;
     width: 100%;
     max-width: 340px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.07);
   }
   .feature-card-icon {
     width: 48px; height: 48px;
@@ -531,7 +570,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
     margin-bottom: 16px;
   }
   .feature-card-title {
@@ -555,7 +593,7 @@
   .stat-number {
     font-family: var(--serif);
     font-size: 1.8rem;
-    color: var(--mint-dark);
+    color: var(--gold);
     font-weight: 400;
   }
   .stat-label { font-size: 0.75rem; color: var(--ink-light); }
@@ -574,13 +612,18 @@
     border-radius: var(--radius);
     padding: 24px;
     text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.07);
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .trust-badge-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .trust-badge-card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.06), 0 20px 48px rgba(0,0,0,0.11); }
   .trust-badge-icon {
-    font-size: 2rem;
-    margin-bottom: 12px;
-    display: block;
+    width: 48px; height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mint-pale);
+    border-radius: 14px;
+    margin: 0 auto 14px;
   }
   .trust-badge-title {
     font-size: 0.82rem;
@@ -634,13 +677,14 @@
   }
   .pricing-card {
     background: white;
-    border: 1.5px solid var(--border);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 32px 28px;
     position: relative;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.07);
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+  .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 4px 8px rgba(0,0,0,0.06), 0 20px 48px rgba(0,0,0,0.11); }
   .pricing-card.featured {
     border-color: var(--mint);
     background: var(--mint-pale);
@@ -1102,7 +1146,10 @@
 
         <!-- CHAMPS CRÉDIT -->
         <div id="fields-credit" style="display:none;margin-top:16px;padding:18px;background:var(--mint-pale,#e8f9f1);border-radius:14px;border:1px solid rgba(25,182,122,.2);">
-          <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mint-dark);margin-bottom:14px;">📋 Paramètres du prêt</div>
+          <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mint-dark);margin-bottom:14px;display:flex;align-items:center;gap:6px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2.5" fill="currentColor" stroke="none"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="16" cy="12" r="2.5" fill="currentColor" stroke="none"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="10" cy="18" r="2.5" fill="currentColor" stroke="none"/></svg>
+            Paramètres du prêt
+          </div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
             <div>
               <label style="display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-light);margin-bottom:6px;">Capital (€)</label>
@@ -1291,11 +1338,19 @@
         <div class="feature-number">01</div>
         <h3 class="feature-title">Le Pilotage —<br>Rentabilité réelle en temps réel</h3>
         <p class="feature-desc">Suivez la rentabilité nette de chaque bien (après charges, taxe foncière, vacance locative) en un coup d'œil. Comparez vos biens entre eux, identifiez ce qui tire votre rendement vers le bas.</p>
-        <div class="feature-pill">📊 Tableau de bord multi-biens inclus en Gestion Zen</div>
+        <div class="feature-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Tableau de bord multi-biens inclus en Gestion Zen
+        </div>
       </div>
       <div class="feature-visual">
         <div class="feature-card">
-          <div class="feature-card-icon">📈</div>
+          <div class="feature-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+              <polyline points="16 7 22 7 22 13"/>
+            </svg>
+          </div>
           <div class="feature-card-title">Rendement locatif</div>
           <div class="feature-card-body">Calculez instantanément rendement brut, net et net-net. Intègre charges déductibles, taxe foncière, travaux et vacance locative.</div>
           <div class="feature-stat">
@@ -1312,11 +1367,21 @@
         <div class="feature-number">02</div>
         <h3 class="feature-title">L'Automatisation —<br>Quittances en un geste</h3>
         <p class="feature-desc">Dès l'encaissement enregistré dans l'app, BailleurSuite génère la quittance PDF conforme et vous propose de l'envoyer à votre locataire en un tap. Les relances de loyers impayés sont pré-rédigées et prêtes à partir — vous gardez le contrôle, sans jamais rien oublier.</p>
-        <div class="feature-pill">🏠 Disponible à partir du plan Gestion Zen 5,99€/mois</div>
+        <div class="feature-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Disponible à partir du plan Gestion Zen 5,99€/mois
+        </div>
       </div>
       <div class="feature-visual">
         <div class="feature-card">
-          <div class="feature-card-icon">📄</div>
+          <div class="feature-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
           <div class="feature-card-title">Quittances à l'encaissement</div>
           <div class="feature-card-body">PDF conforme loi ALUR généré à chaque encaissement, envoi email en un tap. Relances impayés guidées. Historique complet par locataire.</div>
           <div class="feature-stat">
@@ -1333,11 +1398,20 @@
         <div class="feature-number">03</div>
         <h3 class="feature-title">Votre déclaration fiscale —<br>Guidée, case par case</h3>
         <p class="feature-desc">BailleurSuite calcule et organise vos données tout au long de l'année, puis génère un <strong>PDF pédagogique</strong> avec vos montants exacts et les cases à reporter sur impots.gouv.fr — <strong>2044</strong> (location nue, régime réel), <strong>2042C PRO</strong> et <strong>2031</strong> (LMNP au réel). Vous copiez les chiffres, vous validez, vous soumettez. Clair, rapide, sans erreur.</p>
-        <div class="feature-pill">💰 29,90€ en achat unique</div>
+        <div class="feature-pill feature-pill-gold">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          29,90€ en achat unique
+        </div>
       </div>
       <div class="feature-visual">
         <div class="feature-card" style="border-color: var(--mint); background: var(--mint-pale);">
-          <div class="feature-card-icon" style="background: rgba(46,204,138,0.25);">🧾</div>
+          <div class="feature-card-icon" style="background: var(--gold-pale);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <path d="M9 15l2 2 4-4"/>
+            </svg>
+          </div>
           <div class="feature-card-title">Module Fiscal 2044 · 2042C PRO · 2031</div>
           <div class="feature-card-body">PDF pédagogique avec vos montants précalculés et les cases exactes à reporter sur impots.gouv.fr : 2044, 2042C PRO, 2031. Comparaison micro-foncier vs régime réel incluse.</div>
           <div class="feature-stat" style="border-color: rgba(46,204,138,0.3);">
@@ -1355,7 +1429,10 @@
         <div class="feature-number">04</div>
         <h3 class="feature-title">Amortissement LMNP —<br>Micro-BIC vs régime réel automatisé</h3>
         <p class="feature-desc">Pour les propriétaires en location meublée non professionnelle, BailleurSuite intègre un assistant LMNP complet : configurez vos amortissements (bâti, mobilier, travaux, frais de notaire), comparez Micro-BIC vs régime réel, et détectez automatiquement les déficits LMNP reportables sur les années suivantes.</p>
-        <div class="feature-pill">🏠 Inclus dès le lancement · Septembre 2026</div>
+        <div class="feature-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Inclus dès le lancement · Septembre 2026
+        </div>
         <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
           <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--ink-mid);">
             <span style="color:var(--mint);font-weight:700;">✓</span> Configurateur amortissements mode simple et avancé
@@ -1364,7 +1441,7 @@
             <span style="color:var(--mint);font-weight:700;">✓</span> Calcul intérêts d'emprunt déductibles par année
           </div>
           <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--ink-mid);">
-            <span style="color:var(--ink-light);font-weight:700;">⏳</span> Scanner de justificatifs — Prochainement
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-light)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Scanner de justificatifs — Prochainement
           </div>
           <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--ink-mid);">
             <span style="color:var(--mint);font-weight:700;">✓</span> Export PDF synthèse LMNP
@@ -1373,7 +1450,13 @@
       </div>
       <div class="feature-visual">
         <div class="feature-card" style="border-color:var(--gold);background:var(--gold-pale);">
-          <div class="feature-card-icon" style="background:rgba(201,168,76,0.2);">🏢</div>
+          <div class="feature-card-icon" style="background:rgba(201,168,76,0.15);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M3 9h18"/>
+              <path d="M9 21V9"/>
+            </svg>
+          </div>
           <div class="feature-card-title">Assistant LMNP</div>
           <div class="feature-card-body">Calcul réel : Loyers − Charges − Taxe foncière − Intérêts − Amortissements = Résultat imposable. Détection automatique du déficit LMNP reportable.</div>
           <div class="feature-stat" style="border-color:rgba(201,168,76,0.3);">
@@ -1398,22 +1481,42 @@
 
     <div class="trust-grid reveal">
       <div class="trust-badge-card">
-        <span class="trust-badge-icon">🏛️</span>
+        <div class="trust-badge-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="22" x2="21" y2="22"/><line x1="3" y1="10" x2="21" y2="10"/>
+            <path d="M12 2L3 10"/><path d="M12 2l9 8"/>
+            <line x1="6" y1="10" x2="6" y2="22"/><line x1="12" y1="10" x2="12" y2="22"/><line x1="18" y1="10" x2="18" y2="22"/>
+          </svg>
+        </div>
         <div class="trust-badge-title">Conforme normes fiscales 2026</div>
         <div class="trust-badge-sub">Mis à jour chaque année pour coller aux exigences de l'administration fiscale française</div>
       </div>
       <div class="trust-badge-card">
-        <span class="trust-badge-icon">🔍</span>
+        <div class="trust-badge-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
         <div class="trust-badge-title">Calculs vérifiés</div>
         <div class="trust-badge-sub">Les calculs de rendement et de fiscalité sont vérifiés contre les barèmes officiels</div>
       </div>
       <div class="trust-badge-card">
-        <span class="trust-badge-icon">🇪🇺</span>
+        <div class="trust-badge-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
         <div class="trust-badge-title">RGPD — Données 100% locales</div>
         <div class="trust-badge-sub">Aucune donnée personnelle sur nos serveurs. Tout reste sur votre iPhone et iCloud</div>
       </div>
       <div class="trust-badge-card">
-        <span class="trust-badge-icon">🍎</span>
+        <div class="trust-badge-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round">
+            <rect x="7" y="2" width="10" height="20" rx="3"/>
+            <line x1="11" y1="18" x2="13" y2="18"/>
+          </svg>
+        </div>
         <div class="trust-badge-title">Développé avec SwiftUI natif</div>
         <div class="trust-badge-sub">iOS pur, expérience fluide, intégration parfaite avec l'écosystème Apple</div>
       </div>
@@ -1490,7 +1593,12 @@
     <!-- PASS FISCAL -->
     <div class="pack-fiscal-block reveal">
       <div>
-        <div class="pack-fiscal-tag">⭐ Achat unique</div>
+        <div class="pack-fiscal-tag">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          Achat unique
+        </div>
         <div class="pack-fiscal-title">Pass Fiscal</div>
         <p class="pack-fiscal-desc">Valable 6 mois à compter de l'achat. Nécessite un abonnement Gestion Zen actif. Génère un PDF pédagogique avec vos montants précalculés et les cases exactes à reporter sur impots.gouv.fr — 2044 (location nue) ou LMNP. Détail ligne par ligne, guide étape par étape, document daté et archivable.</p>
       </div>
@@ -1615,7 +1723,14 @@
 
     <!-- Bonus guide gratuit — mis en avant AVANT le formulaire -->
     <div style="max-width:460px;margin:0 auto 28px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:14px;text-align:left;">
-      <div style="width:44px;height:44px;background:rgba(201,168,76,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.3rem;">📋</div>
+      <div style="width:44px;height:44px;background:rgba(201,168,76,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="9" y1="13" x2="15" y2="13"/>
+          <line x1="9" y1="17" x2="13" y2="17"/>
+        </svg>
+      </div>
       <div>
         <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:3px;">Guide offert à l'inscription</div>
         <div style="font-size:0.9rem;font-weight:600;color:white;line-height:1.3;">«&nbsp;Comment remplir sa déclaration 2044&nbsp;»</div>
@@ -1629,7 +1744,10 @@
       <input type="email" class="waitlist-input" placeholder="votre@email.fr" id="waitlist-email" required>
       <button type="submit" class="waitlist-btn">Je veux le guide + l'accès bêta →</button>
     </form>
-    <p class="waitlist-note" id="waitlist-msg">🔒 Aucun spam. Désabonnement en 1 clic. Données non revendues.</p>
+    <p class="waitlist-note" id="waitlist-msg" style="display:flex;align-items:center;justify-content:center;gap:6px;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Aucun spam. Désabonnement en 1 clic. Données non revendues.
+    </p>
 
   </div>
 </section>
