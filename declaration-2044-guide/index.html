@@ -22,40 +22,33 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+<link rel="stylesheet" href="/styles/design-system.css">
 <style>
+/* Page-specific token overrides */
 :root {
-  --bg: #F7F4EE; --surface: rgba(255,255,255,.68); --surface-strong: rgba(255,255,255,.88);
+  --bg: #F7F4EE;
+  --surface: rgba(255,255,255,.68); --surface-strong: rgba(255,255,255,.88);
   --ink: #111315; --ink-soft: #50545A; --ink-light: #6A6D72;
-  --mint: #2D6A4F; --mint-pale: #E6F2EC; --gold: #C9A84C; --gold-pale: #F9F3E3;
-  --line: rgba(17,19,21,.07); --radius-xl: 34px; --radius-lg: 26px; --radius-md: 16px;
-  --serif: 'Instrument Serif', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  --line: rgba(17,19,21,.07);
+  --radius-xl: 34px; --radius-lg: 26px; --radius-md: 16px;
   --shadow-soft: 0 10px 30px rgba(0,0,0,.04); --shadow-large: 0 30px 80px rgba(0,0,0,.08);
 }
 @media (prefers-color-scheme: dark) {
   :root { --bg: #111315; --surface: rgba(255,255,255,.05); --surface-strong: rgba(255,255,255,.08);
-    --ink: #F0EDE8; --ink-soft: #9A9DA3; --ink-light: #5A5D63; --mint: #3D8B68;
-    --mint-pale: #0D2E20; --line: rgba(255,255,255,.07); }
+    --ink: #F0EDE8; --ink-soft: #9A9DA3; --ink-light: #5A5D63;
+    --line: rgba(255,255,255,.07); }
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body { color: var(--ink); }
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 10%,rgba(45,106,79,.07),transparent 35%),radial-gradient(circle at 85% 5%,rgba(201,168,76,.05),transparent 35%);pointer-events:none;z-index:-1}
 
-/* PROGRESS */
-.reading-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--mint),var(--gold));z-index:9999;transition:width .1s linear}
-
-/* NAV */
-nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:1200px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,244,238,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.55);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.06);z-index:100}
-@media(prefers-color-scheme:dark){nav{background:rgba(17,19,21,.85);border-color:rgba(255,255,255,.1)}}
-.nav-logo{font-family:var(--sans);font-size:1.05rem;font-weight:600;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:9px;text-decoration:none}
-.nav-logo-icon{width:30px;height:30px;background:var(--mint);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.nav-logo-suite{color:var(--mint)}
-.nav-cta{background:var(--mint);color:white;padding:9px 18px;border-radius:100px;font-size:0.8rem;font-weight:500;text-decoration:none;transition:opacity .2s}
-.nav-cta:hover{opacity:.85}
+/* Font-synthesis — serif non-heading elements */
+.guide-title, .app-promo h2 { font-weight: 400; font-synthesis: none;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 /* HERO */
-.hero{min-height:72vh;display:flex;align-items:center;padding:130px 24px 80px;position:relative;overflow:hidden;text-align:center}
+.hero{min-height:72vh;display:flex;align-items:center;padding:100px 24px 80px;position:relative;overflow:hidden;text-align:center}
 .hero-glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(ellipse,rgba(45,106,79,.09) 0%,transparent 65%);pointer-events:none}
 .hero-content{max-width:740px;margin:0 auto;position:relative;z-index:1}
 .hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--surface-strong);border:1px solid rgba(45,106,79,.25);color:var(--mint);font-size:0.72rem;font-weight:600;padding:6px 16px;border-radius:100px;margin-bottom:28px;letter-spacing:0.06em;text-transform:uppercase;box-shadow:var(--shadow-soft)}
@@ -168,18 +161,17 @@ tr:hover td{background:rgba(45,106,79,.03)}
 .mobile-cta-sticky span{font-size:.82rem;color:var(--ink-soft);line-height:1.3}
 .mobile-cta-sticky a{background:var(--mint);color:white;padding:11px 20px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.82rem;white-space:nowrap;flex-shrink:0}
 
-footer{background:var(--ink);color:rgba(255,255,255,.45);padding:36px 24px;text-align:center;font-size:.8rem}
-footer a{color:var(--mint);text-decoration:none;margin:0 4px;padding:14px 10px;display:inline-block}
 </style>
 </head>
 <body>
 
 <div class="reading-progress" id="reading-progress"></div>
 
-<nav>
-  <a href="https://bailleursuite.fr" class="nav-logo">
+<header>
+<nav class="site-nav" aria-label="Navigation principale">
+  <a class="nav-logo" href="https://bailleursuite.fr">
     <div class="nav-logo-icon">
-      <svg width="18" height="18" viewBox="0 0 46 46" fill="none">
+      <svg width="20" height="20" viewBox="0 0 46 46" fill="none">
         <circle cx="17" cy="18" r="7.5" stroke="#F5F0E8" stroke-width="2.8" fill="none"/>
         <circle cx="17" cy="18" r="2.5" fill="#C9A84C"/>
         <line x1="22.5" y1="23.5" x2="35" y2="36" stroke="#F5F0E8" stroke-width="2.8" stroke-linecap="round"/>
@@ -190,8 +182,9 @@ footer a{color:var(--mint);text-decoration:none;margin:0 4px;padding:14px 10px;d
     </div>
     Bailleur<span class="nav-logo-suite">Suite</span>
   </a>
-  <a href="https://bailleursuite.fr#waitlist" class="nav-cta">Guide PDF gratuit</a>
+  <a class="nav-cta" href="https://bailleursuite.fr/#waitlist">Être notifié au lancement — Septembre 2026</a>
 </nav>
+</header>
 
 <section class="hero">
   <div class="hero-glow"></div>
@@ -401,12 +394,30 @@ footer a{color:var(--mint);text-decoration:none;margin:0 4px;padding:14px 10px;d
   <a href="https://bailleursuite.fr#waitlist">Recevoir →</a>
 </div>
 
-<footer>
-  <a href="https://bailleursuite.fr">BailleurSuite</a>
-  <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
-  <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance de loyer PDF</a>
-  <a href="https://bailleursuite.fr/politique-confidentialite.html">Confidentialité</a>
-  <p style="margin-top:16px;">© 2026 BailleurSuite — Informations à caractère général, non substituables à un conseil fiscal personnalisé.</p>
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <nav class="site-footer-nav" aria-label="Liens de pied de page">
+      <a href="https://bailleursuite.fr">Accueil</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#tarifs">Tarifs</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#faq">FAQ</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+    </nav>
+    <div class="site-footer-bottom">
+      <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>
+      <p style="margin-top:8px;">
+        <a href="https://bailleursuite.fr/conditions-utilisation.html">Mentions légales & CGU</a>
+        <a href="https://bailleursuite.fr/politique-confidentialite.html">Politique de confidentialité</a>
+        <a href="mailto:contact@bailleursuite.fr">Contact</a>
+      </p>
+    </div>
+  </div>
 </footer>
 
 <script>

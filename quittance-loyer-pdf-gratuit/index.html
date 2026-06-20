@@ -30,6 +30,11 @@
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Puis-je facturer l'envoi d'une quittance de loyer ?","acceptedAnswer":{"@type":"Answer","text":"Non. La remise d'une quittance est gratuite et obligatoire sur demande du locataire. Facturer des frais pour ce service est illégal selon l'article 21 de la loi du 6 juillet 1989."}},{"@type":"Question","name":"La quittance de loyer doit-elle être signée ?","acceptedAnswer":{"@type":"Answer","text":"La signature n'est pas légalement obligatoire, mais elle est fortement recommandée. Elle renforce la valeur probatoire du document en cas de litige."}},{"@type":"Question","name":"Quelle différence entre une quittance et un avis d'échéance ?","acceptedAnswer":{"@type":"Answer","text":"L'avis d'échéance est envoyé avant le paiement pour rappeler au locataire le montant à régler. La quittance est émise après le paiement pour en attester la réception. Ce sont deux documents distincts avec des fonctions opposées."}},{"@type":"Question","name":"En colocation, faut-il une quittance par locataire ?","acceptedAnswer":{"@type":"Answer","text":"En colocation avec bail commun, une seule quittance est émise au nom de tous les colocataires. En colocation avec baux individuels, chaque locataire reçoit sa propre quittance pour sa part de loyer."}}]}
   </script>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+  <link rel="stylesheet" href="/styles/design-system.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
@@ -56,62 +61,23 @@
       --radius-lg:    20px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
     body {
-      font-family: 'Georgia', 'Times New Roman', serif;
+      font-family: var(--sans);
       background: var(--cream);
       color: var(--text-dark);
       line-height: 1.7;
       font-size: 16px;
     }
 
-    /* ── NAV ── */
-    nav {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow-sm);
-    }
-    .nav-logo {
-      font-family: 'Georgia', serif;
-      font-size: 17px;
-      font-weight: bold;
-      color: var(--green-dark);
-      text-decoration: none;
-      letter-spacing: -.3px;
-    }
-    .nav-cta {
-      background: var(--green-main);
-      color: var(--white);
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-family: -apple-system, sans-serif;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background .2s;
-    }
-    .nav-cta:hover { background: var(--green-dark); }
-
     /* ── HERO ── */
     .hero {
       background: linear-gradient(160deg, var(--green-dark) 0%, var(--green-main) 100%);
       color: var(--white);
-      padding: 44px 24px 52px;
+      padding: 108px 24px 52px;
       text-align: center;
     }
     @media (max-width: 580px) {
-      .hero { padding: 32px 16px 40px; }
+      .hero { padding: 96px 16px 40px; }
     }
     .breadcrumb {
       font-family: -apple-system, sans-serif;
@@ -701,18 +667,6 @@
     }
     .faq-item.open .faq-a { display: block; }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--green-dark);
-      color: rgba(255,255,255,.6);
-      padding: 32px 24px;
-      text-align: center;
-      font-family: -apple-system, sans-serif;
-      font-size: 13px;
-    }
-    footer a { color: rgba(255,255,255,.6); text-decoration: none; margin: 0 12px; }
-    footer a:hover { color: var(--white); }
-    .footer-links { margin-bottom: 12px; }
 
     /* ── STEPS ── */
     .steps {
@@ -778,17 +732,30 @@
       gap: 6px;
     }
     .proof-item strong { color: var(--green-dark); }
-    .reading-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--mint),var(--gold));z-index:9999;transition:width .1s linear}
   </style>
 </head>
 <body>
 <div class="reading-progress" id="reading-progress"></div>
 
 <!-- NAV -->
-<nav>
-  <a href="https://bailleursuite.fr" class="nav-logo">BailleurSuite</a>
-  <a href="https://bailleursuite.fr#waitlist" class="nav-cta">Accès bêta gratuit →</a>
+<header>
+<nav class="site-nav" aria-label="Navigation principale">
+  <a class="nav-logo" href="https://bailleursuite.fr">
+    <div class="nav-logo-icon">
+      <svg width="20" height="20" viewBox="0 0 46 46" fill="none">
+        <circle cx="17" cy="18" r="7.5" stroke="#F5F0E8" stroke-width="2.8" fill="none"/>
+        <circle cx="17" cy="18" r="2.5" fill="#C9A84C"/>
+        <line x1="22.5" y1="23.5" x2="35" y2="36" stroke="#F5F0E8" stroke-width="2.8" stroke-linecap="round"/>
+        <line x1="27" y1="33" x2="27" y2="30" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="30.5" y1="33" x2="30.5" y2="28" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="34" y1="33" x2="34" y2="26" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    Bailleur<span class="nav-logo-suite">Suite</span>
+  </a>
+  <a class="nav-cta" href="https://bailleursuite.fr/#waitlist">Être notifié au lancement — Septembre 2026</a>
 </nav>
+</header>
 
 <!-- HERO -->
 <div class="hero">
@@ -1130,15 +1097,30 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-links">
-    <a href="https://bailleursuite.fr">BailleurSuite</a>
-    <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
-    <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
-    <a href="/quittance-loyer-pdf-gratuit">Quittance de loyer PDF gratuite</a>
-    <a href="https://bailleursuite.fr/politique-confidentialite.html">Confidentialité</a>
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <nav class="site-footer-nav" aria-label="Liens de pied de page">
+      <a href="https://bailleursuite.fr">Accueil</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#tarifs">Tarifs</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#faq">FAQ</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+    </nav>
+    <div class="site-footer-bottom">
+      <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>
+      <p style="margin-top:8px;">
+        <a href="https://bailleursuite.fr/conditions-utilisation.html">Mentions légales & CGU</a>
+        <a href="https://bailleursuite.fr/politique-confidentialite.html">Politique de confidentialité</a>
+        <a href="mailto:contact@bailleursuite.fr">Contact</a>
+      </p>
+    </div>
   </div>
-  <p>© 2026 BailleurSuite — Outil indicatif. La quittance générée engage votre responsabilité en tant que bailleur.</p>
 </footer>
 
 <script>

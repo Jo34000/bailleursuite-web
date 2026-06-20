@@ -9,79 +9,23 @@
   <link rel="canonical" href="https://bailleursuite.fr/politique-confidentialite">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+  <link rel="stylesheet" href="/styles/design-system.css">
 
   <style>
+    /* Page-specific token overrides */
     :root {
-      --bg:       #F5F0E8;
-      --cream:    #FDFCF8;
-      --ink:      #1C1C1E;
-      --ink-mid:  #4A4A4C;
-      --ink-light:#8A8A8E;
-      --mint:     #2D6A4F;
-      --mint-dark:#1A4A35;
-      --gold:     #C9A84C;
-      --border:   rgba(28,28,30,0.08);
-      --serif:    'Instrument Serif', Georgia, serif;
-      --sans:     'DM Sans', system-ui, sans-serif;
-      --radius:   16px;
+      --ink-light: #8A8A8E;
+      --border: rgba(28,28,30,0.08);
+      --radius: 16px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.7;
-      font-size: 1rem;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(245,240,232,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--ink);
-      font-weight: 600;
-      font-size: 1rem;
-      letter-spacing: -0.01em;
-    }
-    .nav-logo span { color: var(--mint); }
-    .nav-logo-icon {
-      width: 32px; height: 32px;
-      background: var(--mint);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .nav-back {
-      font-size: 0.82rem;
-      color: var(--mint);
-      text-decoration: none;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .nav-back:hover { color: var(--mint-dark); }
+    body { color: var(--ink); line-height: 1.7; font-size: 1rem; }
 
     .page-hero {
       background: var(--mint);
-      padding: 64px 24px 56px;
+      padding: 128px 24px 56px;
       text-align: center;
     }
     .page-hero-label {
@@ -193,36 +137,33 @@
     .tiers-block p { font-size: 0.88rem; margin-bottom: 8px; }
     .tiers-block p:last-child { margin-bottom: 0; }
 
-    footer {
-      background: var(--ink); color: rgba(255,255,255,0.5);
-      text-align: center; padding: 32px 24px; font-size: 0.78rem;
-    }
-    footer a { color: rgba(255,255,255,0.6); }
-    footer a:hover { color: white; }
-
     @media (max-width: 600px) {
-      .page-hero { padding: 48px 20px 40px; }
+      .page-hero { padding: 96px 20px 40px; }
       .page-content { padding: 40px 20px 72px; }
     }
-    .reading-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--mint),var(--gold));z-index:9999;transition:width .1s linear}
   </style>
 </head>
 <body>
 <div class="reading-progress" id="reading-progress"></div>
 
-<nav>
-  <a href="index.html" class="nav-logo">
+<header>
+<nav class="site-nav" aria-label="Navigation principale">
+  <a class="nav-logo" href="https://bailleursuite.fr">
     <div class="nav-logo-icon">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        <circle cx="7.5" cy="7.5" r="4.5" stroke="white" stroke-width="1.8"/>
-        <path d="M10.5 10.5L14 14" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
-        <path d="M5 12h5M7.5 9.5v5" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+      <svg width="20" height="20" viewBox="0 0 46 46" fill="none">
+        <circle cx="17" cy="18" r="7.5" stroke="#F5F0E8" stroke-width="2.8" fill="none"/>
+        <circle cx="17" cy="18" r="2.5" fill="#C9A84C"/>
+        <line x1="22.5" y1="23.5" x2="35" y2="36" stroke="#F5F0E8" stroke-width="2.8" stroke-linecap="round"/>
+        <line x1="27" y1="33" x2="27" y2="30" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="30.5" y1="33" x2="30.5" y2="28" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="34" y1="33" x2="34" y2="26" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
       </svg>
     </div>
-    Bailleur <span>Suite</span>
+    Bailleur<span class="nav-logo-suite">Suite</span>
   </a>
-  <a href="index.html" class="nav-back">← Retour au site</a>
+  <a class="nav-cta" href="https://bailleursuite.fr/#waitlist">Être notifié au lancement — Septembre 2026</a>
 </nav>
+</header>
 
 <div class="page-hero">
   <div class="page-hero-label">Légal</div>
@@ -375,14 +316,31 @@
 
 </div>
 
-<!-- FOOTER — DISCRET -->
-<footer>
-  <p>© 2026 BailleurSuite</p>
-  <p style="margin-top:8px;">
-    <a href="index.html">Retour au site</a> ·
-    <a href="/conditions-utilisation.html">CGU</a>
-  </p>
-  <p style="margin-top:8px;">Données 100% locales · Conforme RGPD · Made in Montpellier 🇫🇷</p>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <nav class="site-footer-nav" aria-label="Liens de pied de page">
+      <a href="https://bailleursuite.fr">Accueil</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#tarifs">Tarifs</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#faq">FAQ</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+    </nav>
+    <div class="site-footer-bottom">
+      <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>
+      <p style="margin-top:8px;">
+        <a href="https://bailleursuite.fr/conditions-utilisation.html">Mentions légales & CGU</a>
+        <a href="https://bailleursuite.fr/politique-confidentialite.html">Politique de confidentialité</a>
+        <a href="mailto:contact@bailleursuite.fr">Contact</a>
+      </p>
+    </div>
+  </div>
 </footer>
 
 <script>
