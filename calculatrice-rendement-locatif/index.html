@@ -235,7 +235,18 @@ tr:hover td{background:rgba(45,106,79,.025)}
     <a class="nav-link" href="https://bailleursuite.fr/aide/">Aide</a>
   </div>
   <a class="nav-cta" href="https://bailleursuite.fr/#waitlist">Être notifié au lancement — Septembre 2026</a>
+  <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-label="Ouvrir le menu">
+    <span class="nav-burger-line"></span>
+    <span class="nav-burger-line"></span>
+    <span class="nav-burger-line"></span>
+  </button>
 </nav>
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+  <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+  <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+  <a href="https://bailleursuite.fr/aide/">Centre d’aide</a>
+</div>
 </header>
 
 <main>
@@ -727,6 +738,22 @@ tr:hover td{background:rgba(45,106,79,.025)}
   }
 
   calcRentab();
+</script>
+<script>
+(function(){
+  var b=document.getElementById('nav-burger'),m=document.getElementById('nav-mobile-menu');
+  if(!b||!m)return;
+  b.addEventListener('click',function(){
+    var o=m.classList.toggle('is-open');
+    b.setAttribute('aria-expanded',String(o));
+  });
+  document.addEventListener('click',function(e){
+    if(m.classList.contains('is-open')&&!m.contains(e.target)&&!b.contains(e.target)){
+      m.classList.remove('is-open');
+      b.setAttribute('aria-expanded','false');
+    }
+  });
+})();
 </script>
 </body>
 </html>
