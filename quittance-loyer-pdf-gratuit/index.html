@@ -71,10 +71,21 @@
 
     /* ── HERO ── */
     .hero {
-      background: linear-gradient(160deg, var(--green-dark) 0%, var(--green-main) 100%);
-      color: var(--white);
+      background: var(--bg);
+      color: var(--ink);
       padding: 108px 24px 52px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -160px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(ellipse, rgba(45,106,79,.09) 0%, transparent 62%);
+      pointer-events: none;
     }
     @media (max-width: 580px) {
       .hero { padding: 96px 16px 40px; }
@@ -82,17 +93,18 @@
     .breadcrumb {
       font-family: -apple-system, sans-serif;
       font-size: 13px;
-      color: rgba(255,255,255,.65);
+      color: var(--ink-light);
       margin-bottom: 20px;
+      position: relative;
     }
-    .breadcrumb a { color: rgba(255,255,255,.65); text-decoration: none; }
-    .breadcrumb a:hover { color: var(--white); }
+    .breadcrumb a { color: var(--mint); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.2);
+      background: var(--mint-pale);
+      border: 1px solid rgba(45,106,79,.2);
       border-radius: 100px;
       padding: 5px 14px;
       font-family: -apple-system, sans-serif;
@@ -100,40 +112,49 @@
       font-weight: 600;
       letter-spacing: .5px;
       text-transform: uppercase;
-      color: var(--green-pale);
+      color: var(--mint);
       margin-bottom: 24px;
+      position: relative;
     }
     .hero h1 {
-      font-size: clamp(28px, 5vw, 46px);
-      font-weight: normal;
-      line-height: 1.2;
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 400;
+      font-synthesis: none;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
       margin-bottom: 20px;
       max-width: 700px;
       margin-left: auto;
       margin-right: auto;
+      color: var(--ink);
+      position: relative;
     }
     .hero h1 em {
       font-style: italic;
-      color: var(--green-light);
+      color: var(--mint);
     }
     .hero-sub {
       font-family: -apple-system, sans-serif;
-      font-size: 16px;
-      color: rgba(255,255,255,.8);
+      font-size: 1.05rem;
+      color: var(--ink-mid);
       max-width: 520px;
       margin: 0 auto 32px;
+      line-height: 1.65;
+      position: relative;
     }
     .hero-meta {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 24px;
+      gap: 20px;
       flex-wrap: wrap;
       font-family: -apple-system, sans-serif;
-      font-size: 13px;
-      color: rgba(255,255,255,.6);
+      font-size: 0.8rem;
+      color: var(--ink-mid);
+      position: relative;
     }
-    .hero-meta span { display: flex; align-items: center; gap: 6px; }
+    .hero-meta span { display: flex; align-items: center; gap: 5px; color: var(--mint); font-weight: 500; }
 
     /* ── CONTAINER ── */
     .container {
