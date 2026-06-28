@@ -171,6 +171,34 @@ h1, h2, h3 {
 .nav-cta:hover { background: var(--mint-dark); transform: translateY(-1px); }
 @media (max-width: 700px) { .nav-cta { display: none; } }
 
+/* ── Nav links — outils (desktop, cachés ≤900px) ── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  justify-content: center;
+}
+@media (max-width: 900px) { .nav-links { display: none; } }
+.nav-link {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--ink-mid);
+  text-decoration: none;
+  padding: 7px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: color .15s, background .15s;
+}
+.nav-link:hover {
+  color: var(--ink);
+  background: rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme: dark) {
+  .nav-link { color: var(--ink-mid); }
+  .nav-link:hover { background: rgba(255,255,255,.1); color: var(--ink); }
+}
+
 /* ══════════════════════════════════
    8. FOOTER PARTAGÉ
    ══════════════════════════════════ */
