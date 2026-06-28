@@ -28,6 +28,7 @@ body { font-family: var(--aide-font); color: var(--ink); }
   background: linear-gradient(135deg, #1A4A35 0%, #2D6A4F 40%, #3D8B68 100%);
   padding: 110px 24px 64px;
   text-align: center;
+  overflow: hidden;
 }
 .aide-hero-inner { max-width: 640px; margin: 0 auto; }
 .aide-hero-eyebrow {
@@ -91,6 +92,7 @@ body { font-family: var(--aide-font); color: var(--ink); }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
 }
 .aide-pills::-webkit-scrollbar { display: none; }
 .aide-pills-inner {
