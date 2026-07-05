@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Guide complet LMNP 2026 : micro-BIC vs régime réel, amortissements, liasse 2031, seuil LMP et CFE. Tout ce que doit savoir un loueur meublé non professionnel.">
+<title>Guide LMNP 2026 : Loueur Meublé Non Professionnel — Régime Réel & Amortissements | BailleurSuite</title>
+<link rel="canonical" href="https://bailleursuite.fr/lmnp-guide-complet">
+<meta property="og:title" content="Guide LMNP 2026 — Régime Réel, Amortissements & Liasse 2031 | BailleurSuite">
+<meta property="og:description" content="Comprendre le statut LMNP : micro-BIC vs régime réel BIC, amortissements, liasse 2031, CFE et seuil LMP. Guide fiscal complet pour bailleurs en location meublée.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bailleursuite.fr/lmnp-guide-complet">
+<meta property="og:image" content="https://bailleursuite.fr/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Guide complet LMNP 2026 : loueur meublé non professionnel, régime réel et amortissements","description":"Tout comprendre sur le statut LMNP : micro-BIC vs régime réel BIC, amortissements du bien et du mobilier, liasse fiscale 2031, CFE, seuil LMP à 23 000€.","image":"https://bailleursuite.fr/og-image.png","datePublished":"2026-07-05T09:00:00+02:00","dateModified":"2026-07-05T09:00:00+02:00","inLanguage":"fr","author":{"@type":"Organization","name":"BailleurSuite","url":"https://bailleursuite.fr/"},"publisher":{"@type":"Organization","name":"BailleurSuite","url":"https://bailleursuite.fr"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Qui est concerné par le statut LMNP ?","acceptedAnswer":{"@type":"Answer","text":"Tout particulier qui loue un logement meublé (avec meubles suffisants pour y vivre : literie, cuisine équipée, etc.) et dont les recettes locatives n'excèdent pas 23 000€/an OU restent inférieures à ses revenus d'activité professionnelle. Au-dessus de ces deux seuils cumulés, le statut bascule en LMP (Loueur Meublé Professionnel)."}},{"@type":"Question","name":"Quelle est la différence entre micro-BIC et régime réel LMNP ?","acceptedAnswer":{"@type":"Answer","text":"Le micro-BIC applique un abattement forfaitaire de 50% sur les loyers (71% en meublé de tourisme classé). Le régime réel BIC permet de déduire toutes les charges réelles et d'amortir le bien et le mobilier, ce qui annule souvent totalement l'impôt sur plusieurs années."}},{"@type":"Question","name":"Comment fonctionnent les amortissements LMNP ?","acceptedAnswer":{"@type":"Answer","text":"En régime réel BIC, vous pouvez amortir le bien immobilier (hors terrain) sur 25 à 40 ans, les travaux sur 5 à 15 ans et le mobilier sur 5 à 10 ans. Ces dotations aux amortissements viennent en déduction du résultat BIC, réduisant voire annulant l'impôt sans sortie de trésorerie."}},{"@type":"Question","name":"La CFE est-elle obligatoire en LMNP ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Dès la première location meublée, vous êtes redevable de la Cotisation Foncière des Entreprises (CFE), même en tant que particulier. Elle est due au titre de l'activité BIC et peut varier de quelques dizaines à plusieurs centaines d'euros selon la commune et la valeur locative du bien."}},{"@type":"Question","name":"Qu'est-ce que la liasse 2031 et quand doit-on la déposer ?","acceptedAnswer":{"@type":"Answer","text":"La liasse 2031 (et ses annexes 2033) est la déclaration de résultats BIC simplifiée déposée par les LMNP au régime réel. Elle doit être transmise en ligne via impots.gouv.fr avant le 2ème jour ouvré suivant le 1er mai (même date que la 2042). Le résultat net BIC reporté sur la 2042C PRO devient imposable à l'IR."}}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+<link rel="stylesheet" href="/styles/design-system.css">
+<style>
+/* Page-specific token overrides */
+:root {
+  --bg: #F7F4EE;
+  --surface: rgba(255,255,255,.68); --surface-strong: rgba(255,255,255,.88);
+  --ink: #111315; --ink-soft: #50545A; --ink-light: #6A6D72;
+  --line: rgba(17,19,21,.07);
+  --radius-xl: 34px; --radius-lg: 26px; --radius-md: 16px;
+  --shadow-soft: 0 10px 30px rgba(0,0,0,.04); --shadow-large: 0 30px 80px rgba(0,0,0,.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #111315; --surface: rgba(255,255,255,.05); --surface-strong: rgba(255,255,255,.08);
+    --ink: #F0EDE8; --ink-soft: #9A9DA3; --ink-light: #5A5D63;
+    --line: rgba(255,255,255,.07); }
+}
+body { color: var(--ink); }
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 10%,rgba(45,106,79,.07),transparent 35%),radial-gradient(circle at 85% 5%,rgba(201,168,76,.05),transparent 35%);pointer-events:none;z-index:-1}
+
+.guide-title, .app-promo h2 { font-weight: 400; font-synthesis: none;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* HERO */
+.hero{min-height:72vh;display:flex;align-items:center;padding:100px 24px 80px;position:relative;overflow:hidden;text-align:center}
+.hero-glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(ellipse,rgba(45,106,79,.09) 0%,transparent 65%);pointer-events:none}
+.hero-content{max-width:740px;margin:0 auto;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--surface-strong);border:1px solid rgba(45,106,79,.25);color:var(--mint);font-size:0.72rem;font-weight:600;padding:6px 16px;border-radius:100px;margin-bottom:28px;letter-spacing:0.06em;text-transform:uppercase;box-shadow:var(--shadow-soft)}
+.hero-badge::before{content:'●';font-size:.45rem}
+.hero h1{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.1;color:var(--ink);letter-spacing:-0.03em;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--mint)}
+.hero-intro{font-size:1.08rem;color:var(--ink-soft);line-height:1.7;font-weight:300;max-width:520px;margin:0 auto 28px}
+.hero-meta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+.hero-meta span{font-size:0.78rem;color:var(--ink-light)}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--mint);color:white;padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.9rem;box-shadow:0 8px 24px rgba(45,106,79,.3);transition:transform .2s,box-shadow .2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(45,106,79,.4)}
+.btn-secondary{background:var(--surface-strong);color:var(--ink);padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:500;font-size:.9rem;border:1px solid var(--line);transition:background .2s}
+.btn-secondary:hover{background:white}
+
+/* LAYOUT */
+.layout-grid{max-width:1160px;margin:0 auto;padding:0 24px 100px;display:grid;grid-template-columns:240px 1fr;gap:52px;align-items:start}
+@media(max-width:900px){.layout-grid{grid-template-columns:1fr}}
+
+/* SIDEBAR */
+.sidebar-toc{position:sticky;top:90px}
+@media(max-width:900px){.sidebar-toc{display:none}}
+.toc-card{background:var(--surface);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.45);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-soft)}
+.toc-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-light);margin-bottom:16px}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
+.toc-list a{display:block;font-size:.82rem;color:var(--ink-soft);text-decoration:none;padding:7px 10px;border-radius:10px;transition:background .15s,color .15s;line-height:1.4}
+.toc-list a:hover,.toc-list a.active{background:var(--mint-pale);color:var(--mint)}
+.toc-list a.active{font-weight:500}
+.toc-guide-box{margin-top:20px;background:linear-gradient(135deg,var(--mint),#1A4A35);border-radius:var(--radius-md);padding:18px;text-align:center}
+.toc-guide-box p{font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.5;margin-bottom:12px;max-width:100%}
+.toc-guide-btn{display:block;background:white;color:var(--mint);padding:9px 16px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.78rem}
+
+/* ARTICLE */
+.article-content{min-width:0}
+.guide-box{background:linear-gradient(135deg,var(--mint),#1A4A35);border-radius:var(--radius-lg);padding:28px 32px;margin-bottom:52px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;box-shadow:0 16px 48px rgba(45,106,79,.2)}
+.guide-icon{font-size:2.5rem;flex-shrink:0}
+.guide-text{flex:1;min-width:200px}
+.guide-title{font-family:var(--serif);font-size:1.25rem;color:white;margin-bottom:6px}
+.guide-desc{font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.5}
+.guide-btn{background:white;color:var(--mint);padding:12px 22px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.85rem;white-space:nowrap;flex-shrink:0;transition:transform .2s}
+.guide-btn:hover{transform:translateY(-1px)}
+
+/* TYPOGRAPHIE */
+.article-content h2{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-top:64px;margin-bottom:18px;line-height:1.2;letter-spacing:-0.03em;scroll-margin-top:90px}
+.article-content h2:first-of-type{margin-top:0}
+.article-content h3{font-family:var(--sans);font-size:1.08rem;font-weight:600;color:var(--ink);margin-top:32px;margin-bottom:10px}
+.article-content p{font-size:1.02rem;color:var(--ink-soft);line-height:1.9;letter-spacing:-0.01em;font-weight:300;margin-bottom:18px;max-width:70ch}
+.article-content p strong{color:var(--ink);font-weight:600}
+.article-content ul,.article-content ol{padding-left:22px;margin-bottom:22px;display:flex;flex-direction:column;gap:9px}
+.article-content li{font-size:1rem;color:var(--ink-soft);line-height:1.7;font-weight:300}
+.article-content li strong{color:var(--ink)}
+
+/* CALLOUTS */
+.callout{border-radius:22px;padding:22px 26px;margin:28px 0;border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(16px);box-shadow:0 8px 30px rgba(0,0,0,.04),inset 0 1px rgba(255,255,255,.4)}
+.callout-info{background:rgba(232,242,236,.75);border-color:rgba(45,106,79,.2)}
+.callout-warn{background:rgba(249,243,227,.75);border-color:rgba(201,168,76,.25)}
+.callout-danger{background:rgba(253,233,233,.75);border-color:rgba(192,57,43,.15)}
+.callout-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.callout-icon{font-size:1.1rem}
+.callout-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.callout-info .callout-label{color:var(--mint)}
+.callout-warn .callout-label{color:#7A4800}
+.callout-danger .callout-label{color:#8B1A1A}
+.callout p{font-size:.9rem;margin-bottom:0;max-width:100%}
+
+/* TABLEAUX */
+.table-wrap{overflow:hidden;border-radius:var(--radius-lg);margin:28px 0;background:var(--surface);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.4);box-shadow:0 14px 50px rgba(0,0,0,.05);overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:500px}
+th{background:var(--mint);color:white;padding:14px 18px;text-align:left;font-weight:600;font-size:.82rem;letter-spacing:.02em}
+td{padding:13px 18px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;transition:background .15s}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(45,106,79,.03)}
+.amort-type{font-family:monospace;font-weight:700;color:var(--mint);background:var(--mint-pale);padding:3px 9px;border-radius:8px;font-size:.83rem}
+
+/* ÉTAPES */
+.steps{display:flex;flex-direction:column;margin:32px 0}
+.step{display:flex;gap:22px;padding:26px 0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:none}
+.step-num{width:38px;height:38px;border-radius:50%;background:var(--mint);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;flex-shrink:0;margin-top:2px;box-shadow:0 4px 14px rgba(45,106,79,.25)}
+.step-content h3{margin-top:0;margin-bottom:8px}
+.step-content p{margin-bottom:0}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:.97rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;gap:16px;transition:color .2s}
+.faq-q:hover{color:var(--mint)}
+.faq-icon{font-size:1.2rem;color:var(--mint);flex-shrink:0;transition:transform .3s}
+.faq-a{display:none;padding-bottom:20px;color:var(--ink-soft);font-size:.92rem;line-height:1.75;font-weight:300}
+
+/* CTA APP */
+.app-promo{position:relative;overflow:hidden;background:radial-gradient(circle at top right,rgba(45,106,79,.35),transparent 45%),linear-gradient(145deg,#111214,#1D1F22);border-radius:var(--radius-xl);border:1px solid rgba(255,255,255,.07);box-shadow:0 25px 80px rgba(0,0,0,.22);padding:56px 48px;text-align:center;margin-top:64px}
+@media(max-width:600px){.app-promo{padding:40px 28px}}
+.app-promo::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(201,168,76,.12),transparent 65%);pointer-events:none}
+.app-promo-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(45,106,79,.25);border:1px solid rgba(45,106,79,.4);color:#5DB888;font-size:.7rem;font-weight:600;padding:5px 14px;border-radius:100px;margin-bottom:22px;letter-spacing:.06em;text-transform:uppercase}
+.app-promo h2{font-family:var(--serif);font-size:clamp(1.7rem,3vw,2.4rem);color:white;margin-bottom:14px;letter-spacing:-0.03em;margin-top:0}
+.app-promo p{color:rgba(255,255,255,.55);font-size:.97rem;max-width:460px;margin:0 auto 32px;line-height:1.7;max-width:100%}
+.appstore-btn{display:inline-flex;align-items:center;gap:10px;background:white;color:#111;padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:transform .2s,box-shadow .2s}
+.appstore-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,.4)}
+
+/* FADE UP */
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* MOBILE STICKY */
+.mobile-cta-sticky{display:none;position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:rgba(247,244,238,.95);backdrop-filter:blur(16px);border-top:1px solid var(--line);z-index:200;justify-content:space-between;align-items:center;gap:12px}
+@media(max-width:680px){.mobile-cta-sticky{display:flex}}
+.mobile-cta-sticky span{font-size:.82rem;color:var(--ink-soft);line-height:1.3}
+.mobile-cta-sticky a{background:var(--mint);color:white;padding:11px 20px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.82rem;white-space:nowrap;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<header>
+<nav class="site-nav" aria-label="Navigation principale">
+  <a class="nav-logo" href="https://bailleursuite.fr">
+    <div class="nav-logo-icon">
+      <svg width="20" height="20" viewBox="0 0 46 46" fill="none">
+        <circle cx="17" cy="18" r="7.5" stroke="#F5F0E8" stroke-width="2.8" fill="none"/>
+        <circle cx="17" cy="18" r="2.5" fill="#C9A84C"/>
+        <line x1="22.5" y1="23.5" x2="35" y2="36" stroke="#F5F0E8" stroke-width="2.8" stroke-linecap="round"/>
+        <line x1="27" y1="33" x2="27" y2="30" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="30.5" y1="33" x2="30.5" y2="28" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="34" y1="33" x2="34" y2="26" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    Bailleur<span class="nav-logo-suite">Suite</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice</a>
+    <a class="nav-link" href="https://bailleursuite.fr/declaration-2044-guide">Guide 2044</a>
+    <a class="nav-link" href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP</a>
+    <a class="nav-link" href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF</a>
+    <a class="nav-link" href="https://bailleursuite.fr/aide">Aide</a>
+  </div>
+  <a class="nav-cta" href="https://bailleursuite.fr/#waitlist">Être notifié au lancement — Septembre 2026</a>
+  <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-label="Ouvrir le menu">
+    <span class="nav-burger-line"></span>
+    <span class="nav-burger-line"></span>
+    <span class="nav-burger-line"></span>
+  </button>
+</nav>
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+  <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+  <a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP 2026</a>
+  <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+  <a href="https://bailleursuite.fr/aide">Centre d'aide</a>
+</div>
+</header>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Guide fiscal 2026</div>
+    <h1>LMNP :<br><em>le guide complet</em><br>pour les loueurs meublés non professionnels</h1>
+    <p class="hero-intro">Micro-BIC ou régime réel, amortissements, liasse 2031, CFE et seuil LMP — tout ce qu'il faut maîtriser pour optimiser votre fiscalité en location meublée.</p>
+    <div class="hero-meta">
+      <span>📅 Mis à jour juillet 2026</span>
+      <span>&nbsp;·&nbsp;</span>
+      <span>⏱ Lecture 10 min</span>
+      <span>&nbsp;·&nbsp;</span>
+      <span>🏠 Location meublée</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#guide" class="btn-primary">Lire le guide</a>
+      <a href="https://bailleursuite.fr#waitlist" class="btn-secondary">📋 Guide PDF offert</a>
+    </div>
+  </div>
+</section>
+
+<div class="layout-grid">
+
+  <aside class="sidebar-toc">
+    <div class="toc-card">
+      <div class="toc-title">Sommaire</div>
+      <ul class="toc-list">
+        <li><a href="#qui-est-lmnp" class="toc-link">1. Qui est LMNP ?</a></li>
+        <li><a href="#micro-vs-reel" class="toc-link">2. Micro-BIC ou régime réel ?</a></li>
+        <li><a href="#amortissements" class="toc-link">3. Les amortissements LMNP</a></li>
+        <li><a href="#liasse-2031" class="toc-link">4. La liasse 2031</a></li>
+        <li><a href="#cfe" class="toc-link">5. La CFE</a></li>
+        <li><a href="#seuil-lmp" class="toc-link">6. Le seuil LMP</a></li>
+        <li><a href="#pieges" class="toc-link">7. Les erreurs courantes</a></li>
+        <li><a href="#faq" class="toc-link">8. FAQ</a></li>
+      </ul>
+      <div class="toc-guide-box">
+        <p>Guide PDF LMNP — amortissements et liasse 2031 expliqués</p>
+        <a href="https://bailleursuite.fr#waitlist" class="toc-guide-btn">Recevoir gratuitement →</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="article-content" id="guide">
+
+    <p style="font-size:.75rem;color:var(--ink-light);margin-bottom:28px;display:flex;align-items:center;gap:6px;">
+      <a href="https://bailleursuite.fr">BailleurSuite</a> <span>›</span> <span>Guide LMNP 2026</span>
+    </p>
+
+    <div class="guide-box fade-up">
+      <div class="guide-icon">🏠</div>
+      <div class="guide-text">
+        <div class="guide-title">Guide PDF offert — LMNP & amortissements</div>
+        <div class="guide-desc">«&nbsp;Maîtriser le régime réel LMNP&nbsp;» — Amortissements, liasse 2031, CFE, cases à reporter. Reçu immédiatement par email.</div>
+      </div>
+      <a href="https://bailleursuite.fr#waitlist" class="guide-btn">Recevoir le guide →</a>
+    </div>
+
+    <h2 id="qui-est-lmnp" class="fade-up">1. Qui est concerné par le statut LMNP ?</h2>
+    <p>Le statut de <strong>Loueur Meublé Non Professionnel (LMNP)</strong> s'applique à tout particulier qui loue un logement meublé — c'est-à-dire équipé de manière suffisante pour que le locataire puisse y vivre normalement, sans avoir à apporter ses propres meubles.</p>
+    <p>Vous êtes LMNP si vous remplissez au moins l'une des deux conditions suivantes :</p>
+    <ul>
+      <li class="fade-up">Vos <strong>recettes de location meublée sont inférieures à 23 000€</strong> par an</li>
+      <li class="fade-up">Vos recettes de location meublée sont <strong>inférieures à vos revenus d'activité professionnelle</strong> (salaires, BNC, etc.)</li>
+    </ul>
+    <p>Si vous dépassez simultanément ces deux seuils, vous basculez en <strong>LMP (Loueur Meublé Professionnel)</strong>, avec des obligations comptables et sociales différentes.</p>
+
+    <div class="callout callout-info fade-up">
+      <div class="callout-header"><span class="callout-icon">📌</span><span class="callout-label">Différence avec la location nue</span></div>
+      <p>En location meublée, les revenus relèvent des <strong>Bénéfices Industriels et Commerciaux (BIC)</strong> et non des revenus fonciers. Cela change radicalement la fiscalité applicable : pas de déclaration 2044, mais une liasse 2031 ou une case spécifique de la 2042C PRO selon le régime choisi.</p>
+    </div>
+
+    <h2 id="micro-vs-reel" class="fade-up">2. Micro-BIC ou régime réel BIC : quel régime choisir ?</h2>
+    <p>C'est le choix fiscal structurant de tout LMNP. Il détermine directement votre imposition sur les loyers perçus.</p>
+
+    <div class="table-wrap fade-up">
+      <table>
+        <thead><tr><th>Critère</th><th>Micro-BIC</th><th>Régime réel BIC</th></tr></thead>
+        <tbody>
+          <tr><td>Seuil d'accès</td><td>Recettes ≤ 77 700€/an<br><small style="color:var(--ink-light)">(23 000€ pour meublés de tourisme non classés)</small></td><td>Tous (obligatoire si &gt; 77 700€)</td></tr>
+          <tr><td>Abattement / déduction</td><td>50% forfaitaire<br><small style="color:var(--ink-light)">(71% en meublé de tourisme classé)</small></td><td>Charges réelles + amortissements</td></tr>
+          <tr><td>Amortissements</td><td>Non</td><td>Oui — bien, travaux, mobilier</td></tr>
+          <tr><td>Déclaration</td><td>Case 5ND / 5NF de la 2042C PRO</td><td>Liasse 2031 + report en 2042C PRO</td></tr>
+          <tr><td>Complexité</td><td>Très simple</td><td>Nécessite un plan d'amortissement</td></tr>
+          <tr><td>Avantage</td><td>Si charges réelles &lt; 50% des loyers</td><td>Si bien récent / travaux / crédit en cours</td></tr>
+          <tr><td>Engagement</td><td>Annuel</td><td>Annuel (option avant le 1er février)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Quand le régime réel est-il plus intéressant ?</h3>
+    <p>Le régime réel devient rentable dès que vos charges déductibles et amortissements dépassent <strong>50% de vos loyers</strong>. C'est presque toujours le cas si vous avez :</p>
+    <ul>
+      <li class="fade-up">Un crédit immobilier en cours (intérêts déductibles)</li>
+      <li class="fade-up">Un bien récent ou rénové récemment (amortissements élevés les premières années)</li>
+      <li class="fade-up">Des travaux d'entretien ou d'amélioration à déduire</li>
+      <li class="fade-up">Des charges de copropriété, assurances, frais de gestion importants</li>
+    </ul>
+
+    <div class="callout callout-info fade-up">
+      <div class="callout-header"><span class="callout-icon">💡</span><span class="callout-label">Exemple chiffré</span></div>
+      <p>Bien acheté 200 000€ (hors terrain à 20%) loué 800€/mois. En régime réel : amortissement annuel ≈ 4 800€ (bien, 30 ans) + 1 600€ (mobilier) + 3 000€ de charges courantes = 9 400€ de charges. Pour 9 600€ de loyers, le résultat BIC est quasiment nul. En micro-BIC, vous seriez imposé sur 4 800€ (50% de 9 600€).</p>
+    </div>
+
+    <h2 id="amortissements" class="fade-up">3. Les amortissements LMNP en régime réel</h2>
+    <p>C'est l'<strong>avantage décisif</strong> du régime réel LMNP. Les amortissements permettent de déduire comptablement la dépréciation du bien, des travaux et du mobilier — sans sortie d'argent réelle.</p>
+
+    <h3>Quels éléments amortir ?</h3>
+    <div class="table-wrap fade-up">
+      <table>
+        <thead><tr><th>Élément</th><th>Durée typique</th><th>Commentaire</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Bien immobilier (hors terrain)</strong></td><td><span class="amort-type">25 – 40 ans</span></td><td>Le terrain n'est jamais amortissable. Base = prix d'achat hors terrain (généralement 10 à 20% du prix total).</td></tr>
+          <tr><td><strong>Travaux de construction ou d'amélioration</strong></td><td><span class="amort-type">10 – 15 ans</span></td><td>Aménagements, cuisine équipée posée, salle de bain refaite.</td></tr>
+          <tr><td><strong>Travaux d'entretien importants</strong></td><td><span class="amort-type">5 – 10 ans</span></td><td>Peinture, revêtements de sol, électricité si &gt; 500€.</td></tr>
+          <tr><td><strong>Mobilier</strong></td><td><span class="amort-type">5 – 10 ans</span></td><td>Canapés, literie, électroménager, bureau. Chaque élément peut être amorti séparément.</td></tr>
+          <tr><td><strong>Frais d'acquisition</strong></td><td><span class="amort-type">5 ans</span></td><td>Honoraires d'agence, frais de notaire. Option : déduction en charges la 1ère année.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warn fade-up">
+      <div class="callout-header"><span class="callout-icon">⚠️</span><span class="callout-label">Règle d'or des amortissements</span></div>
+      <p>Les amortissements ne peuvent pas créer de <strong>déficit BIC</strong> : ils ne sont déductibles qu'à hauteur du résultat avant amortissements. La quote-part non déduite est <strong>reportée indéfiniment</strong> sur les exercices futurs — un avantage fiscal qui s'accumule sans jamais se perdre.</p>
+    </div>
+
+    <h3>Comment calculer un amortissement ?</h3>
+    <p>Le calcul le plus courant est l'amortissement <strong>linéaire par composants</strong> : on décompose le bien en éléments (gros œuvre, toiture, électricité, etc.) et on applique un taux annuel à chacun. BailleurSuite calcule et suit automatiquement votre plan d'amortissement.</p>
+
+    <div class="callout callout-info fade-up">
+      <div class="callout-header"><span class="callout-icon">📌</span><span class="callout-label">Amortissements et plus-value</span></div>
+      <p>En LMNP, les amortissements ne réduisent <strong>pas</strong> le prix de revient pour le calcul de la plus-value à la revente (contrairement au LMP). Vous profitez d'amortissements défiscalisants pendant la détention <em>et</em> du régime des plus-values des particuliers à la sortie.</p>
+    </div>
+
+    <h2 id="liasse-2031" class="fade-up">4. La liasse fiscale 2031 : déclaration et dépôt</h2>
+    <p>En régime réel BIC, le LMNP doit déposer chaque année une <strong>liasse fiscale 2031</strong> (déclaration de résultats BIC) accompagnée de ses annexes simplifiées <strong>2033-A à 2033-G</strong>.</p>
+
+    <div class="steps">
+      <div class="step fade-up">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Établir le compte de résultat (2033-B)</h3>
+          <p>Recettes locatives, charges déductibles (intérêts, assurances, copropriété, gestion, taxe foncière) et dotations aux amortissements. Le solde donne le résultat BIC net.</p>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Compléter le bilan simplifié (2033-A)</h3>
+          <p>Valeur nette comptable du bien après amortissements cumulés, créances (loyers dus), dettes (crédit restant). Le bilan retrace l'actif et le passif de votre activité LMNP.</p>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Déposer la liasse en ligne (impots.gouv.fr)</h3>
+          <p>La transmission se fait via la procédure EDI-TDFC ou via le compte professionnel sur impots.gouv.fr avant la <strong>date limite de dépôt de la 2042</strong> (début mai). Aucun dépôt papier n'est accepté.</p>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Reporter le résultat sur la 2042C PRO</h3>
+          <p>Le résultat BIC positif est reporté en <strong>case 5NA</strong> (ou 5NB) de la déclaration complémentaire 2042C PRO. S'il est nul ou négatif (déficit hors amortissements), cases dédiées de report.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-warn fade-up">
+      <div class="callout-header"><span class="callout-icon">⚠️</span><span class="callout-label">Première déclaration</span></div>
+      <p>À l'ouverture de votre activité LMNP, vous devez également effectuer une <strong>déclaration de début d'activité</strong> (formulaire P0i) auprès du greffe du tribunal de commerce — désormais en ligne via le guichet unique des entreprises (guichet-entreprises.fr). Cela vous attribue un numéro SIRET, obligatoire pour la liasse 2031 et la CFE.</p>
+    </div>
+
+    <h2 id="cfe" class="fade-up">5. La Cotisation Foncière des Entreprises (CFE)</h2>
+    <p>En tant que LMNP, vous exercez une <strong>activité professionnelle BIC</strong> et êtes donc redevable de la <strong>CFE</strong>, même si vous êtes un simple particulier avec un seul bien loué.</p>
+    <p>La CFE est calculée sur la <strong>valeur locative cadastrale</strong> de votre bien et varie selon la commune. Elle est généralement comprise entre 50€ et 500€ par an pour un LMNP classique.</p>
+
+    <div class="callout callout-info fade-up">
+      <div class="callout-header"><span class="callout-icon">💡</span><span class="callout-label">Exonération de CFE possible</span></div>
+      <p>La première année d'activité, vous bénéficiez d'une <strong>exonération automatique de CFE</strong>. Certaines communes accordent également une exonération permanente aux LMNP dont les recettes n'excèdent pas un seuil local. Renseignez-vous auprès de votre service des impôts des entreprises (SIE).</p>
+    </div>
+
+    <h2 id="seuil-lmp" class="fade-up">6. Le seuil LMP à 23 000€ : ce qui change</h2>
+    <p>Si vos recettes de location meublée dépassent <strong>23 000€/an</strong> <em>et</em> excèdent vos revenus d'activité professionnelle, vous basculez en <strong>LMP (Loueur Meublé Professionnel)</strong>. Ce statut implique des différences importantes :</p>
+
+    <div class="table-wrap fade-up">
+      <table>
+        <thead><tr><th>Aspect</th><th>LMNP</th><th>LMP</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Déficit imputable</strong></td><td>Non (report sur BIC futurs)</td><td>Oui, sur le revenu global sans limite</td></tr>
+          <tr><td><strong>Exonération de plus-value</strong></td><td>Non (régime des plus-values particuliers)</td><td>Possible après 5 ans d'activité</td></tr>
+          <tr><td><strong>Cotisations sociales</strong></td><td>Prélèvements sociaux 17,2%</td><td>Cotisations SSI (ex-RSI) obligatoires</td></tr>
+          <tr><td><strong>Exonération IFI</strong></td><td>Non (biens soumis à l'IFI)</td><td>Possible si activité principale</td></tr>
+          <tr><td><strong>Amortissements et plus-value</strong></td><td>Neutres sur la plus-value</td><td>Réintégration des amortissements déduits</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warn fade-up">
+      <div class="callout-header"><span class="callout-icon">⚠️</span><span class="callout-label">BailleurSuite vous alerte, mais ne gère pas le LMP</span></div>
+      <p>L'app calcule vos recettes en temps réel et vous alerte quand vous approchez ou dépassez le seuil de 23 000€. Si vous basculez en LMP, consultez un <strong>expert-comptable spécialisé</strong> : les implications fiscales et sociales sont significativement différentes et nécessitent un accompagnement professionnel.</p>
+    </div>
+
+    <h2 id="pieges" class="fade-up">7. Les 6 erreurs les plus courantes en LMNP</h2>
+    <ul>
+      <li class="fade-up"><strong>Rester en micro-BIC alors que le régime réel serait plus avantageux.</strong> Avec un crédit en cours ou un bien récent, les amortissements réduisent souvent l'impôt à zéro pendant 10 à 20 ans.</li>
+      <li class="fade-up"><strong>Oublier de déclarer le début d'activité (P0i).</strong> Sans SIRET, vous ne pouvez ni déposer la liasse 2031 ni payer la CFE, et vous risquez des pénalités.</li>
+      <li class="fade-up"><strong>Amortir le terrain.</strong> La fraction terrain du prix d'achat n'est jamais amortissable. Oublier de la soustraire gonfle artificiellement les amortissements — ce qui peut entraîner un redressement.</li>
+      <li class="fade-up"><strong>Ne pas conserver les factures de mobilier.</strong> Chaque meuble amorti doit être justifié par une facture. En cas de contrôle, l'absence de pièces justificatives entraîne la réintégration des amortissements.</li>
+      <li class="fade-up"><strong>Confondre recettes LMNP et LMP.</strong> Additionner par erreur des recettes d'autres sources dans votre calcul peut vous faire basculer en LMP avec des conséquences fiscales et sociales importantes.</li>
+      <li class="fade-up"><strong>Oublier la CFE.</strong> Même sans résultat bénéficiaire, la CFE est due dès la deuxième année d'activité. Son non-paiement génère des majorations automatiques.</li>
+    </ul>
+
+    <h2 id="faq" class="fade-up">8. Questions fréquentes</h2>
+
+    <div class="faq-item fade-up">
+      <button class="faq-q" onclick="toggleFaq(this)">Puis-je passer du micro-BIC au régime réel en cours d'année ?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Non. L'option pour le régime réel BIC s'exerce pour une année entière et doit être formulée avant le 1er février de l'année concernée (ou lors du dépôt de la première déclaration si c'est votre première année d'activité). La décision produit effet dès le 1er janvier de cette année.</div>
+    </div>
+    <div class="faq-item fade-up">
+      <button class="faq-q" onclick="toggleFaq(this)">Dois-je faire appel à un expert-comptable pour la liasse 2031 ?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Ce n'est pas légalement obligatoire. La liasse simplifiée 2033 (régime réel simplifié, applicable si CA &lt; 840 000€) est accessible à un particulier organisé. BailleurSuite génère le plan d'amortissement et prépare les données nécessaires à votre déclaration. Toutefois, si vous avez plusieurs biens, des opérations complexes ou approchez du seuil LMP, l'accompagnement d'un professionnel reste conseillé.</div>
+    </div>
+    <div class="faq-item fade-up">
+      <button class="faq-q" onclick="toggleFaq(this)">La location saisonnière (Airbnb) est-elle concernée par le LMNP ?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Oui. La location meublée de courte durée (type Airbnb, Booking) relève du régime LMNP dès lors que les seuils ne sont pas dépassés. Attention : en meublé de tourisme non classé, le seuil du micro-BIC est abaissé à 15 000€ (loi de finances 2024), contre 77 700€ pour les meublés classés.</div>
+    </div>
+    <div class="faq-item fade-up">
+      <button class="faq-q" onclick="toggleFaq(this)">Mes amortissements LMNP réduisent-ils ma plus-value à la revente ?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Non, c'est l'un des atouts du LMNP. Contrairement au LMP, les amortissements LMNP n'ont aucun impact sur la plus-value imposable lors de la revente. La plus-value est calculée comme pour n'importe quel particulier (prix de cession − prix d'acquisition), avec les abattements pour durée de détention. Vous cumulez les avantages des amortissements pendant la location et du régime des particuliers à la sortie.</div>
+    </div>
+    <div class="faq-item fade-up">
+      <button class="faq-q" onclick="toggleFaq(this)">Puis-je déduire mes intérêts d'emprunt en LMNP régime réel ?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Oui. En régime réel BIC, les intérêts d'emprunt (et l'assurance emprunteur) sont intégralement déductibles des recettes locatives meublées. Ils s'ajoutent aux amortissements et aux autres charges pour former votre résultat BIC — souvent négatif les premières années, ce qui reporte les amortissements excédentaires sur l'exercice suivant.</div>
+    </div>
+    <div class="faq-item fade-up">
+      <button class="faq-q" onclick="toggleFaq(this)">Que se passe-t-il si je vends mon bien LMNP ?<span class="faq-icon">+</span></button>
+      <div class="faq-a">En LMNP, la plus-value relève du régime des plus-values immobilières des particuliers. Elle est imposée à 19% + 17,2% de prélèvements sociaux, avec des abattements selon la durée de détention (exonération totale après 22 ans pour l'IR, 30 ans pour les prélèvements sociaux). Les amortissements déduits n'affectent pas le calcul. Si votre bien est loué meublé via une SARL de famille ou une SCI à l'IS, les règles diffèrent.</div>
+    </div>
+
+    <div class="app-promo fade-up">
+      <div class="app-promo-badge">🍎 Disponible septembre 2026</div>
+      <h2>BailleurSuite gère votre LMNP de A à Z</h2>
+      <p>Plan d'amortissement automatique, suivi des recettes vs seuil LMP, préparation de la liasse 2031 et alerte CFE — tout ce qu'il faut pour optimiser votre fiscalité sans y passer des heures.</p>
+      <a href="https://bailleursuite.fr#waitlist" class="appstore-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Accès bêta gratuit →
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<div class="mobile-cta-sticky">
+  <span>Guide PDF LMNP — amortissements offerts</span>
+  <a href="https://bailleursuite.fr#waitlist">Recevoir →</a>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <nav class="site-footer-nav" aria-label="Liens de pied de page">
+      <a href="https://bailleursuite.fr">Accueil</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#tarifs">Tarifs</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#faq">FAQ</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP 2026</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/aide">Centre d'aide</a>
+    </nav>
+    <div class="site-footer-bottom">
+      <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>
+      <p style="margin-top:8px;">
+        <a href="https://bailleursuite.fr/conditions-utilisation.html">Mentions légales &amp; CGU</a>
+        <a href="https://bailleursuite.fr/politique-confidentialite.html">Politique de confidentialité</a>
+        <a href="mailto:contact@bailleursuite.fr">Contact</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('reading-progress').style.width = (s / h * 100) + '%';
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  const sections = document.querySelectorAll('h2[id]');
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const tocObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0% -70% 0%' });
+  sections.forEach(s => tocObs.observe(s));
+
+  function toggleFaq(btn) {
+    const a = btn.nextElementSibling, icon = btn.querySelector('.faq-icon');
+    const open = a.style.display === 'block';
+    document.querySelectorAll('.faq-a').forEach(x => x.style.display = 'none');
+    document.querySelectorAll('.faq-icon').forEach(i => { i.textContent = '+'; i.style.transform = 'rotate(0)'; });
+    if (!open) { a.style.display = 'block'; icon.textContent = '×'; icon.style.transform = 'rotate(90deg)'; }
+  }
+</script>
+<script>
+(function(){
+  var b=document.getElementById('nav-burger'),m=document.getElementById('nav-mobile-menu');
+  if(!b||!m)return;
+  b.addEventListener('click',function(){
+    var o=m.classList.toggle('is-open');
+    b.setAttribute('aria-expanded',String(o));
+  });
+  document.addEventListener('click',function(e){
+    if(m.classList.contains('is-open')&&!m.contains(e.target)&&!b.contains(e.target)){
+      m.classList.remove('is-open');
+      b.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+</body>
+</html>
