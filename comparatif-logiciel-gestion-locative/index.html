@@ -27,13 +27,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #F7F4EE; --surface: rgba(255,255,255,.72); --surface-strong: rgba(255,255,255,.9);
-  --ink: #111315; --ink-soft: #50545A; --ink-light: #8A8D92;
-  --mint: #2D6A4F; --mint-pale: #E6F2EC; --gold: #C9A84C; --gold-pale: #F9F3E3;
-  --line: rgba(17,19,21,.07); --radius-xl: 34px; --radius-lg: 26px; --radius-md: 16px;
-  --serif: 'Instrument Serif', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
-  --shadow-soft: 0 10px 30px rgba(0,0,0,.04);
+/* === TOKENS === */
+:root{
+  --bg:#F7F4EE;--surface:rgba(255,255,255,.72);--surface-strong:rgba(255,255,255,.9);
+  --ink:#111315;--ink-soft:#50545A;--ink-light:#8A8D92;
+  --mint:#2D6A4F;--mint-pale:#E6F2EC;--gold:#C9A84C;--gold-pale:#F9F3E3;
+  --line:rgba(17,19,21,.07);--radius-xl:34px;--radius-lg:26px;--radius-md:16px;
+  --serif:'Instrument Serif',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+  --shadow-soft:0 10px 30px rgba(0,0,0,.04);--deep:#0E1012;
 }
 @media(prefers-color-scheme:dark){
   :root{--bg:#111315;--surface:rgba(255,255,255,.05);--surface-strong:rgba(255,255,255,.08);
@@ -44,8 +45,10 @@ html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:-20%;background:radial-gradient(circle at 15% 10%,rgba(45,106,79,.07),transparent 35%),radial-gradient(circle at 85% 5%,rgba(201,168,76,.05),transparent 35%);pointer-events:none;z-index:-1}
 
+/* === PROGRESS === */
 .reading-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--mint),var(--gold));z-index:9999;transition:width .1s linear}
 
+/* === NAV === */
 nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:1200px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,244,238,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.55);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.06);z-index:100}
 @media(prefers-color-scheme:dark){nav{background:rgba(17,19,21,.88);border-color:rgba(255,255,255,.1)}}
 .nav-logo{font-family:var(--sans);font-size:1.05rem;font-weight:600;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:9px;text-decoration:none}
@@ -57,30 +60,46 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .nav-cta{background:var(--mint);color:white;padding:9px 18px;border-radius:100px;font-size:.8rem;font-weight:500;text-decoration:none;transition:opacity .2s}
 .nav-cta:hover{opacity:.85}
 .nav-burger{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:6px 4px;margin-left:8px}
-.nav-burger-line{width:20px;height:2px;background:var(--ink);border-radius:2px;transition:transform .3s,opacity .3s}
+.nav-burger-line{width:20px;height:2px;background:var(--ink);border-radius:2px}
 .nav-mobile-menu{display:none;position:fixed;top:72px;left:16px;right:16px;background:var(--surface-strong);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.55);border-radius:18px;padding:8px;z-index:99;box-shadow:0 16px 40px rgba(0,0,0,.12)}
 .nav-mobile-menu.is-open{display:flex;flex-direction:column}
 .nav-mobile-menu a{padding:12px 16px;font-size:.9rem;color:var(--ink);text-decoration:none;border-radius:10px;font-weight:400}
 .nav-mobile-menu a:hover{background:rgba(45,106,79,.08)}
 @media(max-width:768px){.nav-links,.nav-cta{display:none}.nav-burger{display:flex}}
 
-/* HERO */
-.hero{min-height:55vh;display:flex;align-items:center;padding:130px 24px 56px;position:relative;overflow:hidden;text-align:center}
-.hero::before{content:'';position:absolute;inset:-20%;background:radial-gradient(circle at 20% 20%,rgba(45,106,79,.12),transparent 35%),radial-gradient(circle at 80% 30%,rgba(201,168,76,.08),transparent 35%);pointer-events:none}
-.hero-content{max-width:800px;margin:0 auto;position:relative;z-index:1}
-.hero-breadcrumb{font-size:.72rem;color:var(--ink-light);display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:20px}
+/* === HERO === */
+.hero{min-height:92vh;display:flex;align-items:center;padding:120px 24px 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 60%,rgba(45,106,79,.13),transparent 45%),radial-gradient(ellipse at 75% 20%,rgba(201,168,76,.08),transparent 45%);pointer-events:none}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:96px;align-items:center;width:100%;position:relative;z-index:1}
+@media(max-width:960px){.hero-inner{grid-template-columns:1fr;gap:48px;text-align:center}}
+.hero-breadcrumb{font-size:.72rem;color:var(--ink-light);display:flex;align-items:center;gap:6px;margin-bottom:20px}
+@media(max-width:960px){.hero-breadcrumb{justify-content:center}}
 .hero-breadcrumb a{color:var(--mint);text-decoration:none}
 .hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--surface-strong);border:1px solid rgba(45,106,79,.25);color:var(--mint);font-size:.72rem;font-weight:600;padding:6px 16px;border-radius:100px;margin-bottom:24px;letter-spacing:.06em;text-transform:uppercase;box-shadow:var(--shadow-soft)}
-.hero h1{font-family:var(--serif);font-size:clamp(2rem,4.5vw,3.2rem);line-height:1.12;color:var(--ink);letter-spacing:-0.03em;margin-bottom:18px}
+.hero h1{font-family:var(--serif);font-size:clamp(2.2rem,4.8vw,3.6rem);line-height:1.08;color:var(--ink);letter-spacing:-0.03em;margin-bottom:22px}
 .hero h1 em{font-style:italic;color:var(--mint)}
-.hero-intro{font-size:1.02rem;color:var(--ink-soft);line-height:1.7;font-weight:300;max-width:600px;margin:0 auto 24px}
-.hero-meta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.hero-intro{font-size:1.05rem;color:var(--ink-soft);line-height:1.78;font-weight:300;margin-bottom:32px;max-width:52ch}
+@media(max-width:960px){.hero-intro{margin-left:auto;margin-right:auto}}
+.hero-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+@media(max-width:960px){.hero-meta{justify-content:center}}
 .hero-meta span{font-size:.78rem;color:var(--ink-light)}
+.hero-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+@media(max-width:960px){.hero-actions{justify-content:center}}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--mint);color:white;padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.92rem;box-shadow:0 8px 28px rgba(45,106,79,.35);transition:opacity .2s,transform .2s}
+.hero-cta:hover{opacity:.9;transform:translateY(-2px)}
+.hero-scroll{font-size:.85rem;color:var(--ink-light);text-decoration:none;display:flex;align-items:center;gap:6px}
+.hero-scroll:hover{color:var(--mint)}
 
-/* CONTENT */
-.content{max-width:900px;margin:0 auto;padding:0 24px 100px}
-.content h2{font-family:var(--serif);font-size:clamp(1.6rem,3.2vw,2.2rem);color:var(--ink);margin-top:64px;margin-bottom:16px;line-height:1.2;letter-spacing:-0.03em;scroll-margin-top:90px}
-.content h2:first-of-type{margin-top:0}
+/* Hero phone */
+.hero-visual{display:flex;align-items:center;justify-content:center;position:relative}
+@media(max-width:960px){.hero-visual{display:none}}
+.hero-phone-glow{position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(45,106,79,.2),transparent 70%);pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%)}
+.hero-phone-svg{position:relative;z-index:1;filter:drop-shadow(0 32px 64px rgba(0,0,0,.3))}
+
+/* === CONTENT === */
+.content{max-width:900px;margin:0 auto;padding:72px 24px}
+.content h2{font-family:var(--serif);font-size:clamp(1.6rem,3.2vw,2.2rem);color:var(--ink);margin-top:72px;margin-bottom:18px;line-height:1.2;letter-spacing:-0.03em;scroll-margin-top:90px}
+.content h2:first-child{margin-top:0}
 .content h3{font-size:1.05rem;font-weight:600;color:var(--ink);margin-top:28px;margin-bottom:10px}
 .content p{font-size:1rem;color:var(--ink-soft);line-height:1.85;font-weight:300;margin-bottom:16px;max-width:70ch;letter-spacing:-0.01em}
 .content p strong{color:var(--ink);font-weight:600}
@@ -89,44 +108,8 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .content li strong{color:var(--ink)}
 .content a{color:var(--mint)}
 
-/* TABLEAU COMPARATIF PRINCIPAL */
-.compare-wrap{overflow-x:auto;border-radius:var(--radius-lg);margin:28px 0;background:var(--surface);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.4);box-shadow:0 14px 50px rgba(0,0,0,.05)}
-.compare-wrap table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:960px}
-.compare-wrap th{background:var(--mint);color:white;padding:13px 14px;text-align:left;font-weight:600;font-size:.8rem;white-space:nowrap}
-.compare-wrap th.col-bs{background:#1A4A35;position:relative}
-.compare-wrap th.col-bs::after{content:'★';color:var(--gold);margin-left:5px}
-.compare-wrap td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;line-height:1.5}
-.compare-wrap tr:last-child td{border-bottom:none}
-.compare-wrap tr:hover td{background:rgba(45,106,79,.02)}
-.compare-wrap td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
-.compare-wrap td.cell-bs{background:rgba(45,106,79,.05);font-weight:500;color:var(--ink)}
-.check{color:#1a6b3c;font-weight:700}
-.cross{color:#c0392b;font-weight:700}
-.partial{color:#b8860b;font-weight:700}
-
-/* PROFIL CARDS */
-.solution-card{background:var(--surface);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.4);border-radius:var(--radius-lg);padding:26px 30px;margin:18px 0;box-shadow:var(--shadow-soft)}
-.solution-card.highlight{border:1.5px solid rgba(45,106,79,.35);background:linear-gradient(135deg,rgba(45,106,79,.05),rgba(201,168,76,.03))}
-.solution-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.solution-name{font-family:var(--serif);font-size:1.35rem;color:var(--ink)}
-.solution-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 12px;border-radius:100px;white-space:nowrap}
-.tag-mint{background:var(--mint-pale);color:var(--mint)}
-.tag-gold{background:var(--gold-pale);color:#7A5800}
-.tag-gray{background:rgba(17,19,21,.06);color:var(--ink-soft)}
-.solution-price{font-size:.88rem;color:var(--ink);font-weight:600;margin-bottom:10px}
-.solution-desc{font-size:.92rem;color:var(--ink-soft);line-height:1.7;font-weight:300;margin-bottom:14px}
-.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:600px){.pros-cons{grid-template-columns:1fr}}
-.pros-cons-col h4{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
-.pros-col h4{color:#1a6b3c}
-.cons-col h4{color:#8b1a1a}
-.pros-cons-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px}
-.pros-cons-col li{font-size:.85rem;color:var(--ink-soft);line-height:1.55;font-weight:300;padding-left:18px;position:relative}
-.pros-col li::before{content:'✓';position:absolute;left:0;color:#1a6b3c;font-weight:700}
-.cons-col li::before{content:'—';position:absolute;left:0;color:#8b1a1a;font-weight:700}
-
-/* CALLOUTS */
-.callout{border-radius:18px;padding:20px 24px;margin:24px 0;border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(12px)}
+/* === CALLOUTS === */
+.callout{border-radius:18px;padding:20px 24px;margin:24px 0;border:1px solid rgba(255,255,255,.4)}
 .callout-info{background:rgba(232,242,236,.75);border-color:rgba(45,106,79,.2)}
 .callout-warn{background:rgba(249,243,227,.75);border-color:rgba(201,168,76,.25)}
 .callout-header{display:flex;align-items:center;gap:9px;margin-bottom:7px}
@@ -135,42 +118,173 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .callout-warn .callout-label{color:#7A4800}
 .callout p{font-size:.9rem;margin-bottom:0;max-width:100%}
 
-/* VERDICT PROFILS */
+/* === SECTION BREAK (full-bleed) === */
+.section-break{width:100vw;margin-left:calc(50% - 50vw);position:relative}
+.section-inner{max-width:1200px;margin:0 auto;padding:0 32px}
+@media(max-width:600px){.section-inner{padding:0 20px}}
+
+/* TABLE SECTION */
+.section-table{background:var(--deep);padding:88px 0 80px}
+.section-table .section-inner > h2{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);color:white;margin-bottom:8px;letter-spacing:-0.03em;line-height:1.2}
+.section-table .table-sub{color:rgba(255,255,255,.35);font-size:.88rem;font-weight:300;margin-bottom:36px}
+
+/* COMPARE TABLE */
+.compare-wrap{overflow-x:auto;border-radius:var(--radius-lg);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);box-shadow:0 24px 64px rgba(0,0,0,.3)}
+.compare-wrap table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:960px}
+.compare-wrap th{background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);padding:13px 14px;text-align:left;font-weight:600;font-size:.8rem;white-space:nowrap;border-bottom:1px solid rgba(255,255,255,.07)}
+.compare-wrap th.col-bs{background:rgba(45,106,79,.28);color:white}
+.compare-wrap th.col-bs::after{content:'★';color:var(--gold);margin-left:5px}
+.compare-wrap td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.42);vertical-align:top;line-height:1.5}
+.compare-wrap tr:last-child td{border-bottom:none}
+.compare-wrap tr:hover td{background:rgba(255,255,255,.025)}
+.compare-wrap td:first-child{font-weight:600;color:rgba(255,255,255,.65);white-space:nowrap}
+.compare-wrap td.cell-bs{background:rgba(45,106,79,.14);font-weight:500;color:white}
+.check{color:#4ade80;font-weight:700}
+.cross{color:rgba(255,255,255,.2);font-weight:700}
+.partial{color:#fbbf24;font-weight:700}
+.table-note{font-size:.75rem;color:rgba(255,255,255,.25);font-style:italic;margin-top:20px;line-height:1.6}
+
+/* === FAMILLES === */
+.famille-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0 8px}
+@media(max-width:800px){.famille-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:440px){.famille-grid{grid-template-columns:1fr}}
+.famille-card{background:var(--surface);border:1px solid rgba(255,255,255,.4);border-radius:var(--radius-md);padding:20px;box-shadow:var(--shadow-soft)}
+.famille-card.fam-bs{border:1.5px solid rgba(45,106,79,.38);background:linear-gradient(135deg,rgba(45,106,79,.07),rgba(201,168,76,.04))}
+.famille-num{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-light);margin-bottom:8px}
+.fam-bs .famille-num{color:var(--mint)}
+.famille-label{font-size:.87rem;font-weight:600;color:var(--ink);margin-bottom:5px}
+.famille-names{font-size:.78rem;color:var(--ink-soft);font-weight:300;line-height:1.5}
+
+/* === BAILLEUR SUITE FEATURED CARD === */
+.bs-featured{border-radius:32px;overflow:hidden;margin:28px 0 8px;box-shadow:0 24px 72px rgba(45,106,79,.14);border:1.5px solid rgba(45,106,79,.3)}
+.bs-featured-inner{display:grid;grid-template-columns:1fr 260px;align-items:stretch}
+@media(max-width:760px){.bs-featured-inner{grid-template-columns:1fr}}
+.bs-featured-body{background:linear-gradient(145deg,rgba(45,106,79,.08) 0%,rgba(201,168,76,.04) 100%);padding:44px 48px}
+@media(max-width:600px){.bs-featured-body{padding:32px 28px}}
+.bs-featured-visual{background:linear-gradient(170deg,#0D1A13 0%,#0E1012 55%,#101820 100%);display:flex;align-items:center;justify-content:center;padding:36px 28px;min-height:340px}
+@media(max-width:760px){.bs-featured-visual{display:none}}
+.bs-header{display:flex;align-items:flex-start;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-bottom:10px}
+.bs-name{font-family:var(--serif);font-size:1.55rem;color:var(--ink);line-height:1.2}
+.bs-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;background:var(--mint-pale);color:var(--mint);padding:5px 14px;border-radius:100px;white-space:nowrap;margin-top:4px}
+.bs-price{font-size:.88rem;color:var(--ink);font-weight:600;margin-bottom:14px}
+.bs-desc{font-size:.93rem;color:var(--ink-soft);line-height:1.75;font-weight:300;margin-bottom:22px}
+.bs-pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px}
+@media(max-width:480px){.bs-pros-cons{grid-template-columns:1fr}}
+.bs-pros-cons h4{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px}
+.bs-pros-cons .pros-col h4{color:#1a6b3c}
+.bs-pros-cons .cons-col h4{color:#8b1a1a}
+.bs-pros-cons ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:6px}
+.bs-pros-cons li{font-size:.84rem;color:var(--ink-soft);line-height:1.55;font-weight:300;padding-left:18px;position:relative}
+.bs-pros-cons .pros-col li::before{content:'✓';position:absolute;left:0;color:#1a6b3c;font-weight:700}
+.bs-pros-cons .cons-col li::before{content:'—';position:absolute;left:0;color:#8b1a1a;font-weight:700}
+.bs-diff{padding-top:18px;border-top:1px solid rgba(45,106,79,.15)}
+.bs-diff h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mint);margin-bottom:12px;margin-top:0}
+.bs-diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+@media(max-width:480px){.bs-diff-grid{grid-template-columns:1fr}}
+.bs-diff-item{font-size:.83rem;color:var(--ink-soft);padding-left:18px;position:relative;font-weight:300;line-height:1.5}
+.bs-diff-item::before{content:'✦';position:absolute;left:0;color:var(--mint);font-size:.65rem;top:4px}
+.bs-quote{font-size:.88rem;color:var(--ink-soft);line-height:1.7;font-weight:300;margin-top:14px;font-style:italic}
+
+/* === COMPETITOR CARDS === */
+.solution-card{background:var(--surface);border:1px solid rgba(255,255,255,.4);border-radius:var(--radius-lg);padding:26px 30px;margin:14px 0;box-shadow:var(--shadow-soft)}
+.solution-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.solution-name{font-family:var(--serif);font-size:1.28rem;color:var(--ink)}
+.solution-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 12px;border-radius:100px;white-space:nowrap}
+.tag-mint{background:var(--mint-pale);color:var(--mint)}
+.tag-gray{background:rgba(17,19,21,.06);color:var(--ink-soft)}
+.solution-price{font-size:.86rem;color:var(--ink);font-weight:600;margin-bottom:10px}
+.solution-desc{font-size:.9rem;color:var(--ink-soft);line-height:1.72;font-weight:300;margin-bottom:12px}
+.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.pros-cons{grid-template-columns:1fr}}
+.pros-cons-col h4{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.pros-col h4{color:#1a6b3c}
+.cons-col h4{color:#8b1a1a}
+.pros-cons-col ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:5px}
+.pros-cons-col li{font-size:.84rem;color:var(--ink-soft);line-height:1.55;font-weight:300;padding-left:18px;position:relative}
+.pros-col li::before{content:'✓';position:absolute;left:0;color:#1a6b3c;font-weight:700}
+.cons-col li::before{content:'—';position:absolute;left:0;color:#8b1a1a;font-weight:700}
+
+/* === WHY BS SECTION === */
+.section-why{background:var(--deep);padding:96px 0}
+.section-why .section-inner > h2{font-family:var(--serif);font-size:clamp(1.7rem,3.2vw,2.5rem);color:white;margin-bottom:14px;letter-spacing:-0.03em;line-height:1.15;text-align:center}
+.section-why-sub{text-align:center;color:rgba(255,255,255,.38);font-size:.95rem;font-weight:300;margin-bottom:60px;max-width:50ch;margin-left:auto;margin-right:auto;line-height:1.75}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media(max-width:680px){.why-grid{grid-template-columns:1fr}}
+.why-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:36px;transition:background .3s,border-color .3s}
+.why-card:hover{background:rgba(255,255,255,.07);border-color:rgba(45,106,79,.35)}
+.why-icon{width:52px;height:52px;background:rgba(45,106,79,.2);border:1px solid rgba(45,106,79,.3);border-radius:15px;display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+.why-title{font-family:var(--serif);font-size:1.22rem;color:white;margin-bottom:10px;line-height:1.3}
+.why-desc{font-size:.88rem;color:rgba(255,255,255,.42);line-height:1.78;font-weight:300}
+
+/* === VERDICT PAR PROFIL === */
 .verdict-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
 @media(max-width:640px){.verdict-grid{grid-template-columns:1fr}}
 .verdict-card{background:var(--surface);border:1px solid rgba(255,255,255,.4);border-radius:var(--radius-md);padding:20px;box-shadow:var(--shadow-soft)}
-.verdict-profil{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);margin-bottom:8px}
-.verdict-titre{font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:6px}
-.verdict-reco{font-size:.85rem;color:var(--ink-soft);line-height:1.6;font-weight:300}
+.verdict-profil{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);margin-bottom:8px}
+.verdict-titre{font-size:.93rem;font-weight:600;color:var(--ink);margin-bottom:6px}
+.verdict-reco{font-size:.84rem;color:var(--ink-soft);line-height:1.6;font-weight:300}
 .verdict-reco strong{color:var(--mint);font-weight:600}
 
-/* FAQ */
+/* === FISCAL SECTION === */
+.section-fiscal{background:rgba(45,106,79,.05);border-top:1px solid rgba(45,106,79,.1);border-bottom:1px solid rgba(45,106,79,.1);padding:88px 0}
+.section-fiscal .section-inner > h2{font-family:var(--serif);font-size:clamp(1.55rem,3vw,2.1rem);color:var(--ink);margin-bottom:18px;letter-spacing:-0.03em;line-height:1.2;max-width:20ch}
+.section-fiscal p{font-size:.97rem;color:var(--ink-soft);line-height:1.85;font-weight:300;margin-bottom:16px;max-width:72ch}
+.section-fiscal p strong{color:var(--ink);font-weight:600}
+.section-fiscal .callout{max-width:72ch}
+.section-fiscal a{color:var(--mint)}
+
+/* === PRIVACY SECTION (2-col) === */
+.section-privacy{padding:96px 0;background:var(--bg)}
+.section-privacy .section-inner > h2{font-family:var(--serif);font-size:clamp(1.55rem,3vw,2.1rem);color:var(--ink);margin-bottom:18px;letter-spacing:-0.03em;line-height:1.2}
+.privacy-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+@media(max-width:768px){.privacy-grid{grid-template-columns:1fr;gap:48px}}
+.privacy-text p{font-size:.97rem;color:var(--ink-soft);line-height:1.85;font-weight:300;margin-bottom:16px;max-width:60ch}
+.privacy-text p strong{color:var(--ink);font-weight:600}
+.privacy-visual{background:linear-gradient(135deg,rgba(45,106,79,.07) 0%,rgba(45,106,79,.03) 100%);border:1px solid rgba(45,106,79,.14);border-radius:28px;display:flex;align-items:center;justify-content:center;padding:52px 40px;min-height:300px}
+
+/* === EN RÉSUMÉ CARDS === */
+.resume-cards{display:flex;flex-direction:column;gap:10px;margin:28px 0}
+.resume-card{display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;background:var(--surface);border:1px solid rgba(255,255,255,.4);border-radius:14px;padding:18px 22px;box-shadow:var(--shadow-soft)}
+.resume-card.bs-line{border-color:rgba(45,106,79,.3);background:linear-gradient(135deg,rgba(45,106,79,.06),rgba(201,168,76,.03))}
+.resume-need{font-size:.87rem;color:var(--ink-soft);font-weight:300;line-height:1.5}
+.resume-need strong{color:var(--ink);font-weight:600}
+.resume-sol{font-size:.87rem;font-weight:700;color:var(--ink-soft);white-space:nowrap}
+.bs-line .resume-sol{color:var(--mint)}
+
+/* === FAQ === */
 .faq-item{border-bottom:1px solid var(--line)}
 .faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;background:none;border:none;font-family:var(--sans);font-size:.97rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;gap:16px;transition:color .2s}
 .faq-q:hover{color:var(--mint)}
 .faq-icon{font-size:1.2rem;color:var(--mint);flex-shrink:0;transition:transform .3s}
 .faq-a{display:none;padding-bottom:18px;color:var(--ink-soft);font-size:.92rem;line-height:1.75;font-weight:300}
 
-/* AUTEUR + DISCLAIMER */
+/* === AUTHOR === */
 .author-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);padding:18px 22px;margin:40px 0 20px;display:flex;align-items:flex-start;gap:14px}
-.author-icon{width:40px;height:40px;background:var(--mint);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}
+.author-icon{width:40px;height:40px;background:var(--mint);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .author-name{font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:3px}
 .author-desc{font-size:.8rem;color:var(--ink-soft);line-height:1.5}
-.disclaimer{font-size:.75rem;color:var(--ink-light);line-height:1.6;font-style:italic;margin-bottom:40px}
+.disclaimer{font-size:.75rem;color:var(--ink-light);line-height:1.6;font-style:italic;margin-bottom:32px}
 
-/* APP PROMO */
-.app-promo{position:relative;overflow:hidden;background:radial-gradient(circle at top right,rgba(45,106,79,.3),transparent 45%),linear-gradient(145deg,#0E1012,#1A1D20);border-radius:var(--radius-xl);border:1px solid rgba(255,255,255,.07);box-shadow:0 32px 80px rgba(0,0,0,.25);padding:56px 48px;text-align:center;margin-top:56px}
-@media(max-width:600px){.app-promo{padding:40px 24px}}
-.app-promo::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(201,168,76,.1),transparent 65%);pointer-events:none}
-.app-promo-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(45,106,79,.2);border:1px solid rgba(45,106,79,.35);color:#5DBB88;font-size:.7rem;font-weight:600;padding:5px 14px;border-radius:100px;margin-bottom:20px;letter-spacing:.06em;text-transform:uppercase}
-.app-promo h2{font-family:var(--serif);font-size:clamp(1.7rem,3vw,2.4rem);color:white;margin-bottom:12px;letter-spacing:-0.03em;margin-top:0}
-.app-promo p{color:rgba(255,255,255,.5);font-size:.95rem;max-width:440px;margin:0 auto 28px;line-height:1.7}
-.appstore-btn{display:inline-flex;align-items:center;gap:10px;background:white;color:#111;padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:700;font-size:.9rem;box-shadow:0 8px 28px rgba(0,0,0,.3);transition:transform .2s}
-.appstore-btn:hover{transform:translateY(-2px)}
+/* === MEGA CTA === */
+.mega-cta{position:relative;overflow:hidden;background:radial-gradient(ellipse at 30% 0%,rgba(45,106,79,.35),transparent 50%),radial-gradient(ellipse at 75% 100%,rgba(201,168,76,.12),transparent 50%),linear-gradient(160deg,#090C0E 0%,#0E1012 50%,#091610 100%);padding:140px 24px 120px;text-align:center}
+.mega-cta::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(circle,rgba(45,106,79,.1),transparent 70%);pointer-events:none}
+.mega-cta-inner{max-width:680px;margin:0 auto;position:relative;z-index:1}
+.mega-cta-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(45,106,79,.18);border:1px solid rgba(45,106,79,.3);color:#5DBB88;font-size:.7rem;font-weight:600;padding:6px 16px;border-radius:100px;margin-bottom:32px;letter-spacing:.07em;text-transform:uppercase}
+.mega-cta h2{font-family:var(--serif);font-size:clamp(2.1rem,5vw,3.6rem);color:white;margin-bottom:20px;letter-spacing:-0.03em;line-height:1.08;margin-top:0}
+.mega-cta-sub{color:rgba(255,255,255,.42);font-size:.97rem;max-width:460px;margin:0 auto 14px;line-height:1.78;font-weight:300}
+.mega-cta-price{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:100px;padding:9px 22px;margin-bottom:44px;font-size:.86rem;color:rgba(255,255,255,.5)}
+.mega-cta-price strong{color:white;font-weight:600}
+.mega-btn-primary{display:inline-flex;align-items:center;gap:10px;background:white;color:#111;padding:18px 38px;border-radius:100px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 8px 48px rgba(0,0,0,.4);transition:transform .25s,box-shadow .25s}
+.mega-btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 64px rgba(0,0,0,.5)}
+.mega-cta-features{display:flex;align-items:center;justify-content:center;gap:28px;margin-top:60px;flex-wrap:wrap}
+.mega-feature{display:flex;align-items:center;gap:8px;font-size:.78rem;color:rgba(255,255,255,.28);font-weight:300}
+.mega-feature::before{content:'';display:inline-block;width:6px;height:6px;background:var(--mint);border-radius:50%;flex-shrink:0}
 
-.fade-up{opacity:0;transform:translateY(16px);transition:opacity .65s ease,transform .65s ease}
+/* === ANIMATIONS === */
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}
 .fade-up.visible{opacity:1;transform:translateY(0)}
 
+/* === MOBILE STICKY === */
 .mobile-cta-sticky{display:none;position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:rgba(247,244,238,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:200;justify-content:space-between;align-items:center;gap:12px}
 @media(max-width:680px){.mobile-cta-sticky{display:flex}}
 .mobile-cta-sticky span{font-size:.82rem;color:var(--ink-soft);line-height:1.3}
@@ -219,30 +333,84 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   <a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif logiciels</a>
 </div>
 
-<!-- HERO -->
+<!-- ═══ HERO ═══ -->
 <section class="hero">
-  <div class="hero-content">
-    <div class="hero-breadcrumb">
-      <a href="https://bailleursuite.fr">BailleurSuite</a>
-      <span>›</span>
-      <span>Comparatif logiciels gestion locative</span>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-breadcrumb">
+        <a href="https://bailleursuite.fr">BailleurSuite</a>
+        <span>›</span>
+        <span>Comparatif logiciels gestion locative</span>
+      </div>
+      <div class="hero-badge">Comparatif · Mis à jour juillet 2026</div>
+      <h1>Quel logiciel de gestion locative<br><em>choisir en 2026 ?</em></h1>
+      <p class="hero-intro">Rentila, Immobilier Loyer, BailFacile, Smartloc, Qlower et BailleurSuite : comparatif factuel des prix, des fonctionnalités fiscales et de la confidentialité des données pour choisir selon votre profil. Ce comparatif permet aussi de comprendre une différence essentielle : certains outils gèrent vos tâches quotidiennes, tandis que BailleurSuite se positionne comme le copilote patrimonial et fiscal du bailleur indépendant, en vous aidant à prendre de meilleures décisions sur le long terme.</p>
+      <div class="hero-meta">
+        <span>📅 Données de juillet 2026</span>
+        <span>&nbsp;·&nbsp;</span>
+        <span>⏱ Lecture 10 min</span>
+        <span>&nbsp;·&nbsp;</span>
+        <span>Bailleurs particuliers</span>
+      </div>
+      <div class="hero-actions">
+        <a href="https://bailleursuite.fr#waitlist" class="hero-cta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          Accès bêta gratuit
+        </a>
+        <a href="#comparatif-tableau" class="hero-scroll">Voir le comparatif ↓</a>
+      </div>
     </div>
-    <div class="hero-badge">Comparatif · Mis à jour juillet 2026</div>
-    <h1>Quel logiciel de gestion locative<br><em>choisir en 2026 ?</em></h1>
-    <p class="hero-intro">Rentila, Immobilier Loyer, BailFacile, Smartloc, Qlower et BailleurSuite : comparatif factuel des prix, des fonctionnalités fiscales et de la confidentialité des données pour choisir selon votre profil. Ce comparatif permet aussi de comprendre une différence essentielle : certains outils gèrent vos tâches quotidiennes, tandis que BailleurSuite se positionne comme le copilote patrimonial et fiscal du bailleur indépendant, en vous aidant à prendre de meilleures décisions sur le long terme.</p>
-    <div class="hero-meta">
-      <span>📅 Données de juillet 2026</span>
-      <span>&nbsp;·&nbsp;</span>
-      <span>⏱ Lecture 10 min</span>
-      <span>&nbsp;·&nbsp;</span>
-      <span>Bailleurs particuliers</span>
+    <div class="hero-visual">
+      <div class="hero-phone-glow"></div>
+      <svg class="hero-phone-svg" width="260" height="520" viewBox="0 0 260 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="258" height="518" rx="40" fill="#1A1D20" stroke="#2A2E35" stroke-width="1.5"/>
+        <rect x="10" y="14" width="240" height="492" rx="32" fill="#0D1117"/>
+        <rect x="95" y="26" width="70" height="18" rx="9" fill="#1A1D20"/>
+        <rect x="26" y="56" width="38" height="7" rx="3.5" fill="rgba(255,255,255,.22)"/>
+        <rect x="196" y="56" width="38" height="7" rx="3.5" fill="rgba(255,255,255,.1)"/>
+        <rect x="26" y="82" width="90" height="11" rx="5.5" fill="rgba(255,255,255,.18)"/>
+        <rect x="198" y="78" width="36" height="19" rx="9.5" fill="#2D6A4F"/>
+        <rect x="26" y="112" width="130" height="30" rx="8" fill="rgba(255,255,255,.05)"/>
+        <rect x="42" y="120" width="80" height="14" rx="5" fill="rgba(255,255,255,.25)"/>
+        <rect x="26" y="152" width="80" height="8" rx="4" fill="rgba(45,106,79,.55)"/>
+        <rect x="26" y="176" width="208" height="92" rx="12" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+        <rect x="38" y="226" width="18" height="28" rx="5" fill="rgba(45,106,79,.22)"/>
+        <rect x="62" y="216" width="18" height="38" rx="5" fill="rgba(45,106,79,.34)"/>
+        <rect x="86" y="204" width="18" height="50" rx="5" fill="rgba(45,106,79,.5)"/>
+        <rect x="110" y="190" width="18" height="64" rx="5" fill="#2D6A4F"/>
+        <rect x="134" y="198" width="18" height="56" rx="5" fill="rgba(45,106,79,.6)"/>
+        <rect x="158" y="188" width="18" height="66" rx="5" fill="rgba(45,106,79,.45)"/>
+        <rect x="182" y="178" width="18" height="76" rx="5" fill="#C9A84C"/>
+        <polyline points="47,240 71,228 95,216 119,202 143,210 167,198 191,186" stroke="rgba(201,168,76,.35)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="26" y="280" width="208" height="1" fill="rgba(255,255,255,.05)"/>
+        <rect x="26" y="292" width="12" height="12" rx="3" fill="rgba(45,106,79,.4)"/>
+        <rect x="46" y="294" width="68" height="8" rx="4" fill="rgba(255,255,255,.16)"/>
+        <rect x="186" y="294" width="48" height="8" rx="4" fill="rgba(255,255,255,.08)"/>
+        <rect x="26" y="316" width="12" height="12" rx="3" fill="rgba(45,106,79,.4)"/>
+        <rect x="46" y="318" width="52" height="8" rx="4" fill="rgba(255,255,255,.16)"/>
+        <rect x="186" y="318" width="48" height="8" rx="4" fill="rgba(255,255,255,.08)"/>
+        <rect x="26" y="340" width="12" height="12" rx="3" fill="rgba(201,168,76,.4)"/>
+        <rect x="46" y="342" width="84" height="8" rx="4" fill="rgba(255,255,255,.16)"/>
+        <rect x="186" y="342" width="48" height="8" rx="4" fill="rgba(255,255,255,.08)"/>
+        <rect x="26" y="366" width="208" height="82" rx="16" fill="rgba(45,106,79,.11)" stroke="rgba(45,106,79,.28)" stroke-width="1"/>
+        <rect x="42" y="382" width="62" height="8" rx="4" fill="rgba(255,255,255,.24)"/>
+        <rect x="42" y="398" width="98" height="7" rx="3.5" fill="rgba(255,255,255,.09)"/>
+        <rect x="42" y="414" width="52" height="16" rx="8" fill="#2D6A4F"/>
+        <rect x="164" y="378" width="54" height="30" rx="9" fill="rgba(201,168,76,.14)" stroke="rgba(201,168,76,.28)" stroke-width="1"/>
+        <rect x="172" y="387" width="38" height="12" rx="4" fill="rgba(201,168,76,.5)"/>
+        <rect x="26" y="462" width="208" height="50" rx="14" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <circle cx="62" cy="487" r="11" fill="rgba(45,106,79,.28)"/>
+        <rect x="55" y="484" width="14" height="6" rx="3" fill="rgba(255,255,255,.45)"/>
+        <rect x="116" y="484" width="14" height="6" rx="3" fill="rgba(255,255,255,.14)"/>
+        <rect x="169" y="484" width="14" height="6" rx="3" fill="rgba(255,255,255,.14)"/>
+        <rect x="96" y="497" width="68" height="4" rx="2" fill="rgba(255,255,255,.18)"/>
+      </svg>
     </div>
   </div>
 </section>
 
+<!-- ═══ INTRO + CALLOUTS ═══ -->
 <div class="content">
-
-  <!-- INTRO -->
   <p class="fade-up">Gérer soi-même sa location fait économiser entre 6% et 10% des loyers annuels par rapport à une agence. Encore faut-il choisir le bon outil. Le marché français compte une dizaine de solutions sérieuses, chacune avec un positionnement différent : certaines excellent sur les documents juridiques, d'autres sur l'assurance loyers impayés, d'autres encore sur la comptabilité fiscale. Ce comparatif passe en revue les principales solutions du marché — y compris la nôtre — de manière factuelle, pour vous aider à choisir le meilleur logiciel de gestion locative selon votre profil et votre situation réelle.</p>
 
   <div class="callout callout-info fade-up">
@@ -256,205 +424,255 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     <p style="margin-bottom:12px;">BailleurSuite répond à une autre question :<br><strong>Comment prendre de meilleures décisions patrimoniales en tant que bailleur ?</strong></p>
     <p>Notre objectif n'est pas seulement d'automatiser des tâches administratives, mais d'aider le bailleur indépendant à comprendre l'impact fiscal, patrimonial et financier de chacune de ses décisions.</p>
   </div>
+</div>
 
-  <!-- TABLEAU PRINCIPAL -->
-  <h2 class="fade-up">Le comparatif en un tableau</h2>
+<!-- ═══ TABLE SECTION (full-bleed dark) ═══ -->
+<section class="section-break section-table" id="comparatif-tableau">
+  <div class="section-inner">
+    <h2 class="fade-up">Le comparatif en un tableau</h2>
+    <p class="table-sub fade-up">Toutes les solutions côte à côte — fonctionnalités, prix, fiscalité.</p>
+    <div class="compare-wrap fade-up">
+      <table>
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th class="col-bs">BailleurSuite</th>
+            <th>Rentila</th>
+            <th>Immobilier Loyer</th>
+            <th>BailFacile</th>
+            <th>Smartloc</th>
+            <th>Qlower</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Prix</td>
+            <td class="cell-bs">49,99€/an<br>ou 5,99€/mois</td>
+            <td>Gratuit<br>(Silver 49€/an)</td>
+            <td>92,40€/an<br>(1 à 3 biens)</td>
+            <td>119,88€/an<br>(9,99€/mois)</td>
+            <td>~78€/an<br>(6,50€/mois)</td>
+            <td>269€/an</td>
+          </tr>
+          <tr>
+            <td>Plateforme</td>
+            <td class="cell-bs">100% native iOS</td>
+            <td>Web</td>
+            <td>Web + app iOS</td>
+            <td>Web + app</td>
+            <td>Web + app</td>
+            <td>Web + app</td>
+          </tr>
+          <tr>
+            <td>Stockage des données</td>
+            <td class="cell-bs">iPhone + iCloud privé uniquement</td>
+            <td>Serveurs France</td>
+            <td>Serveurs tiers</td>
+            <td>Serveurs cloud</td>
+            <td>Serveurs cloud</td>
+            <td>Serveurs cloud + open banking</td>
+          </tr>
+          <tr>
+            <td>Quittances auto</td>
+            <td class="cell-bs"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Aide déclaration 2044<br>(location nue)</td>
+            <td class="cell-bs"><span class="check">✓</span> case par case</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span> revenus fonciers</td>
+            <td><span class="partial">~</span> partielle</td>
+            <td><span class="partial">~</span> partielle</td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>LMNP régime réel<br>(amortissements, 2031)</td>
+            <td class="cell-bs"><span class="check">✓</span> préparation incluse au Pass Fiscal</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="partial">~</span> option dès 285€/an</td>
+            <td><span class="check">✓</span> avec télétransmission</td>
+          </tr>
+          <tr>
+            <td>Projection patrimoniale</td>
+            <td class="cell-bs"><span class="check">✓</span> 20 ans</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="partial">~</span> analyse par bien</td>
+          </tr>
+          <tr>
+            <td>Simulation vente<br>(plus-value)</td>
+            <td class="cell-bs"><span class="check">✓</span> abattements inclus</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Assurance loyers impayés</td>
+            <td class="cell-bs"><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span> GLI intégrée</td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Signature électronique</td>
+            <td class="cell-bs"><span class="cross">✗</span></td>
+            <td><span class="partial">~</span> payante</td>
+            <td><span class="partial">~</span> app états des lieux</td>
+            <td><span class="check">✓</span> incluse</td>
+            <td><span class="partial">~</span> 4€/signataire</td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Fonctionne hors ligne</td>
+            <td class="cell-bs"><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note fade-up">Tarifs TTC relevés en juillet 2026 sur les sites officiels des éditeurs, susceptibles d'évoluer. Ce tableau est limité aux solutions destinées aux bailleurs particuliers — les logiciels professionnels (agences, syndics) font l'objet d'une section distincte plus bas.</p>
+  </div>
+</section>
 
-  <div class="compare-wrap fade-up">
-    <table>
-      <thead>
-        <tr>
-          <th>Critère</th>
-          <th class="col-bs">BailleurSuite</th>
-          <th>Rentila</th>
-          <th>Immobilier Loyer</th>
-          <th>BailFacile</th>
-          <th>Smartloc</th>
-          <th>Qlower</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Prix</td>
-          <td class="cell-bs">49,99€/an<br>ou 5,99€/mois</td>
-          <td>Gratuit<br>(Silver 49€/an)</td>
-          <td>92,40€/an<br>(1 à 3 biens)</td>
-          <td>119,88€/an<br>(9,99€/mois)</td>
-          <td>~78€/an<br>(6,50€/mois)</td>
-          <td>269€/an</td>
-        </tr>
-        <tr>
-          <td>Plateforme</td>
-          <td class="cell-bs">100% native iOS</td>
-          <td>Web</td>
-          <td>Web + app iOS</td>
-          <td>Web + app</td>
-          <td>Web + app</td>
-          <td>Web + app</td>
-        </tr>
-        <tr>
-          <td>Stockage des données</td>
-          <td class="cell-bs">iPhone + iCloud privé uniquement</td>
-          <td>Serveurs France</td>
-          <td>Serveurs tiers</td>
-          <td>Serveurs cloud</td>
-          <td>Serveurs cloud</td>
-          <td>Serveurs cloud + open banking</td>
-        </tr>
-        <tr>
-          <td>Quittances auto</td>
-          <td class="cell-bs"><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-        </tr>
-        <tr>
-          <td>Aide déclaration 2044<br>(location nue)</td>
-          <td class="cell-bs"><span class="check">✓</span> case par case</td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span> revenus fonciers</td>
-          <td><span class="partial">~</span> partielle</td>
-          <td><span class="partial">~</span> partielle</td>
-          <td><span class="check">✓</span></td>
-        </tr>
-        <tr>
-          <td>LMNP régime réel<br>(amortissements, 2031)</td>
-          <td class="cell-bs"><span class="check">✓</span> préparation incluse au Pass Fiscal</td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="partial">~</span> option dès 285€/an</td>
-          <td><span class="check">✓</span> avec télétransmission</td>
-        </tr>
-        <tr>
-          <td>Projection patrimoniale</td>
-          <td class="cell-bs"><span class="check">✓</span> 20 ans</td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="partial">~</span> analyse par bien</td>
-        </tr>
-        <tr>
-          <td>Simulation vente<br>(plus-value)</td>
-          <td class="cell-bs"><span class="check">✓</span> abattements inclus</td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-        </tr>
-        <tr>
-          <td>Assurance loyers impayés</td>
-          <td class="cell-bs"><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="check">✓</span> GLI intégrée</td>
-          <td><span class="cross">✗</span></td>
-        </tr>
-        <tr>
-          <td>Signature électronique</td>
-          <td class="cell-bs"><span class="cross">✗</span></td>
-          <td><span class="partial">~</span> payante</td>
-          <td><span class="partial">~</span> app états des lieux</td>
-          <td><span class="check">✓</span> incluse</td>
-          <td><span class="partial">~</span> 4€/signataire</td>
-          <td><span class="cross">✗</span></td>
-        </tr>
-        <tr>
-          <td>Fonctionne hors ligne</td>
-          <td class="cell-bs"><span class="check">✓</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-        </tr>
-      </tbody>
-    </table>
+<!-- ═══ FAMILLES + FICHES SOLUTIONS ═══ -->
+<div class="content">
+
+  <h2 class="fade-up">Les grandes familles de logiciels</h2>
+  <div class="famille-grid">
+    <div class="famille-card fade-up">
+      <div class="famille-num">Catégorie 1</div>
+      <div class="famille-label">Gestion administrative</div>
+      <div class="famille-names">Rentila · Immobilier Loyer · BailFacile</div>
+    </div>
+    <div class="famille-card fade-up">
+      <div class="famille-num">Catégorie 2</div>
+      <div class="famille-label">Gestion + assurance</div>
+      <div class="famille-names">Smartloc</div>
+    </div>
+    <div class="famille-card fade-up">
+      <div class="famille-num">Catégorie 3</div>
+      <div class="famille-label">Comptabilité fiscale</div>
+      <div class="famille-names">Qlower</div>
+    </div>
+    <div class="famille-card fam-bs fade-up">
+      <div class="famille-num">Catégorie 4</div>
+      <div class="famille-label">Pilotage patrimonial et fiscal</div>
+      <div class="famille-names">BailleurSuite</div>
+    </div>
   </div>
 
-  <p class="fade-up" style="font-size:.78rem;color:var(--ink-light);font-style:italic;">Tarifs TTC relevés en juillet 2026 sur les sites officiels des éditeurs, susceptibles d'évoluer. Ce tableau est limité aux solutions destinées aux bailleurs particuliers — les logiciels professionnels (agences, syndics) font l'objet d'une section distincte plus bas.</p>
-
-  <div class="callout callout-warn fade-up" style="margin-top:28px;">
+  <div class="callout callout-warn fade-up" style="margin-top:8px;">
     <div class="callout-header"><span class="callout-label">🏆 Ce qui rend BailleurSuite différent</span></div>
     <p style="margin-bottom:10px;">Les autres solutions répondent principalement à un besoin précis : documents juridiques, gestion administrative, assurance ou comptabilité.</p>
     <p><strong style="color:var(--ink);">BailleurSuite rassemble ces usages autour d'une logique différente</strong> : devenir le copilote patrimonial et fiscal du bailleur indépendant.</p>
   </div>
 
-  <!-- PROFILS DÉTAILLÉS -->
-  <h2 class="fade-up">Les grandes familles de logiciels</h2>
-  <div class="verdict-grid fade-up" style="margin-bottom:32px;">
-    <div class="verdict-card">
-      <div class="verdict-profil">Catégorie 1</div>
-      <div class="verdict-titre">Gestion administrative</div>
-      <div class="verdict-reco">→ <strong>Rentila</strong>, <strong>Immobilier Loyer</strong>, <strong>BailFacile</strong></div>
-    </div>
-    <div class="verdict-card">
-      <div class="verdict-profil">Catégorie 2</div>
-      <div class="verdict-titre">Gestion + assurance</div>
-      <div class="verdict-reco">→ <strong>Smartloc</strong></div>
-    </div>
-    <div class="verdict-card">
-      <div class="verdict-profil">Catégorie 3</div>
-      <div class="verdict-titre">Comptabilité fiscale</div>
-      <div class="verdict-reco">→ <strong>Qlower</strong></div>
-    </div>
-    <div class="verdict-card" style="border:1.5px solid rgba(45,106,79,.35);background:linear-gradient(135deg,rgba(45,106,79,.05),rgba(201,168,76,.03));">
-      <div class="verdict-profil" style="color:var(--mint);">Catégorie 4</div>
-      <div class="verdict-titre">Pilotage patrimonial et fiscal</div>
-      <div class="verdict-reco">→ <strong>BailleurSuite</strong></div>
+  <h2 class="fade-up" style="margin-top:80px;">Chaque solution en détail</h2>
+
+  <!-- ── BailleurSuite ── -->
+  <div class="bs-featured fade-up">
+    <div class="bs-featured-inner">
+      <div class="bs-featured-body">
+        <div class="bs-header">
+          <div class="bs-name">BailleurSuite — Le copilote patrimonial et fiscal du bailleur indépendant</div>
+          <span class="bs-tag">Le copilote patrimonial et fiscal</span>
+        </div>
+        <div class="bs-price">5,99€/mois sans engagement · ou 49,99€/an (3 mois offerts) · Pass Fiscal 29,90€/an fiscal</div>
+        <p class="bs-desc">BailleurSuite est la seule application <strong>100% native iOS</strong> du comparatif, avec un parti pris radical sur la confidentialité : vos données restent sur votre iPhone et dans votre iCloud privé — aucun serveur tiers, aucune inscription. Au-delà de la gestion quotidienne (loyers, quittances, charges), elle intègre un moteur fiscal complet : préparation de la 2044 case par case, LMNP au régime réel avec amortissements (2042-C-PRO et éléments de la liasse 2031), comparateur nue vs meublée, projection patrimoniale sur 20 ans et simulation de plus-value à la revente. Là où les logiciels classiques optimisent principalement la gestion administrative, BailleurSuite ajoute une dimension stratégique : comprendre la rentabilité réelle, anticiper la fiscalité et simuler les décisions patrimoniales futures.</p>
+        <div class="bs-pros-cons">
+          <div class="pros-col">
+            <h4>Points forts</h4>
+            <ul>
+              <li>Seule app 100% native iOS — rapide, fluide, hors ligne</li>
+              <li>Données uniquement sur votre iPhone + iCloud privé</li>
+              <li>LMNP réel inclus au Pass Fiscal (29,90€) — sans abonnement comptable à 269€+</li>
+              <li>Projection patrimoniale 20 ans et simulation plus-value</li>
+              <li>Prix parmi les plus bas : 49,99€/an tout compris</li>
+            </ul>
+          </div>
+          <div class="cons-col">
+            <h4>Limites</h4>
+            <ul>
+              <li>iOS uniquement — un choix assumé pour la performance et la confidentialité (macOS prévu)</li>
+              <li>Pas de télétransmission : les montants sont préparés puis reportés sur impots.gouv.fr</li>
+              <li>Lancement septembre 2026 — accès bêta gratuit disponible</li>
+            </ul>
+          </div>
+        </div>
+        <div class="bs-diff">
+          <h3>Ce qui différencie réellement BailleurSuite</h3>
+          <div class="bs-diff-grid">
+            <div class="bs-diff-item">Pilotage patrimonial sur 20 ans</div>
+            <div class="bs-diff-item">Préparation fiscale 2044 et LMNP réel</div>
+            <div class="bs-diff-item">Simulation de plus-value</div>
+            <div class="bs-diff-item">Comparaison location nue / LMNP</div>
+            <div class="bs-diff-item">Confidentialité par conception (iPhone + iCloud privé)</div>
+            <div class="bs-diff-item">Fonctionnement hors ligne</div>
+          </div>
+          <p class="bs-quote">BailleurSuite ne cherche pas à remplacer un expert-comptable ou une agence immobilière. Son rôle est d'aider le bailleur indépendant à prendre de meilleures décisions tout au long de la vie de son patrimoine.</p>
+        </div>
+      </div>
+      <div class="bs-featured-visual">
+        <svg width="200" height="400" viewBox="0 0 200 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="198" height="398" rx="32" fill="#181C1F" stroke="#252A30" stroke-width="1"/>
+          <rect x="8" y="10" width="184" height="378" rx="25" fill="#0D1117"/>
+          <rect x="72" y="18" width="56" height="14" rx="7" fill="#181C1F"/>
+          <rect x="20" y="42" width="70" height="9" rx="4.5" fill="rgba(255,255,255,.18)"/>
+          <rect x="154" y="40" width="28" height="13" rx="6.5" fill="#2D6A4F"/>
+          <rect x="20" y="68" width="100" height="24" rx="6" fill="rgba(255,255,255,.05)"/>
+          <rect x="30" y="76" width="60" height="10" rx="4" fill="rgba(255,255,255,.24)"/>
+          <rect x="20" y="102" width="62" height="7" rx="3.5" fill="rgba(45,106,79,.55)"/>
+          <rect x="20" y="118" width="162" height="72" rx="10" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+          <rect x="30" y="162" width="14" height="20" rx="4" fill="rgba(45,106,79,.22)"/>
+          <rect x="50" y="154" width="14" height="28" rx="4" fill="rgba(45,106,79,.38)"/>
+          <rect x="70" y="144" width="14" height="38" rx="4" fill="rgba(45,106,79,.55)"/>
+          <rect x="90" y="134" width="14" height="48" rx="4" fill="#2D6A4F"/>
+          <rect x="110" y="140" width="14" height="42" rx="4" fill="rgba(45,106,79,.6)"/>
+          <rect x="130" y="132" width="14" height="50" rx="4" fill="rgba(45,106,79,.45)"/>
+          <rect x="150" y="122" width="14" height="60" rx="4" fill="#C9A84C"/>
+          <rect x="20" y="204" width="162" height="1" fill="rgba(255,255,255,.05)"/>
+          <rect x="20" y="214" width="9" height="9" rx="2.5" fill="rgba(45,106,79,.4)"/>
+          <rect x="36" y="216" width="52" height="6" rx="3" fill="rgba(255,255,255,.15)"/>
+          <rect x="146" y="216" width="36" height="6" rx="3" fill="rgba(255,255,255,.07)"/>
+          <rect x="20" y="232" width="9" height="9" rx="2.5" fill="rgba(45,106,79,.4)"/>
+          <rect x="36" y="234" width="40" height="6" rx="3" fill="rgba(255,255,255,.15)"/>
+          <rect x="146" y="234" width="36" height="6" rx="3" fill="rgba(255,255,255,.07)"/>
+          <rect x="20" y="250" width="9" height="9" rx="2.5" fill="rgba(201,168,76,.4)"/>
+          <rect x="36" y="252" width="64" height="6" rx="3" fill="rgba(255,255,255,.15)"/>
+          <rect x="146" y="252" width="36" height="6" rx="3" fill="rgba(255,255,255,.07)"/>
+          <rect x="20" y="272" width="162" height="68" rx="14" fill="rgba(45,106,79,.1)" stroke="rgba(45,106,79,.28)" stroke-width="1"/>
+          <rect x="32" y="286" width="48" height="7" rx="3.5" fill="rgba(255,255,255,.24)"/>
+          <rect x="32" y="300" width="76" height="6" rx="3" fill="rgba(255,255,255,.08)"/>
+          <rect x="32" y="315" width="40" height="13" rx="6.5" fill="#2D6A4F"/>
+          <rect x="20" y="354" width="162" height="40" rx="12" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <circle cx="50" cy="374" r="9" fill="rgba(45,106,79,.28)"/>
+          <rect x="44" y="371" width="12" height="5" rx="2.5" fill="rgba(255,255,255,.4)"/>
+          <rect x="90" y="371" width="12" height="5" rx="2.5" fill="rgba(255,255,255,.12)"/>
+          <rect x="134" y="371" width="12" height="5" rx="2.5" fill="rgba(255,255,255,.12)"/>
+          <rect x="72" y="384" width="56" height="4" rx="2" fill="rgba(255,255,255,.16)"/>
+        </svg>
+      </div>
     </div>
   </div>
 
-  <h2 class="fade-up">Chaque solution en détail</h2>
-
-  <!-- BailleurSuite — présenté en premier car éditeur de ce comparatif -->
-  <div class="solution-card highlight fade-up">
-    <div class="solution-header">
-      <div class="solution-name">BailleurSuite — Le copilote patrimonial et fiscal du bailleur indépendant</div>
-      <span class="solution-tag tag-mint">Le copilote patrimonial et fiscal</span>
-    </div>
-    <div class="solution-price">5,99€/mois sans engagement · ou 49,99€/an (3 mois offerts) · Pass Fiscal 29,90€/an fiscal</div>
-    <p class="solution-desc">BailleurSuite est la seule application <strong>100% native iOS</strong> du comparatif, avec un parti pris radical sur la confidentialité : vos données restent sur votre iPhone et dans votre iCloud privé — aucun serveur tiers, aucune inscription. Au-delà de la gestion quotidienne (loyers, quittances, charges), elle intègre un moteur fiscal complet : préparation de la 2044 case par case, LMNP au régime réel avec amortissements (2042-C-PRO et éléments de la liasse 2031), comparateur nue vs meublée, projection patrimoniale sur 20 ans et simulation de plus-value à la revente. Là où les logiciels classiques optimisent principalement la gestion administrative, BailleurSuite ajoute une dimension stratégique : comprendre la rentabilité réelle, anticiper la fiscalité et simuler les décisions patrimoniales futures.</p>
-    <div class="pros-cons">
-      <div class="pros-cons-col pros-col">
-        <h4>Points forts</h4>
-        <ul>
-          <li>Seule app 100% native iOS — rapide, fluide, hors ligne</li>
-          <li>Données uniquement sur votre iPhone + iCloud privé</li>
-          <li>LMNP réel inclus au Pass Fiscal (29,90€) — sans abonnement comptable à 269€+</li>
-          <li>Projection patrimoniale 20 ans et simulation plus-value</li>
-          <li>Prix parmi les plus bas : 49,99€/an tout compris</li>
-        </ul>
-      </div>
-      <div class="pros-cons-col cons-col">
-        <h4>Limites</h4>
-        <ul>
-          <li>iOS uniquement — un choix assumé pour la performance et la confidentialité (macOS prévu)</li>
-          <li>Pas de télétransmission : les montants sont préparés puis reportés sur impots.gouv.fr</li>
-          <li>Lancement septembre 2026 — accès bêta gratuit disponible</li>
-        </ul>
-      </div>
-    </div>
-    <div style="margin-top:22px;padding-top:20px;border-top:1px solid rgba(45,106,79,.15);">
-      <h3 style="font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mint);margin-bottom:14px;">Ce qui différencie réellement BailleurSuite</h3>
-      <ul style="list-style:none;padding:0;margin:0 0 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <li style="font-size:.88rem;color:var(--ink-soft);padding-left:18px;position:relative;font-weight:300;line-height:1.5;"><span style="position:absolute;left:0;color:var(--mint);">✦</span> Pilotage patrimonial sur 20 ans</li>
-        <li style="font-size:.88rem;color:var(--ink-soft);padding-left:18px;position:relative;font-weight:300;line-height:1.5;"><span style="position:absolute;left:0;color:var(--mint);">✦</span> Préparation fiscale 2044 et LMNP réel</li>
-        <li style="font-size:.88rem;color:var(--ink-soft);padding-left:18px;position:relative;font-weight:300;line-height:1.5;"><span style="position:absolute;left:0;color:var(--mint);">✦</span> Simulation de plus-value</li>
-        <li style="font-size:.88rem;color:var(--ink-soft);padding-left:18px;position:relative;font-weight:300;line-height:1.5;"><span style="position:absolute;left:0;color:var(--mint);">✦</span> Comparaison location nue / LMNP</li>
-        <li style="font-size:.88rem;color:var(--ink-soft);padding-left:18px;position:relative;font-weight:300;line-height:1.5;"><span style="position:absolute;left:0;color:var(--mint);">✦</span> Confidentialité par conception (iPhone + iCloud privé)</li>
-        <li style="font-size:.88rem;color:var(--ink-soft);padding-left:18px;position:relative;font-weight:300;line-height:1.5;"><span style="position:absolute;left:0;color:var(--mint);">✦</span> Fonctionnement hors ligne</li>
-      </ul>
-      <p style="font-size:.88rem;color:var(--ink-soft);line-height:1.7;font-weight:300;margin-bottom:0;font-style:italic;">BailleurSuite ne cherche pas à remplacer un expert-comptable ou une agence immobilière. Son rôle est d'aider le bailleur indépendant à prendre de meilleures décisions tout au long de la vie de son patrimoine.</p>
-    </div>
-  </div>
-
-  <!-- Rentila -->
+  <!-- ── Rentila ── -->
   <div class="solution-card fade-up">
     <div class="solution-header">
       <div class="solution-name">Rentila</div>
@@ -483,7 +701,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     </div>
   </div>
 
-  <!-- BailFacile -->
+  <!-- ── BailFacile ── -->
   <div class="solution-card fade-up">
     <div class="solution-header">
       <div class="solution-name">BailFacile</div>
@@ -512,7 +730,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     </div>
   </div>
 
-  <!-- Smartloc -->
+  <!-- ── Smartloc ── -->
   <div class="solution-card fade-up">
     <div class="solution-header">
       <div class="solution-name">Smartloc</div>
@@ -540,7 +758,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     </div>
   </div>
 
-  <!-- Qlower -->
+  <!-- ── Qlower ── -->
   <div class="solution-card fade-up">
     <div class="solution-header">
       <div class="solution-name">Qlower</div>
@@ -569,7 +787,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     </div>
   </div>
 
-  <!-- Immobilier Loyer -->
+  <!-- ── Immobilier Loyer ── -->
   <div class="solution-card fade-up">
     <div class="solution-header">
       <div class="solution-name">Immobilier Loyer</div>
@@ -598,14 +816,72 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   </div>
 
   <!-- Solutions professionnelles -->
-  <div class="callout callout-info fade-up" style="margin-top:32px;">
+  <div class="callout callout-info fade-up" style="margin-top:24px;">
     <div class="callout-header"><span class="callout-label">🏢 Solutions destinées aux professionnels</span></div>
     <p>Certains logiciels comme <strong>Lockimmo</strong>, <strong>ICS</strong> ou <strong>SPI Gestion</strong> sont conçus pour les agences immobilières, administrateurs de biens ou syndics. Ils proposent une comptabilité mandant, une gestion multi-utilisateurs et des fonctionnalités métier qui dépassent largement les besoins d'un bailleur particulier. Ils ne sont donc pas inclus dans notre comparatif principal.</p>
   </div>
 
-  <!-- VERDICT PAR PROFIL -->
-  <h2 class="fade-up">Quel logiciel selon votre profil ?</h2>
+</div>
 
+<!-- ═══ POURQUOI DES BAILLEURS CHOISISSENT BAILLEURSUITE ═══ -->
+<section class="section-break section-why">
+  <div class="section-inner">
+    <h2 class="fade-up">Pourquoi des bailleurs choisissent BailleurSuite</h2>
+    <p class="section-why-sub fade-up">Pas pour remplacer un expert-comptable. Pour piloter seul, mieux, et décider avec confiance.</p>
+    <div class="why-grid">
+      <div class="why-card fade-up">
+        <div class="why-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="2" width="16" height="22" rx="3" stroke="rgba(45,106,79,.8)" stroke-width="1.5" fill="none"/>
+            <rect x="6" y="7" width="10" height="1.5" rx=".75" fill="rgba(45,106,79,.7)"/>
+            <rect x="6" y="11" width="7" height="1.5" rx=".75" fill="rgba(45,106,79,.5)"/>
+            <rect x="6" y="15" width="9" height="1.5" rx=".75" fill="rgba(45,106,79,.5)"/>
+            <circle cx="20" cy="20" r="5" fill="#2D6A4F"/>
+            <path d="M17.5 20h5M20 17.5v5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="why-title">Fiscalité complète, sans expert-comptable</div>
+        <p class="why-desc">Préparez votre déclaration 2044, vos amortissements LMNP au régime réel et votre liasse fiscale pour 29,90€/an — sans abonnement comptable à 269€. Vous conservez la main, BailleurSuite prépare les montants case par case.</p>
+      </div>
+      <div class="why-card fade-up">
+        <div class="why-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="7" y="12" width="12" height="11" rx="2.5" stroke="rgba(45,106,79,.8)" stroke-width="1.5" fill="none"/>
+            <path d="M9.5 12V8.5a3.5 3.5 0 1 1 7 0V12" stroke="rgba(45,106,79,.8)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <circle cx="13" cy="18" r="1.5" fill="#2D6A4F"/>
+          </svg>
+        </div>
+        <div class="why-title">Confidentialité par conception</div>
+        <p class="why-desc">Aucun serveur. Vos données restent sur votre iPhone et dans votre iCloud privé chiffré. Ni BailleurSuite ni personne d'autre n'y accède — c'est le seul outil du marché à offrir cette garantie structurelle.</p>
+      </div>
+      <div class="why-card fade-up">
+        <div class="why-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="3,20 8,13 13,15 18,8 23,4" stroke="rgba(45,106,79,.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="23" cy="4" r="2" fill="#2D6A4F"/>
+          </svg>
+        </div>
+        <div class="why-title">Vision patrimoniale sur 20 ans</div>
+        <p class="why-desc">Projection de rendement, simulation de plus-value avec abattements, comparaison location nue vs LMNP. Comprenez les conséquences fiscales et patrimoniales de chaque décision — avant de la prendre.</p>
+      </div>
+      <div class="why-card fade-up">
+        <div class="why-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="13" cy="13" r="10" stroke="rgba(45,106,79,.8)" stroke-width="1.5" fill="none"/>
+            <path d="M13 7v6l4 2" stroke="rgba(45,106,79,.8)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <path d="M8 21.5C9.7 22.5 11.3 23 13 23" stroke="rgba(45,106,79,.8)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="why-title">49,99€/an · Biens illimités</div>
+        <p class="why-desc">Un prix fixe pour l'ensemble de votre patrimoine. Pas de facturation par bien. Le Pass Fiscal (29,90€ par année fiscale) s'ajoute uniquement si vous avez besoin de la préparation LMNP ou 2044 avancée.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VERDICT PAR PROFIL ═══ -->
+<div class="content">
+  <h2 class="fade-up">Quel logiciel selon votre profil ?</h2>
   <div class="verdict-grid">
     <div class="verdict-card fade-up">
       <div class="verdict-profil">Profil 1</div>
@@ -638,39 +914,87 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
       <div class="verdict-reco"><strong>Immobilier Loyer</strong> pour la gestion locative classique accessible via iPhone (quittances, révision de loyer, états des lieux). <strong>BailleurSuite</strong> si vous souhaitez aller plus loin : gestion + fiscalité + vision patrimoniale dans une app 100% native iOS.</div>
     </div>
   </div>
+</div>
 
-  <!-- POURQUOI LE VOLET FISCAL CHANGE TOUT -->
-  <h2 class="fade-up">Le critère souvent oublié : le volet fiscal</h2>
-  <p class="fade-up">La plupart des comparatifs se concentrent sur la gestion quotidienne — quittances, baux, relances. Mais pour un bailleur, le moment le plus coûteux de l'année n'est pas l'envoi d'une quittance : c'est la <strong>déclaration fiscale</strong>. Une case oubliée sur la 2044, un amortissement mal calculé en LMNP, un mauvais choix entre micro et réel — chaque erreur se chiffre en centaines d'euros.</p>
-  <p class="fade-up">Or c'est précisément là que les solutions divergent le plus. Les logiciels de gestion classiques (Rentila, BailFacile, Smartloc) s'arrêtent à un récapitulatif annuel des loyers et charges. Pour le LMNP au régime réel — le statut le plus avantageux fiscalement — il faut alors ajouter un service comptable séparé : 269€/an chez Qlower, 285€/an minimum en option chez Smartloc, ou 500 à 900€ chez un expert-comptable traditionnel.</p>
-  <div class="callout callout-info fade-up">
-    <div class="callout-header"><span class="callout-label">💡 L'approche BailleurSuite</span></div>
-    <p>Le Pass Fiscal (29,90€ par année fiscale) prépare les montants à reporter case par case — 2044 en location nue, 2042-C-PRO et éléments de la liasse 2031 en LMNP réel, amortissements calculés automatiquement. Vous reportez ensuite vous-même les montants sur impots.gouv.fr. Pas de télétransmission, mais pas d'abonnement comptable à 269€ non plus. Pour approfondir : notre <a href="https://bailleursuite.fr/lmnp-guide-complet">guide complet du LMNP</a> et notre <a href="https://bailleursuite.fr/declaration-2044-guide">guide de la déclaration 2044</a>.</p>
+<!-- ═══ VOLET FISCAL (full-bleed tinted) ═══ -->
+<section class="section-break section-fiscal">
+  <div class="section-inner">
+    <h2 class="fade-up">Le critère souvent oublié : le volet fiscal</h2>
+    <p class="fade-up">La plupart des comparatifs se concentrent sur la gestion quotidienne — quittances, baux, relances. Mais pour un bailleur, le moment le plus coûteux de l'année n'est pas l'envoi d'une quittance : c'est la <strong>déclaration fiscale</strong>. Une case oubliée sur la 2044, un amortissement mal calculé en LMNP, un mauvais choix entre micro et réel — chaque erreur se chiffre en centaines d'euros.</p>
+    <p class="fade-up">Or c'est précisément là que les solutions divergent le plus. Les logiciels de gestion classiques (Rentila, BailFacile, Smartloc) s'arrêtent à un récapitulatif annuel des loyers et charges. Pour le LMNP au régime réel — le statut le plus avantageux fiscalement — il faut alors ajouter un service comptable séparé : 269€/an chez Qlower, 285€/an minimum en option chez Smartloc, ou 500 à 900€ chez un expert-comptable traditionnel.</p>
+    <div class="callout callout-info fade-up">
+      <div class="callout-header"><span class="callout-label">💡 L'approche BailleurSuite</span></div>
+      <p>Le Pass Fiscal (29,90€ par année fiscale) prépare les montants à reporter case par case — 2044 en location nue, 2042-C-PRO et éléments de la liasse 2031 en LMNP réel, amortissements calculés automatiquement. Vous reportez ensuite vous-même les montants sur impots.gouv.fr. Pas de télétransmission, mais pas d'abonnement comptable à 269€ non plus. Pour approfondir : notre <a href="https://bailleursuite.fr/lmnp-guide-complet">guide complet du LMNP</a> et notre <a href="https://bailleursuite.fr/declaration-2044-guide">guide de la déclaration 2044</a>.</p>
+    </div>
   </div>
+</section>
 
-  <!-- CONFIDENTIALITÉ -->
-  <h2 class="fade-up">Et vos données dans tout ça ?</h2>
-  <p class="fade-up">Un logiciel de gestion locative connaît tout de votre patrimoine : adresses de vos biens, montants des loyers, identité de vos locataires, crédits en cours, revenus fonciers. Toutes les solutions web de ce comparatif stockent ces données sur leurs serveurs — avec des garanties RGPD sérieuses pour la plupart, mais des serveurs tiers tout de même.</p>
-  <p class="fade-up">BailleurSuite a fait un choix d'architecture différent : <strong>aucun serveur</strong>. Les données sont stockées sur votre iPhone et, si vous l'activez, synchronisées dans votre propre espace iCloud privé chiffré. Ni BailleurSuite ni personne d'autre n'y a accès. C'est un critère de choix qui ne figure dans aucun tableau de prix — mais qui compte pour beaucoup de bailleurs.</p>
+<!-- ═══ CONFIDENTIALITÉ (full-bleed 2-col) ═══ -->
+<section class="section-break section-privacy">
+  <div class="section-inner">
+    <div class="privacy-grid">
+      <div class="privacy-text">
+        <h2 class="fade-up">Et vos données dans tout ça ?</h2>
+        <p class="fade-up">Un logiciel de gestion locative connaît tout de votre patrimoine : adresses de vos biens, montants des loyers, identité de vos locataires, crédits en cours, revenus fonciers. Toutes les solutions web de ce comparatif stockent ces données sur leurs serveurs — avec des garanties RGPD sérieuses pour la plupart, mais des serveurs tiers tout de même.</p>
+        <p class="fade-up">BailleurSuite a fait un choix d'architecture différent : <strong>aucun serveur</strong>. Les données sont stockées sur votre iPhone et, si vous l'activez, synchronisées dans votre propre espace iCloud privé chiffré. Ni BailleurSuite ni personne d'autre n'y a accès. C'est un critère de choix qui ne figure dans aucun tableau de prix — mais qui compte pour beaucoup de bailleurs.</p>
+      </div>
+      <div class="fade-up">
+        <div class="privacy-visual">
+          <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="80" cy="80" r="72" fill="rgba(45,106,79,.07)" stroke="rgba(45,106,79,.14)" stroke-width="1"/>
+            <rect x="46" y="72" width="68" height="54" rx="12" fill="rgba(45,106,79,.18)" stroke="rgba(45,106,79,.38)" stroke-width="1.5"/>
+            <path d="M58 72V57a22 22 0 0 1 44 0v15" stroke="rgba(45,106,79,.6)" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <circle cx="80" cy="97" r="7" fill="#2D6A4F"/>
+            <rect x="77" y="101" width="6" height="13" rx="3" fill="#2D6A4F"/>
+            <rect x="104" y="26" width="32" height="50" rx="7" fill="rgba(17,19,21,.07)" stroke="rgba(45,106,79,.25)" stroke-width="1"/>
+            <rect x="109" y="33" width="22" height="32" rx="4" fill="rgba(45,106,79,.08)"/>
+            <rect x="111" y="38" width="18" height="2.5" rx="1.25" fill="rgba(45,106,79,.4)"/>
+            <rect x="111" y="44" width="14" height="2.5" rx="1.25" fill="rgba(45,106,79,.3)"/>
+            <rect x="111" y="50" width="16" height="2.5" rx="1.25" fill="rgba(45,106,79,.3)"/>
+            <ellipse cx="36" cy="130" rx="22" ry="12" fill="rgba(45,106,79,.14)" stroke="rgba(45,106,79,.24)" stroke-width="1"/>
+            <rect x="24" y="130" width="24" height="10" rx="0" fill="rgba(45,106,79,.14)"/>
+            <rect x="22" y="128" width="28" height="6" rx="5" fill="rgba(45,106,79,.14)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- ═══ POURQUOI BS + EN RÉSUMÉ ═══ -->
+<div class="content">
   <h2 class="fade-up">Pourquoi BailleurSuite existe</h2>
   <p class="fade-up">BailleurSuite est né d'un constat simple : la majorité des logiciels de gestion locative excellent dans l'administratif — quittances, baux, suivi des loyers — mais accompagnent peu le bailleur dans ses décisions fiscales et patrimoniales.</p>
   <p class="fade-up">Combien ce bien me rapporte réellement après impôts ? Est-il plus intéressant en location nue ou en LMNP ? Quelle sera ma fiscalité dans 10 ans ? Quelle stratégie adopter avant une revente ?</p>
   <p class="fade-up">Notre ambition est de devenir <strong>le copilote patrimonial et fiscal du bailleur indépendant</strong> : un outil qui simplifie la gestion quotidienne tout en donnant une vision claire des conséquences financières de chaque décision.</p>
 
   <h2 class="fade-up">En résumé : quelle solution pour quel besoin ?</h2>
-  <div class="callout callout-info fade-up">
-    <div class="callout-header"><span class="callout-label">🎯 Synthèse</span></div>
-    <p style="line-height:2;">
-      Si vous cherchez <strong>la solution gratuite</strong> → Rentila<br>
-      Si vous cherchez <strong>la conformité juridique et documentaire</strong> → BailFacile<br>
-      Si vous cherchez <strong>la sécurisation contre les impayés</strong> → Smartloc<br>
-      Si vous cherchez <strong>la comptabilité LMNP déléguée avec télétransmission</strong> → Qlower<br>
-      Si vous cherchez <strong>la confidentialité, la fiscalité et une vision patrimoniale</strong> → <strong>BailleurSuite, le copilote patrimonial et fiscal du bailleur indépendant</strong>
-    </p>
+  <div class="resume-cards">
+    <div class="resume-card fade-up">
+      <div class="resume-need">Vous cherchez <strong>la solution gratuite</strong></div>
+      <div class="resume-sol">Rentila</div>
+    </div>
+    <div class="resume-card fade-up">
+      <div class="resume-need">Vous cherchez <strong>la conformité juridique et documentaire</strong></div>
+      <div class="resume-sol">BailFacile</div>
+    </div>
+    <div class="resume-card fade-up">
+      <div class="resume-need">Vous cherchez <strong>la sécurisation contre les impayés</strong></div>
+      <div class="resume-sol">Smartloc</div>
+    </div>
+    <div class="resume-card fade-up">
+      <div class="resume-need">Vous cherchez <strong>la comptabilité LMNP déléguée avec télétransmission</strong></div>
+      <div class="resume-sol">Qlower</div>
+    </div>
+    <div class="resume-card bs-line fade-up">
+      <div class="resume-need">Vous cherchez <strong>la confidentialité, la fiscalité et une vision patrimoniale</strong></div>
+      <div class="resume-sol">BailleurSuite</div>
+    </div>
   </div>
+</div>
 
-  <!-- FAQ -->
+<!-- ═══ FAQ + MÉTHODO ═══ -->
+<div class="content">
   <h2 class="fade-up">Questions fréquentes</h2>
 
   <div class="faq-item fade-up">
@@ -697,7 +1021,6 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   <h2 class="fade-up">Méthodologie de ce comparatif</h2>
   <p class="fade-up">Les fonctionnalités et tarifs ont été relevés en <strong>juillet 2026</strong> à partir des sites officiels des éditeurs et recoupés avec les informations publiques disponibles. Chaque critère présenté correspond à une fonctionnalité identifiable dans l'offre annoncée par l'éditeur. Cette page est mise à jour régulièrement afin de conserver un comparatif fiable du marché.</p>
 
-  <!-- AUTEUR -->
   <div class="author-box fade-up">
     <div class="author-icon"><svg width="22" height="22" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="320" rx="70" fill="#2D6A4F"/><g transform="scale(1.6)"><g transform="translate(-14,0.8)"><path d="M 66 150 L 66 70 L 90 44 L 120 44 Q 152 44 152 68 Q 152 92 120 92 Q 156 98 156 122 Q 156 150 120 150 Z M 96 64 L 96 91 L 113 91 Q 126 91 126 77.5 Q 126 64 113 64 Z M 96 99 L 96 130 L 117 130 Q 130 130 130 114.5 Q 130 99 117 99 Z" fill="#FFFFFF" fill-rule="evenodd"/></g></g></svg></div>
     <div>
@@ -707,19 +1030,31 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   </div>
 
   <p class="disclaimer fade-up">Tarifs et fonctionnalités des solutions tierces relevés en juillet 2026 sur les sites officiels des éditeurs et des comparatifs indépendants publics. Ces informations sont susceptibles d'évoluer ; consultez les sites des éditeurs pour les conditions à jour. Les marques citées appartiennent à leurs propriétaires respectifs. Ce comparatif reflète notre analyse honnête du marché à la date de publication.</p>
-
-  <!-- CTA APP -->
-  <div class="app-promo fade-up">
-    <div class="app-promo-badge">🍎 Disponible septembre 2026</div>
-    <h2>Découvrez le copilote patrimonial et fiscal du bailleur indépendant</h2>
-    <p>Le copilote patrimonial et fiscal du bailleur indépendant : gestion locative, préparation 2044 et LMNP réel, projection patrimoniale — dans une app native iOS où vos données restent chez vous.</p>
-    <a href="https://bailleursuite.fr#waitlist" class="appstore-btn">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-      Accès bêta gratuit →
-    </a>
-  </div>
-
 </div>
+
+<!-- ═══ MEGA CTA ═══ -->
+<section class="mega-cta">
+  <div class="mega-cta-inner">
+    <div class="mega-cta-badge fade-up">🍎 Disponible septembre 2026</div>
+    <h2 class="fade-up">Découvrez le copilote patrimonial et fiscal<br>du bailleur indépendant</h2>
+    <p class="mega-cta-sub fade-up">Le copilote patrimonial et fiscal du bailleur indépendant : gestion locative, préparation 2044 et LMNP réel, projection patrimoniale — dans une app native iOS où vos données restent chez vous.</p>
+    <div class="mega-cta-price fade-up">
+      Dès <strong>49,99€/an</strong> · Biens illimités · Pass Fiscal <strong>29,90€</strong>
+    </div>
+    <div class="fade-up">
+      <a href="https://bailleursuite.fr#waitlist" class="mega-btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Accès bêta gratuit →
+      </a>
+    </div>
+    <div class="mega-cta-features fade-up">
+      <span class="mega-feature">100% native iOS</span>
+      <span class="mega-feature">Données sur votre iPhone uniquement</span>
+      <span class="mega-feature">LMNP réel inclus</span>
+      <span class="mega-feature">Projection 20 ans</span>
+    </div>
+  </div>
+</section>
 
 <!-- MOBILE STICKY -->
 <div class="mobile-cta-sticky">
