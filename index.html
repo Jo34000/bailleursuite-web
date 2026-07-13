@@ -85,18 +85,18 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Le module LMNP calcule-t-il les amortissements automatiquement ?",
+      "name": "Quand sort BailleurSuite exactement ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Oui. BailleurSuite propose deux modes : en mode simple, saisissez la valeur du bien et l'app calcule la répartition bâti/terrain automatiquement. En mode avancé, saisie manuelle avec durées personnalisables (bâti 15–40 ans, mobilier 5–15 ans, travaux 5–15 ans). Les intérêts d'emprunt déductibles sont calculés depuis votre tableau d'amortissement de prêt."
+        "text": "Le lancement est prévu pour septembre 2026 sur l'App Store France. Les inscrits à la liste d'attente sont notifiés en priorité, avec un accès TestFlight anticipé avant la sortie publique."
       }
     },
     {
       "@type": "Question",
-      "name": "BailleurSuite gère-t-il la déclaration 2044 pour la location nue ?",
+      "name": "La V1 fonctionne pour quel type de location ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Oui. Dès la V1, BailleurSuite couvre la location nue avec la déclaration 2044 (régime réel), pré-remplie ligne par ligne depuis vos données de loyers et charges. Le Pass Fiscal génère un PDF prêt à copier sur impots.gouv.fr."
+        "text": "BailleurSuite couvre les deux régimes dès le lancement : location nue (déclaration 2044, régime réel) et LMNP (location meublée non professionnelle) avec configurateur d'amortissements, comparatif Micro-BIC vs régime réel et export PDF."
       }
     },
     {
@@ -109,18 +109,18 @@
     },
     {
       "@type": "Question",
-      "name": "Le Pass Fiscal remplace-t-il vraiment un comptable ?",
+      "name": "Le Pass Fiscal remplace-t-il un comptable ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pour la majorité des bailleurs avec 1 à 3 biens en location nue simple, oui. Le Pass Fiscal pré-remplit votre 2044 ligne par ligne, explique chaque case et génère un PDF. Il ne remplace pas un comptable pour des situations complexes (SCI, déficit reportable important, régime mixte)."
+        "text": "Pour la majorité des bailleurs avec 1 à 3 biens en situation simple, oui : le Pass Fiscal prépare votre déclaration case par case et génère un PDF prêt à reporter sur impots.gouv.fr. Pour les situations complexes (LMP, SCI à l'IS, régimes mixtes), l'accompagnement d'un expert-comptable reste recommandé."
       }
     },
     {
       "@type": "Question",
-      "name": "La V1 fonctionne pour quel type de location ?",
+      "name": "Le Pass Fiscal télédéclare-t-il ma déclaration ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "BailleurSuite couvre les deux régimes dès le lancement : location nue (déclaration 2044, régime réel) et LMNP (location meublée non professionnelle) avec configurateur d'amortissements, comparatif Micro-BIC vs régime réel et export PDF."
+        "text": "Non. Le Pass Fiscal prépare l'intégralité des montants à reporter, case par case, dans un dossier PDF clair. Vous effectuez ensuite le report vous-même sur impots.gouv.fr. Pour la liasse 2031 (LMNP au régime réel), la télétransmission passe par un logiciel agréé ou un professionnel — BailleurSuite vous fournit tous les montants nécessaires."
       }
     },
     {
@@ -1581,21 +1581,11 @@
 
       <div class="faq-item" style="border-bottom:1px solid var(--border);">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
-          Le module LMNP calcule-t-il les amortissements automatiquement ?
-          <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
-        </button>
-        <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
-          L'app propose un configurateur en deux modes. En <strong>mode simple</strong> : vous saisissez la valeur totale du bien, et l'app calcule automatiquement la répartition bâti/terrain selon un ratio adaptatif (15% si surface &lt; 60m², 20% sinon, ajustable). En <strong>mode avancé</strong> : saisie manuelle séparée avec durées personnalisables (bâti 15–40 ans, mobilier 5–15 ans, travaux 5–15 ans). Les intérêts d'emprunt déductibles sont calculés automatiquement depuis votre tableau d'amortissement de prêt. Toutes les estimations sont indicatives et doivent être validées par un expert-comptable.
-        </div>
-      </div>
-
-      <div class="faq-item" style="border-bottom:1px solid var(--border);">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
           Quand sort BailleurSuite exactement ?
           <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
         </button>
         <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
-          Le lancement est prévu pour <strong>septembre 2026</strong> sur l'App Store France. L'application est entièrement développée et en phase de tests. Les inscrits à la liste d'attente seront notifiés en priorité dès l'approbation Apple, avec un accès anticipé.
+          Le lancement est prévu pour <strong>septembre 2026</strong> sur l'App Store France. L'application est entièrement développée et en phase de tests. Les inscrits à la liste d'attente sont notifiés en priorité, avec un <strong>accès TestFlight anticipé</strong> avant la sortie publique.
         </div>
       </div>
 
@@ -1621,31 +1611,11 @@
 
       <div class="faq-item" style="border-bottom:1px solid var(--border);">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
-          Le Pass Fiscal remplace-t-il vraiment un comptable ?
+          Le Pass Fiscal remplace-t-il un comptable ?
           <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
         </button>
         <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
-          Pour la grande majorité des bailleurs avec <strong>1 à 3 biens en location nue simple</strong>, oui. Le Pass Fiscal pré-remplit votre 2044 ligne par ligne depuis vos données, explique chaque case, et génère un PDF prêt à copier sur impots.gouv.fr. Il ne remplace pas un comptable pour des situations complexes (SCI, déficit reportable important, régime mixte).
-        </div>
-      </div>
-
-      <div class="faq-item" style="border-bottom:1px solid var(--border);">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
-          Quand l'app sera-t-elle disponible sur l'App Store ?
-          <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
-        </button>
-        <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
-          Le lancement est prévu pour fin 2026, idéalement en <strong>septembre ou janvier</strong> (périodes optimales pour l'ASO). En vous inscrivant sur la liste d'attente, vous recevez un accès prioritaire à la bêta TestFlight avant la sortie publique.
-        </div>
-      </div>
-
-      <div class="faq-item" style="border-bottom:1px solid var(--border);">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
-          Puis-je changer de plan à tout moment ?
-          <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
-        </button>
-        <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
-          Oui. Les abonnements sont gérés via l'App Store Apple — vous pouvez passer au Gestion Zen ou annuler depuis les réglages de votre iPhone à tout moment. Aucun engagement minimum, aucune démarche complexe.
+          Pour la majorité des bailleurs avec <strong>1 à 3 biens en situation simple</strong>, oui : le Pass Fiscal prépare votre déclaration case par case et génère un PDF prêt à reporter sur impots.gouv.fr. Pour les situations complexes (<strong>LMP, SCI à l'IS, régimes mixtes</strong>), l'accompagnement d'un expert-comptable reste recommandé.
         </div>
       </div>
 
@@ -1661,11 +1631,11 @@
 
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
-          Le Pass Fiscal remplace-t-il mon expert-comptable ?
+          Puis-je changer de plan à tout moment ?
           <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
         </button>
         <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
-          Non. BailleurSuite calcule vos montants à partir des données que vous saisissez et vous guide dans votre déclaration. Pour les situations complexes (LMP, SCI à l'IS, montages spécifiques), l'accompagnement d'un expert-comptable reste recommandé.
+          Oui. Les abonnements sont gérés via l'App Store Apple — vous pouvez passer au Gestion Zen ou annuler depuis les réglages de votre iPhone à tout moment. Aucun engagement minimum, aucune démarche complexe.
         </div>
       </div>
 
