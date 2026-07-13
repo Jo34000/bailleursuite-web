@@ -870,6 +870,31 @@
     color: var(--mint);
     margin-top: 4px;
   }
+
+  /* ── APP FEATURES (cartes compactes uniformes) ── */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+  }
+  @media (max-width: 640px) { .app-grid { grid-template-columns: 1fr; } }
+  .app-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 28px 24px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .app-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
+  .app-card-num { font-family: var(--serif); font-size: 2rem; color: var(--gold); line-height: 1; }
+  .app-card-title { font-family: var(--serif); font-size: 1.25rem; color: var(--ink); line-height: 1.25; }
+  .app-card-desc { font-size: 0.9rem; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .app-card-meta { margin-top: 6px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; color: var(--mint-dark); text-transform: uppercase; }
 </style>
 </head>
 <body>
@@ -989,141 +1014,33 @@
   <div class="container">
     <div style="text-align:center; margin-bottom: 64px;" class="reveal">
       <div class="section-label">Ce que fait l'app</div>
-      <h2 class="section-title">Gestion locative, déclaration 2044<br>et fiscalité LMNP — tout en un.</h2>
+      <h2 class="section-title">Quatre piliers, une seule app.</h2>
     </div>
 
-    <!-- Feature 1 : Pilotage -->
-    <div class="feature-block reveal">
-      <div class="feature-text">
-        <div class="feature-number">01</div>
-        <h3 class="feature-title">Le Pilotage —<br>Rentabilité réelle en temps réel</h3>
-        <p class="feature-desc">Suivez la rentabilité nette de chaque bien (après charges, taxe foncière, vacance locative) en un coup d'œil. Comparez vos biens entre eux, identifiez ce qui tire votre rendement vers le bas.</p>
-        <div class="feature-pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          Tableau de bord multi-biens inclus en Gestion Zen
-        </div>
+    <div class="app-grid reveal">
+      <div class="app-card">
+        <div class="app-card-num">01</div>
+        <div class="app-card-title">Pilotage</div>
+        <p class="app-card-desc">Rentabilité nette de chaque bien, après charges, taxe foncière et vacance. Comparez vos biens d'un coup d'œil.</p>
+        <div class="app-card-meta">Gestion Zen</div>
       </div>
-      <div class="feature-visual">
-        <div class="feature-card">
-          <div class="feature-card-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
-              <polyline points="16 7 22 7 22 13"/>
-            </svg>
-          </div>
-          <div class="feature-card-title">Rendement locatif</div>
-          <div class="feature-card-body">Calculez instantanément rendement brut, net et net-net. Intègre charges déductibles, taxe foncière, travaux et vacance locative.</div>
-          <div class="feature-stat">
-            <span class="stat-number">6,8%</span>
-            <span class="stat-label">rendement net moyen constaté</span>
-          </div>
-        </div>
+      <div class="app-card">
+        <div class="app-card-num">02</div>
+        <div class="app-card-title">Quittances automatiques</div>
+        <p class="app-card-desc">Quittance PDF conforme générée à chaque encaissement, envoi en un tap. Relances d'impayés pré-rédigées.</p>
+        <div class="app-card-meta">Gestion Zen</div>
       </div>
-    </div>
-
-    <!-- Feature 2 : Automatisation -->
-    <div class="feature-block reverse reveal">
-      <div class="feature-text">
-        <div class="feature-number">02</div>
-        <h3 class="feature-title">L'Automatisation —<br>Quittances en un geste</h3>
-        <p class="feature-desc">Dès l'encaissement enregistré dans l'app, BailleurSuite génère la quittance PDF conforme et vous propose de l'envoyer à votre locataire en un tap. Les relances de loyers impayés sont pré-rédigées et prêtes à partir — vous gardez le contrôle, sans jamais rien oublier.</p>
-        <div class="feature-pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          Disponible à partir du plan Gestion Zen 5,99€/mois
-        </div>
+      <div class="app-card">
+        <div class="app-card-num">03</div>
+        <div class="app-card-title">Déclaration guidée</div>
+        <p class="app-card-desc">Vos montants 2044, 2042C PRO et 2031 préparés case par case, prêts à reporter sur impots.gouv.fr.</p>
+        <div class="app-card-meta">Pass Fiscal</div>
       </div>
-      <div class="feature-visual">
-        <div class="feature-card">
-          <div class="feature-card-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-            </svg>
-          </div>
-          <div class="feature-card-title">Quittances à l'encaissement</div>
-          <div class="feature-card-body">PDF conforme loi ALUR généré à chaque encaissement, envoi email en un tap. Relances impayés guidées. Historique complet par locataire.</div>
-          <div class="feature-stat">
-            <span class="stat-number">0 min</span>
-            <span class="stat-label">de temps passé par mois sur vos quittances</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Feature 3 : Module Fiscal -->
-    <div class="feature-block reveal">
-      <div class="feature-text">
-        <div class="feature-number">03</div>
-        <h3 class="feature-title">Votre déclaration fiscale —<br>Guidée, case par case</h3>
-        <p class="feature-desc">BailleurSuite calcule et organise vos données tout au long de l'année, puis génère un <strong>PDF pédagogique</strong> avec vos montants exacts et les cases à reporter sur impots.gouv.fr — <strong>2044</strong> (location nue, régime réel), <strong>2042C PRO</strong> et <strong>2031</strong> (LMNP au réel). Vous copiez les chiffres, vous validez, vous soumettez. Clair, rapide, sans erreur.</p>
-        <div class="feature-pill feature-pill-gold">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-          29,90€ en achat unique
-        </div>
-      </div>
-      <div class="feature-visual">
-        <div class="feature-card" style="border-color: var(--mint); background: var(--mint-pale);">
-          <div class="feature-card-icon" style="background: var(--gold-pale);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <path d="M9 15l2 2 4-4"/>
-            </svg>
-          </div>
-          <div class="feature-card-title">Module Fiscal 2044 · 2042C PRO · 2031</div>
-          <div class="feature-card-body">PDF pédagogique avec vos montants précalculés et les cases exactes à reporter sur impots.gouv.fr : 2044, 2042C PRO, 2031. Comparaison micro-foncier vs régime réel incluse.</div>
-          <div class="feature-stat" style="border-color: rgba(46,204,138,0.3);">
-            <span class="stat-number">29,90€</span>
-            <span class="stat-label">vs 150–300€ chez un expert-comptable</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Feature 4 : Module LMNP -->
-    <div class="feature-block reverse reveal" id="lmnp">
-      <div class="feature-text">
-        <div class="feature-number">04</div>
-        <h3 class="feature-title">Amortissement LMNP —<br>Micro-BIC vs régime réel automatisé</h3>
-        <p class="feature-desc">Pour les propriétaires en location meublée non professionnelle, BailleurSuite intègre un assistant LMNP complet : configurez vos amortissements (bâti, mobilier, travaux, frais de notaire), comparez Micro-BIC vs régime réel, et détectez automatiquement les déficits LMNP reportables sur les années suivantes.</p>
-        <div class="feature-pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          Inclus dès le lancement · Septembre 2026
-        </div>
-        <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--ink-mid);">
-            <span style="color:var(--mint);font-weight:700;">✓</span> Configurateur amortissements mode simple et avancé
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--ink-mid);">
-            <span style="color:var(--mint);font-weight:700;">✓</span> Calcul intérêts d'emprunt déductibles par année
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--ink-mid);">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-light)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Scanner de justificatifs — Prochainement
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--ink-mid);">
-            <span style="color:var(--mint);font-weight:700;">✓</span> Export PDF synthèse LMNP
-          </div>
-        </div>
-      </div>
-      <div class="feature-visual">
-        <div class="feature-card" style="border-color:var(--gold);background:var(--gold-pale);">
-          <div class="feature-card-icon" style="background:rgba(201,168,76,0.15);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <path d="M3 9h18"/>
-              <path d="M9 21V9"/>
-            </svg>
-          </div>
-          <div class="feature-card-title">Assistant LMNP</div>
-          <div class="feature-card-body">Calcul réel : Loyers − Charges − Taxe foncière − Intérêts − Amortissements = Résultat imposable. Détection automatique du déficit LMNP reportable.</div>
-          <div class="feature-stat" style="border-color:rgba(201,168,76,0.3);">
-            <span class="stat-number" style="color:var(--gold);">Micro-BIC</span>
-            <span class="stat-label">vs Régime réel — comparatif automatique</span>
-          </div>
-        </div>
+      <div class="app-card" id="lmnp">
+        <div class="app-card-num">04</div>
+        <div class="app-card-title">Amortissement LMNP</div>
+        <p class="app-card-desc">Micro-BIC vs régime réel comparés automatiquement. Amortissements et déficit reportable calculés pour vous.</p>
+        <div class="app-card-meta">Pass Fiscal</div>
       </div>
     </div>
 
