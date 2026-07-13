@@ -437,6 +437,68 @@ tr:hover td{background:rgba(45,106,79,.025)}
   </div>
 </div>
 
+<!-- TEASERS APP : Score de Santé Fiscale (optimisations) + projection patrimoine 10 ans -->
+<div style="max-width:680px;margin:28px auto 0;padding:0 20px;">
+
+  <!-- Teaser : 3 optimisations -->
+  <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:16px;">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);">
+      <div style="font-size:.85rem;font-weight:600;color:var(--ink);">Vos optimisations fiscales</div>
+      <div style="font-size:.72rem;color:var(--ink-light);margin-top:2px;">Détectées automatiquement dans l'app à partir de votre profil</div>
+    </div>
+    <div style="position:relative;padding:16px 20px;">
+      <div style="filter:blur(4px);user-select:none;pointer-events:none;opacity:0.5;display:flex;flex-direction:column;gap:5px;">
+        <div style="font-size:.75rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px;"><span style="color:#e67e22;">●</span> Déficit foncier potentiel non optimisé</div>
+        <div style="font-size:.75rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px;"><span style="color:#f39c12;">●</span> Charges déductibles incomplètes détectées</div>
+        <div style="font-size:.75rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px;"><span style="color:var(--mint);">●</span> Micro-foncier vs régime réel à comparer</div>
+      </div>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+        <a href="https://bailleursuite.fr#waitlist" style="display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:white;padding:8px 16px;border-radius:10px;text-decoration:none;font-size:.78rem;font-weight:600;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Voir les 3 optimisations dans l'app
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teaser : projection patrimoine 10 ans -->
+  <div style="border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);background:var(--cream);">
+    <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div>
+        <div style="font-size:.82rem;font-weight:600;color:var(--ink);">Évolution patrimoine sur 10 ans</div>
+        <div style="font-size:.7rem;color:var(--ink-light);margin-top:1px;">Avec vs sans optimisation BailleurSuite</div>
+      </div>
+      <div style="display:flex;gap:12px;font-size:.68rem;">
+        <span style="display:flex;align-items:center;gap:4px;color:var(--mint);font-weight:600;"><span style="display:inline-block;width:10px;height:3px;background:var(--mint);border-radius:2px;"></span>Optimisé</span>
+        <span style="display:flex;align-items:center;gap:4px;color:var(--ink-light);"><span style="display:inline-block;width:10px;height:2px;background:var(--border);border-radius:2px;"></span>Sans app</span>
+      </div>
+    </div>
+    <div style="position:relative;padding:16px 20px 20px;">
+      <svg width="100%" viewBox="0 0 400 120" preserveAspectRatio="none" style="display:block;filter:blur(5px);opacity:0.45;">
+        <line x1="0" y1="30" x2="400" y2="30" stroke="#E0D9CC" stroke-width="0.5"/>
+        <line x1="0" y1="60" x2="400" y2="60" stroke="#E0D9CC" stroke-width="0.5"/>
+        <line x1="0" y1="90" x2="400" y2="90" stroke="#E0D9CC" stroke-width="0.5"/>
+        <polyline fill="none" stroke="#C8C0B4" stroke-width="2" stroke-dasharray="5,3" points="0,100 40,96 80,92 120,90 160,87 200,85 240,83 280,81 320,79 360,77 400,75"/>
+        <polyline fill="none" stroke="#2D6A4F" stroke-width="2.5" points="0,100 40,92 80,82 120,70 160,58 200,47 240,38 280,30 320,23 360,17 400,12"/>
+        <polygon fill="rgba(45,106,79,0.08)" points="0,100 40,92 80,82 120,70 160,58 200,47 240,38 280,30 320,23 360,17 400,12 400,100"/>
+        <circle cx="200" cy="47" r="3" fill="#2D6A4F"/>
+        <circle cx="400" cy="12" r="3" fill="#2D6A4F"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+        <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:10px 18px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+          <div id="graph-gain" style="font-family:'Instrument Serif',serif;font-size:1.5rem;color:var(--mint);font-weight:400;">+XX XXX €</div>
+          <div style="font-size:.72rem;color:var(--ink-light);margin-top:2px;">de patrimoine supplémentaire estimé à 10 ans</div>
+        </div>
+        <a href="https://bailleursuite.fr#waitlist" style="display:inline-flex;align-items:center;gap:6px;background:var(--mint);color:white;padding:8px 16px;border-radius:10px;text-decoration:none;font-size:.78rem;font-weight:600;box-shadow:0 4px 14px rgba(45,106,79,0.3);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Voir la projection complète
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 <!-- ÉDITORIAL -->
 <article class="editorial">
 
@@ -730,6 +792,11 @@ tr:hover td{background:rgba(45,106,79,.025)}
       if (score <= 4) msg += ` Des optimisations peuvent significativement améliorer ce profil.`;
       document.getElementById('calc-cta-text').textContent = msg;
       document.getElementById('calc-cta').classList.add('visible');
+
+      // Teaser projection patrimoine 10 ans (+18% effet optimisation estimé)
+      const gainEstime = Math.round(cashAnnuel * 10 * 1.18);
+      const gainEl = document.getElementById('graph-gain');
+      if (gainEl) gainEl.textContent = '+' + Math.max(0, gainEstime).toLocaleString('fr-FR') + ' €';
     } else {
       document.getElementById('score-row').style.visibility = 'hidden';
       document.getElementById('email-capture').style.visibility = 'hidden';
