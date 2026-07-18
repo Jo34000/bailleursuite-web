@@ -928,8 +928,8 @@
   /* ── BANDE DE RÉASSURANCE ── */
   .trust-band { padding: 32px 24px; border-bottom: 1px solid rgba(17,19,21,.07); }
   .trust-items { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
-  .trust-band .trust-item { font-size: .82rem; color: #50545A; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-  .trust-band .trust-item span { font-size: 1rem; }
+  .trust-band .trust-item { font-size: .82rem; color: #50545A; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .trust-band .trust-item svg { width: 17px; height: 17px; flex-shrink: 0; fill: none; stroke: var(--mint); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -1027,12 +1027,12 @@
 <!-- BANDE DE RÉASSURANCE -->
 <section class="trust-band">
   <div class="trust-items">
-    <div class="trust-item"><span>🇫🇷</span> Développée en France</div>
-    <div class="trust-item"><span>📱</span> Application native iPhone</div>
-    <div class="trust-item"><span>☁️</span> Vos données restent chez vous</div>
-    <div class="trust-item"><span>🔒</span> Sans création de compte</div>
-    <div class="trust-item"><span>🚫</span> Aucune publicité</div>
-    <div class="trust-item"><span>🔄</span> Mises à jour fiscales incluses</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Développée en France</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Application native iPhone</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg> Vos données restent chez vous</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/><line x1="4" y1="4" x2="20" y2="20"/></svg> Sans création de compte</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.6" y1="5.6" x2="18.4" y2="18.4"/></svg> Aucune publicité</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><polyline points="20.5 3.5 20.5 9 15 9"/></svg> Mises à jour fiscales incluses</div>
   </div>
 </section>
 
