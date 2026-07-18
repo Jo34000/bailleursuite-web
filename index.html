@@ -930,6 +930,7 @@
   .trust-items { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
   .trust-band .trust-item { font-size: .82rem; color: #50545A; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
   .trust-band .trust-item svg { width: 17px; height: 17px; flex-shrink: 0; fill: none; stroke: var(--mint); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .trust-band .trust-item svg.flag-fr { width: 20px; height: 20px; stroke: none; }
 </style>
 </head>
 <body>
@@ -1027,7 +1028,7 @@
 <!-- BANDE DE RÉASSURANCE -->
 <section class="trust-band">
   <div class="trust-items">
-    <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Développée en France</div>
+    <div class="trust-item"><svg class="flag-fr" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6.5" width="16" height="11" rx="1.8" fill="#fff" stroke="rgba(17,19,21,.12)" stroke-width="1"/><path d="M5.8 6.5h3.5v11H5.8A1.8 1.8 0 0 1 4 15.7V8.3a1.8 1.8 0 0 1 1.8-1.8z" fill="#0055A4"/><path d="M14.7 6.5h3.5A1.8 1.8 0 0 1 20 8.3v7.4a1.8 1.8 0 0 1-1.8 1.8h-3.5z" fill="#EF4135"/></svg> Développée en France</div>
     <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Application native iPhone</div>
     <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg> Vos données restent chez vous</div>
     <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/><line x1="4" y1="4" x2="20" y2="20"/></svg> Sans création de compte</div>
