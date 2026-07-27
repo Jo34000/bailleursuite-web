@@ -18,7 +18,7 @@
     :root {
       --ink-light: #8A8A8E;
       --border: rgba(28,28,30,0.08);
-      --radius: 16px;
+      --radius: 14px;
     }
 
     body { color: var(--ink); line-height: 1.7; font-size: 1rem; }
@@ -123,11 +123,11 @@
 
     .badge-local {
       display: inline-flex; align-items: center; gap: 8px;
-      background: white; border: 1px solid var(--border); border-radius: 100px;
+      background: white; border: 1px solid var(--border); border-radius: var(--r-full);
       padding: 8px 16px; font-size: 0.78rem; font-weight: 600; color: var(--mint);
-      margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      margin: 16px 0; box-shadow: none;
     }
-    .badge-local::before { content: '🔒'; font-size: 0.9rem; }
+    .badge-local { display:inline-flex; align-items:center; gap:6px; }
 
     .tiers-block {
       background: var(--cream); border: 1px solid var(--border);
@@ -141,7 +141,8 @@
       .page-hero { padding: 96px 20px 40px; }
       .page-content { padding: 40px 20px 72px; }
     }
-  </style>
+    :root{--r-sm:8px;--r-md:14px;--r-full:999px;}
+</style>
 </head>
 <body>
 <div class="reading-progress" id="reading-progress"></div>
@@ -213,7 +214,7 @@
     <div class="section-num">Article 02</div>
     <h2>Données dans l'application iOS</h2>
 
-    <div class="badge-local">Données 100% locales — aucun serveur BailleurSuite</div>
+    <div class="badge-local"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Données 100% locales — aucun serveur BailleurSuite</div>
 
     <p>BailleurSuite fonctionne en <strong>mode entièrement local</strong>. Toutes les données que vous saisissez dans l'application sont stockées exclusivement sur votre appareil via <strong>SwiftData</strong> et, si vous l'activez, synchronisées dans votre propre espace <strong>iCloud privé</strong> (CloudKit).</p>
 
