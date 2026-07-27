@@ -41,7 +41,7 @@
     --line: rgba(255,255,255,.07); }
 }
 body { color: var(--ink); }
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 10%,rgba(45,106,79,.07),transparent 35%),radial-gradient(circle at 85% 5%,rgba(201,168,76,.05),transparent 35%);pointer-events:none;z-index:-1}
+
 
 /* Font-synthesis — serif non-heading elements */
 .guide-title, .app-promo h2 { font-weight: 400; font-synthesis: none;
@@ -49,9 +49,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
 /* HERO */
 .hero{min-height:72vh;display:flex;align-items:center;padding:100px 24px 80px;position:relative;overflow:hidden;text-align:center}
-.hero-glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(ellipse,rgba(45,106,79,.09) 0%,transparent 65%);pointer-events:none}
+.hero-glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(ellipse,rgba(45,106,79,.045) 0%,transparent 65%);pointer-events:none}
 .hero-content{max-width:740px;margin:0 auto;position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--surface-strong);border:1px solid rgba(45,106,79,.25);color:var(--mint);font-size:0.72rem;font-weight:600;padding:6px 16px;border-radius:100px;margin-bottom:28px;letter-spacing:0.06em;text-transform:uppercase;box-shadow:var(--shadow-soft)}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--surface-strong);border:1px solid rgba(45,106,79,.25);color:var(--mint);font-size:0.72rem;font-weight:600;padding:6px 16px;border-radius:var(--r-full);margin-bottom:28px;letter-spacing:0.06em;text-transform:uppercase;box-shadow:var(--shadow-soft)}
 .hero-badge::before{content:'●';font-size:.45rem}
 .hero h1{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.1;color:var(--ink);letter-spacing:-0.03em;margin-bottom:20px}
 .hero h1 em{font-style:italic;color:var(--mint)}
@@ -59,9 +59,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .hero-meta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:36px}
 .hero-meta span{font-size:0.78rem;color:var(--ink-light)}
 .hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--mint);color:white;padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.9rem;box-shadow:0 8px 24px rgba(45,106,79,.3);transition:transform .2s,box-shadow .2s}
+.btn-primary{background:var(--mint);color:white;padding:14px 28px;border-radius:var(--r-full);text-decoration:none;font-weight:600;font-size:.9rem;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(45,106,79,.4)}
-.btn-secondary{background:var(--surface-strong);color:var(--ink);padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:500;font-size:.9rem;border:1px solid var(--line);transition:background .2s}
+.btn-secondary{background:var(--surface-strong);color:var(--ink);padding:14px 28px;border-radius:var(--r-full);text-decoration:none;font-weight:500;font-size:.9rem;border:1px solid var(--line);transition:background .2s}
 .btn-secondary:hover{background:white}
 
 /* LAYOUT */
@@ -71,15 +71,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 /* SIDEBAR */
 .sidebar-toc{position:sticky;top:90px}
 @media(max-width:900px){.sidebar-toc{display:none}}
-.toc-card{background:var(--surface);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.45);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-soft)}
+.toc-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-soft)}
 .toc-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-light);margin-bottom:16px}
 .toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
-.toc-list a{display:block;font-size:.82rem;color:var(--ink-soft);text-decoration:none;padding:7px 10px;border-radius:10px;transition:background .15s,color .15s;line-height:1.4}
+.toc-list a{display:block;font-size:.82rem;color:var(--ink-soft);text-decoration:none;padding:7px 10px;border-radius:var(--r-md);transition:background 180ms cubic-bezier(.4,0,.2,1),color 180ms cubic-bezier(.4,0,.2,1);line-height:1.4}
 .toc-list a:hover,.toc-list a.active{background:var(--mint-pale);color:var(--mint)}
 .toc-list a.active{font-weight:500}
 .toc-guide-box{margin-top:20px;background:linear-gradient(135deg,var(--mint),#1A4A35);border-radius:var(--radius-md);padding:18px;text-align:center}
 .toc-guide-box p{font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.5;margin-bottom:12px;max-width:100%}
-.toc-guide-btn{display:block;background:white;color:var(--mint);padding:9px 16px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.78rem}
+.toc-guide-btn{display:block;background:white;color:var(--mint);padding:9px 16px;border-radius:var(--r-full);text-decoration:none;font-weight:600;font-size:.78rem}
 
 /* ARTICLE */
 .article-content{min-width:0}
@@ -88,7 +88,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .guide-text{flex:1;min-width:200px}
 .guide-title{font-family:var(--serif);font-size:1.25rem;color:white;margin-bottom:6px}
 .guide-desc{font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.5}
-.guide-btn{background:white;color:var(--mint);padding:12px 22px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.85rem;white-space:nowrap;flex-shrink:0;transition:transform .2s}
+.guide-btn{background:white;color:var(--mint);padding:12px 22px;border-radius:var(--r-full);text-decoration:none;font-weight:600;font-size:.85rem;white-space:nowrap;flex-shrink:0;transition:transform .2s}
 .guide-btn:hover{transform:translateY(-1px)}
 
 /* MOBILE TOC */
@@ -105,7 +105,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .article-content li strong{color:var(--ink)}
 
 /* CALLOUTS */
-.callout{border-radius:22px;padding:22px 26px;margin:28px 0;border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(16px);box-shadow:0 8px 30px rgba(0,0,0,.04),inset 0 1px rgba(255,255,255,.4)}
+.callout{border-radius:var(--r-md);padding:22px 26px;margin:28px 0;border:1px solid var(--line);box-shadow:none}
 .callout-info{background:rgba(232,242,236,.75);border-color:rgba(45,106,79,.2)}
 .callout-warn{background:rgba(249,243,227,.75);border-color:rgba(201,168,76,.25)}
 .callout-danger{background:rgba(253,233,233,.75);border-color:rgba(192,57,43,.15)}
@@ -118,13 +118,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .callout p{font-size:.9rem;margin-bottom:0;max-width:100%}
 
 /* TABLEAUX */
-.table-wrap{overflow:hidden;border-radius:var(--radius-lg);margin:28px 0;background:var(--surface);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.4);box-shadow:0 14px 50px rgba(0,0,0,.05);overflow-x:auto}
+.table-wrap{overflow:hidden;border-radius:var(--radius-lg);margin:28px 0;background:var(--surface);border:1px solid var(--line);box-shadow:none;overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:500px}
 th{background:var(--mint);color:white;padding:14px 18px;text-align:left;font-weight:600;font-size:.82rem;letter-spacing:.02em}
 td{padding:13px 18px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;transition:background .15s}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(45,106,79,.03)}
-.case-num{font-family:monospace;font-weight:700;color:var(--mint);background:var(--mint-pale);padding:3px 9px;border-radius:8px;font-size:.83rem}
+.case-num{font-family:monospace;font-weight:700;color:var(--mint);background:var(--mint-pale);padding:3px 9px;border-radius:var(--r-sm);font-size:.83rem}
 
 /* ÉTAPES */
 .steps{display:flex;flex-direction:column;margin:32px 0}
@@ -142,13 +142,13 @@ tr:hover td{background:rgba(45,106,79,.03)}
 .faq-a{display:none;padding-bottom:20px;color:var(--ink-soft);font-size:.92rem;line-height:1.75;font-weight:300}
 
 /* CTA APP */
-.app-promo{position:relative;overflow:hidden;background:radial-gradient(circle at top right,rgba(45,106,79,.35),transparent 45%),linear-gradient(145deg,#111214,#1D1F22);border-radius:var(--radius-xl);border:1px solid rgba(255,255,255,.07);box-shadow:0 25px 80px rgba(0,0,0,.22);padding:56px 48px;text-align:center;margin-top:64px}
+.app-promo{position:relative;overflow:hidden;background:radial-gradient(circle at top right,rgba(45,106,79,.35),transparent 45%),linear-gradient(145deg,#111214,#1D1F22);border-radius:var(--radius-xl);border:1px solid rgba(255,255,255,.07);box-shadow:none;padding:56px 48px;text-align:center;margin-top:64px}
 @media(max-width:600px){.app-promo{padding:40px 28px}}
 .app-promo::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(201,168,76,.12),transparent 65%);pointer-events:none}
-.app-promo-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(45,106,79,.25);border:1px solid rgba(45,106,79,.4);color:#5DB888;font-size:.7rem;font-weight:600;padding:5px 14px;border-radius:100px;margin-bottom:22px;letter-spacing:.06em;text-transform:uppercase}
+.app-promo-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(45,106,79,.25);border:1px solid rgba(45,106,79,.4);color:#5DB888;font-size:.7rem;font-weight:600;padding:5px 14px;border-radius:var(--r-full);margin-bottom:22px;letter-spacing:.06em;text-transform:uppercase}
 .app-promo h2{font-family:var(--serif);font-size:clamp(1.7rem,3vw,2.4rem);color:white;margin-bottom:14px;letter-spacing:-0.03em;margin-top:0}
 .app-promo p{color:rgba(255,255,255,.55);font-size:.97rem;max-width:460px;margin:0 auto 32px;line-height:1.7;max-width:100%}
-.appstore-btn{display:inline-flex;align-items:center;gap:10px;background:white;color:#111;padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:transform .2s,box-shadow .2s}
+.appstore-btn{display:inline-flex;align-items:center;gap:10px;background:white;color:#111;padding:14px 28px;border-radius:var(--r-full);text-decoration:none;font-weight:600;font-size:.9rem;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
 .appstore-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,.4)}
 
 /* FADE UP */
@@ -156,11 +156,13 @@ tr:hover td{background:rgba(45,106,79,.03)}
 .fade-up.visible{opacity:1;transform:translateY(0)}
 
 /* MOBILE STICKY */
-.mobile-cta-sticky{display:none;position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:rgba(247,244,238,.95);backdrop-filter:blur(16px);border-top:1px solid var(--line);z-index:200;justify-content:space-between;align-items:center;gap:12px}
+.mobile-cta-sticky{display:none;position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:rgba(247,244,238,.95);border-top:1px solid var(--line);z-index:200;justify-content:space-between;align-items:center;gap:12px}
 @media(max-width:680px){.mobile-cta-sticky{display:flex}}
 .mobile-cta-sticky span{font-size:.82rem;color:var(--ink-soft);line-height:1.3}
-.mobile-cta-sticky a{background:var(--mint);color:white;padding:11px 20px;border-radius:100px;text-decoration:none;font-weight:600;font-size:.82rem;white-space:nowrap;flex-shrink:0}
+.mobile-cta-sticky a{background:var(--mint);color:white;padding:11px 20px;border-radius:var(--r-full);text-decoration:none;font-weight:600;font-size:.82rem;white-space:nowrap;flex-shrink:0}
 
+  /* refonte éditoriale : tokens */
+  :root{--r-sm:8px;--r-md:14px;--r-full:999px;--radius-xl:14px;--radius-lg:14px;--radius-md:14px;--shadow:0 1px 2px rgba(17,19,21,.04),0 8px 24px rgba(17,19,21,.06);--shadow-soft:none;--shadow-large:none}
 </style>
 </head>
 <body>
@@ -217,15 +219,15 @@ tr:hover td{background:rgba(45,106,79,.03)}
     <h1>Déclaration 2044 :<br><em>le guide complet</em><br>pour les bailleurs en location nue</h1>
     <p class="hero-intro">Régime réel, micro-foncier, charges déductibles, déficit foncier et erreurs fréquentes — tout ce qu'il faut savoir avant de remplir votre formulaire.</p>
     <div class="hero-meta">
-      <span>📅 Mis à jour mai 2026</span>
+      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><line x1="4" y1="9" x2="20" y2="9"/><line x1="8" y1="3" x2="8" y2="6"/><line x1="16" y1="3" x2="16" y2="6"/></svg> Mis à jour mai 2026</span>
       <span>&nbsp;·&nbsp;</span>
       <span>⏱ Lecture 8 min</span>
       <span>&nbsp;·&nbsp;</span>
-      <span>🎯 Location nue</span>
+      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg> Location nue</span>
     </div>
     <div class="hero-actions">
       <a href="#guide" class="btn-primary">Lire le guide</a>
-      <a href="https://bailleursuite.fr#waitlist" class="btn-secondary">📋 Guide PDF offert</a>
+      <a href="https://bailleursuite.fr#waitlist" class="btn-secondary"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.2A1.2 1.2 0 0 1 10.2 2h3.6A1.2 1.2 0 0 1 15 3.2V4"/></svg> Guide PDF offert</a>
     </div>
   </div>
 </section>
@@ -258,7 +260,7 @@ tr:hover td{background:rgba(45,106,79,.03)}
     </p>
 
     <div class="guide-box fade-up">
-      <div class="guide-icon">📋</div>
+      <div class="guide-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.2A1.2 1.2 0 0 1 10.2 2h3.6A1.2 1.2 0 0 1 15 3.2V4"/></svg></div>
       <div class="guide-text">
         <div class="guide-title">Guide PDF offert — 12 pages</div>
         <div class="guide-desc">«&nbsp;Comment remplir sa déclaration 2044&nbsp;» — Toutes les cases expliquées, charges listées, pièges à éviter. Reçu immédiatement par email.</div>
@@ -270,7 +272,7 @@ tr:hover td{background:rgba(45,106,79,.03)}
     <p>La <strong>déclaration 2044</strong> (formulaire Cerfa n°10334) concerne tous les propriétaires percevant des <strong>revenus fonciers issus d'une location nue</strong> (non meublée) et relevant du <strong>régime réel d'imposition</strong>.</p>
     <p>Elle est <strong>obligatoire</strong> si vos revenus fonciers bruts annuels dépassent <strong>15 000€</strong>. En dessous de ce seuil, le micro-foncier s'applique automatiquement — mais vous pouvez opter pour le régime réel si vos charges effectives dépassent 30% des loyers.</p>
     <div class="callout callout-info fade-up">
-      <div class="callout-header"><span class="callout-icon">📌</span><span class="callout-label">Rappel important</span></div>
+      <div class="callout-header"><span class="callout-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M9 3h6l-1 6 4 3H6l4-3z"/><line x1="12" y1="15" x2="12" y2="21"/></svg></span><span class="callout-label">Rappel important</span></div>
       <p>La 2044 concerne uniquement la <strong>location nue</strong>. En location meublée (LMNP), c'est la <strong>2042C PRO</strong> qui s'applique, avec la liasse <strong>2031</strong> pour le régime réel. BailleurSuite gère les deux régimes dès le lancement.</p>
     </div>
 
@@ -292,7 +294,7 @@ tr:hover td{background:rgba(45,106,79,.03)}
     <h3>Quand le régime réel est-il plus avantageux ?</h3>
     <p>Le régime réel devient intéressant dès que vos charges déductibles dépassent <strong>30% de vos loyers bruts</strong>. C'est souvent le cas si vous avez un crédit en cours, des travaux d'entretien, des charges de copropriété élevées ou une assurance PNO.</p>
     <div class="callout callout-warn fade-up">
-      <div class="callout-header"><span class="callout-icon">⚠️</span><span class="callout-label">Engagement de 3 ans</span></div>
+      <div class="callout-header"><span class="callout-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M12 4 3 20h18z"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="callout-label">Engagement de 3 ans</span></div>
       <p>Si vous optez volontairement pour le régime réel alors que vous êtes éligible au micro-foncier, ce choix vous engage pour <strong>3 ans minimum</strong>. Faites le calcul sur les 3 prochaines années avant de décider.</p>
     </div>
 
@@ -313,7 +315,7 @@ tr:hover td{background:rgba(45,106,79,.03)}
       </table>
     </div>
     <div class="callout callout-danger fade-up">
-      <div class="callout-header"><span class="callout-icon">🚫</span><span class="callout-label">Charges NON déductibles</span></div>
+      <div class="callout-header"><span class="callout-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.6" y1="5.6" x2="18.4" y2="18.4"/></svg></span><span class="callout-label">Charges NON déductibles</span></div>
       <p>Ne sont <strong>pas</strong> déductibles : le remboursement du capital d'emprunt, les travaux d'agrandissement, la taxe d'habitation, ni les charges récupérables remboursées par le locataire.</p>
     </div>
 
@@ -360,11 +362,11 @@ tr:hover td{background:rgba(45,106,79,.03)}
     <p>Lorsque vos charges déductibles excèdent vos loyers, vous êtes en <strong>déficit foncier</strong>. C'est un mécanisme fiscal puissant pour les bailleurs réalisant des travaux.</p>
     <p>Le déficit est imputable sur votre <strong>revenu global jusqu'à 10 700€ par an</strong> (15 300€ dans certains cas de rénovation énergétique). Au-delà, il est reporté sur les revenus fonciers des <strong>10 années suivantes</strong>.</p>
     <div class="callout callout-info fade-up">
-      <div class="callout-header"><span class="callout-icon">💡</span><span class="callout-label">Exemple chiffré</span></div>
+      <div class="callout-header"><span class="callout-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M9.5 18h5"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.8 10.6c.8.7 1.3 1.5 1.3 2.4h5c0-.9.5-1.7 1.3-2.4A6 6 0 0 0 12 3z"/></svg></span><span class="callout-label">Exemple chiffré</span></div>
       <p>Vous percevez <strong>8 000€</strong> de loyers et avez <strong>15 000€</strong> de charges (5 000€ d'intérêts + 10 000€ de travaux). Déficit total : 7 000€. Les 5 000€ d'intérêts ne sont imputables que sur les revenus fonciers. Les 2 000€ de déficit sur travaux sont imputables sur votre revenu global — réduisant directement votre impôt.</p>
     </div>
     <div class="callout callout-warn fade-up">
-      <div class="callout-header"><span class="callout-icon">⚠️</span><span class="callout-label">Règle importante</span></div>
+      <div class="callout-header"><span class="callout-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M12 4 3 20h18z"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="callout-label">Règle importante</span></div>
       <p>Les <strong>intérêts d'emprunt</strong> créent un déficit uniquement imputable sur les revenus fonciers, jamais sur le revenu global. Seules les autres charges (travaux, gestion, assurances) peuvent créer un déficit imputable sur le revenu global.</p>
     </div>
 
@@ -401,7 +403,7 @@ tr:hover td{background:rgba(45,106,79,.03)}
     </div>
 
     <div class="app-promo fade-up">
-      <div class="app-promo-badge">🍎 Disponible septembre 2026</div>
+      <div class="app-promo-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Disponible septembre 2026</div>
       <h2>BailleurSuite pré-remplit votre 2044</h2>
       <p>L'app iOS récupère vos données de loyers et charges saisies tout au long de l'année et génère un PDF ligne par ligne, prêt à copier sur impots.gouv.fr. Plus d'oubli, plus d'erreur.</p>
       <a href="https://bailleursuite.fr#waitlist" class="appstore-btn">
