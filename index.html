@@ -680,9 +680,9 @@
 
   .pack-fiscal-block {
     margin-top: 28px;
-    background: transparent;
-    border: 1px solid var(--line);
-    border-left: 2px solid var(--gold);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
     border-radius: var(--r-md);
     padding: 36px;
     display: grid;
@@ -969,9 +969,13 @@
   .feature-row.reverse .feature-text{order:2}
   .feature-row.reverse .feature-visual{order:1}
   @media(max-width:860px){
-    .feature-row{grid-template-columns:1fr;gap:32px;padding:40px 0}
-    .feature-row.reverse .feature-text{order:1}
-    .feature-row.reverse .feature-visual{order:2}
+    .product-story{padding:64px 0;max-width:none}
+    .product-story-head{padding:0 24px;margin-bottom:28px}
+    .feature-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:24px;padding:4px 24px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .feature-track::-webkit-scrollbar{display:none}
+    .feature-row{flex:0 0 84%;scroll-snap-align:start;display:flex;flex-direction:column;gap:16px;padding:20px;border:1px solid var(--border);border-radius:var(--r-md);background:#fff}
+    .product-story .feature-visual{order:-1;width:100%}
+    .product-story .feature-text{order:0}
   }
   .feature-num{font-size:.75rem;font-weight:600;letter-spacing:.1em;color:var(--mint);display:block;margin-bottom:16px}
   .feature-text h3{font-family:var(--sans);font-size:1.375rem;line-height:1.3;letter-spacing:-0.02em;color:var(--ink);margin-bottom:16px}
@@ -1105,6 +1109,7 @@
     <p>Trois moments de la vie d'un bailleur, réunis dans une seule application.</p>
   </div>
 
+  <div class="feature-track">
   <div class="feature-row reveal">
     <div class="feature-text">
       <span class="feature-num">01</span>
@@ -1139,6 +1144,7 @@
     <div class="feature-visual" aria-hidden="true">
       <div class="screenshot-placeholder">Capture — Projection patrimoniale</div>
     </div>
+  </div>
   </div>
 </section>
 
