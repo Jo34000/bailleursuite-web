@@ -960,29 +960,38 @@
   .privacy-body{font-size:1.05rem;line-height:1.8;color:var(--ink-mid);font-weight:300;margin-bottom:24px}
   .privacy-link{font-size:.9rem;color:var(--mint);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px}
 
-  /* ── SECTION PRODUIT (layout alterné) ── */
+  /* ── SECTION PRODUIT (empilement vertical + cadres device) ── */
   .product-story{padding:104px 24px;max-width:1080px;margin:0 auto}
   .product-story-head{max-width:620px;margin-bottom:64px}
   .product-story-head h2{font-family:var(--serif);font-size:clamp(1.75rem,3.5vw,2.5rem);line-height:1.15;letter-spacing:-0.03em;color:var(--ink);margin-bottom:16px}
   .product-story-head p{font-size:1.0625rem;color:var(--ink-mid);line-height:1.75;font-weight:300}
-  .feature-row{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:64px 0;border-top:1px solid var(--border)}
+  .feature-row{display:grid;grid-template-columns:1.25fr 1fr;gap:80px;align-items:center;padding:80px 0;border-top:1px solid var(--border)}
   .feature-row.reverse .feature-text{order:2}
   .feature-row.reverse .feature-visual{order:1}
-  @media(max-width:860px){
-    .product-story{padding:64px 0;max-width:none}
-    .product-story-head{padding:0 24px;margin-bottom:28px}
-    .feature-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:24px;padding:4px 24px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-    .feature-track::-webkit-scrollbar{display:none}
-    .feature-row{flex:0 0 84%;scroll-snap-align:start;display:flex;flex-direction:column;gap:16px;padding:20px;border:1px solid var(--border);border-radius:var(--r-md);background:#fff}
-    .product-story .feature-visual{order:-1;width:100%}
-    .product-story .feature-text{order:0}
-  }
   .feature-num{font-size:.75rem;font-weight:600;letter-spacing:.1em;color:var(--mint);display:block;margin-bottom:16px}
-  .feature-text h3{font-family:var(--sans);font-size:1.375rem;line-height:1.3;letter-spacing:-0.02em;color:var(--ink);margin-bottom:16px}
-  .feature-text p{font-size:1.0625rem;line-height:1.75;color:var(--ink-mid);font-weight:300;margin-bottom:16px;max-width:52ch}
-  .feature-plan{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-light)}
-  .feature-visual{aspect-ratio:4/3;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center}
-  .screenshot-placeholder{font-size:.8125rem;color:var(--ink-light)}
+  .feature-text h3{font-family:var(--sans);font-size:1.5rem;line-height:1.25;letter-spacing:-0.025em;color:var(--ink);margin-bottom:16px}
+  .feature-text p{font-size:1.0625rem;line-height:1.8;color:var(--ink-mid);font-weight:300;margin-bottom:16px;max-width:46ch}
+  .feature-plan{display:block;margin-bottom:12px;font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-light)}
+  .feature-link{font-size:.9375rem;color:var(--mint);text-decoration:none;border-bottom:1px solid transparent;transition:border-color 180ms cubic-bezier(.4,0,.2,1)}
+  .feature-link:hover{border-bottom-color:currentColor}
+  .feature-visual{display:flex;justify-content:center;align-items:center}
+  .device-frame{width:100%;max-width:280px;aspect-ratio:9/19.5;background:var(--ink);border-radius:38px;padding:10px;box-shadow:0 1px 2px rgba(17,19,21,.04), 0 8px 24px rgba(17,19,21,.06)}
+  .device-screen{width:100%;height:100%;border-radius:28px;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .device-screen img{width:100%;height:100%;object-fit:cover;display:block}
+  .device-label{font-size:.8125rem;color:var(--ink-light);text-align:center;padding:0 20px;line-height:1.5}
+  @media(max-width:860px){
+    .product-story{padding:64px 24px}
+    .product-story-head{margin-bottom:40px}
+    .feature-row{grid-template-columns:1fr;gap:24px;padding:40px 0}
+    .feature-row.reverse .feature-text{order:1}
+    .feature-row.reverse .feature-visual{order:2}
+    .device-frame{max-width:180px;border-radius:26px;padding:7px}
+    .device-screen{border-radius:19px}
+    .device-label{font-size:.75rem;padding:0 12px}
+    .feature-text h3{font-size:1.25rem;margin-bottom:12px}
+    .feature-text p{font-size:1rem;line-height:1.7;margin-bottom:12px}
+    .feature-num{margin-bottom:10px}
+  }
 </style>
 </head>
 <body>
@@ -1102,23 +1111,27 @@
 </section>
 -->
 
-<!-- SECTION PRODUIT (layout alterné) -->
+<!-- SECTION PRODUIT (empilement vertical) -->
 <section class="product-story">
   <div class="product-story-head reveal">
     <h2>Gérer, déclarer, projeter.</h2>
     <p>Trois moments de la vie d'un bailleur, réunis dans une seule application.</p>
   </div>
 
-  <div class="feature-track">
   <div class="feature-row reveal">
     <div class="feature-text">
       <span class="feature-num">01</span>
       <h3>Vos loyers et vos charges, à jour en permanence</h3>
-      <p>Encaissements, charges déductibles, quittances envoyées automatiquement à chaque échéance. Vous voyez en un regard ce que chaque bien vous rapporte vraiment.</p>
+      <p>Encaissements, charges déductibles et quittances envoyées automatiquement. Vous voyez en un regard ce que chaque bien vous rapporte vraiment.</p>
       <span class="feature-plan">Gestion Zen</span>
+      <a href="/calculatrice-rendement-locatif" class="feature-link">Calculer le rendement d'un bien →</a>
     </div>
     <div class="feature-visual" aria-hidden="true">
-      <div class="screenshot-placeholder">Capture — Tableau de bord</div>
+      <div class="device-frame">
+        <div class="device-screen">
+          <span class="device-label">Tableau de bord</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1126,11 +1139,16 @@
     <div class="feature-text">
       <span class="feature-num">02</span>
       <h3>Votre déclaration préparée, case par case</h3>
-      <p>Location nue ou meublée, micro ou régime réel : les montants à reporter sont calculés et présentés dans l'ordre exact des formulaires. Vous n'avez plus qu'à recopier.</p>
+      <p>Location nue ou meublée, micro ou réel : les montants à reporter sont calculés dans l'ordre exact des formulaires. Vous n'avez plus qu'à recopier.</p>
       <span class="feature-plan">Pass Fiscal</span>
+      <a href="/declaration-2044-guide" class="feature-link">Comprendre la déclaration 2044 →</a>
     </div>
     <div class="feature-visual" aria-hidden="true">
-      <div class="screenshot-placeholder">Capture — Déclaration guidée</div>
+      <div class="device-frame">
+        <div class="device-screen">
+          <span class="device-label">Déclaration guidée</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1138,13 +1156,17 @@
     <div class="feature-text">
       <span class="feature-num">03</span>
       <h3>Voyez ce que vaudra votre patrimoine dans 20 ans</h3>
-      <p>Capital remboursé, valeur du bien, revenus nets après impôt. Et si vous envisagez de vendre, la plus-value est estimée avec les abattements applicables.</p>
+      <p>Capital remboursé, valeur du bien, revenus nets après impôt. Et si vous vendez, la plus-value est estimée avec les abattements applicables.</p>
       <span class="feature-plan">Gestion Zen</span>
+      <a href="/lmnp-guide-complet" class="feature-link">Le guide complet du LMNP →</a>
     </div>
     <div class="feature-visual" aria-hidden="true">
-      <div class="screenshot-placeholder">Capture — Projection patrimoniale</div>
+      <div class="device-frame">
+        <div class="device-screen">
+          <span class="device-label">Projection patrimoniale</span>
+        </div>
+      </div>
     </div>
-  </div>
   </div>
 </section>
 
