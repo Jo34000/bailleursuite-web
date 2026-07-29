@@ -938,13 +938,35 @@
   .benefit-desc { font-size: 0.9rem; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
 
   /* ── POURQUOI DIFFÉRENT ── */
-  .why-section { background: var(--bg-alt); padding: 104px 24px; }
-  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; max-width: 960px; margin: 48px auto 0; }
-  @media (max-width: 780px) { .why-grid { grid-template-columns: 1fr; gap: 40px; } }
-  .why-card { background: none; border: none; padding: 0; box-shadow: none; display: block; }
-  .why-card-icon { display: block; background: none; width: auto; height: auto; margin-bottom: 20px; }
-  .why-card-title { font-family: var(--serif); font-size: 1.0625rem; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
-  .why-card-desc { font-size: 0.9375rem; color: var(--ink-mid); line-height: 1.7; max-width: 32ch; font-weight: 300; }
+  .distingue{background:var(--page-neutral);padding:120px 24px}
+  .distingue-inner{max-width:1120px;margin:0 auto}
+  .distingue h2{margin-bottom:48px;max-width:20ch}
+  .distingue-card{
+    position:relative;overflow:hidden;isolation:isolate;
+    background:var(--surface-warm);
+    border:1px solid var(--surface-edge);
+    border-radius:32px;
+    padding:56px;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+    box-shadow:0 1px 2px rgba(28,26,20,.03), 0 24px 64px -24px rgba(28,26,20,.14);
+  }
+  .distingue-item{position:relative;z-index:1;padding:0 40px}
+  .distingue-item:first-child{padding-left:0}
+  .distingue-item:last-child{padding-right:0}
+  .distingue-item + .distingue-item{border-left:1px solid var(--surface-edge)}
+  .distingue-item svg{color:var(--mint);width:22px;height:22px;margin-bottom:24px;display:block}
+  .distingue-item h3{font-family:var(--sans);font-size:1.0625rem;font-weight:600;letter-spacing:-0.01em;color:var(--ink);margin-bottom:12px}
+  .distingue-item p{font-size:.9375rem;line-height:1.7;color:var(--ink-mid);font-weight:300;max-width:32ch}
+  @media(max-width:860px){
+    .distingue{padding:72px 20px}
+    .distingue h2{margin-bottom:32px}
+    .distingue-card{grid-template-columns:1fr;padding:36px 28px;border-radius:24px}
+    .distingue-item{padding:32px 0}
+    .distingue-item:first-child{padding-top:0}
+    .distingue-item:last-child{padding-bottom:0}
+    .distingue-item + .distingue-item{border-left:none;border-top:1px solid var(--surface-edge)}
+    .distingue-item p{max-width:none}
+  }
 
   /* ── CONFIANCE COMPRESSÉE ── */
   .trust-lines { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 32px; margin: 40px auto 0; max-width: 760px; }
@@ -993,28 +1015,30 @@
   .card-warm{background:var(--surface-warm)}
   .card-sage{background:var(--surface-sage)}
   .card-ochre{background:var(--surface-ochre)}
-  .feature-card::before{
-    content:'';position:absolute;inset:0;z-index:-1;
-    filter:url(#paperGrain);
-    opacity:.032;mix-blend-mode:multiply;
-    pointer-events:none;border-radius:inherit;
+  .feature-card::before,.distingue-card::before{
+    content:'';position:absolute;inset:0;
+    border-radius:inherit;pointer-events:none;z-index:0;
+    opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
+    background-repeat:repeat;
+    mix-blend-mode:multiply;
   }
   @media(prefers-color-scheme:dark){
-    .feature-card::before{opacity:.05;mix-blend-mode:screen}
+    .feature-card::before,.distingue-card::before{mix-blend-mode:screen;opacity:.3}
   }
 
   /* Alternance : la 2e carte (Déclarer) inverse texte et visuel */
   .feature-card:nth-of-type(2) .feature-body{order:2}
   .feature-card:nth-of-type(2) .feature-visual{order:1}
 
-  .feature-body{padding-bottom:64px;max-width:34rem}
-  .feature-kicker{display:block;font-family:var(--sans);font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.55;margin-bottom:24px}
-  .feature-card h3{font-family:var(--serif);font-size:clamp(1.9rem,3.2vw,2.5rem);line-height:1.12;letter-spacing:-0.025em;color:var(--ink);margin-bottom:20px;max-width:18ch}
+  .feature-body{position:relative;z-index:1;padding-bottom:64px;max-width:34rem}
+  .feature-kicker{display:block;font-family:var(--sans);font-size:.8125rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);opacity:1;margin-bottom:28px}
+  .feature-card h3{font-family:var(--serif);font-size:clamp(1.9rem,3.2vw,2.5rem);line-height:1.12;letter-spacing:-0.025em;color:var(--ink);margin-bottom:20px;max-width:22ch}
   .feature-card p{font-size:1.0625rem;line-height:1.75;color:var(--ink-mid);font-weight:300;max-width:44ch;margin-bottom:28px}
   .feature-link{font-size:.9375rem;font-weight:500;color:var(--mint);text-decoration:none;border-bottom:1px solid rgba(45,106,79,.25);padding-bottom:2px;transition:border-color 180ms cubic-bezier(.4,0,.2,1)}
   .feature-link:hover{border-bottom-color:var(--mint)}
 
-  .feature-visual{display:flex;justify-content:center;align-items:flex-end;align-self:end}
+  .feature-visual{position:relative;z-index:1;display:flex;justify-content:center;align-items:flex-end;align-self:end}
   .device-frame{width:100%;max-width:260px;aspect-ratio:9/19.5;background:linear-gradient(160deg,#2A2D30,#141618);border-radius:40px;padding:9px;margin-bottom:-56px;box-shadow:0 24px 48px -12px rgba(28,26,20,.22)}
   .device-screen{width:100%;height:100%;border-radius:32px;background:linear-gradient(180deg,#FFFFFF,#F4F1EA);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
   .device-screen::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:34%;height:22px;background:#141618;border-radius:0 0 14px 14px}
@@ -1028,7 +1052,7 @@
     .feature-card:nth-of-type(2) .feature-body{order:1}
     .feature-card:nth-of-type(2) .feature-visual{order:2}
     .feature-body{padding-bottom:0;max-width:none}
-    .feature-card h3{font-size:2rem;max-width:16ch}
+    .feature-card h3{font-size:1.875rem;max-width:none}
     .feature-card p{font-size:1rem;max-width:none}
     .device-frame{max-width:200px;margin-bottom:-40px;border-radius:32px;padding:8px}
     .device-screen{border-radius:24px}
@@ -1040,18 +1064,12 @@
   .section-head p{font-size:1.125rem;line-height:1.75;max-width:52ch}
   @media(max-width:860px){
     .privacy-statement{padding:80px 24px}
-    .why-section,.res-section,.pricing-section,#faq{padding:64px 24px}
+    .res-section,.pricing-section,#faq{padding:64px 24px}
     .section-head{margin-bottom:44px}
   }
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <filter id="paperGrain">
-    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/>
-    <feColorMatrix type="saturate" values="0"/>
-  </filter>
-</svg>
 <div class="reading-progress" id="reading-progress"></div>
 
 <header>
@@ -1237,38 +1255,24 @@
 </section>
 
 <!-- POURQUOI BAILLEURSUITE EST DIFFÉRENT -->
-<section class="why-section">
-  <div class="container">
-    <div class="reveal" style="max-width: 600px; margin-bottom: 48px;">
-      <h2 class="section-title">Ce qui nous distingue.</h2>
-    </div>
-    <div class="why-grid reveal">
-      <div class="why-card">
-        <div class="why-card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="3"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-        </div>
-        <div>
-          <div class="why-card-title">100% natif iOS</div>
-          <div class="why-card-desc">Une app conçue pour iPhone — rapide, fluide, intégrée à l'écosystème Apple.</div>
-        </div>
+<section class="distingue">
+  <div class="distingue-inner">
+    <h2 class="section-title reveal">Ce qui nous distingue.</h2>
+    <div class="distingue-card reveal">
+      <div class="distingue-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="3"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        <h3>100% natif iOS</h3>
+        <p>Une app conçue pour iPhone — rapide, fluide, intégrée à l'écosystème Apple.</p>
       </div>
-      <div class="why-card">
-        <div class="why-card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        </div>
-        <div>
-          <div class="why-card-title">LMNP au réel à 29,90€</div>
-          <div class="why-card-desc">La préparation LMNP au régime réel, là où d'autres solutions facturent 269€ et plus.</div>
-        </div>
+      <div class="distingue-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <h3>LMNP au réel à 29,90 €</h3>
+        <p>La préparation LMNP au régime réel, là où d'autres solutions facturent 269 € et plus.</p>
       </div>
-      <div class="why-card">
-        <div class="why-card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
-        </div>
-        <div>
-          <div class="why-card-title">Calculs vérifiés</div>
-          <div class="why-card-desc">Rendement et fiscalité vérifiés contre les barèmes officiels, mis à jour chaque année.</div>
-        </div>
+      <div class="distingue-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+        <h3>Calculs vérifiés</h3>
+        <p>Rendement et fiscalité vérifiés contre les barèmes officiels, mis à jour chaque année.</p>
       </div>
     </div>
   </div>
