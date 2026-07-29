@@ -153,10 +153,17 @@
     --r-sm:8px; --r-md:14px; --r-full:999px;
     --radius:14px; --radius-sm:8px;
     --bg-alt:#FCFAF4;
+    --surface-warm:#F6F2E9; --surface-sage:#F2F3EC; --surface-ochre:#F7F1E4;
+    --surface-edge:rgba(28,26,20,.07);
+    --page-neutral:#FAF9F6;
     --shadow:0 1px 2px rgba(17,19,21,.04),0 8px 24px rgba(17,19,21,.06);
     --shadow-card:none; --shadow-card-hover:0 1px 2px rgba(17,19,21,.04),0 8px 24px rgba(17,19,21,.06);
   }
-  @media(prefers-color-scheme:dark){ :root{ --bg-alt:#16181A; } }
+  @media(prefers-color-scheme:dark){ :root{
+    --bg-alt:#16181A;
+    --surface-warm:#1A1B19; --surface-sage:#191B19; --surface-ochre:#1B1A17;
+    --surface-edge:rgba(255,255,255,.08); --page-neutral:#141513;
+  } }
 
   /* ── HERO ── */
   .hero {
@@ -966,39 +973,66 @@
   .privacy-body{font-size:1.05rem;line-height:1.8;color:var(--ink-mid);font-weight:300;margin-bottom:24px}
   .privacy-link{font-size:.9rem;color:var(--mint);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px}
 
-  /* ── SECTION PRODUIT (empilement vertical + cadres device) ── */
-  .product-story{padding:160px 24px;background:var(--bg-alt)}
-  .product-story-inner{max-width:1080px;margin:0 auto}
-  .product-story-head{max-width:620px;margin-bottom:64px}
+  /* ── SECTION PRODUIT (cartes éditoriales beige texturé) ── */
+  .product-story{background:var(--page-neutral);padding:160px 24px}
+  .product-story-inner{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+  .product-story-head{max-width:620px;margin-bottom:32px}
   .product-story-head h2{font-family:var(--serif);font-size:clamp(1.75rem,3.5vw,2.5rem);line-height:1.15;letter-spacing:-0.03em;color:var(--ink);margin-bottom:16px}
   .product-story-head p{font-size:1.0625rem;color:var(--ink-mid);line-height:1.75;font-weight:300}
-  .feature-row{display:grid;grid-template-columns:1.25fr 1fr;gap:80px;align-items:center;padding:80px 0;border-top:1px solid var(--border)}
-  .feature-row.reverse .feature-text{order:2}
-  .feature-row.reverse .feature-visual{order:1}
-  .feature-num{font-size:.75rem;font-weight:600;letter-spacing:.1em;color:var(--mint);display:block;margin-bottom:16px}
-  .feature-text h3{font-family:var(--sans);font-size:1.5rem;line-height:1.25;letter-spacing:-0.025em;color:var(--ink);margin-bottom:16px}
-  .feature-text p{font-size:1.0625rem;line-height:1.8;color:var(--ink-mid);font-weight:300;margin-bottom:16px;max-width:46ch}
-  .feature-plan{display:block;margin-bottom:12px;font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-light)}
-  .feature-link{font-size:.9375rem;color:var(--mint);text-decoration:none;border-bottom:1px solid transparent;transition:border-color 180ms cubic-bezier(.4,0,.2,1)}
-  .feature-link:hover{border-bottom-color:currentColor}
-  .feature-visual{display:flex;justify-content:center;align-items:center}
-  .device-frame{width:100%;max-width:280px;aspect-ratio:9/19.5;background:linear-gradient(160deg,#2A2D30,#141618);border-radius:40px;padding:9px;box-shadow:0 2px 4px rgba(17,19,21,.06),0 12px 28px rgba(17,19,21,.10),0 40px 80px rgba(17,19,21,.10)}
+
+  .feature-card{
+    position:relative;overflow:hidden;isolation:isolate;
+    width:100%;max-width:none;
+    border-radius:32px;
+    border:1px solid var(--surface-edge);
+    display:grid;grid-template-columns:1.15fr .85fr;
+    gap:56px;align-items:end;
+    padding:64px 64px 0 64px;
+    box-shadow:0 1px 2px rgba(28,26,20,.03), 0 24px 64px -24px rgba(28,26,20,.14);
+  }
+  .card-warm{background:var(--surface-warm)}
+  .card-sage{background:var(--surface-sage)}
+  .card-ochre{background:var(--surface-ochre)}
+  .feature-card::before{
+    content:'';position:absolute;inset:0;z-index:-1;
+    filter:url(#paperGrain);
+    opacity:.032;mix-blend-mode:multiply;
+    pointer-events:none;border-radius:inherit;
+  }
+  @media(prefers-color-scheme:dark){
+    .feature-card::before{opacity:.05;mix-blend-mode:screen}
+  }
+
+  /* Alternance : la 2e carte (Déclarer) inverse texte et visuel */
+  .feature-card:nth-of-type(2) .feature-body{order:2}
+  .feature-card:nth-of-type(2) .feature-visual{order:1}
+
+  .feature-body{padding-bottom:64px;max-width:34rem}
+  .feature-kicker{display:block;font-family:var(--sans);font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.55;margin-bottom:24px}
+  .feature-card h3{font-family:var(--serif);font-size:clamp(1.9rem,3.2vw,2.5rem);line-height:1.12;letter-spacing:-0.025em;color:var(--ink);margin-bottom:20px;max-width:18ch}
+  .feature-card p{font-size:1.0625rem;line-height:1.75;color:var(--ink-mid);font-weight:300;max-width:44ch;margin-bottom:28px}
+  .feature-link{font-size:.9375rem;font-weight:500;color:var(--mint);text-decoration:none;border-bottom:1px solid rgba(45,106,79,.25);padding-bottom:2px;transition:border-color 180ms cubic-bezier(.4,0,.2,1)}
+  .feature-link:hover{border-bottom-color:var(--mint)}
+
+  .feature-visual{display:flex;justify-content:center;align-items:flex-end;align-self:end}
+  .device-frame{width:100%;max-width:260px;aspect-ratio:9/19.5;background:linear-gradient(160deg,#2A2D30,#141618);border-radius:40px;padding:9px;margin-bottom:-56px;box-shadow:0 24px 48px -12px rgba(28,26,20,.22)}
   .device-screen{width:100%;height:100%;border-radius:32px;background:linear-gradient(180deg,#FFFFFF,#F4F1EA);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
   .device-screen::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:34%;height:22px;background:#141618;border-radius:0 0 14px 14px}
   .device-screen img{width:100%;height:100%;object-fit:cover;display:block}
   .device-label{font-size:.8125rem;color:var(--ink-light);text-align:center;padding:0 20px;line-height:1.5;position:relative;z-index:1}
   @media(max-width:860px){
-    .product-story{padding:80px 24px}
-    .product-story-head{margin-bottom:40px}
-    .feature-row{grid-template-columns:1fr;gap:24px;padding:40px 0}
-    .feature-row.reverse .feature-text{order:1}
-    .feature-row.reverse .feature-visual{order:2}
-    .device-frame{max-width:180px;border-radius:26px;padding:7px}
-    .device-screen{border-radius:19px}
+    .product-story{padding:80px 20px}
+    .product-story-inner{gap:20px}
+    .product-story-head{margin-bottom:8px}
+    .feature-card{grid-template-columns:1fr;gap:32px;padding:40px 28px 0 28px;border-radius:24px}
+    .feature-card:nth-of-type(2) .feature-body{order:1}
+    .feature-card:nth-of-type(2) .feature-visual{order:2}
+    .feature-body{padding-bottom:0;max-width:none}
+    .feature-card h3{font-size:2rem;max-width:16ch}
+    .feature-card p{font-size:1rem;max-width:none}
+    .device-frame{max-width:200px;margin-bottom:-40px;border-radius:32px;padding:8px}
+    .device-screen{border-radius:24px}
     .device-label{font-size:.75rem;padding:0 12px}
-    .feature-text h3{font-size:1.25rem;margin-bottom:12px}
-    .feature-text p{font-size:1rem;line-height:1.7;margin-bottom:12px}
-    .feature-num{margin-bottom:10px}
   }
   #faq{padding:104px 24px}
   h2{margin-bottom:20px}
@@ -1012,6 +1046,12 @@
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="paperGrain">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+</svg>
 <div class="reading-progress" id="reading-progress"></div>
 
 <header>
@@ -1136,12 +1176,11 @@
     <p>Trois moments de la vie d'un bailleur, réunis dans une seule application.</p>
   </div>
 
-  <div class="feature-row reveal">
-    <div class="feature-text">
-      <span class="feature-num">01</span>
+  <article class="feature-card card-warm reveal">
+    <div class="feature-body">
+      <span class="feature-kicker">Gérer</span>
       <h3>Vos loyers et vos charges, à jour en permanence</h3>
       <p>Encaissements, charges déductibles et quittances envoyées automatiquement. Vous voyez en un regard ce que chaque bien vous rapporte vraiment.</p>
-      <span class="feature-plan">Gestion Zen</span>
       <a href="/calculatrice-rendement-locatif" class="feature-link">Calculer le rendement d'un bien →</a>
     </div>
     <div class="feature-visual" aria-hidden="true">
@@ -1151,14 +1190,13 @@
         </div>
       </div>
     </div>
-  </div>
+  </article>
 
-  <div class="feature-row reverse reveal">
-    <div class="feature-text">
-      <span class="feature-num">02</span>
+  <article class="feature-card card-sage reveal">
+    <div class="feature-body">
+      <span class="feature-kicker">Déclarer</span>
       <h3>Votre déclaration préparée, case par case</h3>
       <p>Location nue ou meublée, micro ou réel : les montants à reporter sont calculés dans l'ordre exact des formulaires. Vous n'avez plus qu'à recopier.</p>
-      <span class="feature-plan">Pass Fiscal</span>
       <a href="/declaration-2044-guide" class="feature-link">Comprendre la déclaration 2044 →</a>
     </div>
     <div class="feature-visual" aria-hidden="true">
@@ -1168,14 +1206,13 @@
         </div>
       </div>
     </div>
-  </div>
+  </article>
 
-  <div class="feature-row reveal">
-    <div class="feature-text">
-      <span class="feature-num">03</span>
+  <article class="feature-card card-ochre reveal">
+    <div class="feature-body">
+      <span class="feature-kicker">Projeter</span>
       <h3>Voyez ce que vaudra votre patrimoine dans 20 ans</h3>
       <p>Capital remboursé, valeur du bien, revenus nets après impôt. Et si vous vendez, la plus-value est estimée avec les abattements applicables.</p>
-      <span class="feature-plan">Gestion Zen</span>
       <a href="/lmnp-guide-complet" class="feature-link">Le guide complet du LMNP →</a>
     </div>
     <div class="feature-visual" aria-hidden="true">
@@ -1185,7 +1222,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </article>
   </div>
 </section>
 
