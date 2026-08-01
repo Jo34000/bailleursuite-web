@@ -228,10 +228,20 @@
     position:relative;z-index:1;
     margin-top:64px;height:520px;overflow:hidden;
     display:flex;justify-content:center;align-items:flex-start;
+    background:none;border:none;
   }
   .hero-device{
     width:300px;height:auto;display:block;
     filter:drop-shadow(0 40px 70px rgba(28,26,20,.24));
+    opacity:0;transform:translateY(24px);
+    animation:heroRise 900ms cubic-bezier(.16,1,.3,1) 240ms forwards;
+  }
+  @keyframes heroRise{to{opacity:1;transform:translateY(0)}}
+  @media(prefers-reduced-motion:reduce){
+    .hero-device{opacity:1;transform:none;animation:none}
+  }
+  @media(hover:hover) and (min-width:900px){
+    .hero-device{transition:transform 400ms cubic-bezier(.4,0,.2,1);will-change:transform}
   }
   @media(max-width:900px){
     .hero{padding:130px 20px 0}
@@ -1632,6 +1642,25 @@
       b.setAttribute('aria-expanded','false');
     }
   });
+})();
+</script>
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  if (!window.matchMedia('(hover:hover) and (min-width:900px)').matches) return;
+  const el = document.querySelector('.hero-device');
+  const stage = document.querySelector('.hero-stage');
+  if (!el || !stage) return;
+  let raf;
+  window.addEventListener('mousemove', e => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      const x = (e.clientX / window.innerWidth - .5) * 2;
+      const y = (e.clientY / window.innerHeight - .5) * 2;
+      el.style.transform = `perspective(1200px) rotateY(${x*2}deg) rotateX(${-y*1.4}deg) translateY(0)`;
+      raf = null;
+    });
+  }, {passive:true});
 })();
 </script>
 </body>
