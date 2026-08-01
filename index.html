@@ -153,6 +153,7 @@
 }
 </script>
 <!-- V8 — SEO : canonical, Schema.org SoftwareApplication + FAQPage, og:image, title optimisé -->
+<link rel="preload" as="image" href="/screen-index.png" fetchpriority="high">
 <link rel="stylesheet" href="/styles/design-system.css">
 <style>
 
@@ -173,142 +174,91 @@
     --surface-edge:rgba(255,255,255,.08); --page-neutral:#141513;
   } }
 
+  /* ── NAVBAR CAPSULE (home) ── */
+  .reading-progress{display:none}
+  .site-nav{
+    position:fixed;top:18px;left:50%;transform:translateX(-50%);
+    width:calc(100% - 32px);max-width:1140px;
+    padding:10px 10px 10px 22px;
+    background:rgba(255,255,255,.72);
+    backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:999px;
+    box-shadow:0 1px 2px rgba(28,26,20,.04), 0 12px 32px -12px rgba(28,26,20,.18);
+  }
+  @media(prefers-color-scheme:dark){
+    .site-nav{background:rgba(20,21,19,.72);border-color:rgba(255,255,255,.08)}
+  }
+  .nav-cta{
+    background:var(--ink);color:#fff;
+    padding:11px 22px;border-radius:999px;
+    font-size:.8125rem;font-weight:600;letter-spacing:0;max-width:none;
+  }
+  .nav-cta:hover{background:var(--ink);transform:translateY(-1px)}
+  @media(max-width:860px){
+    .site-nav{top:12px;width:calc(100% - 24px);padding:8px 8px 8px 16px}
+  }
+
   /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 90px 5% 120px;
-    position: relative;
-    overflow: hidden;
+  .hero{position:relative;overflow:hidden;padding:180px 24px 0;text-align:center}
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(120% 70% at 50% -10%, rgba(45,106,79,.10) 0%, transparent 60%),
+      radial-gradient(90% 50% at 50% 100%, rgba(201,168,76,.06) 0%, transparent 70%),
+      linear-gradient(180deg, #FBFAF7 0%, #F4F1E9 100%);
   }
-  .hero-inner-wrap {
-    max-width: 1140px; margin: 0 auto; width: 100%;
-    display: grid; grid-template-columns: 1fr 1.15fr;
-    gap: 56px; align-items: center;
-    position: relative; z-index: 1;
+  .hero-bg::after{content:'';position:absolute;inset:0;box-shadow:inset 0 -80px 80px -60px rgba(28,26,20,.10)}
+  @media(prefers-color-scheme:dark){
+    .hero-bg{background:
+      radial-gradient(120% 70% at 50% -10%, rgba(61,139,104,.14) 0%, transparent 60%),
+      linear-gradient(180deg,#141513 0%,#101210 100%)}
   }
-  .hero-text-col { max-width: 480px; }
-  @media (max-width: 960px) {
-    .hero-inner-wrap { grid-template-columns: 1fr; gap: 44px; }
+  .hero-content{position:relative;z-index:1;max-width:840px;margin:0 auto}
+  .hero-badge{
+    display:inline-block;font-family:var(--sans);
+    font-size:.6875rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink);opacity:.7;
+    background:rgba(255,255,255,.7);border:1px solid var(--surface-edge);
+    padding:8px 16px;border-radius:999px;margin-bottom:32px;
   }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -200px; left: 50%;
-    transform: translateX(-50%);
-    width: 800px; height: 800px;
-    background: radial-gradient(ellipse, rgba(45,106,79,0.1) 0%, transparent 70%);
-    pointer-events: none;
+  .hero h1{
+    font-family:var(--serif);
+    font-size:clamp(2.4rem,5.6vw,4.25rem);
+    line-height:1.06;letter-spacing:-0.035em;color:var(--ink);
+    margin-bottom:24px;
   }
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--mint-pale);
-    border: 1px solid rgba(45,106,79,0.3);
-    color: var(--mint-dark);
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: var(--r-full);
-    margin-bottom: 32px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    animation: fadeDown 0.6s ease both;
+  .hero h1 em{font-style:italic;color:var(--mint)}
+  .hero-sub{
+    font-size:1.125rem;line-height:1.7;font-weight:300;
+    color:var(--ink-mid);max-width:38ch;margin:0 auto 40px;
   }
-  .hero-badge::before {
-    content: '●';
-    font-size: 0.5rem;
-    animation: pulse 2s infinite;
+  .hero-actions{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .btn-primary{
+    background:var(--ink);color:#fff;
+    padding:16px 32px;border-radius:999px;
+    font-size:.9375rem;font-weight:600;text-decoration:none;
+    box-shadow:0 12px 28px -12px rgba(28,26,20,.5);
+    transition:transform 180ms cubic-bezier(.4,0,.2,1);
   }
-  .hero h1 {
-    font-family: var(--serif);
-    font-size: clamp(2.4rem, 5.5vw, 4rem);
-    line-height: 1.05;
-    color: var(--ink);
-    letter-spacing: -0.04em;
-    max-width: 620px;
-    margin-bottom: 24px;
-    animation: fadeDown 0.6s 0.1s ease both;
+  .btn-primary:hover{transform:translateY(-2px)}
+  .btn-ghost{
+    font-size:.9375rem;color:var(--ink-mid);text-decoration:none;
+    border-bottom:1px solid var(--surface-edge);padding-bottom:2px;
   }
-  .hero h1 em {
-    font-style: italic;
-    color: var(--mint-dark);
+  .hero-stage{
+    position:relative;z-index:1;
+    margin-top:64px;height:520px;overflow:hidden;
+    display:flex;justify-content:center;align-items:flex-start;
   }
-  .hero-sub {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    color: var(--ink-mid);
-    max-width: 520px;
-    line-height: 1.6;
-    margin-bottom: 44px;
-    font-weight: 300;
-    animation: fadeDown 0.6s 0.2s ease both;
+  .hero-device{
+    width:300px;height:auto;display:block;
+    filter:drop-shadow(0 40px 70px rgba(28,26,20,.24));
   }
-  .hero-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    animation: fadeDown 0.6s 0.3s ease both;
-  }
-
-  .btn-waitlist {
-    color: var(--ink-mid);
-    font-size: 0.85rem;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-family: var(--sans);
-  }
-  .hero-trust {
-    margin-top: 40px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-    justify-content: center;
-    animation: fadeDown 0.6s 0.4s ease both;
-  }
-  .trust-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.78rem;
-    color: var(--ink-light);
-  }
-  .trust-item svg { width: 14px; height: 14px; fill: var(--mint); flex-shrink: 0; }
-
-  /* ── MOCKUP PHOTO ── */
-  .hero-phone-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 440px;
-    width: 100%;
-    animation: fadeUp 0.8s 0.5s ease both;
-    position: relative;
-  }
-  .hero-phone-wrap::before {
-    content: '';
-    position: absolute;
-    inset: -25% -35%;
-    background: radial-gradient(ellipse at center, rgba(45,106,79,0.14) 0%, transparent 65%);
-    z-index: 0;
-    pointer-events: none;
-  }
-  .phone-img {
-    width: 100%;
-    max-width: 420px;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    position: relative;
-    z-index: 1;
-    animation: float-premium 6s ease-in-out infinite;
-    transform-origin: center bottom;
+  @media(max-width:900px){
+    .hero{padding:130px 20px 0}
+    .hero-stage{height:380px;margin-top:44px}
+    .hero-device{width:250px}
   }
   /* feature pill gold variant (fiscal) */
   .feature-pill-gold {
@@ -992,7 +942,7 @@
   .res-featured-btn { background: var(--mint); color: white; padding: 14px 24px; border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; font-size: 0.9rem; white-space: nowrap; box-shadow: var(--shadow); }
 
   /* ── BANDE DE RÉASSURANCE ── */
-  .trust-band { padding: 40px 24px; }
+  .trust-band { padding: 40px 24px; background:#F4F1E9; border-top:none; }
   .trust-items { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
   .trust-band .trust-item { font-size: .82rem; color: #50545A; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
   .trust-band .trust-item svg { width: 17px; height: 17px; flex-shrink: 0; fill: none; stroke: var(--mint); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
@@ -1128,46 +1078,24 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-inner-wrap">
-  <!-- TEXTE GAUCHE -->
-  <div class="hero-text-col">
-  <div class="hero-badge">Lancement App Store · Septembre 2026 · iOS 17+</div>
-  <h1>Gérez vos locations <em>simplement</em>,<br>déclarez vos revenus fonciers sans stress.</h1>
-  <p class="hero-sub">L'app iOS des bailleurs particuliers qui gèrent eux-mêmes 1 à 3 biens.</p>
-
-  <div style="margin-bottom:32px;">
-    <a href="#waitlist" style="display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);padding:14px 26px;border-radius:var(--radius-sm);text-decoration:none;font-weight:500;font-size:0.92rem;transition:opacity 180ms cubic-bezier(.4,0,.2,1),transform 180ms cubic-bezier(.4,0,.2,1);box-shadow:0 1px 2px rgba(17,19,21,.04),0 8px 24px rgba(17,19,21,.06);" onmouseover="this.style.opacity='.82';this.style.transform='translateY(-1px)'" onmouseout="this.style.opacity='1';this.style.transform='none'">
-      Être notifié au lancement →
-    </a>
-    <div style="margin-top:14px;">
-      <a href="#tarifs" style="color:var(--ink-mid);font-size:0.85rem;text-decoration:underline;text-underline-offset:3px;">Voir les tarifs</a>
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-content">
+    <span class="hero-badge">Lancement App Store · Septembre 2026 · iOS 17+</span>
+    <h1>Gérez vos locations <em>simplement</em>,<br>déclarez vos revenus fonciers sans stress.</h1>
+    <p class="hero-sub">L'app iOS des bailleurs particuliers qui gèrent eux-mêmes 1 à 3 biens.</p>
+    <div class="hero-actions">
+      <a href="#waitlist" class="btn-primary">Être notifié au lancement →</a>
+      <a href="#tarifs" class="btn-ghost">Voir les tarifs</a>
     </div>
   </div>
-
-  <div class="hero-trust">
-    <div class="trust-item">
-      <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-      Données 100% locales (RGPD)
-    </div>
-    <div class="trust-item">
-      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-      Conforme normes fiscales 2026
-    </div>
-    <div class="trust-item">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-      iOS natif · données sur iPhone
-    </div>
+  <div class="hero-stage">
+    <img src="/screen-index.png"
+         alt="L'application BailleurSuite affichant le tableau de bord des biens"
+         class="hero-device"
+         width="640" height="942"
+         fetchpriority="high"
+         decoding="async">
   </div>
-
-  </div>
-  <!-- PHONE MOCKUP DROITE -->
-  <div class="hero-phone-wrap" style="margin-top:0;">
-    <picture>
-      <source srcset="/hero-phone.webp" type="image/webp">
-      <img class="phone-img" src="/hero-phone.png" width="661" height="1024" fetchpriority="high" alt="BailleurSuite — Mes biens">
-    </picture>
-  </div>
-  </div><!-- fin hero-inner-wrap -->
 </section>
 
 <!-- BANDE DE RÉASSURANCE -->
