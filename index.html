@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
-<meta name="description" content="App iOS pour bailleurs particuliers. Suivi des loyers, quittances PDF, analyse fiscale 2044 & LMNP. Lancement septembre 2026.">
+<meta name="description" content="Application iPhone de gestion locative pour bailleurs particuliers. Quittances automatiques, comparateur fiscal location nue et LMNP, préparation de la déclaration 2044 et 2042-C-PRO, projection patrimoniale sur 20 ans. Vos données restent sur votre iPhone.">
 <meta name="keywords" content="bailleur particulier, revenus fonciers, déclaration 2044, LMNP, location meublée, amortissement LMNP, quittance loyer, rendement locatif, app iOS, gestion locative, micro-BIC, régime réel LMNP">
 <title>BailleurSuite — App Gestion Locative iOS | Déclaration 2044 & LMNP</title>
 <!-- Balises Open Graph -->
@@ -32,7 +32,7 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "BailleurSuite",
-  "description": "Application iOS pour bailleurs particuliers. Calcul de rendement locatif, déclaration 2044 automatisée, amortissements LMNP, quittances PDF et gestion locative pour 1 à 3 biens.",
+  "description": "Application iOS pour bailleurs particuliers. Calcul de rendement locatif, déclaration 2044 automatisée, amortissements LMNP, quittances PDF et gestion locative de leur patrimoine locatif.",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "iOS 17+",
   "offers": [
@@ -112,7 +112,7 @@
       "name": "Le Pass Fiscal remplace-t-il un comptable ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pour la majorité des bailleurs avec 1 à 3 biens en situation simple, oui : le Pass Fiscal prépare votre déclaration case par case et génère un PDF prêt à reporter sur impots.gouv.fr. Pour les situations complexes (LMP, SCI à l'IS, régimes mixtes), l'accompagnement d'un expert-comptable reste recommandé."
+        "text": "Pour la majorité des bailleurs en situation simple, oui : le Pass Fiscal prépare votre déclaration case par case et génère un PDF prêt à reporter sur impots.gouv.fr. Pour les situations complexes (LMP, SCI à l'IS, régimes mixtes), l'accompagnement d'un expert-comptable reste recommandé."
       }
     },
     {
@@ -137,6 +137,54 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Oui. Les abonnements sont gérés via l'App Store Apple. Vous pouvez passer au Gestion Zen ou annuler depuis les réglages de votre iPhone à tout moment. Aucun engagement minimum."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Combien de biens puis-je gérer avec BailleurSuite ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le nombre de biens est illimité dans les formules Gestion Zen. L'application est conçue pour les bailleurs particuliers qui gèrent eux-mêmes leur patrimoine, qu'ils possèdent un studio ou une dizaine de logements. La formule gratuite est limitée à un bien."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "BailleurSuite m'aide-t-il à choisir entre location nue et LMNP ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. Le comparateur fiscal analyse les données que vous saisissez — loyers, charges, intérêts d'emprunt, valeur du bien — et calcule votre imposition dans chaque régime : micro-foncier, réel en location nue, micro-BIC et réel en LMNP. Il indique le régime le plus favorable dans votre situation et estime le gain fiscal annuel correspondant. Ces calculs sont indicatifs et ne remplacent pas l'avis d'un professionnel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je savoir ce que vaudra mon patrimoine dans 20 ans ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. La projection patrimoniale calcule année par année le capital remboursé, la valeur estimée du bien, les revenus nets après impôt et l'évolution de votre patrimoine net sur 20 ans. Un rapport patrimonial PDF exportable reprend l'ensemble de ces éléments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "L'application calcule-t-elle la plus-value en cas de revente ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. La simulation de revente estime la plus-value imposable en tenant compte de la durée de détention et des abattements applicables à l'impôt sur le revenu comme aux prélèvements sociaux."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "BailleurSuite gère-t-il les biens détenus en SCI ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La gestion des biens en SCI est en cours de développement et sera intégrée à l'application. La version actuelle couvre la détention en nom propre, en location nue comme en location meublée."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Existe-t-il une version pour Mac ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Une application macOS est prévue peu après le lancement iPhone de septembre 2026. Elle partagera les mêmes données via iCloud, sans ressaisie. Elle sera incluse dans l'abonnement Gestion Zen existant."
       }
     }
   ]
@@ -699,6 +747,8 @@
     margin-top: 4px;
     display: block;
   }
+  .roadmap-note{margin-top:24px;font-size:.875rem;line-height:1.7;color:var(--ink-mid);text-align:center}
+  .roadmap-note strong{color:var(--ink);font-weight:600}
 
   /* ── WAITLIST FORM ── */
   .waitlist-section {
@@ -1070,7 +1120,7 @@
   <div class="hero-content">
     <span class="hero-badge">Lancement App Store · Septembre 2026 · iOS 17+</span>
     <h1>Gérez vos locations <em>simplement</em>,<br>déclarez vos revenus fonciers sans stress.</h1>
-    <p class="hero-sub">L'app iOS des bailleurs particuliers qui gèrent eux-mêmes 1 à 3 biens.</p>
+    <p class="hero-sub">L'application iPhone des bailleurs particuliers qui gèrent eux-mêmes leur patrimoine locatif.</p>
     <div class="hero-actions">
       <a href="#waitlist" class="btn-primary">Être notifié au lancement →</a>
       <a href="#tarifs" class="btn-ghost">Voir les tarifs</a>
@@ -1309,6 +1359,11 @@
           <li>Relances locataires (loyers impayés)</li>
           <li>Historique complet loyers / charges</li>
           <li>Rendement net + cashflow par bien</li>
+          <li>Comparateur fiscal location nue / LMNP avec détection du régime optimal</li>
+          <li>Estimation du gain fiscal annuel selon votre situation</li>
+          <li>Projection patrimoniale sur 20 ans</li>
+          <li>Rapport patrimonial PDF exportable</li>
+          <li>Simulation de revente avec calcul de plus-value selon la durée de détention</li>
         </ul>
         <p class="pricing-foot">Sans engagement, résiliable à tout moment</p>
       </div>
@@ -1325,6 +1380,11 @@
           <li>Tout le plan Gestion Zen</li>
           <li>−31% vs mensuel</li>
           <li>Accès prioritaire nouvelles fonctions</li>
+          <li>Comparateur fiscal location nue / LMNP avec détection du régime optimal</li>
+          <li>Estimation du gain fiscal annuel selon votre situation</li>
+          <li>Projection patrimoniale sur 20 ans</li>
+          <li>Rapport patrimonial PDF exportable</li>
+          <li>Simulation de revente avec calcul de plus-value selon la durée de détention</li>
         </ul>
       </div>
     </div>
@@ -1348,6 +1408,9 @@
         <span class="pack-fiscal-note">Gestion Zen annuel + Pass Fiscal = 79,89€/an</span>
       </div>
     </div>
+    <p class="roadmap-note">
+      <strong>Prochainement :</strong> gestion des biens détenus en SCI et application macOS.
+    </p>
   </div>
 </section>
 
@@ -1398,7 +1461,7 @@
           <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
         </button>
         <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
-          Pour la majorité des bailleurs avec <strong>1 à 3 biens en situation simple</strong>, oui : le Pass Fiscal prépare votre déclaration case par case et génère un PDF prêt à reporter sur impots.gouv.fr. Pour les situations complexes (<strong>LMP, SCI à l'IS, régimes mixtes</strong>), l'accompagnement d'un expert-comptable reste recommandé.
+          Pour la majorité des bailleurs <strong>en situation simple</strong>, oui : le Pass Fiscal prépare votre déclaration case par case et génère un PDF prêt à reporter sur impots.gouv.fr. Pour les situations complexes (<strong>LMP, SCI à l'IS, régimes mixtes</strong>), l'accompagnement d'un expert-comptable reste recommandé.
         </div>
       </div>
 
@@ -1422,13 +1485,73 @@
         </div>
       </div>
 
-      <div class="faq-item">
+      <div class="faq-item" style="border-bottom:1px solid var(--border);">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
           Puis-je changer de plan à tout moment ?
           <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
         </button>
         <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
           Oui. Les abonnements sont gérés via l'App Store Apple — vous pouvez passer au Gestion Zen ou annuler depuis les réglages de votre iPhone à tout moment. Aucun engagement minimum, aucune démarche complexe.
+        </div>
+      </div>
+
+      <div class="faq-item" style="border-bottom:1px solid var(--border);">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
+          Combien de biens puis-je gérer avec BailleurSuite ?
+          <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
+        </button>
+        <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
+          Le nombre de biens est illimité dans les formules Gestion Zen. L'application est conçue pour les bailleurs particuliers qui gèrent eux-mêmes leur patrimoine, qu'ils possèdent un studio ou une dizaine de logements. La formule gratuite est limitée à un bien.
+        </div>
+      </div>
+
+      <div class="faq-item" style="border-bottom:1px solid var(--border);">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
+          BailleurSuite m'aide-t-il à choisir entre location nue et LMNP ?
+          <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
+        </button>
+        <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
+          Oui. Le comparateur fiscal analyse les données que vous saisissez — loyers, charges, intérêts d'emprunt, valeur du bien — et calcule votre imposition dans chaque régime : micro-foncier, réel en location nue, micro-BIC et réel en LMNP. Il indique le régime le plus favorable dans votre situation et estime le gain fiscal annuel correspondant. Ces calculs sont indicatifs et ne remplacent pas l'avis d'un professionnel.
+        </div>
+      </div>
+
+      <div class="faq-item" style="border-bottom:1px solid var(--border);">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
+          Puis-je savoir ce que vaudra mon patrimoine dans 20 ans ?
+          <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
+        </button>
+        <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
+          Oui. La projection patrimoniale calcule année par année le capital remboursé, la valeur estimée du bien, les revenus nets après impôt et l'évolution de votre patrimoine net sur 20 ans. Un rapport patrimonial PDF exportable reprend l'ensemble de ces éléments.
+        </div>
+      </div>
+
+      <div class="faq-item" style="border-bottom:1px solid var(--border);">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
+          L'application calcule-t-elle la plus-value en cas de revente ?
+          <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
+        </button>
+        <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
+          Oui. La simulation de revente estime la plus-value imposable en tenant compte de la durée de détention et des abattements applicables à l'impôt sur le revenu comme aux prélèvements sociaux.
+        </div>
+      </div>
+
+      <div class="faq-item" style="border-bottom:1px solid var(--border);">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
+          BailleurSuite gère-t-il les biens détenus en SCI ?
+          <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
+        </button>
+        <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
+          La gestion des biens en SCI est en cours de développement et sera intégrée à l'application. La version actuelle couvre la détention en nom propre, en location nue comme en location meublée.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;background:none;border:none;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;">
+          Existe-t-il une version pour Mac ?
+          <span class="faq-icon" style="font-size:1.3rem;color:var(--mint);transition:transform .3s;flex-shrink:0;margin-left:16px;">+</span>
+        </button>
+        <div class="faq-a" style="display:none;padding-bottom:20px;color:var(--ink-mid);font-size:0.92rem;line-height:1.65;">
+          Une application macOS est prévue peu après le lancement iPhone de septembre 2026. Elle partagera les mêmes données via iCloud, sans ressaisie. Elle sera incluse dans l'abonnement Gestion Zen existant.
         </div>
       </div>
 
