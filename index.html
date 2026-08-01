@@ -174,30 +174,8 @@
     --surface-edge:rgba(255,255,255,.08); --page-neutral:#141513;
   } }
 
-  /* ── NAVBAR CAPSULE (home) ── */
+  /* reading-progress retirée sur la home (barre de progression sélective) */
   .reading-progress{display:none}
-  .site-nav{
-    position:fixed;top:18px;left:50%;transform:translateX(-50%);
-    width:calc(100% - 32px);max-width:1140px;
-    padding:10px 10px 10px 22px;
-    background:rgba(255,255,255,.72);
-    backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
-    border:1px solid rgba(255,255,255,.6);
-    border-radius:999px;
-    box-shadow:0 1px 2px rgba(28,26,20,.04), 0 12px 32px -12px rgba(28,26,20,.18);
-  }
-  @media(prefers-color-scheme:dark){
-    .site-nav{background:rgba(20,21,19,.72);border-color:rgba(255,255,255,.08)}
-  }
-  .nav-cta{
-    background:var(--ink);color:#fff;
-    padding:11px 22px;border-radius:999px;
-    font-size:.8125rem;font-weight:600;letter-spacing:0;max-width:none;
-  }
-  .nav-cta:hover{background:var(--ink);transform:translateY(-1px)}
-  @media(max-width:860px){
-    .site-nav{top:12px;width:calc(100% - 24px);padding:8px 8px 8px 16px}
-  }
 
   /* ── HERO ── */
   .hero{position:relative;overflow:hidden;padding:180px 24px 0;text-align:center}
