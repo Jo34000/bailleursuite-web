@@ -1,5 +1,9 @@
 {
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/cgu", "destination": "/conditions-utilisation.html" },
+    { "source": "/confidentialite", "destination": "/politique-confidentialite.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
