@@ -184,16 +184,16 @@ tr:hover td{background:rgba(45,106,79,.025)}
 
 /* CTA APP PREMIUM */
 .app-promo{position:relative;overflow:hidden;background:radial-gradient(circle at top right,rgba(45,106,79,.28),transparent 45%),linear-gradient(145deg,#0E1012,#1A1D20);border-radius:var(--r-md);border:1px solid rgba(255,255,255,.07);box-shadow:none;padding:60px 48px;text-align:center;margin:0 20px 80px;max-width:760px;margin-left:auto;margin-right:auto}
-@media(max-width:600px){.app-promo{padding:44px 24px;margin-left:16px;margin-right:16px}}
+@media(max-width:600px){.app-promo{padding:44px 24px;margin-left:16px;margin-right:16px}.promo-cards{flex-direction:column;align-items:stretch}.promo-card{min-width:0}}
 .app-promo::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(201,168,76,.1),transparent 65%);pointer-events:none}
 .app-promo-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(45,106,79,.2);border:1px solid rgba(45,106,79,.35);color:#5DBB88;font-size:.7rem;font-weight:600;padding:5px 14px;border-radius:var(--r-full);margin-bottom:22px;letter-spacing:.06em;text-transform:uppercase}
 .app-promo h2{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.5rem);color:white;margin-bottom:12px;letter-spacing:-0.04em}
-.app-promo p{color:rgba(255,255,255,.5);font-size:.97rem;max-width:420px;margin:0 auto 32px;line-height:1.7}
+.app-promo p{color:rgba(255,255,255,.66);font-size:.97rem;max-width:420px;margin:0 auto 32px;line-height:1.7}
 .promo-cards{display:flex;justify-content:center;gap:10px;margin-bottom:32px;flex-wrap:wrap}
-.promo-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-md);padding:14px 18px;text-align:left;min-width:130px}
-.promo-card-icon{font-size:1.2rem;margin-bottom:6px}
+.promo-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:var(--r-md);padding:16px 18px;text-align:left;min-width:130px}
+.promo-card-icon{font-size:1.2rem;margin-bottom:8px;color:#5DBB88;line-height:0}
 .promo-card-val{font-family:var(--serif);font-size:1.2rem;color:white;display:block}
-.promo-card-label{font-size:.66rem;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.05em}
+.promo-card-label{font-size:.68rem;color:rgba(255,255,255,.72);text-transform:uppercase;letter-spacing:.06em;display:block;margin-top:2px}
 .appstore-btn{display:inline-flex;align-items:center;gap:10px;background:white;color:#111;padding:15px 30px;border-radius:var(--r-full);text-decoration:none;font-weight:700;font-size:.9rem;box-shadow:none;transition:transform 180ms cubic-bezier(.4,0,.2,1),box-shadow 180ms cubic-bezier(.4,0,.2,1)}
 .appstore-btn:hover{transform:translateY(-2px);box-shadow:none}
 .appstore-btn svg{width:18px;height:18px;flex-shrink:0}
