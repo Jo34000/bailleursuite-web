@@ -126,6 +126,19 @@ def mediane(villes: list[dict], champ: str) -> float | None:
     return statistics.median(valeurs) if valeurs else None
 
 
+def quantile(villes: list[dict], champ: str, part: float) -> float | None:
+    """Valeur au rang `part` (0–1) de la distribution du panel.
+
+    Sert à caler les variantes éditoriales sur la forme réelle des
+    données plutôt que sur un écart en pourcentage choisi à l'avance.
+    """
+    valeurs = sorted(v for v in (val(x, champ) for x in villes) if v is not None)
+    if not valeurs:
+        return None
+    rang = min(int(round(part * (len(valeurs) - 1))), len(valeurs) - 1)
+    return valeurs[rang]
+
+
 # ══════════════════════════════════════════════════════════════════
 # Seuils éditoriaux
 # ══════════════════════════════════════════════════════════════════
@@ -164,13 +177,21 @@ def position_rendement(rdt: float | None, med: float | None) -> str | None:
     return f"{rang} la médiane du panel ({decimal(med)} %)"
 
 
-def accroche(ville: dict, ctx: dict) -> str:
-    """Sous-titre du hero, construit depuis les données de la commune.
+def accroche(ville: dict, ctx: dict) -> tuple[str, str]:
+    """Sous-titre du hero. Retourne (nom de la variante, texte).
 
-    Cinq formulations déclenchées par seuils, plus deux replis pour les
-    communes dont le prix ou le rendement manque. Une phrase identique
-    sur 40 pages serait un motif dupliqué ; elle serait surtout une
-    promesse générique là où la donnée permet de dire quelque chose.
+    Cinq formulations déclenchées par seuils, plus un cas médian et deux
+    replis pour les communes dont le prix ou le loyer manque. Une phrase
+    identique sur 40 pages serait un motif dupliqué ; elle serait surtout
+    une promesse générique là où la donnée permet de dire quelque chose.
+
+    Les deux premières variantes se déclenchent sur les **quantiles du
+    panel**, pas sur un écart en pourcentage figé. Un seuil du type
+    « ±15 % autour de la médiane » dépend entièrement de l'étalement de
+    la distribution : sur un panel resserré il ne se déclencherait
+    jamais, sur un panel étalé il absorberait tout le monde. Les
+    quantiles garantissent une répartition stable quel que soit le jeu de
+    données — c'est `--stats` qui permet de le vérifier.
     """
     nom = ville["nom"]
     prix = val(ville, "prix_m2")
@@ -189,63 +210,60 @@ def accroche(ville: dict, ctx: dict) -> str:
     # ── Communes sans rendement calculable ────────────────────────
     if chiffres is None:
         if prix is not None:
-            return (
+            return "sans_loyer", (
                 f"Prix médian de {entier(prix)} €/m² d'après les ventes "
                 "réellement signées. Le loyer de marché n'est pas publiable "
                 "ici, faute d'annonces en nombre suffisant."
             )
-        return (
+        return "sans_prix", (
             "Population, vacance et dynamique du marché locatif d'après les "
             "données publiques. Le prix médian n'est pas disponible pour "
             "cette commune sur ce millésime."
         )
 
-    ecart_rdt = (rdt - med_rdt) / med_rdt if med_rdt else 0.0
-    ecart_prix = (prix - med_prix) / med_prix if med_prix else 0.0
-
-    # ── 1. Rendement nettement au-dessus du panel ─────────────────
-    if ecart_rdt >= ECART_MEDIANE_NET:
-        return chiffres + (
+    # ── 1. Haut de panel pour le rendement (quintile supérieur) ───
+    if ctx["rdt_haut"] is not None and rdt >= ctx["rdt_haut"]:
+        return "rendement_haut", chiffres + (
             f" {nom} se situe dans le haut du panel pour le rendement, "
             f"contre {decimal(med_rdt)} % en médiane — un écart qui tient "
             "davantage au prix d'achat qu'au niveau des loyers."
         )
 
-    # ── 2. Rendement nettement en dessous, marché cher ────────────
-    if ecart_rdt <= -ECART_MEDIANE_NET:
-        if ecart_prix >= ECART_MEDIANE_NET:
-            return chiffres + (
+    # ── 2. Bas de panel (quintile inférieur) ──────────────────────
+    if ctx["rdt_bas"] is not None and rdt <= ctx["rdt_bas"]:
+        if med_prix and prix >= ctx["prix_haut"]:
+            return "marche_cher", chiffres + (
                 " Un marché cher, où le rendement passe après la valeur du "
                 f"bien : {decimal(med_rdt)} % en médiane sur le panel."
             )
-        return chiffres + (
+        return "rendement_bas", chiffres + (
             f" Le rendement reste en retrait des {decimal(med_rdt)} % "
             "médians du panel."
         )
 
     # ── 3. Marché qui s'est fortement apprécié ────────────────────
     if evol3 is not None and evol3 >= EVOL3_FORTE:
-        return chiffres + (
+        return "appreciation", chiffres + (
             f" Les prix ont pris {signe(evol3)} % en trois ans : le point "
             "d'entrée n'est plus celui d'hier."
         )
 
     # ── 4. Démographie porteuse ───────────────────────────────────
     if evol_pop is not None and evol_pop >= CROISSANCE_FORTE:
-        return chiffres + (
+        return "demographie", chiffres + (
             f" Une commune qui gagne des habitants ({signe(evol_pop)} % par "
             "an), ce qui soutient la demande locative."
         )
 
     # ── 5. Parc largement vacant ──────────────────────────────────
     if vacance is not None and vacance >= VACANCE_ELEVEE:
-        return chiffres + (
+        return "vacance", chiffres + (
             f" Avec {decimal(vacance, 1)} % de logements vacants, la "
             "continuité de la location mérite d'être vérifiée."
         )
 
-    # ── 6. Cas médian : rien ne dépasse ───────────────────────────
-    return chiffres + (
+    # ── 6. Milieu de panel : rien ne dépasse ──────────────────────
+    return "milieu_panel", chiffres + (
         f" Des niveaux proches de la médiane du panel ({entier(med_prix)} "
         f"€/m² pour {decimal(med_rdt)} %), sans écart marquant."
     )
@@ -702,7 +720,8 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
         "og_title": titre, "og_description": desc[:300],
         "jsonld": [jsonld_dump(article),
                    jsonld_dump(breadcrumb)],
-        "accroche": accroche(ville, ctx),
+        "accroche": accroche(ville, ctx)[1],
+        "variante_accroche": accroche(ville, ctx)[0],
         "position_rendement": position_rendement(rdt, ctx["med_rendement"]),
         "blocs": blocs_editoriaux(ville, ctx),
         "favorables": points_favorables(ville, ctx),
@@ -784,6 +803,69 @@ def ecrire_sitemap(villes: list[dict], jour: str) -> int:
 # ══════════════════════════════════════════════════════════════════
 # Build
 # ══════════════════════════════════════════════════════════════════
+VARIANTES_ACCROCHE = (
+    "rendement_haut", "marche_cher", "rendement_bas",
+    "appreciation", "demographie", "vacance", "milieu_panel",
+    "sans_loyer", "sans_prix",
+)
+
+
+def rapport_distribution(villes: list[dict], ctx: dict) -> int:
+    """Répartition des variantes d'accroche sur le jeu de données réel.
+
+    Sert à vérifier qu'aucune variante n'est morte, et qu'aucune n'avale
+    la moitié du panel. Retourne le nombre d'alertes.
+    """
+    rdts = sorted(v for v in (val(x, "rendement_brut_pct") for x in villes)
+                  if v is not None)
+    print("\n" + "─" * 66)
+    print("DISTRIBUTION DES RENDEMENTS")
+    print("─" * 66)
+    if rdts:
+        print(f"  {len(rdts)} villes avec rendement · "
+              f"min {decimal(rdts[0])} % · médiane "
+              f"{decimal(ctx['med_rendement'])} % · max {decimal(rdts[-1])} %")
+        print(f"  quintile bas  ≤ {decimal(ctx['rdt_bas'])} %"
+              f"   ·   quintile haut ≥ {decimal(ctx['rdt_haut'])} %")
+
+    compte: dict[str, int] = {v: 0 for v in VARIANTES_ACCROCHE}
+    exemples: dict[str, str] = {}
+    for ville in villes:
+        variante, _ = accroche(ville, ctx)
+        compte[variante] += 1
+        exemples.setdefault(variante, ville["nom"])
+
+    total = len(villes)
+    print("\n" + "─" * 66)
+    print("RÉPARTITION DES ACCROCHES")
+    print("─" * 66)
+    alertes = 0
+    for variante in VARIANTES_ACCROCHE:
+        n = compte[variante]
+        # Les deux replis peuvent légitimement être vides : ils ne
+        # concernent que les communes sans loyer ou sans prix.
+        repli = variante in ("sans_loyer", "sans_prix")
+        if n == 0 and not repli:
+            etat, alertes = "✗ jamais déclenchée", alertes + 1
+        elif n > total * 0.40:
+            etat, alertes = f"✗ absorbe {n / total:.0%} du panel", alertes + 1
+        elif n == 0:
+            etat = "— sans objet"
+        else:
+            etat = f"✓ {n / total:.0%}"
+        barre = "█" * n
+        print(f"  {variante:<16} {n:>3}  {barre:<20} {etat}"
+              + (f"   ex. {exemples[variante]}" if n else ""))
+
+    print("─" * 66)
+    if alertes:
+        print(f"  ⚠ {alertes} variante(s) à recalibrer — ajuster les seuils "
+              "en tête de build_radar.py")
+    else:
+        print("  Répartition saine : aucune variante morte ni dominante.")
+    return alertes
+
+
 def construire(chemin_data: Path, ecrire: bool = True) -> int:
     if not chemin_data.exists():
         print(f"✗ {chemin_data} est absent.", file=sys.stderr)
@@ -796,10 +878,17 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
     villes = doc["villes"]
     jour = date.today().isoformat()
 
+    # Quintiles : les 20 % de villes aux rendements les plus hauts et les
+    # 20 % les plus bas basculent sur une variante d'accroche dédiée. Le
+    # découpage suit la distribution réelle du panel — il reste équilibré
+    # que les rendements s'étalent de 3 à 10 % ou se resserrent sur 5 à 7 %.
     ctx = {
         "med_rendement": mediane(villes, "rendement_brut_pct"),
         "med_prix": mediane(villes, "prix_m2"),
         "med_loyer": mediane(villes, "loyer_m2"),
+        "rdt_haut": quantile(villes, "rendement_brut_pct", 0.80),
+        "rdt_bas": quantile(villes, "rendement_brut_pct", 0.20),
+        "prix_haut": quantile(villes, "prix_m2", 0.70),
         "build_date": jour,
     }
     print(f"→ {len(villes)} villes | médiane prix {entier(ctx['med_prix'])} €/m² "
@@ -822,8 +911,13 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         print(f"✗ slugs en collision : {collisions}", file=sys.stderr)
         return 1
 
+    if ecrire == "stats":
+        rapport_distribution(villes, ctx)
+        return 0
+
     if not ecrire:
-        print(f"✓ {len(preparees)} villes vérifiées, aucune écriture (--check)")
+        rapport_distribution(villes, ctx)
+        print(f"\n✓ {len(preparees)} villes vérifiées, aucune écriture (--check)")
         return 0
 
     DIR_SORTIE.mkdir(parents=True, exist_ok=True)
@@ -975,7 +1069,11 @@ def main() -> int:
                     help=f"JSON source (défaut : {FICHIER_DATA.relative_to(RACINE)})")
     ap.add_argument("--check", action="store_true",
                     help="valider les données sans rien écrire")
+    ap.add_argument("--stats", action="store_true",
+                    help="répartition des variantes d'accroche, sans écriture")
     args = ap.parse_args()
+    if args.stats:
+        return construire(args.data, ecrire="stats")
     return construire(args.data, ecrire=not args.check)
 
 

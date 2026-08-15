@@ -60,6 +60,27 @@ appréciation, démographie porteuse, vacance élevée) plus un cas médian et d
 replis pour les communes sans prix ou sans loyer. Aucune page ne partage sa
 phrase avec une autre.
 
+### Calibrage des variantes
+
+```bash
+python3 tools/build_radar.py --stats     # répartition, sans rien écrire
+```
+
+Les deux variantes de rendement se déclenchent sur les **quintiles du panel**,
+pas sur un écart en pourcentage figé. Un seuil du type « ±15 % autour de la
+médiane » dépend entièrement de l'étalement de la distribution : mesuré sur
+trois formes possibles d'un même panel (min 3,68 · médiane 6,06 · max 9,82),
+il donnait 15/13/12 sur une distribution étalée mais **3/6/31** sur une
+distribution resserrée — une variante avalant les trois quarts du panel. Les
+quintiles donnent 9/9/22 dans les trois cas.
+
+Les trois variantes suivantes (appréciation, démographie, vacance) restent sur
+des seuils absolus : +12 % sur trois ans ou 10 % de vacance sont notables en
+soi, indépendamment du panel. Leur répartition dépend donc du jeu de données —
+c'est ce que `--stats` sert à vérifier après chaque nouveau millésime. Le
+rapport signale toute variante jamais déclenchée ou couvrant plus de 40 % du
+panel.
+
 ### Liens internes
 
 Le corps des pages générées n'utilise **que des liens relatifs**
@@ -75,6 +96,10 @@ la production, qui répond 404 tant que les pages ne sont pas déployées.
 `tools/fixtures/villes.example.json` reproduit le schéma réel avec des valeurs
 **synthétiques**. Elle sert à valider le rendu sans le vrai jeu de données ;
 elle n'a aucune valeur documentaire et ne doit jamais être publiée.
+
+Ses rendements sont calés sur la distribution du run réel — 3,68 % à 9,82 %,
+médiane ~6,1 %, un loyer publié pour les 40 villes — afin que le calibrage
+mesuré en développement corresponde à celui de la production.
 
 ## 2. `add_nav_link.py` — lien entrant vers le Radar
 

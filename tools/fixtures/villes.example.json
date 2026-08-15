@@ -82,7 +82,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 29.9,
+          "valeur": 89.12,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -99,7 +99,7 @@
           "note": "Agrégation de 20 arrondissement(s) sur 20 rattachés à la commune par le COG (colonne COMPARENT) : la carte des loyers ne publie pas cette commune à son code INSEE. Moyenne des loyers €/m² pondérée par le nombre d'observations de chaque arrondissement — un loyer est une intensité, il ne se somme pas. Les observations, elles, sont cumulées."
         },
         "rendement_brut_pct": {
-          "valeur": 3.2,
+          "valeur": 9.55,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -242,7 +242,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 16.3,
+          "valeur": 19.26,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -259,7 +259,7 @@
           "note": "Agrégation de 16 arrondissement(s) sur 16 rattachés à la commune par le COG (colonne COMPARENT) : la carte des loyers ne publie pas cette commune à son code INSEE. Moyenne des loyers €/m² pondérée par le nombre d'observations de chaque arrondissement — un loyer est une intensité, il ne se somme pas. Les observations, elles, sont cumulées."
         },
         "rendement_brut_pct": {
-          "valeur": 5.43,
+          "valeur": 6.42,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -402,7 +402,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 16.6,
+          "valeur": 28.27,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -419,7 +419,7 @@
           "note": "Agrégation de 9 arrondissement(s) sur 9 rattachés à la commune par le COG (colonne COMPARENT) : la carte des loyers ne publie pas cette commune à son code INSEE. Moyenne des loyers €/m² pondérée par le nombre d'observations de chaque arrondissement — un loyer est une intensité, il ne se somme pas. Les observations, elles, sont cumulées."
         },
         "rendement_brut_pct": {
-          "valeur": 3.91,
+          "valeur": 6.65,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -562,7 +562,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.8,
+          "valeur": 20.71,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -577,7 +577,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.73,
+          "valeur": 7.1,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -720,7 +720,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 17.1,
+          "valeur": 37.29,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -735,7 +735,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.28,
+          "valeur": 9.32,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -878,7 +878,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 14.1,
+          "valeur": 13.31,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -893,7 +893,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.34,
+          "valeur": 4.1,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -1036,7 +1036,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.5,
+          "valeur": 13.27,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -1051,7 +1051,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.77,
+          "valeur": 4.69,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -1194,7 +1194,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 15.2,
+          "valeur": 21.86,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -1209,7 +1209,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 3.88,
+          "valeur": 5.58,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -1352,7 +1352,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 15.4,
+          "valeur": 22.52,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -1367,7 +1367,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 5.44,
+          "valeur": 7.95,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -1510,7 +1510,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.9,
+          "valeur": 14.73,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -1525,7 +1525,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.39,
+          "valeur": 4.65,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -1668,7 +1668,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 10.54,
+          "valeur": 11.79,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -1683,7 +1683,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 3.66,
+          "valeur": 4.09,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -1826,7 +1826,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 10.07,
+          "valeur": 10.05,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -1841,7 +1841,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 7.48,
+          "valeur": 7.47,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -1984,7 +1984,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 12.14,
+          "valeur": 12.99,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -1999,7 +1999,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 9.18,
+          "valeur": 9.82,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -2142,7 +2142,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 9.02,
+          "valeur": 14.69,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -2157,7 +2157,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 3.09,
+          "valeur": 5.04,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -2300,7 +2300,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.21,
+          "valeur": 11.16,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -2315,7 +2315,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 6.79,
+          "valeur": 5.74,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -2458,7 +2458,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 9.9,
+          "valeur": 15.77,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -2473,7 +2473,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 3.77,
+          "valeur": 6.0,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -2616,7 +2616,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.67,
+          "valeur": 8.45,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -2631,7 +2631,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 8.54,
+          "valeur": 5.28,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -2774,7 +2774,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 11.96,
+          "valeur": 7.11,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -2789,7 +2789,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 6.68,
+          "valeur": 3.97,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -2932,7 +2932,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.71,
+          "valeur": 10.13,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -2947,7 +2947,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 9.55,
+          "valeur": 7.06,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -3090,7 +3090,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.1,
+          "valeur": 6.28,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -3105,7 +3105,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 10.42,
+          "valeur": 4.99,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -3248,7 +3248,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 10.75,
+          "valeur": 8.36,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -3263,7 +3263,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 6.07,
+          "valeur": 4.72,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -3406,7 +3406,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 11.31,
+          "valeur": 14.96,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -3421,7 +3421,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.28,
+          "valeur": 5.67,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -3564,7 +3564,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 9.66,
+          "valeur": 11.27,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -3579,7 +3579,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 7.52,
+          "valeur": 8.78,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -3722,7 +3722,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 8.73,
+          "valeur": 14.81,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -3737,7 +3737,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 3.58,
+          "valeur": 6.07,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -3880,7 +3880,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.01,
+          "valeur": 10.68,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -3895,7 +3895,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 7.51,
+          "valeur": 6.16,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -4038,7 +4038,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 11.38,
+          "valeur": 18.85,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -4053,7 +4053,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.09,
+          "valeur": 6.77,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -4196,7 +4196,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 9.34,
+          "valeur": 9.84,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -4211,7 +4211,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.08,
+          "valeur": 4.3,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -4354,7 +4354,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 9.98,
+          "valeur": 11.68,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -4369,7 +4369,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.62,
+          "valeur": 5.41,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -4512,7 +4512,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 10.11,
+          "valeur": 22.27,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -4527,7 +4527,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 3.74,
+          "valeur": 8.24,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -4670,7 +4670,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 11.78,
+          "valeur": 11.33,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -4685,7 +4685,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 7.88,
+          "valeur": 7.58,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -4828,7 +4828,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 9.53,
+          "valeur": 17.8,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -4843,7 +4843,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 5.14,
+          "valeur": 9.59,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -4986,7 +4986,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.07,
+          "valeur": 24.82,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -5001,7 +5001,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.56,
+          "valeur": 8.66,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -5144,7 +5144,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 14.49,
+          "valeur": 8.0,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -5159,7 +5159,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 6.77,
+          "valeur": 3.74,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -5302,7 +5302,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 12.46,
+          "valeur": 21.55,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -5317,7 +5317,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 4.86,
+          "valeur": 8.4,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -5460,7 +5460,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 14.47,
+          "valeur": 14.89,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -5475,7 +5475,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 8.71,
+          "valeur": 8.96,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -5618,7 +5618,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 11.79,
+          "valeur": 17.93,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -5633,7 +5633,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 5.03,
+          "valeur": 7.65,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -5776,7 +5776,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": null,
+          "valeur": 9.26,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -5784,14 +5784,14 @@
           "unite": "EUR/m2/mois"
         },
         "loyer_nb_observations": {
-          "valeur": null,
+          "valeur": 524,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": null,
+          "valeur": 4.35,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -5866,7 +5866,7 @@
       },
       "fiabilite": {
         "dvf_donnees_insuffisantes": false,
-        "loyer_observations_insuffisantes": true,
+        "loyer_observations_insuffisantes": false,
         "prix_agrege_depuis_arrondissements": false,
         "loyer_agrege_depuis_arrondissements": false,
         "loyer_arrondissements_attendus": 1,
@@ -5876,10 +5876,7 @@
           "34036"
         ],
         "codes_dvf_absents": [],
-        "indicateurs_manquants": [
-          "loyer_m2",
-          "rendement_brut_pct"
-        ]
+        "indicateurs_manquants": []
       },
       "referentiel": {
         "source": "COG INSEE — communes",
@@ -5937,7 +5934,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 13.18,
+          "valeur": 7.05,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -5952,7 +5949,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 6.88,
+          "valeur": 3.68,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -6095,7 +6092,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": null,
+          "valeur": 7.39,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -6103,14 +6100,14 @@
           "unite": "EUR/m2/mois"
         },
         "loyer_nb_observations": {
-          "valeur": null,
+          "valeur": 394,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": null,
+          "valeur": 5.09,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
@@ -6185,7 +6182,7 @@
       },
       "fiabilite": {
         "dvf_donnees_insuffisantes": false,
-        "loyer_observations_insuffisantes": true,
+        "loyer_observations_insuffisantes": false,
         "prix_agrege_depuis_arrondissements": false,
         "loyer_agrege_depuis_arrondissements": false,
         "loyer_arrondissements_attendus": 1,
@@ -6195,10 +6192,7 @@
           "44038"
         ],
         "codes_dvf_absents": [],
-        "indicateurs_manquants": [
-          "loyer_m2",
-          "rendement_brut_pct"
-        ]
+        "indicateurs_manquants": []
       },
       "referentiel": {
         "source": "COG INSEE — communes",
@@ -6256,7 +6250,7 @@
           "unite": "%"
         },
         "loyer_m2": {
-          "valeur": 9.62,
+          "valeur": 20.17,
           "source": "Carte des loyers — appartements (DHUP)",
           "millesime": "2023",
           "page": "https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2023/",
@@ -6271,7 +6265,7 @@
           "fichier": "loyers_appartements.csv"
         },
         "rendement_brut_pct": {
-          "valeur": 3.95,
+          "valeur": 8.28,
           "source": "calcul — (loyer m2 x 12) / prix m2",
           "millesime": "2023 / 2021–2025",
           "page": "",
