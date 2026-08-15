@@ -931,49 +931,77 @@
   .trust-line svg { width: 20px; height: 20px; flex-shrink: 0; stroke: var(--mint); }
 
   /* ── RESSOURCES : teaser en vedette ── */
-  /* Bloc d'appel de la calculatrice. Reprend le vocabulaire visuel de
-     .app-promo, présent sur les pages guides et les pages villes du
-     Radar : surface émeraude sombre, texte clair, bouton blanc. Le
-     dégradé vert pâle + texte or sur fond clair d'origine manquait de
-     contraste et sonnait template ; une surface franche en fait un vrai
-     point d'appel. Sur fond sombre, l'or de l'eyebrow ressort. */
+  /* Bloc d'appel de la calculatrice — surface ÉMERAUDE SOMBRE.
+     Le dégradé vert pâle vers or d'origine manquait de contraste et
+     sonnait template. Le premier remplacement reprenait `.app-promo`
+     à l'identique, or celui-ci est un quasi-noir (#111214 → #1D1F22)
+     avec un halo émeraude : sur une page ivoire, il lisait comme un
+     corps étranger. On garde donc la grammaire — surface franche,
+     texte clair, bouton blanc, halo doré — sur la teinte émeraude du
+     design system.
+
+     Les deux arrêts reprennent les valeurs de --mint et --mint-dark,
+     mais FIGÉES : ces tokens s'éclaircissent en thème sombre
+     (--mint-dark passe à #3D8B68), ce qui ferait tomber le blanc du
+     titre sous le seuil AA. Un bloc d'appel garde la même surface dans
+     les deux thèmes, comme le fait déjà .app-promo. */
   .res-featured {
     position: relative; overflow: hidden;
     margin-top: 48px; margin-bottom: 20px;
-    background: radial-gradient(circle at top right, rgba(45,106,79,.35), transparent 45%),
-                linear-gradient(145deg, #111214, #1D1F22);
-    border: 1px solid rgba(255,255,255,.07);
+    background: radial-gradient(circle at top right, rgba(201,168,76,.18), transparent 50%),
+                linear-gradient(145deg, #2D6A4F, #1A4A35);
+    border: 1px solid rgba(255,255,255,.10);
     border-radius: var(--radius);
-    padding: 40px 40px;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 28px; flex-wrap: wrap;
+    padding: 52px 48px;
+    /* Colonne assumée, pas un retour à la ligne subi. Le bouton
+       agrandi ne tient plus à côté du texte dans les 804 px utiles
+       (546 + 36 + 313 = 895) : il passait à la ligne à TOUTES les
+       largeurs. Autant l'assumer — posé sous le texte et aligné à
+       gauche, il domine la composition, ce que la version en bandeau
+       ne faisait pas. */
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: 28px;
   }
   .res-featured::before {
-    content: ''; position: absolute; top: -60px; right: -60px;
-    width: 280px; height: 280px;
-    background: radial-gradient(circle, rgba(201,168,76,.12), transparent 65%);
+    content: ''; position: absolute; top: -70px; right: -70px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(226,196,122,.14), transparent 65%);
     pointer-events: none;
   }
   .res-featured > * { position: relative; }
-  .res-featured .section-label { color: var(--gold-light); }
+  /* Or éclairci pour ce bloc uniquement. --gold-light (#E2C47A) donnait
+     10:1 sur le quasi-noir d'origine, mais seulement 4,37:1 sur
+     l'émeraude — sous le seuil AA de 4,5 pour du 11,5 px semi-gras.
+     Mesuré au pixel sur le rendu réel, pas estimé. #ECD79B remonte à
+     5,2:1 en restant franchement doré. */
+  .res-featured .section-label { color: #ECD79B; }
   .res-featured-title {
-    font-family: var(--serif); font-size: 1.6rem; color: #fff;
-    margin-bottom: 8px; letter-spacing: -0.02em;
+    font-family: var(--serif); font-size: 1.75rem; color: #fff;
+    margin-bottom: 10px; letter-spacing: -0.02em; line-height: 1.2;
     font-synthesis: none; -webkit-font-smoothing: antialiased;
   }
   .res-featured-desc {
-    font-size: 0.9rem; color: rgba(255,255,255,.62);
+    font-size: 0.92rem; color: rgba(255,255,255,.72);
     line-height: 1.6; max-width: 52ch;
   }
+  /* Bouton dominant : c'est le point d'appel de la section. */
   .res-featured-btn {
-    background: #fff; color: #111;
-    padding: 14px 26px; border-radius: var(--r-full);
-    text-decoration: none; font-weight: 600; font-size: 0.9rem;
+    background: #fff; color: #14261E;
+    padding: 19px 36px; border-radius: var(--r-full);
+    text-decoration: none; font-weight: 600; font-size: 1rem;
     white-space: nowrap;
-    transition: transform 180ms cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 6px 20px rgba(0,0,0,.18);
+    transition: transform 180ms cubic-bezier(.4,0,.2,1),
+                box-shadow 180ms cubic-bezier(.4,0,.2,1);
   }
-  .res-featured-btn:hover { transform: translateY(-2px); }
-  @media (max-width: 600px) { .res-featured { padding: 32px 26px; } }
+  .res-featured-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0,0,0,.24);
+  }
+  @media (max-width: 600px) {
+    .res-featured { padding: 38px 26px; gap: 26px; }
+    .res-featured-btn { width: 100%; text-align: center; padding: 18px 24px; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .res-featured-btn { transition: none; }
     .res-featured-btn:hover { transform: none; }
@@ -1264,9 +1292,9 @@
     <!-- Teaser calculatrice en vedette -->
     <div class="res-featured reveal">
       <div>
-        <div class="section-label" style="text-align:left;">Outil gratuit · Aucune inscription</div>
-        <div class="res-featured-title">Calculez votre rendement net en 30 secondes</div>
-        <div class="res-featured-desc">Rendement brut, net et cashflow, avec ou sans crédit. Gratuit, sans inscription.</div>
+        <div class="section-label" style="text-align:left;">Outil gratuit · Sans inscription</div>
+        <div class="res-featured-title">Calculez la rentabilité de votre bien en 30 secondes</div>
+        <div class="res-featured-desc">Brut, net et cash-flow, avec ou sans crédit.</div>
       </div>
       <a href="/calculatrice-rendement-locatif" class="res-featured-btn">Calculer mon rendement →</a>
     </div>
