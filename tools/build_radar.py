@@ -64,6 +64,16 @@ DATASET_ID = f"{SITE}/radar-immobilier#dataset"
 REF_ORGANIZATION = {"@id": ORGANIZATION_ID}
 REF_SOFTWARE = {"@id": SOFTWARE_ID}
 
+# Forme auto-suffisante de la référence, pour les entités que le
+# validateur inspecte page par page (Dataset notamment) : même @id, donc
+# même entité une fois le graphe reconstitué, mais lisible seule.
+ORGANISATION_MINIMALE = {
+    "@id": ORGANIZATION_ID,
+    "@type": "Organization",
+    "name": "BailleurSuite",
+    "url": SITE,
+}
+
 # Date de première mise en ligne de la section, FIGÉE.
 # `datePublished` ne doit pas bouger d'un build à l'autre : utiliser la
 # date du build faisait reculer la date de publication à chaque
@@ -833,12 +843,19 @@ def construire_dataset(doc: dict, villes: list[dict], ctx: dict) -> dict:
     srcs = doc.get("sources", {})
 
     # `isBasedOn` : une entrée par source réellement utilisée.
+    #
+    # Type CreativeWork, PAS Dataset. Un nœud « Dataset » imbriqué est lu
+    # par le validateur Google comme un jeu de données AUTONOME, soumis à
+    # la validation complète : les quatre sources échouaient chacune faute
+    # de `description` obligatoire, et la page remontait cinq Dataset au
+    # lieu d'un. CreativeWork porte la même provenance — libellé, page,
+    # producteur, millésime, licence — sans déclencher cette validation.
     fondee_sur = []
     for cle, s in srcs.items():
         if s.get("utilisee") is False:
             continue                      # source facultative non fournie
         entree = {
-            "@type": "Dataset",
+            "@type": "CreativeWork",
             "name": s.get("libelle") or cle,
             "url": s.get("page") or "",
         }
@@ -894,8 +911,13 @@ def construire_dataset(doc: dict, villes: list[dict], ctx: dict) -> dict:
             "absente de la source reste vide."
         ),
         "url": f"{SITE}/radar-immobilier",
-        "creator": REF_ORGANIZATION,
-        "publisher": REF_ORGANIZATION,
+        # Le nœud Organization complet vit sur la home. Le validateur
+        # Google, lui, analyse UNE page à la fois : une référence nue
+        # « {@id} » y apparaît comme une organisation sans nom. On répète
+        # donc les propriétés essentielles — le @id identique garantit
+        # que c'est bien la même entité, pas un doublon.
+        "creator": ORGANISATION_MINIMALE,
+        "publisher": ORGANISATION_MINIMALE,
         "isBasedOn": fondee_sur,
         "spatialCoverage": {"@type": "Country", "name": "France"},
         "variableMeasured": variables,
@@ -904,6 +926,29 @@ def construire_dataset(doc: dict, villes: list[dict], ctx: dict) -> dict:
         "inLanguage": "fr",
         "isAccessibleForFree": True,
         "citation": f"{SITE}/radar-immobilier/methodologie",
+        # ── Champs recommandés par Google pour un Dataset ──────────
+        # Ajoutés parce qu'ils sont VRAIS et vérifiables. Trois champs
+        # recommandés sont volontairement absents :
+        #   · `distribution` — nous ne distribuons pas le jeu de données.
+        #     data/ est exclu du déploiement par .vercelignore, il n'y a
+        #     aucun fichier téléchargeable. L'annoncer serait faux.
+        #   · `includedInDataCatalog` — il n'est déposé dans aucun
+        #     catalogue.
+        #   · `identifier` — pas de DOI ni d'identifiant pérenne.
+        "alternateName": "Radar immobilier",
+        "version": f"{doc.get('panel', 'V1')} — {doc.get('genere_le', '')}".strip(" —"),
+        "keywords": [
+            "prix immobilier", "rendement locatif", "loyer au m2",
+            "investissement locatif", "DVF", "marché immobilier France",
+        ],
+        "measurementTechnique": (
+            "Prix : médiane des prix au m² des mutations DVF de la commune, "
+            "après exclusion des ventes multi-lots, des surfaces inférieures "
+            "à 9 m² et des prix hors de l'intervalle 500–20 000 €/m². "
+            "Loyer : loyer d'annonce prédit au m², moyenne pondérée par le "
+            "nombre d'observations pour les communes à arrondissements. "
+            "Rendement brut : loyer mensuel au m² × 12 ÷ prix au m² × 100."
+        ),
     }
     if couverture:
         dataset["temporalCoverage"] = couverture
@@ -995,6 +1040,8 @@ def verifier_jsonld(pages: list[Path]) -> tuple[int, list[str]]:
                         "désactivé (utiliser `|safe` avec `jsonld_dump`)")
                     break
 
+        datasets: list[str] = []          # tous les nœuds Dataset de la page
+
         for i, brut in enumerate(blocs, 1):
             try:
                 donnees = json.loads(brut)
@@ -1010,8 +1057,39 @@ def verifier_jsonld(pages: list[Path]) -> tuple[int, list[str]]:
                     f"({donnees.get('@context')!r})")
             if not donnees.get("@type"):
                 erreurs.append(f"{rel} bloc {i} : @type absent")
+            datasets += _noeuds_dataset(donnees)
             valides += 1
+
+        # Un seul Dataset par page. Un Dataset IMBRIQUÉ — dans isBasedOn
+        # par exemple — est lu par le validateur Google comme un jeu de
+        # données autonome, soumis à la validation complète : quatre
+        # sources décrites en `@type: Dataset` faisaient remonter cinq
+        # Dataset dont quatre en erreur, faute de `description`.
+        if len(datasets) > 1:
+            erreurs.append(
+                f"{rel} : {len(datasets)} nœuds @type=Dataset — un seul est "
+                f"attendu par page. Trouvés : {', '.join(datasets)}. "
+                "Un Dataset imbriqué (isBasedOn, hasPart…) est validé comme "
+                "un jeu de données autonome : utiliser CreativeWork."
+            )
     return valides, erreurs
+
+
+def _noeuds_dataset(obj, chemin: str = "racine") -> list[str]:
+    """Chemins de tous les nœuds @type=Dataset, imbriqués compris."""
+    trouves: list[str] = []
+    if isinstance(obj, dict):
+        types = obj.get("@type")
+        types = types if isinstance(types, list) else [types]
+        if "Dataset" in types:
+            trouves.append(f"{chemin}={obj.get('name') or obj.get('@id') or '?'}")
+        for cle, valeur in obj.items():
+            if cle != "@type":
+                trouves += _noeuds_dataset(valeur, f"{chemin}.{cle}")
+    elif isinstance(obj, list):
+        for i, valeur in enumerate(obj):
+            trouves += _noeuds_dataset(valeur, f"{chemin}[{i}]")
+    return trouves
 
 
 def verifier_liens(pages: list[Path]) -> list[str]:

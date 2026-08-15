@@ -137,6 +137,29 @@ de la source, déclarée dans `radar_data/sources.py`, jamais réécrite ici. Si
 les sources n'en portent pas (JSON antérieur au champ), le `Dataset` est
 publié **sans** `license` et le build avertit : on ne devine pas une licence.
 
+**`isBasedOn` porte des `CreativeWork`, jamais des `Dataset`.** Un nœud
+`Dataset` imbriqué est lu par le validateur Google comme un jeu de données
+autonome, soumis à la validation complète : les quatre sources décrites en
+`@type: Dataset` faisaient remonter **cinq** Dataset sur `/radar-immobilier`,
+dont quatre en erreur faute de `description` obligatoire. `CreativeWork`
+porte la même provenance — libellé, page, producteur, millésime, licence —
+sans déclencher cette validation.
+
+`creator` et `publisher` répètent `@type`, `name` et `url` à côté du `@id`.
+Le nœud `Organization` complet vit sur la home, mais le validateur analyse
+**une page à la fois** : une référence nue `{"@id": …}` y apparaît comme une
+organisation sans nom. Le `@id` identique garantit qu'il s'agit de la même
+entité une fois le graphe reconstitué.
+
+Trois champs recommandés par Google sont **volontairement absents**, parce
+que les renseigner serait faux :
+
+| Champ | Pourquoi absent |
+|---|---|
+| `distribution` | le jeu de données n'est pas distribué — `data/` est exclu du déploiement, aucun fichier n'est téléchargeable |
+| `includedInDataCatalog` | il n'est déposé dans aucun catalogue |
+| `identifier` | pas de DOI ni d'identifiant pérenne |
+
 ### Validation
 
 Deux contrôles bloquants, sortie en code 1 :
@@ -145,6 +168,7 @@ Deux contrôles bloquants, sortie en code 1 :
 |---|---|
 | Liens internes absolus dans le corps | 42 pages Radar |
 | JSON-LD parse, `@context` et `@type` présents | **51 pages** — 42 Radar + 9 historiques |
+| Un seul nœud `@type: Dataset` par page | **51 pages** |
 
 Le contrôle JSON-LD détecte spécifiquement les guillemets échappés en
 `&#34;`, symptôme de l'autoescape Jinja non désactivé — le bug qui avait
@@ -153,6 +177,11 @@ en le réintroduisant : 115 erreurs, code 1.
 
 Il couvre les 9 pages historiques, qui ne passent par aucun outil et dont le
 balisage n'était jusqu'ici relu par personne.
+
+Le contrôle d'unicité du `Dataset` inspecte les nœuds **imbriqués**, pas
+seulement la racine, et nomme chaque nœud trouvé avec son chemin
+(`racine.isBasedOn[0]=…`). Vérifié en repassant `isBasedOn` en `Dataset` :
+5 nœuds détectés sur le hub et sur la méthodologie, code 1.
 
 ### Liens internes
 
