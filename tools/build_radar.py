@@ -142,6 +142,115 @@ EVOL3_BAISSE = -2.0
 TENSION_MENAGES = 0.52         # part de petits ménages -> tension locative
 
 
+def position_rendement(rdt: float | None, med: float | None) -> str | None:
+    """Situe un rendement par rapport à la médiane du panel, en clair.
+
+    Affiché sous le chiffre : « médiane du panel : 6,06 % » laissait le
+    lecteur faire la comparaison lui-même. On la fait pour lui.
+    """
+    if rdt is None or not med:
+        return None
+    ecart = (rdt - med) / med
+    if ecart >= ECART_MEDIANE_NET:
+        rang = "nettement supérieur à"
+    elif ecart >= 0.02:
+        rang = "supérieur à"
+    elif ecart <= -ECART_MEDIANE_NET:
+        rang = "nettement inférieur à"
+    elif ecart <= -0.02:
+        rang = "inférieur à"
+    else:
+        rang = "au niveau de"
+    return f"{rang} la médiane du panel ({decimal(med)} %)"
+
+
+def accroche(ville: dict, ctx: dict) -> str:
+    """Sous-titre du hero, construit depuis les données de la commune.
+
+    Cinq formulations déclenchées par seuils, plus deux replis pour les
+    communes dont le prix ou le rendement manque. Une phrase identique
+    sur 40 pages serait un motif dupliqué ; elle serait surtout une
+    promesse générique là où la donnée permet de dire quelque chose.
+    """
+    nom = ville["nom"]
+    prix = val(ville, "prix_m2")
+    loyer = val(ville, "loyer_m2")
+    rdt = val(ville, "rendement_brut_pct")
+    evol3 = val(ville, "evolution_3ans_pct")
+    evol_pop = val(ville, "evolution_pop_pct")
+    vacance = val(ville, "taux_vacance_pct")
+    med_rdt, med_prix = ctx["med_rendement"], ctx["med_prix"]
+
+    chiffres = (
+        f"Prix médian de {entier(prix)} €/m², loyer de marché à "
+        f"{decimal(loyer)} €/m² et rendement brut de {decimal(rdt)} %."
+    ) if prix is not None and rdt is not None else None
+
+    # ── Communes sans rendement calculable ────────────────────────
+    if chiffres is None:
+        if prix is not None:
+            return (
+                f"Prix médian de {entier(prix)} €/m² d'après les ventes "
+                "réellement signées. Le loyer de marché n'est pas publiable "
+                "ici, faute d'annonces en nombre suffisant."
+            )
+        return (
+            "Population, vacance et dynamique du marché locatif d'après les "
+            "données publiques. Le prix médian n'est pas disponible pour "
+            "cette commune sur ce millésime."
+        )
+
+    ecart_rdt = (rdt - med_rdt) / med_rdt if med_rdt else 0.0
+    ecart_prix = (prix - med_prix) / med_prix if med_prix else 0.0
+
+    # ── 1. Rendement nettement au-dessus du panel ─────────────────
+    if ecart_rdt >= ECART_MEDIANE_NET:
+        return chiffres + (
+            f" {nom} se situe dans le haut du panel pour le rendement, "
+            f"contre {decimal(med_rdt)} % en médiane — un écart qui tient "
+            "davantage au prix d'achat qu'au niveau des loyers."
+        )
+
+    # ── 2. Rendement nettement en dessous, marché cher ────────────
+    if ecart_rdt <= -ECART_MEDIANE_NET:
+        if ecart_prix >= ECART_MEDIANE_NET:
+            return chiffres + (
+                " Un marché cher, où le rendement passe après la valeur du "
+                f"bien : {decimal(med_rdt)} % en médiane sur le panel."
+            )
+        return chiffres + (
+            f" Le rendement reste en retrait des {decimal(med_rdt)} % "
+            "médians du panel."
+        )
+
+    # ── 3. Marché qui s'est fortement apprécié ────────────────────
+    if evol3 is not None and evol3 >= EVOL3_FORTE:
+        return chiffres + (
+            f" Les prix ont pris {signe(evol3)} % en trois ans : le point "
+            "d'entrée n'est plus celui d'hier."
+        )
+
+    # ── 4. Démographie porteuse ───────────────────────────────────
+    if evol_pop is not None and evol_pop >= CROISSANCE_FORTE:
+        return chiffres + (
+            f" Une commune qui gagne des habitants ({signe(evol_pop)} % par "
+            "an), ce qui soutient la demande locative."
+        )
+
+    # ── 5. Parc largement vacant ──────────────────────────────────
+    if vacance is not None and vacance >= VACANCE_ELEVEE:
+        return chiffres + (
+            f" Avec {decimal(vacance, 1)} % de logements vacants, la "
+            "continuité de la location mérite d'être vérifiée."
+        )
+
+    # ── 6. Cas médian : rien ne dépasse ───────────────────────────
+    return chiffres + (
+        f" Des niveaux proches de la médiane du panel ({entier(med_prix)} "
+        f"€/m² pour {decimal(med_rdt)} %), sans écart marquant."
+    )
+
+
 def blocs_editoriaux(ville: dict, ctx: dict) -> list[dict]:
     """Blocs de commentaire déclenchés par les données de la ville.
 
@@ -593,6 +702,8 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
         "og_title": titre, "og_description": desc[:300],
         "jsonld": [jsonld_dump(article),
                    jsonld_dump(breadcrumb)],
+        "accroche": accroche(ville, ctx),
+        "position_rendement": position_rendement(rdt, ctx["med_rendement"]),
         "blocs": blocs_editoriaux(ville, ctx),
         "favorables": points_favorables(ville, ctx),
         "vigilance": points_vigilance(ville, ctx),
@@ -606,6 +717,37 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
         "note_loyer": note(ville, "loyer_m2"),
         "manquants": ville.get("fiabilite", {}).get("indicateurs_manquants", []),
     }
+
+
+# ══════════════════════════════════════════════════════════════════
+# Vérification des liens
+# ══════════════════════════════════════════════════════════════════
+# Le header, le footer et le <head> portent légitimement le domaine
+# absolu : nav commune à tout le site, canonical, og:url, JSON-LD. Le
+# corps de page, lui, doit être entièrement relatif — sinon un build
+# servi en local renvoie le visiteur sur la production.
+_ZONES_ABSOLU_AUTORISE = (
+    re.compile(r"<head>.*?</head>", re.S),
+    re.compile(r"<header>.*?</header>", re.S),
+    re.compile(r"<footer class=\"site-footer\">.*?</footer>", re.S),
+)
+
+
+def liens_absolus_internes(html_page: str) -> list[str]:
+    """Liens du CORPS pointant vers le domaine en absolu. Doit être vide."""
+    corps = html_page
+    for zone in _ZONES_ABSOLU_AUTORISE:
+        corps = zone.sub("", corps)
+    return re.findall(rf'href="({re.escape(SITE)}[^"]*)"', corps)
+
+
+def verifier_liens(pages: list[Path]) -> list[str]:
+    """Contrôle bloquant : aucun lien interne absolu hors zones communes."""
+    fautifs: list[str] = []
+    for page in pages:
+        for lien in liens_absolus_internes(page.read_text(encoding="utf-8")):
+            fautifs.append(f"{page.relative_to(RACINE)} -> {lien}")
+    return fautifs
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -801,6 +943,24 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         encoding="utf-8",
     )
     print("✓ méthodologie")
+
+    # ── Contrôle des liens ────────────────────────────────────────
+    pages = sorted(DIR_SORTIE.rglob("index.html"))
+    fautifs = verifier_liens(pages)
+    if fautifs:
+        print(f"\n✗ {len(fautifs)} lien(s) interne(s) en absolu dans le corps "
+              "des pages :", file=sys.stderr)
+        for f in fautifs[:20]:
+            print(f"    {f}", file=sys.stderr)
+        if len(fautifs) > 20:
+            print(f"    … et {len(fautifs) - 20} autre(s)", file=sys.stderr)
+        print("\n  Un lien absolu renvoie le visiteur sur la production, y "
+              "compris depuis un build local.\n  Les liens du corps doivent "
+              "être relatifs : href=\"/radar-immobilier/…\".\n  Seuls le "
+              "header, le footer, le canonical et le JSON-LD portent le "
+              "domaine.", file=sys.stderr)
+        return 1
+    print(f"✓ liens vérifiés : {len(pages)} pages, aucun absolu dans le corps")
 
     total = ecrire_sitemap(preparees, jour)
     print(f"✓ sitemap régénéré : {total} URL ({len(URLS_EXISTANTES)} existantes "

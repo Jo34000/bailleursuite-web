@@ -54,6 +54,22 @@ Un même fait n'apparaît jamais des deux côtés du bilan : une hausse de prix
 forte dégrade le point d'entrée, elle est donc en vigilance, jamais en
 favorable.
 
+L'accroche du hero est elle aussi construite depuis les données : cinq
+formulations déclenchées par seuils (rendement haut, marché cher, forte
+appréciation, démographie porteuse, vacance élevée) plus un cas médian et deux
+replis pour les communes sans prix ou sans loyer. Aucune page ne partage sa
+phrase avec une autre.
+
+### Liens internes
+
+Le corps des pages générées n'utilise **que des liens relatifs**
+(`/radar-immobilier/{slug}`). Le domaine absolu est réservé au header, au
+footer, au canonical, à `og:url` et au JSON-LD.
+
+Le build échoue — code de sortie 1 — si un lien absolu apparaît dans le corps
+d'une page. Sans ce garde-fou, un build servi en local renvoie le visiteur sur
+la production, qui répond 404 tant que les pages ne sont pas déployées.
+
 ### Fixture de développement
 
 `tools/fixtures/villes.example.json` reproduit le schéma réel avec des valeurs

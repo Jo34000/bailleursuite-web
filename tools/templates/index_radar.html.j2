@@ -20,14 +20,14 @@
     </div>
     <div class="hero-actions">
       <a href="#tableau" class="btn-primary">Voir le classement</a>
-      <a href="{{ SITE }}/radar-immobilier/methodologie" class="btn-secondary">Méthodologie</a>
+      <a href="/radar-immobilier/methodologie" class="btn-secondary">Méthodologie</a>
     </div>
   </div>
 </section>
 
 <nav class="breadcrumb breadcrumb-wide" aria-label="Fil d'Ariane">
   <ol>
-    <li><a href="{{ SITE }}/">Accueil</a></li>
+    <li><a href="/">Accueil</a></li>
     <li aria-current="page">Radar immobilier</li>
   </ol>
 </nav>
@@ -97,7 +97,7 @@
           {% set vac = val(p.v, 'taux_vacance_pct') %}
           <tr>
             <td>
-              <a href="{{ SITE }}/radar-immobilier/{{ p.slug }}">{{ p.nom }}</a>
+              <a href="/radar-immobilier/{{ p.slug }}">{{ p.nom }}</a>
               <div class="cell-dep">{{ p.v.departement }}{% if p.v.region_nom %} · {{ p.v.region_nom }}{% endif %}</div>
             </td>
             <td class="num" data-value="{{ prix if prix is not none else '' }}">
@@ -173,13 +173,13 @@
         Rendement net, cash-flow, amortissements LMNP et déclaration fiscale :
         passez des moyennes communales à l'analyse de votre bien réel.
       </p>
-      <a class="appstore-btn" href="{{ SITE }}/">Découvrir l'application</a>
+      <a class="appstore-btn" href="/">Découvrir l'application</a>
     </section>
 
     <p class="updated-line">
       Données mises à jour le {{ doc.genere_le }} · Panel {{ doc.panel }} ·
       {{ doc.nb_villes }} villes ·
-      <a href="{{ SITE }}/radar-immobilier/methodologie">Méthodologie et sources</a>
+      <a href="/radar-immobilier/methodologie">Méthodologie et sources</a>
     </p>
 
   </article>
