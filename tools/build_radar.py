@@ -230,23 +230,56 @@ def accroche(ville: dict, ctx: dict) -> tuple[str, str]:
         )
 
     # ── 2. Bas de panel (quintile inférieur) ──────────────────────
+    # Rendement bas et prix élevé sont MÉCANIQUEMENT corrélés : le
+    # rendement est loyer x 12 / prix, et les loyers varient bien moins
+    # que les prix d'une ville à l'autre. Comparer le prix à un seuil du
+    # panel entier ne départage donc rien — sur le run réel, les neuf
+    # villes du quintile bas passaient toutes le seuil, laissant la
+    # seconde variante inatteignable.
+    #
+    # Le partage se fait à l'intérieur du groupe : les plus chères de ces
+    # villes-là contre les autres, dont le rendement bas tient davantage
+    # au niveau des loyers qu'au prix d'achat. Une médiane interne
+    # garantit que les deux variantes se déclenchent, sur n'importe quel
+    # jeu de données.
     if ctx["rdt_bas"] is not None and rdt <= ctx["rdt_bas"]:
-        if med_prix and prix >= ctx["prix_haut"]:
+        if ctx["prix_median_rdt_bas"] and prix >= ctx["prix_median_rdt_bas"]:
             return "marche_cher", chiffres + (
                 " Un marché cher, où le rendement passe après la valeur du "
                 f"bien : {decimal(med_rdt)} % en médiane sur le panel."
             )
         return "rendement_bas", chiffres + (
             f" Le rendement reste en retrait des {decimal(med_rdt)} % "
-            "médians du panel."
+            "médians du panel, sans que le prix d'achat y soit pour "
+            "autant le plus élevé : ce sont les loyers qui plafonnent."
         )
 
-    # ── 3. Marché qui s'est fortement apprécié ────────────────────
-    if evol3 is not None and evol3 >= EVOL3_FORTE:
-        return "appreciation", chiffres + (
-            f" Les prix ont pris {signe(evol3)} % en trois ans : le point "
-            "d'entrée n'est plus celui d'hier."
-        )
+    # ── 3. Mouvement des prix sur trois ans ───────────────────────
+    # Cette variante guettait au départ une FORTE HAUSSE (+12 % sur trois
+    # ans). Sur le millésime réel, le fait marquant est l'inverse : les
+    # prix reculent presque partout et le maximum du panel plafonne sous
+    # +8 %. Le seuil était structurellement inatteignable.
+    #
+    # Le seuil suit désormais les quantiles — mais le SENS de la phrase
+    # suit le signe réel, jamais le quantile. Un seuil relatif se
+    # déclenche toujours, y compris sur un panel entièrement en hausse :
+    # il annoncerait alors un recul là où les prix montent. C'est le
+    # marché qui décide de quoi on parle, le quantile ne décide que de
+    # quelles villes méritent qu'on en parle.
+    if evol3 is not None and ctx["evol3_seuil"] is not None:
+        if ctx["evol3_sens"] == "repli" and evol3 <= ctx["evol3_seuil"] \
+                and evol3 < 0:
+            return "repli", chiffres + (
+                f" Les prix ont reculé de {decimal(abs(evol3), 1)} % en "
+                "trois ans : le point d'entrée est plus favorable qu'il ne "
+                "l'était."
+            )
+        if ctx["evol3_sens"] == "hausse" and evol3 >= ctx["evol3_seuil"] \
+                and evol3 > 0:
+            return "appreciation", chiffres + (
+                f" Les prix ont pris {signe(evol3)} % en trois ans : le "
+                "point d'entrée n'est plus celui d'hier."
+            )
 
     # ── 4. Démographie porteuse ───────────────────────────────────
     if evol_pop is not None and evol_pop >= CROISSANCE_FORTE:
@@ -805,7 +838,7 @@ def ecrire_sitemap(villes: list[dict], jour: str) -> int:
 # ══════════════════════════════════════════════════════════════════
 VARIANTES_ACCROCHE = (
     "rendement_haut", "marche_cher", "rendement_bas",
-    "appreciation", "demographie", "vacance", "milieu_panel",
+    "repli", "appreciation", "demographie", "vacance", "milieu_panel",
     "sans_loyer", "sans_prix",
 )
 
@@ -840,12 +873,14 @@ def rapport_distribution(villes: list[dict], ctx: dict) -> int:
     print("RÉPARTITION DES ACCROCHES")
     print("─" * 66)
     alertes = 0
+    # Variantes dont le vide est normal. `sans_loyer` / `sans_prix` ne
+    # concernent que les communes incomplètes. `repli` et `appreciation`
+    # s'excluent par construction : le cycle est baissier ou haussier, pas
+    # les deux — mais l'une des deux doit vivre, c'est vérifié après.
+    facultatives = ("sans_loyer", "sans_prix", "repli", "appreciation")
     for variante in VARIANTES_ACCROCHE:
         n = compte[variante]
-        # Les deux replis peuvent légitimement être vides : ils ne
-        # concernent que les communes sans loyer ou sans prix.
-        repli = variante in ("sans_loyer", "sans_prix")
-        if n == 0 and not repli:
+        if n == 0 and variante not in facultatives:
             etat, alertes = "✗ jamais déclenchée", alertes + 1
         elif n > total * 0.40:
             etat, alertes = f"✗ absorbe {n / total:.0%} du panel", alertes + 1
@@ -856,6 +891,20 @@ def rapport_distribution(villes: list[dict], ctx: dict) -> int:
         barre = "█" * n
         print(f"  {variante:<16} {n:>3}  {barre:<20} {etat}"
               + (f"   ex. {exemples[variante]}" if n else ""))
+
+    if compte["repli"] + compte["appreciation"] == 0:
+        print("\n  ✗ ni repli ni appréciation : le mouvement des prix ne "
+              "produit aucune accroche")
+        alertes += 1
+    elif compte["repli"] and compte["appreciation"]:
+        print("\n  ✗ repli ET appréciation déclenchés : les deux sens "
+              "cohabitent, le calcul du cycle est faux")
+        alertes += 1
+    else:
+        sens = "baissier" if compte["repli"] else "haussier"
+        print(f"\n  Cycle {sens} détecté (médiane des évolutions 3 ans du "
+              "milieu de panel) : c'est le signe réel qui choisit la "
+              "formulation, jamais le quantile.")
 
     print("─" * 66)
     if alertes:
@@ -888,9 +937,46 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         "med_loyer": mediane(villes, "loyer_m2"),
         "rdt_haut": quantile(villes, "rendement_brut_pct", 0.80),
         "rdt_bas": quantile(villes, "rendement_brut_pct", 0.20),
-        "prix_haut": quantile(villes, "prix_m2", 0.70),
+        # Médiane des prix DANS le quintile de rendement bas — voir
+        # `accroche` : c'est elle qui départage « marché cher » de
+        # « rendement bas », le prix du panel entier ne discriminant rien.
+        "prix_median_rdt_bas": None,          # calculée juste après
+        # Sens et seuil du mouvement des prix, calculés plus bas.
+        "evol3_sens": None, "evol3_seuil": None,
         "build_date": jour,
     }
+
+    # Principe : chaque seuil est calculé sur la population qui peut
+    # RÉELLEMENT l'atteindre, pas sur le panel entier. Un seuil global
+    # peut viser une population déjà captée par une variante précédente,
+    # et laisser la suivante inatteignable sans que rien ne le signale.
+    avec_rdt = [v for v in villes if val(v, "rendement_brut_pct") is not None]
+
+    quintile_bas = [
+        v for v in avec_rdt
+        if ctx["rdt_bas"] is not None
+        and val(v, "rendement_brut_pct") <= ctx["rdt_bas"]
+    ]
+    ctx["prix_median_rdt_bas"] = mediane(quintile_bas, "prix_m2")
+
+    # Villes qui traversent les variantes de rendement sans être captées :
+    # ce sont les seules à pouvoir déclencher « repli ».
+    milieu = [
+        v for v in avec_rdt
+        if ctx["rdt_bas"] is not None and ctx["rdt_haut"] is not None
+        and ctx["rdt_bas"] < val(v, "rendement_brut_pct") < ctx["rdt_haut"]
+    ]
+    # Le cycle décide du sens : marché majoritairement en baisse, on
+    # parle du repli et l'on retient la queue basse ; marché en hausse,
+    # on parle d'appréciation et l'on retient la queue haute. Le seuil
+    # est calculé sur `milieu` — la seule population qui l'atteindra.
+    med_evol3 = mediane(milieu, "evolution_3ans_pct")
+    if med_evol3 is not None and med_evol3 < 0:
+        ctx["evol3_sens"] = "repli"
+        ctx["evol3_seuil"] = quantile(milieu, "evolution_3ans_pct", 0.40)
+    elif med_evol3 is not None:
+        ctx["evol3_sens"] = "hausse"
+        ctx["evol3_seuil"] = quantile(milieu, "evolution_3ans_pct", 0.60)
     print(f"→ {len(villes)} villes | médiane prix {entier(ctx['med_prix'])} €/m² "
           f"| médiane rendement {decimal(ctx['med_rendement'])} %")
 

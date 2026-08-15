@@ -74,12 +74,34 @@ il donnait 15/13/12 sur une distribution étalée mais **3/6/31** sur une
 distribution resserrée — une variante avalant les trois quarts du panel. Les
 quintiles donnent 9/9/22 dans les trois cas.
 
-Les trois variantes suivantes (appréciation, démographie, vacance) restent sur
-des seuils absolus : +12 % sur trois ans ou 10 % de vacance sont notables en
-soi, indépendamment du panel. Leur répartition dépend donc du jeu de données —
-c'est ce que `--stats` sert à vérifier après chaque nouveau millésime. Le
-rapport signale toute variante jamais déclenchée ou couvrant plus de 40 % du
-panel.
+**Chaque seuil se calcule sur la population qui peut réellement l'atteindre**,
+jamais sur le panel entier. Deux variantes s'étaient éteintes faute de ce
+principe :
+
+- `rendement_bas` était départagée de `marche_cher` par un seuil de prix du
+  panel entier. Or rendement bas et prix élevé sont **mécaniquement corrélés**
+  — le rendement est `loyer × 12 / prix`, et les loyers varient bien moins que
+  les prix d'une ville à l'autre. Les neuf villes du quintile bas passaient
+  toutes le seuil de prix, rendant la seconde variante inatteignable. Le
+  partage se fait désormais sur la médiane des prix **à l'intérieur du
+  quintile bas** : les deux variantes se déclenchent sur n'importe quel jeu de
+  données.
+- `repli` ne peut viser que les villes qui traversent les variantes de
+  rendement sans être captées. Son seuil est le quantile de l'évolution
+  calculé sur ce sous-groupe.
+
+Enfin, **un seuil relatif ne décide jamais du sens d'une phrase.** Le seuil de
+mouvement des prix suit les quantiles, mais la formulation suit le signe réel :
+médiane des évolutions négative → on parle de repli et l'on retient la queue
+basse ; positive → on parle d'appréciation et l'on retient la queue haute.
+Sans cette règle, un panel entièrement en hausse déclenchait quand même le
+quantile bas et annonçait « les prix ont reculé de 11 % » là où ils montaient.
+`repli` et `appreciation` s'excluent donc par cycle — `--stats` les traite en
+paire et alerte si aucune des deux ne vit, ou si les deux cohabitent.
+
+Les variantes démographie et vacance restent sur des seuils absolus : 0,7 %
+de croissance annuelle ou 10 % de vacance sont notables en soi. Le rapport
+signale toute variante jamais déclenchée ou couvrant plus de 40 % du panel.
 
 ### Liens internes
 
@@ -97,9 +119,11 @@ la production, qui répond 404 tant que les pages ne sont pas déployées.
 **synthétiques**. Elle sert à valider le rendu sans le vrai jeu de données ;
 elle n'a aucune valeur documentaire et ne doit jamais être publiée.
 
-Ses rendements sont calés sur la distribution du run réel — 3,68 % à 9,82 %,
-médiane ~6,1 %, un loyer publié pour les 40 villes — afin que le calibrage
-mesuré en développement corresponde à celui de la production.
+Ses rendements ET ses évolutions de prix sont calés sur le run réel — 3,68 % à
+9,82 % de rendement, médiane ~6,1 % ; évolutions 3 ans de −12,5 % à +8 %, 37
+villes sur 40 en baisse — afin que le calibrage mesuré en développement
+corresponde à celui de la production. Sans cet alignement, un seuil réglé sur
+une fixture optimiste passe pour sain et meurt en production.
 
 ## 2. `add_nav_link.py` — lien entrant vers le Radar
 
