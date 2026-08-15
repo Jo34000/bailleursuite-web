@@ -103,6 +103,57 @@ Les variantes démographie et vacance restent sur des seuils absolus : 0,7 %
 de croissance annuelle ou 10 % de vacance sont notables en soi. Le rapport
 signale toute variante jamais déclenchée ou couvrant plus de 40 % du panel.
 
+### Graphe d'entités JSON-LD
+
+Les entités durables portent un `@id` stable et sont déclarées **une seule
+fois**, sur la home :
+
+| `@id` | Entité | Déclarée sur |
+|---|---|---|
+| `…/#organization` | `Organization` | `index.html` |
+| `…/#software` | `SoftwareApplication` | `index.html` |
+| `…/#website` | `WebSite` | `index.html` |
+| `…/radar-immobilier#dataset` | `Dataset` | hub + méthodologie |
+
+Partout ailleurs — `author`, `publisher`, `creator` — on **référence** par
+`@id` au lieu de recopier un nœud anonyme. Avant, dix nœuds `Organization`
+indistincts coexistaient sous trois formes d'URL différentes (avec et sans
+slash final, un sans `url` du tout) : rien ne permettait à un moteur de
+comprendre qu'il s'agissait de la même entité.
+
+Le `SoftwareApplication` n'est **jamais dupliqué** : le hub Radar le
+mentionne par `@id` depuis son nœud `WebPage`.
+
+### Dataset
+
+Construit par `construire_dataset()` **entièrement depuis `villes.json`** :
+libellés, millésimes, licences et pages viennent du bloc `sources`, les
+`variableMeasured` sont relevées sur les villes avec leurs unités. Un
+changement de millésime côté `radar-data` se propage sans toucher au
+générateur.
+
+La licence vient du champ `licence_url` des sources — elle est une propriété
+de la source, déclarée dans `radar_data/sources.py`, jamais réécrite ici. Si
+les sources n'en portent pas (JSON antérieur au champ), le `Dataset` est
+publié **sans** `license` et le build avertit : on ne devine pas une licence.
+
+### Validation
+
+Deux contrôles bloquants, sortie en code 1 :
+
+| Contrôle | Périmètre |
+|---|---|
+| Liens internes absolus dans le corps | 42 pages Radar |
+| JSON-LD parse, `@context` et `@type` présents | **51 pages** — 42 Radar + 9 historiques |
+
+Le contrôle JSON-LD détecte spécifiquement les guillemets échappés en
+`&#34;`, symptôme de l'autoescape Jinja non désactivé — le bug qui avait
+rendu les 83 blocs du Radar illisibles sans que rien ne le signale. Vérifié
+en le réintroduisant : 115 erreurs, code 1.
+
+Il couvre les 9 pages historiques, qui ne passent par aucun outil et dont le
+balisage n'était jusqu'ici relu par personne.
+
 ### Liens internes
 
 Le corps des pages générées n'utilise **que des liens relatifs**

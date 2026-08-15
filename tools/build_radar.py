@@ -45,6 +45,33 @@ FICHIER_SITEMAP = RACINE / "sitemap.xml"
 
 SITE = "https://bailleursuite.fr"
 
+# ── Graphe d'entités ──────────────────────────────────────────────
+# Les entités durables du site portent un @id stable et sont déclarées
+# UNE fois : l'Organization, le SoftwareApplication et le WebSite vivent
+# sur la home. Partout ailleurs — y compris ici — on les référence par
+# @id plutôt que de recopier un nœud anonyme, ce qui laissait Google
+# face à dix organisations indistinctes.
+#
+# Le SITE porte le slash final dans les @id (« https://bailleursuite.fr/#… »)
+# parce que c'est la forme retenue sur la home ; les `url` des entités,
+# elles, sont sans slash. Un @id est un identifiant opaque, pas une URL à
+# résoudre : ce qui compte est qu'il soit rigoureusement identique partout.
+ORGANIZATION_ID = f"{SITE}/#organization"
+SOFTWARE_ID = f"{SITE}/#software"
+WEBSITE_ID = f"{SITE}/#website"
+DATASET_ID = f"{SITE}/radar-immobilier#dataset"
+
+REF_ORGANIZATION = {"@id": ORGANIZATION_ID}
+REF_SOFTWARE = {"@id": SOFTWARE_ID}
+
+# Date de première mise en ligne de la section, FIGÉE.
+# `datePublished` ne doit pas bouger d'un build à l'autre : utiliser la
+# date du build faisait reculer la date de publication à chaque
+# régénération, ce qu'un moteur lit comme un contenu perpétuellement
+# neuf. Seul `dateModified` suit les données, via `doc.genere_le` — la
+# date du run radar-data, pas celle du rendu HTML.
+DATE_PUBLICATION = "2026-08-15"
+
 # Les 7 URL déjà en ligne. Elles sont conservées telles quelles : le
 # sitemap est régénéré intégralement, pas complété à l'aveugle.
 URLS_EXISTANTES = [
@@ -735,15 +762,18 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
         "@context": "https://schema.org", "@type": "Article",
         "headline": titre, "description": desc,
         "image": f"{SITE}/og-image.png",
-        "datePublished": f"{ctx['build_date']}T09:00:00+02:00",
-        "dateModified": f"{ctx['build_date']}T09:00:00+02:00",
+        # Date figée : la publication ne recule pas à chaque rebuild.
+        "datePublished": f"{DATE_PUBLICATION}T09:00:00+02:00",
+        # Suit les DONNÉES (run radar-data), pas le rendu HTML.
+        "dateModified": f"{ctx['genere_le']}T09:00:00+02:00",
         "inLanguage": "fr",
+        "isPartOf": {"@id": DATASET_ID},
         "about": {"@type": "Place", "name": nom,
                   "address": {"@type": "PostalAddress",
                               "addressRegion": ville.get("region_nom") or "",
                               "addressCountry": "FR"}},
-        "author": {"@type": "Organization", "name": "BailleurSuite", "url": f"{SITE}/"},
-        "publisher": {"@type": "Organization", "name": "BailleurSuite", "url": SITE},
+        "author": REF_ORGANIZATION,
+        "publisher": REF_ORGANIZATION,
     }
 
     return {
@@ -772,6 +802,131 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
 
 
 # ══════════════════════════════════════════════════════════════════
+# Dataset
+# ══════════════════════════════════════════════════════════════════
+# Producteurs des sources : le registre de radar-data porte le libellé
+# et la licence, pas l'organisme émetteur. Le rattachement est fait ici,
+# par clé de source — c'est une correspondance éditoriale, pas une
+# donnée mesurée.
+_PRODUCTEURS = {
+    "dvf": "DGFiP — Direction générale des Finances publiques",
+    "cog": "INSEE", "cog_region": "INSEE", "insee": "INSEE",
+    "loyers": "DHUP — ministère chargé du Logement",
+}
+
+
+def _annees(millesime: str) -> tuple[str, str] | None:
+    """« 2021–2025 » ou « 2023 » -> bornes ISO 8601. None si illisible."""
+    ans = re.findall(r"(\d{4})", millesime or "")
+    return (ans[0], ans[-1]) if ans else None
+
+
+def construire_dataset(doc: dict, villes: list[dict], ctx: dict) -> dict:
+    """Décrit le jeu de données publié, depuis ses métadonnées réelles.
+
+    Tout vient de `villes.json` : libellés, millésimes, licences et pages
+    des sources sortent du bloc `sources`, les indicateurs sont relevés
+    sur les villes elles-mêmes. Rien n'est écrit en dur ici, de sorte
+    qu'un changement de millésime côté radar-data se propage sans
+    retoucher le générateur.
+    """
+    srcs = doc.get("sources", {})
+
+    # `isBasedOn` : une entrée par source réellement utilisée.
+    fondee_sur = []
+    for cle, s in srcs.items():
+        if s.get("utilisee") is False:
+            continue                      # source facultative non fournie
+        entree = {
+            "@type": "Dataset",
+            "name": s.get("libelle") or cle,
+            "url": s.get("page") or "",
+        }
+        if _PRODUCTEURS.get(cle):
+            entree["creator"] = {"@type": "Organization",
+                                 "name": _PRODUCTEURS[cle]}
+        if s.get("millesime"):
+            entree["version"] = s["millesime"]
+            bornes = _annees(s["millesime"])
+            if bornes:
+                entree["temporalCoverage"] = (
+                    bornes[0] if bornes[0] == bornes[1] else f"{bornes[0]}/{bornes[1]}"
+                )
+        if s.get("licence_url"):
+            entree["license"] = s["licence_url"]
+        fondee_sur.append({k: v for k, v in entree.items() if v != ""})
+
+    # `variableMeasured` : relevé sur les villes, avec l'unité que porte
+    # déjà chaque indicateur. Aucune liste d'indicateurs en dur.
+    vues: dict[str, str] = {}
+    for ville in villes:
+        for cle, ind in ville.get("indicateurs", {}).items():
+            if cle not in vues:
+                vues[cle] = (ind or {}).get("unite", "")
+    variables = [
+        {"@type": "PropertyValue", "name": cle,
+         **({"unitText": unite} if unite else {})}
+        for cle, unite in vues.items()
+    ]
+
+    # `temporalCoverage` du jeu : de la plus ancienne à la plus récente
+    # des années couvertes par les sources utilisées.
+    annees = [a for s in srcs.values() if s.get("utilisee") is not False
+              for a in (_annees(s.get("millesime", "")) or ())]
+    couverture = f"{min(annees)}/{max(annees)}" if annees else None
+
+    # La licence du jeu publié est celle de ses sources — à condition
+    # qu'elles soient unanimes. Sinon on ne tranche pas.
+    licences = {s.get("licence_url") for s in srcs.values()
+                if s.get("utilisee") is not False and s.get("licence_url")}
+
+    dataset = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "@id": DATASET_ID,
+        "name": f"Radar immobilier BailleurSuite — {doc.get('nb_villes', len(villes))} villes",
+        "description": (
+            "Prix médian au m², loyer de marché et rendement brut locatif "
+            f"pour {doc.get('nb_villes', len(villes))} communes françaises, "
+            "calculés selon une méthode identique partout à partir des "
+            "ventes immobilières réellement signées (DVF) et des données "
+            "de recensement. Aucune valeur n'est estimée : une donnée "
+            "absente de la source reste vide."
+        ),
+        "url": f"{SITE}/radar-immobilier",
+        "creator": REF_ORGANIZATION,
+        "publisher": REF_ORGANIZATION,
+        "isBasedOn": fondee_sur,
+        "spatialCoverage": {"@type": "Country", "name": "France"},
+        "variableMeasured": variables,
+        "dateModified": doc.get("genere_le") or ctx["build_date"],
+        "datePublished": DATE_PUBLICATION,
+        "inLanguage": "fr",
+        "isAccessibleForFree": True,
+        "citation": f"{SITE}/radar-immobilier/methodologie",
+    }
+    if couverture:
+        dataset["temporalCoverage"] = couverture
+    if len(licences) == 1:
+        dataset["license"] = licences.pop()
+    else:
+        # Licences absentes ou divergentes : on ne devine pas. Le champ
+        # est omis plutôt qu'affirmé à tort.
+        log_licence(licences)
+    return dataset
+
+
+def log_licence(licences: set) -> None:
+    if not licences:
+        print("  ⚠ aucune licence dans villes.json : le Dataset est publié "
+              "sans `license`.\n    Régénérer le JSON avec un radar-data "
+              "à jour (champ `licence_url` du bloc `sources`).", file=sys.stderr)
+    else:
+        print(f"  ⚠ {len(licences)} licences différentes entre les sources : "
+              "`license` omis du Dataset.", file=sys.stderr)
+
+
+# ══════════════════════════════════════════════════════════════════
 # Vérification des liens
 # ══════════════════════════════════════════════════════════════════
 # Le header, le footer et le <head> portent légitimement le domaine
@@ -791,6 +946,72 @@ def liens_absolus_internes(html_page: str) -> list[str]:
     for zone in _ZONES_ABSOLU_AUTORISE:
         corps = zone.sub("", corps)
     return re.findall(rf'href="({re.escape(SITE)}[^"]*)"', corps)
+
+
+# Les 9 pages historiques, écrites à la main. Leur JSON-LD n'est produit
+# par aucun outil : sans ce contrôle, rien ne le relit jamais.
+PAGES_HISTORIQUES = [
+    "index.html",
+    "aide/index.html",
+    "calculatrice-rendement-locatif/index.html",
+    "comparatif-logiciel-gestion-locative/index.html",
+    "declaration-2044-guide/index.html",
+    "lmnp-guide-complet/index.html",
+    "quittance-loyer-pdf-gratuit/index.html",
+    "conditions-utilisation.html",
+    "politique-confidentialite.html",
+]
+
+_BLOC_JSONLD = re.compile(
+    r'<script type="application/ld\+json">\s*(.*?)\s*</script>', re.S)
+
+
+def verifier_jsonld(pages: list[Path]) -> tuple[int, list[str]]:
+    """Contrôle bloquant : tout bloc JSON-LD doit parser.
+
+    Le bug qui avait rendu les 83 blocs du Radar illisibles — autoescape
+    de Jinja transformant chaque guillemet en `&#34;` — n'avait été
+    trouvé qu'à la faveur d'une vérification manuelle. Rien dans le build
+    ne l'aurait signalé. Ce contrôle rend la régression impossible à
+    réintroduire en silence, et couvre AUSSI les pages écrites à la main.
+
+    Retourne (nombre de blocs valides, liste des erreurs).
+    """
+    valides, erreurs = 0, []
+    for page in pages:
+        if not page.exists():
+            erreurs.append(f"{page} : fichier introuvable")
+            continue
+        texte = page.read_text(encoding="utf-8")
+        blocs = _BLOC_JSONLD.findall(texte)
+        rel = page.relative_to(RACINE) if page.is_relative_to(RACINE) else page
+
+        if "&#34;" in texte and "application/ld+json" in texte:
+            for brut in blocs:
+                if "&#34;" in brut:
+                    erreurs.append(
+                        f"{rel} : guillemets échappés en &#34; dans un bloc "
+                        "JSON-LD — l'autoescape du template n'a pas été "
+                        "désactivé (utiliser `|safe` avec `jsonld_dump`)")
+                    break
+
+        for i, brut in enumerate(blocs, 1):
+            try:
+                donnees = json.loads(brut)
+            except json.JSONDecodeError as exc:
+                erreurs.append(f"{rel} bloc {i} : JSON invalide — {exc}")
+                continue
+            if not isinstance(donnees, dict):
+                erreurs.append(f"{rel} bloc {i} : racine non-objet")
+                continue
+            if donnees.get("@context") != "https://schema.org":
+                erreurs.append(
+                    f"{rel} bloc {i} : @context absent ou inattendu "
+                    f"({donnees.get('@context')!r})")
+            if not donnees.get("@type"):
+                erreurs.append(f"{rel} bloc {i} : @type absent")
+            valides += 1
+    return valides, erreurs
 
 
 def verifier_liens(pages: list[Path]) -> list[str]:
@@ -944,6 +1165,8 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         # Sens et seuil du mouvement des prix, calculés plus bas.
         "evol3_sens": None, "evol3_seuil": None,
         "build_date": jour,
+        # Date du run radar-data : c'est elle qui date les DONNÉES.
+        "genere_le": doc.get("genere_le") or jour,
     }
 
     # Principe : chaque seuil est calculé sur la population qui peut
@@ -1016,6 +1239,13 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         cible.write_text(tpl_ville.render(**p, ctx=ctx, doc=doc), encoding="utf-8")
     print(f"✓ {len(preparees)} pages villes")
 
+    # ── Dataset, partagé par le hub et la méthodologie ────────────
+    dataset = construire_dataset(doc, villes, ctx)
+    print(f"✓ Dataset : {len(dataset['isBasedOn'])} source(s), "
+          f"{len(dataset['variableMeasured'])} indicateurs"
+          + (f", licence {dataset['license']}" if "license" in dataset
+             else ", SANS licence"))
+
     # ── Hub ───────────────────────────────────────────────────────
     lignes = sorted(
         preparees,
@@ -1085,8 +1315,22 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
             page_title=f"{titre_hub} | BailleurSuite",
             meta_description=desc_hub[:300],
             og_title=titre_hub, og_description=desc_hub[:300],
-            jsonld=[jsonld_dump(faq_ld),
-                    jsonld_dump(breadcrumb_hub)],
+            jsonld=[jsonld_dump(dataset),
+                    jsonld_dump(faq_ld),
+                    jsonld_dump(breadcrumb_hub),
+                    # Le SoftwareApplication est déclaré sur la home :
+                    # ici on le RÉFÉRENCE, on ne le recopie pas.
+                    jsonld_dump({
+                        "@context": "https://schema.org",
+                        "@type": "WebPage",
+                        "@id": f"{SITE}/radar-immobilier#webpage",
+                        "url": f"{SITE}/radar-immobilier",
+                        "isPartOf": {"@id": WEBSITE_ID},
+                        "about": {"@id": DATASET_ID},
+                        "mainEntity": {"@id": DATASET_ID},
+                        "mentions": REF_SOFTWARE,
+                        "publisher": REF_ORGANIZATION,
+                    })],
         ),
         encoding="utf-8",
     )
@@ -1118,7 +1362,8 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
             page_title=f"{titre_meth} | BailleurSuite",
             meta_description=desc_meth[:300],
             og_title=titre_meth, og_description=desc_meth[:300],
-            jsonld=[jsonld_dump(breadcrumb_meth)],
+            jsonld=[jsonld_dump(dataset),
+                    jsonld_dump(breadcrumb_meth)],
         ),
         encoding="utf-8",
     )
@@ -1141,6 +1386,20 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
               "domaine.", file=sys.stderr)
         return 1
     print(f"✓ liens vérifiés : {len(pages)} pages, aucun absolu dans le corps")
+
+    # ── Contrôle du JSON-LD, Radar ET pages historiques ───────────
+    toutes = pages + [RACINE / p for p in PAGES_HISTORIQUES]
+    valides, erreurs = verifier_jsonld(toutes)
+    if erreurs:
+        print(f"\n✗ {len(erreurs)} problème(s) de balisage JSON-LD :",
+              file=sys.stderr)
+        for e in erreurs[:20]:
+            print(f"    {e}", file=sys.stderr)
+        if len(erreurs) > 20:
+            print(f"    … et {len(erreurs) - 20} autre(s)", file=sys.stderr)
+        return 1
+    print(f"✓ JSON-LD vérifié : {valides} blocs valides sur {len(toutes)} "
+          f"pages ({len(pages)} Radar + {len(PAGES_HISTORIQUES)} historiques)")
 
     total = ecrire_sitemap(preparees, jour)
     print(f"✓ sitemap régénéré : {total} URL ({len(URLS_EXISTANTES)} existantes "
