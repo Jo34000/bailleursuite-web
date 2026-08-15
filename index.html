@@ -541,7 +541,10 @@
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
     margin-top: 48px;
-    align-items: start;
+    /* Hauteur égale : avec `start`, la carte annuelle — la plus courte
+       depuis l'allègement — se retrouvait la plus petite des trois,
+       ce qui contredisait sa dominance. */
+    align-items: stretch;
   }
   .pricing-card {
     background: white;
@@ -553,28 +556,94 @@
     transition: transform 180ms cubic-bezier(.4,0,.2,1), box-shadow 180ms cubic-bezier(.4,0,.2,1);
   }
   .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  /* La carte annuelle domine par le TRAITEMENT, pas par la taille :
+     bordure émeraude affirmée, fond très légèrement teinté, ombre
+     douce. Le scale(1.02) d'origine désalignait les trois cartes et
+     rendait la comparaison plus difficile. */
   .pricing-card.featured {
-    border: 1.5px solid var(--mint);
-    background: rgba(45,106,79,.04);
-    transform: scale(1.02);
+    border: 2px solid var(--mint);
+    background: rgba(45,106,79,.045);
+    box-shadow: 0 4px 24px rgba(45,106,79,.10);
+    padding-top: 40px;          /* place pour le badge posé sur le bord */
   }
+  .pricing-card.featured:hover {
+    box-shadow: 0 10px 32px rgba(45,106,79,.16);
+  }
+  /* Les deux autres cartes s'effacent au profit de l'annuelle. */
+  .pricing-card:not(.featured) { background: rgba(255,255,255,.72); }
   .pricing-card--accent { border-left: 2px solid var(--mint); }
-  .pricing-save { font-size: .8rem; font-weight: 600; color: var(--mint-dark); margin-bottom: 10px; }
   .pricing-foot { margin-top: 16px; font-size: .75rem; color: var(--ink-light); }
-  @media(max-width:700px){ .pricing-card.featured { transform: none; } }
+
+  /* Badge SOLIDAIRE du bord supérieur : il descend dans la carte au
+     lieu de flotter au-dessus, ce qui le détachait du bloc. */
   .pricing-badge {
     position: absolute;
-    top: -12px; left: 50%;
+    top: 0; left: 50%;
     transform: translateX(-50%);
     background: var(--mint);
     color: white;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 600;
-    padding: 4px 14px;
-    border-radius: var(--r-full);
+    padding: 5px 16px 6px;
+    border-radius: 0 0 var(--r-full) var(--r-full);
     white-space: nowrap;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  /* ── Prix de la carte annuelle, sur trois niveaux ──
+     montant · périodicité de facturation · équivalent mensuel. */
+  .pricing-billing {
+    font-size: .82rem; color: var(--ink-mid);
+    margin-top: 2px; margin-bottom: 6px;
+  }
+  .pricing-save {
+    font-size: .8rem; font-weight: 600; color: var(--mint-dark);
+    margin-bottom: 10px;
+  }
+  /* Ligne de clôture de la carte Gratuit : discrète, sans puce. */
+  .pricing-upsell {
+    margin-top: 18px; padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: .78rem; color: var(--ink-light); line-height: 1.5;
+  }
+  /* Détail exhaustif, replié par défaut : la lecture en 3 secondes
+     n'est pas gênée, et aucune information n'est perdue. */
+  .pricing-more { margin-top: 14px; }
+  .pricing-more > summary {
+    cursor: pointer; font-size: .78rem; color: var(--mint-dark);
+    font-weight: 500; list-style: none;
+  }
+  .pricing-more > summary::-webkit-details-marker { display: none; }
+  .pricing-more > summary::after { content: ' →'; }
+  .pricing-more[open] > summary::after { content: ' ↑'; }
+  .pricing-more .pricing-features { margin-top: 12px; }
+
+  /* CTA unique sous la grille : l'app n'est pas publiée, il n'y a rien
+     à acheter carte par carte. */
+  .pricing-cta { text-align: center; margin-top: 36px; }
+  .pricing-cta-btn {
+    display: inline-block;
+    /* Émeraude FIGÉE : --mint s'éclaircit en thème sombre (#3D8B68),
+       où le blanc tombait à 4,12:1 — sous le seuil AA de 4,5. Mesuré,
+       pas supposé. Figé, le bouton tient 6,39:1 dans les deux thèmes. */
+    background: #2D6A4F; color: #fff;
+    padding: 18px 38px; border-radius: var(--r-full);
+    text-decoration: none; font-weight: 600; font-size: 1rem;
+    box-shadow: 0 6px 20px rgba(45,106,79,.22);
+    transition: transform 180ms cubic-bezier(.4,0,.2,1),
+                box-shadow 180ms cubic-bezier(.4,0,.2,1);
+  }
+  .pricing-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(45,106,79,.28);
+  }
+  .pricing-cta-note {
+    margin-top: 12px; font-size: .78rem; color: var(--ink-light);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pricing-cta-btn { transition: none; }
+    .pricing-cta-btn:hover { transform: none; }
   }
   .pricing-name {
     font-size: 0.75rem;
@@ -677,19 +746,26 @@
   }
   .pack-fiscal-price {
     text-align: right;
-    white-space: nowrap;
+    /* Le montant reste insécable ; la note de repère, elle, doit
+       pouvoir revenir à la ligne — d'où le nowrap déplacé sur le seul
+       montant plutôt que sur tout le bloc. */
+    max-width: 300px;
   }
   .pack-fiscal-amount {
     font-family: var(--serif);
     font-size: 2.4rem;
     color: var(--gold);
     display: block;
+    white-space: nowrap;
   }
+  /* Repère de marché en note discrète. Le prix barré donnait un ton
+     de promotion agressive, en décalage avec le reste de la page. */
   .pack-fiscal-original {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--ink-light);
-    text-decoration: line-through;
     display: block;
+    margin-top: 6px;
+    line-height: 1.5;
   }
   .pack-fiscal-note {
     font-size: 0.72rem;
@@ -1381,10 +1457,8 @@
           <li>Module Projets &amp; Simulations (illimité)</li>
           <li>Checklist bailleur PDF (export inclus)</li>
           <li>Calcul du régime fiscal recommandé (aperçu)</li>
-          <li class="not-included"><span class="sr-only">Non inclus dans le plan Gratuit : </span><s>Biens illimités</s></li>
-          <li class="not-included"><span class="sr-only">Non inclus dans le plan Gratuit : </span><s>Analyse fiscale complète</s></li>
-          <li class="not-included"><span class="sr-only">Non inclus dans le plan Gratuit : </span><s>Exports PDF quittances</s></li>
         </ul>
+        <p class="pricing-upsell">Passez à Gestion Zen pour lever toutes les limites.</p>
       </div>
 
       <!-- GESTION ZEN MENSUEL -->
@@ -1393,20 +1467,25 @@
         <div class="pricing-price">5,99€ <span>/ mois</span></div>
         <p class="pricing-desc">Pour les propriétaires qui veulent tout piloter toute l'année.</p>
         <hr class="pricing-divider">
-        <ul class="pricing-features">
-          <li>Tout le plan Gratuit</li>
+        <p class="pricing-desc" style="margin-bottom:0;">Pilotez tous vos biens depuis une seule interface.</p>
+        <ul class="pricing-features" style="margin-top:16px;">
           <li>Biens illimités</li>
           <li>Analyse fiscale complète (réel vs micro, détaillé)</li>
           <li>Exports PDF quittances illimités</li>
-          <li>Relances locataires (loyers impayés)</li>
-          <li>Historique complet loyers / charges</li>
           <li>Rendement net + cashflow par bien</li>
-          <li>Comparateur fiscal location nue / LMNP avec détection du régime optimal</li>
-          <li>Estimation du gain fiscal annuel selon votre situation</li>
           <li>Projection patrimoniale sur 20 ans</li>
-          <li>Rapport patrimonial PDF exportable</li>
-          <li>Simulation de revente avec calcul de plus-value selon la durée de détention</li>
         </ul>
+        <details class="pricing-more">
+          <summary>Voir les 6 autres fonctionnalités</summary>
+          <ul class="pricing-features">
+            <li>Relances locataires (loyers impayés)</li>
+            <li>Historique complet loyers / charges</li>
+            <li>Comparateur fiscal location nue / LMNP avec détection du régime optimal</li>
+            <li>Estimation du gain fiscal annuel selon votre situation</li>
+            <li>Rapport patrimonial PDF exportable</li>
+            <li>Simulation de revente avec calcul de plus-value selon la durée de détention</li>
+          </ul>
+        </details>
         <p class="pricing-foot">Sans engagement, résiliable à tout moment</p>
       </div>
 
@@ -1414,21 +1493,23 @@
       <div class="pricing-card featured">
         <div class="pricing-badge">Recommandé</div>
         <div class="pricing-name">Gestion Zen Annuel</div>
-        <div class="pricing-price">49,99€ <span>/ an</span></div>
+        <div class="pricing-price">49,99€</div>
+        <div class="pricing-billing">facturé annuellement</div>
         <div class="pricing-save">Soit 4,17€/mois — économisez 21,89€/an</div>
         <p class="pricing-desc">Le meilleur rapport pour piloter toute l'année.</p>
         <hr class="pricing-divider">
-        <ul class="pricing-features">
-          <li>Tout le plan Gestion Zen</li>
-          <li>−31% vs mensuel</li>
-          <li>Accès prioritaire nouvelles fonctions</li>
-          <li>Comparateur fiscal location nue / LMNP avec détection du régime optimal</li>
-          <li>Estimation du gain fiscal annuel selon votre situation</li>
-          <li>Projection patrimoniale sur 20 ans</li>
-          <li>Rapport patrimonial PDF exportable</li>
-          <li>Simulation de revente avec calcul de plus-value selon la durée de détention</li>
+        <p class="pricing-desc" style="margin-bottom:0;">La même chose, au meilleur tarif.</p>
+        <ul class="pricing-features" style="margin-top:16px;">
+          <li>Accès prioritaire aux nouvelles fonctions</li>
         </ul>
       </div>
+    </div>
+
+    <!-- CTA UNIQUE — l'app n'est pas publiée, rien n'est achetable
+         carte par carte : un seul appel, vers la liste d'attente. -->
+    <div class="pricing-cta reveal">
+      <a class="pricing-cta-btn" href="#waitlist">Être notifié au lancement — Septembre 2026</a>
+      <p class="pricing-cta-note">Les tarifs ci-dessus s'appliqueront à la sortie sur l'App Store.</p>
     </div>
 
     <!-- PASS FISCAL -->
@@ -1446,7 +1527,7 @@
       </div>
       <div class="pack-fiscal-price">
         <span class="pack-fiscal-amount">29,90€</span>
-        <span class="pack-fiscal-original">150–300€ chez un comptable</span>
+        <span class="pack-fiscal-original">À titre de repère, un expert-comptable facture généralement 150 à 300 € pour cette prestation.</span>
         <span class="pack-fiscal-note">Gestion Zen annuel + Pass Fiscal = 79,89€/an</span>
       </div>
     </div>
