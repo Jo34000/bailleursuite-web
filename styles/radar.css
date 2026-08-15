@@ -1,0 +1,413 @@
+/*
+ * BailleurSuite — Radar Immobilier
+ * ─────────────────────────────────────────────────────────────────
+ * Feuille de la section /radar-immobilier, chargée APRÈS
+ * design-system.css. Elle porte les classes éditoriales du template
+ * lmnp-guide-complet (.hero, .article-content, .callout, .table-wrap,
+ * .app-promo, .faq-item) et ses propres tokens locaux.
+ *
+ * Le design system expose --ink-mid pour le texte courant. Le guide
+ * surcharge ce rôle avec --ink-soft dans son <style> inline : ce nom
+ * n'existe pas ailleurs et n'est pas repris ici. Toute cette feuille
+ * utilise --ink-mid.
+ */
+
+/* ══════════════════════════════════
+   1. TOKENS LOCAUX
+   ══════════════════════════════════ */
+:root {
+  --radar-bg:            #F7F4EE;
+  --radar-surface:       rgba(255,255,255,.68);
+  --radar-surface-strong: rgba(255,255,255,.88);
+  --radar-line:          rgba(17,19,21,.07);
+
+  --radar-radius-xl:     14px;
+  --radar-radius-lg:     14px;
+  --radar-radius-md:     14px;
+  --radar-shadow:        0 1px 2px rgba(17,19,21,.04), 0 8px 24px rgba(17,19,21,.06);
+
+  --radar-ease:          cubic-bezier(.4,0,.2,1);
+
+  /* Sémantique des indicateurs — jamais la couleur seule pour porter
+     le sens : chaque puce est aussi étiquetée en toutes lettres. */
+  --radar-pos:           #2D6A4F;
+  --radar-pos-bg:        rgba(232,242,236,.75);
+  --radar-warn:          #7A4800;
+  --radar-warn-bg:       rgba(249,243,227,.75);
+  --radar-neutral-bg:    rgba(255,255,255,.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --radar-bg:            #111315;
+    --radar-surface:       rgba(255,255,255,.05);
+    --radar-surface-strong: rgba(255,255,255,.08);
+    --radar-line:          rgba(255,255,255,.07);
+    --radar-pos:           #5DB888;
+    --radar-pos-bg:        rgba(45,106,79,.16);
+    --radar-warn:          #E2C47A;
+    --radar-warn-bg:       rgba(201,168,76,.10);
+    --radar-neutral-bg:    rgba(255,255,255,.04);
+  }
+}
+
+body { background: var(--radar-bg); color: var(--ink); }
+
+/* ══════════════════════════════════
+   2. HERO
+   ══════════════════════════════════ */
+.hero {
+  min-height: 58vh; display: flex; align-items: center;
+  padding: 100px 24px 60px; position: relative; overflow: hidden;
+  text-align: center;
+}
+.hero-glow {
+  position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(ellipse, rgba(45,106,79,.045) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-content { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--radar-surface-strong);
+  border: 1px solid rgba(45,106,79,.25);
+  color: var(--mint); font-size: .72rem; font-weight: 600;
+  padding: 6px 16px; border-radius: var(--r-full); margin-bottom: 28px;
+  letter-spacing: .06em; text-transform: uppercase;
+}
+.hero-badge::before { content: '●'; font-size: .45rem; }
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(2.1rem, 5vw, 3.4rem);
+  line-height: 1.1; color: var(--ink); letter-spacing: -.03em;
+  margin-bottom: 20px; font-weight: 400; font-synthesis: none;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+.hero h1 em { font-style: italic; color: var(--mint); }
+.hero-intro {
+  font-size: 1.08rem; color: var(--ink-mid); line-height: 1.7;
+  font-weight: 300; max-width: 560px; margin: 0 auto 28px;
+}
+.hero-meta {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; flex-wrap: wrap; margin-bottom: 32px;
+}
+.hero-meta span { font-size: .78rem; color: var(--ink-light); }
+.hero-actions {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--mint); color: #fff; padding: 14px 28px;
+  border-radius: var(--r-full); text-decoration: none;
+  font-weight: 600; font-size: .9rem; box-shadow: var(--radar-shadow);
+  transition: transform 180ms var(--radar-ease);
+}
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-secondary {
+  background: var(--radar-surface-strong); color: var(--ink);
+  padding: 14px 28px; border-radius: var(--r-full); text-decoration: none;
+  font-weight: 500; font-size: .9rem; border: 1px solid var(--radar-line);
+  transition: background 180ms var(--radar-ease);
+}
+.btn-secondary:hover { background: #fff; }
+@media (prefers-color-scheme: dark) {
+  .btn-secondary:hover { background: rgba(255,255,255,.12); }
+}
+
+/* ══════════════════════════════════
+   3. LAYOUT ARTICLE
+   ══════════════════════════════════ */
+.radar-layout {
+  max-width: 880px; margin: 0 auto; padding: 0 24px 100px;
+}
+.radar-layout-wide { max-width: 1160px; }
+
+.article-content { min-width: 0; }
+.article-content h2 {
+  font-family: var(--serif); font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  color: var(--ink); margin-top: 60px; margin-bottom: 18px;
+  line-height: 1.2; letter-spacing: -.03em; scroll-margin-top: 90px;
+  font-weight: 400;
+}
+.article-content h2:first-of-type { margin-top: 0; }
+.article-content h3 {
+  font-family: var(--sans); font-size: 1.08rem; font-weight: 600;
+  color: var(--ink); margin-top: 32px; margin-bottom: 10px;
+}
+.article-content p {
+  font-size: 1.02rem; color: var(--ink-mid); line-height: 1.9;
+  letter-spacing: -.01em; font-weight: 300; margin-bottom: 18px;
+  max-width: 70ch;
+}
+.article-content p strong { color: var(--ink); font-weight: 600; }
+.article-content ul, .article-content ol {
+  padding-left: 22px; margin-bottom: 22px;
+  display: flex; flex-direction: column; gap: 9px;
+}
+.article-content li {
+  font-size: 1rem; color: var(--ink-mid); line-height: 1.7; font-weight: 300;
+}
+.article-content li strong { color: var(--ink); }
+.article-content a { color: var(--mint); }
+
+/* ══════════════════════════════════
+   4. CALLOUTS
+   ══════════════════════════════════ */
+.callout {
+  border-radius: var(--r-md); padding: 22px 26px; margin: 28px 0;
+  border: 1px solid var(--radar-line);
+}
+.callout-info   { background: var(--radar-pos-bg);  border-color: rgba(45,106,79,.2); }
+.callout-warn   { background: var(--radar-warn-bg); border-color: rgba(201,168,76,.25); }
+.callout-danger { background: rgba(253,233,233,.75); border-color: rgba(192,57,43,.15); }
+@media (prefers-color-scheme: dark) {
+  .callout-danger { background: rgba(192,57,43,.10); }
+}
+.callout-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.callout-icon { font-size: 1.1rem; }
+.callout-label {
+  font-size: .75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em;
+}
+.callout-info .callout-label   { color: var(--mint); }
+.callout-warn .callout-label   { color: var(--radar-warn); }
+.callout-danger .callout-label { color: #8B1A1A; }
+@media (prefers-color-scheme: dark) {
+  .callout-danger .callout-label { color: #E58B84; }
+}
+.callout p { font-size: .9rem; margin-bottom: 0; max-width: 100%; }
+
+/* ══════════════════════════════════
+   5. TABLEAUX
+   ══════════════════════════════════ */
+.table-wrap {
+  border-radius: var(--radar-radius-lg); margin: 28px 0;
+  background: var(--radar-surface); border: 1px solid var(--radar-line);
+  overflow-x: auto;
+}
+.table-wrap table {
+  width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 500px;
+}
+.table-wrap th {
+  background: var(--mint); color: #fff; padding: 14px 18px;
+  text-align: left; font-weight: 600; font-size: .82rem; letter-spacing: .02em;
+}
+.table-wrap td {
+  padding: 13px 18px; border-bottom: 1px solid var(--radar-line);
+  color: var(--ink-mid); vertical-align: top;
+  transition: background 180ms var(--radar-ease);
+}
+.table-wrap tr:last-child td { border-bottom: none; }
+.table-wrap tr:hover td { background: rgba(45,106,79,.03); }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ══════════════════════════════════
+   6. TABLEAU TRIABLE (hub)
+   ══════════════════════════════════ */
+.radar-table th[data-sort] {
+  cursor: pointer; user-select: none; white-space: nowrap;
+  padding-right: 32px; position: relative;
+}
+.radar-table th[data-sort]:hover { background: var(--mint-dark); }
+.radar-table th[data-sort]:focus-visible { outline: 2px solid #fff; outline-offset: -3px; }
+.radar-table th[data-sort]::after {
+  content: '↕'; position: absolute; right: 14px; opacity: .45; font-size: .8rem;
+}
+.radar-table th[aria-sort="ascending"]::after  { content: '↑'; opacity: 1; }
+.radar-table th[aria-sort="descending"]::after { content: '↓'; opacity: 1; }
+.radar-table td a { color: var(--ink); text-decoration: none; font-weight: 500; }
+.radar-table td a:hover { color: var(--mint); text-decoration: underline; }
+.radar-table .cell-dep { color: var(--ink-light); font-size: .82rem; }
+.radar-table .cell-na  { color: var(--ink-light); font-style: italic; }
+
+.table-note {
+  font-size: .8rem; color: var(--ink-light); margin: -14px 0 28px;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════
+   7. CHIFFRES CLÉS (page ville)
+   ══════════════════════════════════ */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: 14px; margin: 32px 0 8px;
+}
+.stat-card {
+  background: var(--radar-surface); border: 1px solid var(--radar-line);
+  border-radius: var(--radar-radius-md); padding: 20px 22px;
+}
+.stat-label {
+  font-size: .7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--ink-light); margin-bottom: 8px;
+}
+.stat-value {
+  font-family: var(--serif); font-size: 1.9rem; line-height: 1.05;
+  color: var(--ink); font-variant-numeric: tabular-nums; font-weight: 400;
+}
+.stat-value.is-absent {
+  font-family: var(--sans); font-size: 1rem; color: var(--ink-light);
+  font-style: italic;
+}
+.stat-unit { font-size: .8rem; color: var(--ink-light); margin-left: 3px; }
+.stat-sub { font-size: .78rem; color: var(--ink-light); margin-top: 8px; line-height: 1.5; }
+
+/* ══════════════════════════════════
+   8. POINTS FAVORABLES / VIGILANCE
+   ══════════════════════════════════ */
+.verdict-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px; margin: 28px 0;
+}
+.verdict-card {
+  border-radius: var(--radar-radius-md); padding: 24px 26px;
+  border: 1px solid var(--radar-line);
+}
+.verdict-pos  { background: var(--radar-pos-bg);  border-color: rgba(45,106,79,.2); }
+.verdict-warn { background: var(--radar-warn-bg); border-color: rgba(201,168,76,.25); }
+.verdict-title {
+  font-size: .75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.verdict-pos .verdict-title  { color: var(--mint); }
+.verdict-warn .verdict-title { color: var(--radar-warn); }
+.verdict-card ul { padding-left: 0; list-style: none; gap: 12px; }
+.verdict-card li {
+  font-size: .92rem; line-height: 1.65; color: var(--ink-mid);
+  padding-left: 22px; position: relative;
+}
+.verdict-card li::before {
+  position: absolute; left: 0; top: 0; font-weight: 700;
+}
+.verdict-pos  li::before { content: '+'; color: var(--mint); }
+.verdict-warn li::before { content: '!'; color: var(--radar-warn); }
+
+/* ══════════════════════════════════
+   9. VILLES COMPARABLES
+   ══════════════════════════════════ */
+.compare-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px; margin: 28px 0;
+}
+.compare-card {
+  display: block; text-decoration: none;
+  background: var(--radar-surface); border: 1px solid var(--radar-line);
+  border-radius: var(--radar-radius-md); padding: 18px 20px;
+  transition: transform 180ms var(--radar-ease), border-color 180ms var(--radar-ease);
+}
+.compare-card:hover {
+  transform: translateY(-2px); border-color: rgba(45,106,79,.35);
+}
+.compare-name {
+  font-family: var(--serif); font-size: 1.15rem; color: var(--ink);
+  margin-bottom: 4px; font-weight: 400;
+}
+.compare-meta { font-size: .78rem; color: var(--ink-light); line-height: 1.5; }
+.compare-figure {
+  font-size: .88rem; color: var(--mint); font-weight: 600;
+  margin-top: 8px; font-variant-numeric: tabular-nums;
+}
+
+/* ══════════════════════════════════
+   10. FAQ
+   ══════════════════════════════════ */
+.faq-item { border-bottom: 1px solid var(--radar-line); }
+.faq-q {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 0; background: none; border: none; font-family: var(--sans);
+  font-size: .97rem; font-weight: 500; color: var(--ink); cursor: pointer;
+  text-align: left; gap: 16px; transition: color 180ms var(--radar-ease);
+}
+.faq-q:hover { color: var(--mint); }
+.faq-icon {
+  font-size: 1.2rem; color: var(--mint); flex-shrink: 0;
+  transition: transform 180ms var(--radar-ease);
+}
+.faq-a {
+  display: none; padding-bottom: 20px; color: var(--ink-mid);
+  font-size: .92rem; line-height: 1.75; font-weight: 300;
+}
+.faq-a p { font-size: .92rem; margin-bottom: 12px; }
+.faq-a p:last-child { margin-bottom: 0; }
+
+/* ══════════════════════════════════
+   11. CTA APP
+   ══════════════════════════════════ */
+.app-promo {
+  position: relative; overflow: hidden;
+  background: radial-gradient(circle at top right, rgba(45,106,79,.35), transparent 45%),
+              linear-gradient(145deg, #111214, #1D1F22);
+  border-radius: var(--radar-radius-xl); border: 1px solid rgba(255,255,255,.07);
+  padding: 56px 48px; text-align: center; margin-top: 64px;
+}
+@media (max-width: 600px) { .app-promo { padding: 40px 28px; } }
+.app-promo::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(201,168,76,.12), transparent 65%);
+  pointer-events: none;
+}
+.app-promo-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(45,106,79,.25); border: 1px solid rgba(45,106,79,.4);
+  color: #5DB888; font-size: .7rem; font-weight: 600; padding: 5px 14px;
+  border-radius: var(--r-full); margin-bottom: 22px;
+  letter-spacing: .06em; text-transform: uppercase;
+}
+.app-promo h2 {
+  font-family: var(--serif); font-size: clamp(1.7rem, 3vw, 2.4rem);
+  color: #fff; margin-bottom: 14px; letter-spacing: -.03em; margin-top: 0;
+  font-weight: 400; font-synthesis: none;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+.app-promo p {
+  color: rgba(255,255,255,.55); font-size: .97rem;
+  margin: 0 auto 32px; line-height: 1.7; max-width: 460px; position: relative;
+}
+.appstore-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #fff; color: #111; padding: 14px 28px;
+  border-radius: var(--r-full); text-decoration: none;
+  font-weight: 600; font-size: .9rem; position: relative;
+  transition: transform 180ms var(--radar-ease);
+}
+.appstore-btn:hover { transform: translateY(-2px); }
+
+/* ══════════════════════════════════
+   12. FIL D'ARIANE
+   ══════════════════════════════════ */
+.breadcrumb {
+  max-width: 880px; margin: 0 auto 34px; padding: 0 24px;
+  font-size: .8rem; color: var(--ink-light);
+}
+/* Le hub est plus large que les pages article : le fil d'Ariane doit
+   s'aligner sur le contenu qu'il surplombe, pas sur une autre grille. */
+.breadcrumb-wide { max-width: 1160px; }
+.breadcrumb ol {
+  list-style: none; display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 0; margin: 0;
+}
+.breadcrumb a { color: var(--ink-light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--mint); text-decoration: underline; }
+.breadcrumb li + li::before { content: '›'; margin-right: 8px; opacity: .6; }
+.breadcrumb [aria-current="page"] { color: var(--ink-mid); }
+
+/* ══════════════════════════════════
+   13. DIVERS
+   ══════════════════════════════════ */
+.source-line {
+  font-size: .78rem; color: var(--ink-light); line-height: 1.6;
+  margin-top: 10px;
+}
+.updated-line {
+  font-size: .78rem; color: var(--ink-light);
+  margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--radar-line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary, .btn-secondary, .compare-card, .appstore-btn,
+  .faq-q, .faq-icon, .table-wrap td { transition: none; }
+  .btn-primary:hover, .compare-card:hover, .appstore-btn:hover { transform: none; }
+}

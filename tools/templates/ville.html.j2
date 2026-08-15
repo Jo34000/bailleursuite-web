@@ -1,0 +1,276 @@
+{% include "_head.j2" %}
+<body>
+{% include "_header.j2" %}
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Radar immobilier</div>
+    <h1>Investir à <em>{{ nom }}</em></h1>
+    {% set prix = val(v, 'prix_m2') %}
+    {% set loyer = val(v, 'loyer_m2') %}
+    {% set rdt = val(v, 'rendement_brut_pct') %}
+    <p class="hero-intro">
+      {% if prix is not none and rdt is not none %}
+        Prix médian de {{ prix|entier }} €/m², loyer de marché à
+        {{ loyer|decimal }} €/m² et rendement brut de {{ rdt|decimal }} % —
+        les chiffres officiels du marché local, sans commentaire de
+        complaisance.
+      {% elif prix is not none %}
+        Prix médian de {{ prix|entier }} €/m² d'après les ventes réellement
+        signées. Population, vacance et dynamique du marché local.
+      {% else %}
+        Population, vacance et dynamique du marché locatif d'après les
+        données publiques. Le prix médian n'est pas disponible pour cette
+        commune sur ce millésime.
+      {% endif %}
+    </p>
+    <div class="hero-meta">
+      <span>{{ nom }} · département {{ v.departement }}{% if v.region_nom %} · {{ v.region_nom }}{% endif %}</span>
+      <span>&nbsp;·&nbsp;</span>
+      <span>Données DVF &amp; INSEE</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#analyse" class="btn-primary">Lire l'analyse</a>
+      <a href="{{ SITE }}/radar-immobilier" class="btn-secondary">Comparer les villes</a>
+    </div>
+  </div>
+</section>
+
+<nav class="breadcrumb" aria-label="Fil d'Ariane">
+  <ol>
+    <li><a href="{{ SITE }}/">Accueil</a></li>
+    <li><a href="{{ SITE }}/radar-immobilier">Radar immobilier</a></li>
+    <li aria-current="page">{{ nom }}</li>
+  </ol>
+</nav>
+
+<div class="radar-layout">
+  <article class="article-content">
+
+    <h2 id="chiffres">Les chiffres clés</h2>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Prix médian</div>
+        {% if prix is not none %}
+          <div class="stat-value">{{ prix|entier }}<span class="stat-unit">€/m²</span></div>
+        {% else %}
+          <div class="stat-value is-absent">Non disponible</div>
+        {% endif %}
+        {% set tx = val(v, 'nb_transactions_12m') %}
+        {% if tx %}<div class="stat-sub">sur {{ tx|entier }} transactions (12 mois)</div>{% endif %}
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Loyer de marché</div>
+        {% if loyer is not none %}
+          <div class="stat-value">{{ loyer|decimal }}<span class="stat-unit">€/m²/mois</span></div>
+        {% else %}
+          <div class="stat-value is-absent">Non disponible</div>
+        {% endif %}
+        {% set obs = val(v, 'loyer_nb_observations') %}
+        {% if obs %}<div class="stat-sub">sur {{ obs|entier }} annonces</div>{% endif %}
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Rendement brut</div>
+        {% if rdt is not none %}
+          <div class="stat-value">{{ rdt|decimal }}<span class="stat-unit">%</span></div>
+        {% else %}
+          <div class="stat-value is-absent">Non calculable</div>
+        {% endif %}
+        <div class="stat-sub">
+          {% if rdt is not none %}
+            médiane du panel : {{ ctx.med_rendement|decimal }} %
+          {% else %}
+            prix ou loyer manquant
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Population</div>
+        {% set pop = val(v, 'population') %}
+        {% if pop is not none %}
+          <div class="stat-value">{{ pop|entier }}</div>
+        {% else %}
+          <div class="stat-value is-absent">Non disponible</div>
+        {% endif %}
+        {% set evol = val(v, 'evolution_pop_pct') %}
+        {% if evol is not none %}<div class="stat-sub">{{ evol|signe }} % par an</div>{% endif %}
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Vacance</div>
+        {% set vac = val(v, 'taux_vacance_pct') %}
+        {% if vac is not none %}
+          <div class="stat-value">{{ vac|decimal(1) }}<span class="stat-unit">%</span></div>
+        {% else %}
+          <div class="stat-value is-absent">Non disponible</div>
+        {% endif %}
+        <div class="stat-sub">du parc de logements</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Revenu médian</div>
+        {% set rev = val(v, 'revenu_median') %}
+        {% if rev is not none %}
+          <div class="stat-value">{{ rev|entier }}<span class="stat-unit">€/an</span></div>
+        {% else %}
+          <div class="stat-value is-absent">Non disponible</div>
+        {% endif %}
+        <div class="stat-sub">par unité de consommation</div>
+      </div>
+    </div>
+
+    {% if note_loyer %}
+    <div class="callout callout-info">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">ℹ️</span>
+        <span class="callout-label">Sur le loyer affiché</span>
+      </div>
+      <p>{{ note_loyer }}</p>
+    </div>
+    {% endif %}
+
+    {% if manquants %}
+    <p class="source-line">
+      Indicateurs non disponibles pour cette commune :
+      {{ manquants|join(', ') }}. Ils restent vides plutôt que d'être estimés.
+    </p>
+    {% endif %}
+
+    <h2 id="analyse">Ce que disent ces chiffres</h2>
+
+    {% for bloc in blocs %}
+    <h3>{{ bloc.titre }}</h3>
+    <p>{{ bloc.corps }}</p>
+    {% endfor %}
+
+    <h2 id="bilan">Points favorables et points de vigilance</h2>
+
+    <div class="verdict-grid">
+      <div class="verdict-card verdict-pos">
+        <div class="verdict-title">Points favorables</div>
+        <ul>
+          {% for point in favorables %}
+          <li>{{ point }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="verdict-card verdict-warn">
+        <div class="verdict-title">Points de vigilance</div>
+        <ul>
+          {% for point in vigilance %}
+          <li>{{ point }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <h2 id="detail">Le détail des indicateurs</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Indicateur</th><th scope="col">Valeur</th><th scope="col">Source</th></tr>
+        </thead>
+        <tbody>
+          {% for cle, libelle, unite, dec in [
+              ('prix_m2', 'Prix médian au m²', '€/m²', 0),
+              ('nb_transactions_12m', 'Transactions sur 12 mois', '', 0),
+              ('evolution_1an_pct', 'Évolution des prix sur 1 an', '%', 1),
+              ('evolution_3ans_pct', 'Évolution des prix sur 3 ans', '%', 1),
+              ('loyer_m2', 'Loyer d\'annonce au m²', '€/m²/mois', 2),
+              ('loyer_nb_observations', 'Annonces observées', '', 0),
+              ('rendement_brut_pct', 'Rendement brut', '%', 2),
+              ('population', 'Population', 'habitants', 0),
+              ('evolution_pop_pct', 'Évolution annuelle de la population', '%/an', 2),
+              ('menages', 'Ménages', '', 0),
+              ('revenu_median', 'Revenu médian', '€/an', 0),
+              ('logements_total', 'Logements', '', 0),
+              ('logements_vacants', 'Logements vacants', '', 0),
+              ('taux_vacance_pct', 'Taux de vacance', '%', 1),
+          ] %}
+          {% set ind = v.indicateurs.get(cle) %}
+          {% if ind %}
+          <tr>
+            <td>{{ libelle }}</td>
+            <td class="num">
+              {% if ind.valeur is none %}
+                <span class="cell-na">non disponible</span>
+              {% elif dec == 0 %}
+                {{ ind.valeur|entier }}{% if unite %} {{ unite }}{% endif %}
+              {% elif cle.startswith('evolution') %}
+                {{ ind.valeur|signe(dec) }} {{ unite }}
+              {% else %}
+                {{ ind.valeur|decimal(dec) }}{% if unite %} {{ unite }}{% endif %}
+              {% endif %}
+            </td>
+            <td>{{ ind.source }}{% if ind.millesime %} ({{ ind.millesime }}){% endif %}</td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="source-line">
+      Méthode de calcul, millésimes et limites :
+      <a href="{{ SITE }}/radar-immobilier/methodologie">consulter la méthodologie</a>.
+    </p>
+
+    <h2 id="comparables">Villes comparables</h2>
+
+    <p>
+      Communes du même département ou aux niveaux de prix voisins, pour
+      situer {{ nom }} dans son marché plutôt que dans l'absolu.
+    </p>
+
+    <div class="compare-grid">
+      {% for c in comparables %}
+      <a class="compare-card" href="{{ SITE }}/radar-immobilier/{{ c.slug }}">
+        <div class="compare-name">{{ c.nom }}</div>
+        <div class="compare-meta">
+          Département {{ c.departement }}{% if c.region_nom %} · {{ c.region_nom }}{% endif %}
+        </div>
+        {% if c.prix is not none %}
+        <div class="compare-figure">
+          {{ c.prix|entier }} €/m²{% if c.rdt is not none %} · {{ c.rdt|decimal }} %{% endif %}
+        </div>
+        {% endif %}
+      </a>
+      {% endfor %}
+    </div>
+
+    <div class="callout callout-warn">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">⚠️</span>
+        <span class="callout-label">Portée de ces indicateurs</span>
+      </div>
+      <p>{{ AVERTISSEMENT }}</p>
+    </div>
+
+    <section class="app-promo">
+      <div class="app-promo-badge">BailleurSuite</div>
+      <h2>Analysez votre projet dans BailleurSuite</h2>
+      <p>
+        Rendement net, cash-flow, amortissements LMNP et déclaration fiscale :
+        passez des moyennes communales à l'analyse de votre bien réel.
+      </p>
+      <a class="appstore-btn" href="{{ SITE }}/">Découvrir l'application</a>
+    </section>
+
+    <p class="updated-line">
+      Données mises à jour le {{ doc.genere_le }} · Panel {{ doc.panel }} ·
+      {{ doc.nb_villes }} villes ·
+      <a href="{{ SITE }}/radar-immobilier">Retour au radar</a>
+    </p>
+
+  </article>
+</div>
+
+{% include "_footer.j2" %}
+</body>
+</html>

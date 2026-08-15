@@ -1,0 +1,12 @@
+# Fichiers présents dans le dépôt mais NON déployés.
+#
+# Le dépôt est public et Vercel sert les fichiers tels quels : sans cette
+# exclusion, data/villes.json serait téléchargeable en HTTP à l'adresse
+# https://bailleursuite.fr/data/villes.json. Le dataset est un travail
+# de collecte et de traitement ; il n'a pas à être servi tel quel.
+#
+# Les pages générées dans radar-immobilier/, elles, sont bien déployées :
+# ce sont elles le produit public.
+
+data/
+tools/

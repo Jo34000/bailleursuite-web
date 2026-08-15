@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="{{ meta_description }}">
+<title>{{ page_title }}</title>
+<link rel="canonical" href="{{ canonical }}">
+<meta property="og:title" content="{{ og_title }}">
+<meta property="og:description" content="{{ og_description }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ canonical }}">
+<meta property="og:image" content="{{ SITE }}/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="BailleurSuite">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ og_title }}">
+<meta name="twitter:description" content="{{ og_description }}">
+<meta name="twitter:image" content="{{ SITE }}/og-image.png">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+{# `safe` est indispensable : l'autoescape transformerait les guillemets
+   du JSON en &#34;, rendant le bloc illisible par Google. Le sérialiseur
+   (`jsonld_dump`) neutralise déjà « < » en <, de sorte qu'aucune
+   donnée ne peut fermer le <script> prématurément. #}
+{% for bloc in jsonld -%}
+<script type="application/ld+json">
+{{ bloc|safe }}
+</script>
+{% endfor -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+<link rel="stylesheet" href="/styles/design-system.css">
+<link rel="stylesheet" href="/styles/radar.css">
+</head>

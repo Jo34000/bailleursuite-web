@@ -1,0 +1,244 @@
+{% include "_head.j2" %}
+<body>
+{% include "_header.j2" %}
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Méthodologie</div>
+    <h1>D'où viennent ces chiffres,<br><em>et ce qu'ils ne disent pas</em></h1>
+    <p class="hero-intro">
+      Sources, millésimes, formule de calcul et limites connues. Un indicateur
+      dont on ignore la méthode de fabrication ne vaut rien : voici la nôtre,
+      en entier.
+    </p>
+    <div class="hero-meta">
+      <span>{{ nb_villes }} villes · Panel {{ doc.panel }}</span>
+      <span>&nbsp;·&nbsp;</span>
+      <span>Généré le {{ doc.genere_le }}</span>
+    </div>
+  </div>
+</section>
+
+<nav class="breadcrumb" aria-label="Fil d'Ariane">
+  <ol>
+    <li><a href="{{ SITE }}/">Accueil</a></li>
+    <li><a href="{{ SITE }}/radar-immobilier">Radar immobilier</a></li>
+    <li aria-current="page">Méthodologie</li>
+  </ol>
+</nav>
+
+<div class="radar-layout">
+  <article class="article-content">
+
+    <h2 id="sources">Les sources</h2>
+
+    <p>
+      Trois jeux de données publics, tous réutilisables librement. Aucune
+      donnée propriétaire, aucun scraping de portail immobilier, aucune
+      estimation d'agence.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Source</th>
+            <th scope="col">Producteur</th>
+            <th scope="col">Millésime</th>
+            <th scope="col">Licence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cle, s in doc.sources.items() %}
+          <tr>
+            <td>{{ s.libelle }}</td>
+            <td>
+              {% if cle == 'dvf' %}DGFiP
+              {% elif cle.startswith('cog') or cle == 'insee' %}INSEE
+              {% elif cle == 'loyers' %}DHUP / ministère du Logement
+              {% else %}—{% endif %}
+            </td>
+            <td class="num">{{ s.millesime }}</td>
+            <td>Licence Ouverte 2.0</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Toutes ces données sont diffusées sous
+      <strong>Licence Ouverte 2.0 (Etalab)</strong>, qui autorise la
+      réutilisation, y compris commerciale, sous réserve de mentionner la
+      paternité — ce que fait chaque page du Radar, indicateur par indicateur.
+    </p>
+
+    <h3>Demandes de Valeurs Foncières (DVF)</h3>
+    <p>
+      Le fichier des ventes immobilières effectivement enregistrées par
+      l'administration fiscale. Il donne le prix signé, la surface bâtie et la
+      date de mutation. C'est la seule source publique de prix
+      <strong>réels</strong> : tout le reste, sur le marché, est du prix
+      d'annonce.
+    </p>
+
+    <h3>Carte des loyers</h3>
+    <p>
+      Produite par la DHUP à partir des annonces locatives, elle publie un
+      loyer d'annonce prédit au mètre carré par commune, accompagné du nombre
+      d'observations qui le fonde. Nous n'exploitons que le fichier
+      <em>appartements</em>.
+    </p>
+
+    <h3>Recensement et Filosofi (INSEE)</h3>
+    <p>
+      Population, ménages, parc de logements, logements vacants et revenu
+      médian. Le rattachement des communes s'appuie sur le Code Officiel
+      Géographique, qui fait foi pour les codes INSEE et pour le rattachement
+      des arrondissements municipaux à leur commune.
+    </p>
+
+    <h2 id="calculs">Les calculs</h2>
+
+    <h3>Prix médian au m²</h3>
+    <p>
+      Pour chaque vente d'appartement ou de maison, le prix est divisé par la
+      surface bâtie, puis la <strong>médiane</strong> de ces prix unitaires est
+      retenue pour la commune. Les mutations sans surface, les ventes
+      multi-lots, les surfaces inférieures à 9 m² et les prix unitaires hors
+      de l'intervalle 500–20 000 €/m² sont écartés en amont — ce sont des
+      erreurs de saisie ou des opérations qui ne relèvent pas du marché
+      résidentiel ordinaire.
+    </p>
+
+    <h3>Rendement brut</h3>
+    <div class="callout callout-info">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">🧮</span>
+        <span class="callout-label">Formule</span>
+      </div>
+      <p>
+        <strong>Rendement brut (%) = (loyer mensuel au m² × 12) ÷ prix de
+        vente au m² × 100</strong>
+      </p>
+    </div>
+    <p>
+      Ce rendement est <strong>brut</strong> au sens strict. N'en sont déduits
+      ni les charges de copropriété non récupérables, ni la taxe foncière, ni
+      l'assurance, ni les frais de gestion, ni la vacance entre deux
+      locataires, ni l'impôt. Sur un bien réel, l'écart entre brut et net
+      représente couramment deux à quatre points. Il sert à
+      <em>comparer des villes entre elles</em>, jamais à évaluer une
+      opération.
+    </p>
+
+    <h3>Évolutions</h3>
+    <p>
+      Les évolutions de prix sur un et trois ans comparent la médiane de la
+      fenêtre récente à celle de la fenêtre de référence, à méthode de calcul
+      constante. L'évolution de population est un taux de croissance annuel
+      moyen entre deux recensements.
+    </p>
+
+    <h2 id="limites">Les limites</h2>
+
+    <p>
+      Aucune de ces limites n'est un défaut d'exécution : ce sont des
+      propriétés des sources, qu'il vaut mieux connaître avant d'interpréter
+      un chiffre.
+    </p>
+
+    <h3>L'Alsace-Moselle est absente du DVF</h3>
+    <p>
+      Le Bas-Rhin, le Haut-Rhin et la Moselle relèvent du régime du
+      <strong>Livre foncier</strong>, hérité du droit local, et non du fichier
+      immobilier géré par la DGFiP. Leurs mutations ne sont donc pas publiées
+      dans le DVF. Strasbourg, Mulhouse et Metz ne peuvent pas figurer dans ce
+      panel : les y faire apparaître supposerait d'estimer leurs prix, ce que
+      nous ne faisons pas.
+    </p>
+
+    <h3>Une médiane n'est pas la moyenne affichée par les portails</h3>
+    <p>
+      Nous publions une <strong>médiane</strong> : la valeur qui sépare le
+      marché en deux moitiés. Les portails immobiliers publient le plus souvent
+      des moyennes de prix d'annonce. Deux écarts se cumulent donc. La moyenne
+      est tirée vers le haut par les biens d'exception, que la médiane ignore.
+      Et le prix d'annonce précède la négociation, quand le DVF enregistre le
+      prix signé. Un chiffre inférieur à celui d'un portail n'est pas une
+      erreur : c'est une mesure différente.
+    </p>
+
+    <h3>Les loyers viennent d'annonces, pas de baux</h3>
+    <p>
+      La carte des loyers repose sur des <strong>annonces locatives</strong>,
+      avec deux biais connus. Les petites surfaces y sont surreprésentées —
+      elles tournent plus vite, donc sont mises en ligne plus souvent — et
+      leur loyer au mètre carré est structurellement plus élevé qu'un grand
+      logement. Le loyer affiché tire donc légèrement vers le haut, et le
+      rendement qui en découle avec lui. Par ailleurs, un loyer d'annonce
+      n'est pas un loyer signé : il ignore les baux en cours, souvent
+      inférieurs au marché.
+    </p>
+
+    <h3>Paris, Lyon et Marseille sont des agrégats</h3>
+    <p>
+      La carte des loyers publie ces trois communes au niveau des
+      <strong>arrondissements municipaux</strong>, jamais au code commune.
+      Leur loyer est donc recomposé : moyenne des loyers d'arrondissement
+      pondérée par le nombre d'observations de chacun — un loyer au mètre
+      carré est une intensité, il ne s'additionne pas. Le prix DVF suit la même
+      logique d'agrégation. Conséquence directe : ces trois valeurs masquent
+      des écarts internes considérables. Un rendement parisien moyen n'existe
+      dans aucun arrondissement en particulier.
+    </p>
+
+    <h3>Ce sont des indicateurs communaux</h3>
+    <p>
+      Tout est calculé à l'échelle de la commune entière. Les écarts entre
+      quartiers — souvent du simple au double dans les grandes villes — sont
+      lissés. L'état du bien, l'étage, l'exposition, les charges de
+      copropriété, la qualité de la copropriété et le régime fiscal applicable
+      n'entrent dans aucun de ces chiffres.
+    </p>
+
+    <h2 id="absences">Ce qui manque reste vide</h2>
+
+    <p>
+      Quand une donnée n'existe pas dans la source, elle n'est ni estimée, ni
+      remplacée par une moyenne, ni reprise de l'année précédente ou d'une
+      commune voisine. Elle apparaît comme <em>non disponible</em>, et
+      l'indicateur qui en dépend — un rendement sans loyer, par exemple —
+      n'est pas calculé. C'est volontairement visible : une case vide se
+      repère, une valeur inventée non.
+    </p>
+
+    <p>
+      Le secret statistique de l'INSEE produit une partie de ces absences :
+      certaines valeurs sont masquées lorsque l'effectif est trop faible pour
+      préserver l'anonymat. Elles sont traitées comme manquantes, jamais comme
+      des zéros. De même, un loyer reposant sur moins de trente annonces n'est
+      pas publié.
+    </p>
+
+    <div class="callout callout-warn">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">⚠️</span>
+        <span class="callout-label">Portée de ces indicateurs</span>
+      </div>
+      <p>{{ AVERTISSEMENT }}</p>
+    </div>
+
+    <p class="updated-line">
+      Données mises à jour le {{ doc.genere_le }} · Panel {{ doc.panel }} ·
+      {{ nb_villes }} villes ·
+      <a href="{{ SITE }}/radar-immobilier">Retour au radar</a>
+    </p>
+
+  </article>
+</div>
+
+{% include "_footer.j2" %}
+</body>
+</html>

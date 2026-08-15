@@ -1,0 +1,258 @@
+{% include "_head.j2" %}
+<body>
+{% include "_header.j2" %}
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Radar immobilier</div>
+    <h1>{{ doc.nb_villes }} villes, <em>les mêmes indicateurs</em>, aucune estimation</h1>
+    <p class="hero-intro">
+      Prix au mètre carré, loyer de marché et rendement brut, calculés de la
+      même façon partout, à partir des ventes réellement signées et du
+      recensement. Médiane du panel : {{ ctx.med_prix|entier }} €/m² pour
+      {{ ctx.med_rendement|decimal }} % de rendement brut.
+    </p>
+    <div class="hero-meta">
+      <span>Sources DVF (DGFiP) &amp; INSEE</span>
+      <span>&nbsp;·&nbsp;</span>
+      <span>Mis à jour le {{ doc.genere_le }}</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#tableau" class="btn-primary">Voir le classement</a>
+      <a href="{{ SITE }}/radar-immobilier/methodologie" class="btn-secondary">Méthodologie</a>
+    </div>
+  </div>
+</section>
+
+<nav class="breadcrumb breadcrumb-wide" aria-label="Fil d'Ariane">
+  <ol>
+    <li><a href="{{ SITE }}/">Accueil</a></li>
+    <li aria-current="page">Radar immobilier</li>
+  </ol>
+</nav>
+
+<div class="radar-layout radar-layout-wide">
+  <article class="article-content">
+
+    <h2 id="intro">Comparer des villes, pas des annonces</h2>
+
+    <p>
+      La plupart des classements immobiliers reposent sur des prix d'annonce :
+      ce que les vendeurs <strong>espèrent</strong> obtenir. Le Radar part de
+      ce qui a été <strong>réellement signé</strong> chez le notaire, publié
+      par la DGFiP dans le fichier des Demandes de Valeurs Foncières. L'écart
+      entre les deux n'est pas anecdotique — il représente la marge de
+      négociation, qui varie fortement d'un marché à l'autre.
+    </p>
+
+    <p>
+      Chaque commune est traitée avec exactement la même chaîne de calcul :
+      même filtrage des mutations, même médiane, même formule de rendement.
+      C'est ce qui rend la comparaison honnête. Quand une donnée manque, elle
+      reste vide : rien n'est estimé, rien n'est reporté d'une année ou d'une
+      commune voisine.
+    </p>
+
+    <div class="callout callout-info">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">ℹ️</span>
+        <span class="callout-label">Rendement brut</span>
+      </div>
+      <p>
+        Loyer mensuel au m² × 12 ÷ prix de vente au m². Ni charges, ni taxe
+        foncière, ni fiscalité, ni vacance ne sont déduites — le rendement net
+        d'un bien réel est toujours inférieur. Cet indicateur sert à
+        <em>comparer</em> des villes, pas à évaluer une opération.
+      </p>
+    </div>
+
+    <h2 id="tableau">Le classement</h2>
+
+    <p class="table-note">
+      Trié par rendement brut décroissant. Cliquez sur un en-tête pour
+      changer de tri.
+    </p>
+
+    <div class="table-wrap">
+      <table class="radar-table" id="radar-table">
+        <thead>
+          <tr>
+            <th scope="col" data-sort="text"  aria-sort="none" tabindex="0" role="columnheader">Ville</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Prix €/m²</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Loyer €/m²</th>
+            <th scope="col" data-sort="num"   aria-sort="descending" tabindex="0" role="columnheader">Rendement</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Population</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Évol. pop.</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Vacance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in villes %}
+          {% set prix = val(p.v, 'prix_m2') %}
+          {% set loyer = val(p.v, 'loyer_m2') %}
+          {% set rdt = val(p.v, 'rendement_brut_pct') %}
+          {% set pop = val(p.v, 'population') %}
+          {% set evol = val(p.v, 'evolution_pop_pct') %}
+          {% set vac = val(p.v, 'taux_vacance_pct') %}
+          <tr>
+            <td>
+              <a href="{{ SITE }}/radar-immobilier/{{ p.slug }}">{{ p.nom }}</a>
+              <div class="cell-dep">{{ p.v.departement }}{% if p.v.region_nom %} · {{ p.v.region_nom }}{% endif %}</div>
+            </td>
+            <td class="num" data-value="{{ prix if prix is not none else '' }}">
+              {% if prix is not none %}{{ prix|entier }}{% else %}<span class="cell-na">—</span>{% endif %}
+            </td>
+            <td class="num" data-value="{{ loyer if loyer is not none else '' }}">
+              {% if loyer is not none %}{{ loyer|decimal }}{% else %}<span class="cell-na">—</span>{% endif %}
+            </td>
+            <td class="num" data-value="{{ rdt if rdt is not none else '' }}">
+              {% if rdt is not none %}{{ rdt|decimal }} %{% else %}<span class="cell-na">—</span>{% endif %}
+            </td>
+            <td class="num" data-value="{{ pop if pop is not none else '' }}">
+              {% if pop is not none %}{{ pop|entier }}{% else %}<span class="cell-na">—</span>{% endif %}
+            </td>
+            <td class="num" data-value="{{ evol if evol is not none else '' }}">
+              {% if evol is not none %}{{ evol|signe(2) }} %{% else %}<span class="cell-na">—</span>{% endif %}
+            </td>
+            <td class="num" data-value="{{ vac if vac is not none else '' }}">
+              {% if vac is not none %}{{ vac|decimal(1) }} %{% else %}<span class="cell-na">—</span>{% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="table-note">
+      Un tiret signale une donnée absente de la source, jamais une valeur nulle.
+      Ces lignes se placent en fin de tri quel que soit le sens choisi.
+    </p>
+
+    <h2 id="lecture">Comment lire ce tableau</h2>
+
+    <p>
+      Un rendement élevé n'est pas en soi une bonne nouvelle. Il traduit le
+      plus souvent un prix d'achat bas — donc un marché où la revente est
+      moins liquide et la demande locative plus fragile. À l'inverse, les
+      villes les plus chères affichent des rendements modestes parce que
+      l'acheteur y paie aussi une espérance de plus-value et une sécurité
+      locative.
+    </p>
+
+    <p>
+      Les colonnes <strong>population</strong> et <strong>vacance</strong>
+      servent à trancher entre ces deux lectures : un rendement élevé dans une
+      ville qui gagne des habitants et dont le parc est peu vacant n'a rien à
+      voir avec le même rendement dans une ville qui se dépeuple.
+    </p>
+
+    <h2 id="faq">Questions fréquentes</h2>
+
+    {% for f in faq %}
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        {{ f.q }}<span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><p>{{ f.r }}</p></div>
+    </div>
+    {% endfor %}
+
+    <div class="callout callout-warn">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">⚠️</span>
+        <span class="callout-label">Portée de ces indicateurs</span>
+      </div>
+      <p>{{ AVERTISSEMENT }}</p>
+    </div>
+
+    <section class="app-promo">
+      <div class="app-promo-badge">BailleurSuite</div>
+      <h2>Analysez votre projet dans BailleurSuite</h2>
+      <p>
+        Rendement net, cash-flow, amortissements LMNP et déclaration fiscale :
+        passez des moyennes communales à l'analyse de votre bien réel.
+      </p>
+      <a class="appstore-btn" href="{{ SITE }}/">Découvrir l'application</a>
+    </section>
+
+    <p class="updated-line">
+      Données mises à jour le {{ doc.genere_le }} · Panel {{ doc.panel }} ·
+      {{ doc.nb_villes }} villes ·
+      <a href="{{ SITE }}/radar-immobilier/methodologie">Méthodologie et sources</a>
+    </p>
+
+  </article>
+</div>
+
+{% include "_footer.j2" %}
+
+<script>
+/* Tri du tableau — vanilla, sans dépendance.
+   Les cellules numériques portent data-value ; une valeur absente est une
+   chaîne vide et se range toujours en fin de tri, dans les deux sens. */
+(function () {
+  var table = document.getElementById('radar-table');
+  if (!table) return;
+  var tbody = table.tBodies[0];
+  var entetes = table.tHead.rows[0].cells;
+
+  function trier(index, type, sens) {
+    var lignes = Array.prototype.slice.call(tbody.rows);
+    lignes.sort(function (a, b) {
+      var ca = a.cells[index], cb = b.cells[index];
+      if (type === 'num') {
+        var va = ca.getAttribute('data-value');
+        var vb = cb.getAttribute('data-value');
+        var na = va === '' || va === null ? null : parseFloat(va);
+        var nb = vb === '' || vb === null ? null : parseFloat(vb);
+        if (na === null && nb === null) return 0;
+        if (na === null) return 1;      // absents en fin, quel que soit le sens
+        if (nb === null) return -1;
+        return sens === 'ascending' ? na - nb : nb - na;
+      }
+      var ta = ca.textContent.trim(), tb = cb.textContent.trim();
+      return sens === 'ascending'
+        ? ta.localeCompare(tb, 'fr')
+        : tb.localeCompare(ta, 'fr');
+    });
+    lignes.forEach(function (l) { tbody.appendChild(l); });
+  }
+
+  function activer(th, index) {
+    var type = th.getAttribute('data-sort');
+    var actuel = th.getAttribute('aria-sort');
+    var sens = actuel === 'descending' ? 'ascending' : 'descending';
+    if (type === 'text') sens = actuel === 'ascending' ? 'descending' : 'ascending';
+    for (var i = 0; i < entetes.length; i++) entetes[i].setAttribute('aria-sort', 'none');
+    th.setAttribute('aria-sort', sens);
+    trier(index, type, sens);
+  }
+
+  Array.prototype.forEach.call(entetes, function (th, index) {
+    if (!th.hasAttribute('data-sort')) return;
+    th.addEventListener('click', function () { activer(th, index); });
+    th.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activer(th, index); }
+    });
+  });
+})();
+
+function toggleFaq(btn) {
+  var a = btn.nextElementSibling, icon = btn.querySelector('.faq-icon');
+  var open = a.style.display === 'block';
+  document.querySelectorAll('.faq-a').forEach(function (x) { x.style.display = 'none'; });
+  document.querySelectorAll('.faq-q').forEach(function (q) { q.setAttribute('aria-expanded', 'false'); });
+  document.querySelectorAll('.faq-icon').forEach(function (i) {
+    i.textContent = '+'; i.style.transform = 'rotate(0)';
+  });
+  if (!open) {
+    a.style.display = 'block';
+    btn.setAttribute('aria-expanded', 'true');
+    icon.textContent = '×';
+    icon.style.transform = 'rotate(90deg)';
+  }
+}
+</script>
+</body>
+</html>

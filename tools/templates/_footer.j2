@@ -1,0 +1,50 @@
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <nav class="site-footer-nav" aria-label="Liens de pied de page">
+      <a href="{{ SITE }}">Accueil</a>
+      <span class="site-footer-sep">·</span>
+      <a href="{{ SITE }}/#tarifs">Tarifs</a>
+      <span class="site-footer-sep">·</span>
+      <a href="{{ SITE }}/#faq">FAQ</a>
+      <span class="site-footer-sep">·</span>
+      <a href="{{ SITE }}/calculatrice-rendement-locatif">Calculatrice rendement</a>
+      <span class="site-footer-sep">·</span>
+      <a href="{{ SITE }}/declaration-2044-guide">Guide déclaration 2044</a>
+      <span class="site-footer-sep">·</span>
+      <a href="{{ SITE }}/lmnp-guide-complet">Guide LMNP 2026</a>
+      <span class="site-footer-sep">·</span>
+      <a href="{{ SITE }}/radar-immobilier">Radar immobilier</a>
+      <span class="site-footer-sep">·</span>
+      <a href="{{ SITE }}/comparatif-logiciel-gestion-locative">Comparatif logiciels</a>
+      <span class="site-footer-sep">·</span>
+      <a href="{{ SITE }}/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+      <span class="site-footer-sep">·</span>
+      <a href="{{ SITE }}/aide">Centre d'aide</a>
+    </nav>
+    <div class="site-footer-bottom">
+      <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>
+      <p style="margin-top:8px;">
+        <a href="{{ SITE }}/conditions-utilisation.html">Mentions légales &amp; CGU</a>
+        <a href="{{ SITE }}/politique-confidentialite.html">Politique de confidentialité</a>
+        <a href="mailto:contact@bailleursuite.fr">Contact</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var b=document.getElementById('nav-burger'),m=document.getElementById('nav-mobile-menu');
+  if(!b||!m)return;
+  b.addEventListener('click',function(){
+    var o=m.classList.toggle('is-open');
+    b.setAttribute('aria-expanded',String(o));
+  });
+  document.addEventListener('click',function(e){
+    if(m.classList.contains('is-open')&&!m.contains(e.target)&&!b.contains(e.target)){
+      m.classList.remove('is-open');
+      b.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
