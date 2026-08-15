@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Comment sont calculés les prix au m² et le rendement brut du Radar immobilier : sources DVF et INSEE, millésimes, licences, et les limites qu&#39;il faut connaître avant d&#39;interpréter ces chiffres.">
+<title>Méthodologie du Radar immobilier : sources, calculs et limites | BailleurSuite</title>
+<link rel="canonical" href="https://bailleursuite.fr/radar-immobilier/methodologie">
+<meta property="og:title" content="Méthodologie du Radar immobilier : sources, calculs et limites">
+<meta property="og:description" content="Comment sont calculés les prix au m² et le rendement brut du Radar immobilier : sources DVF et INSEE, millésimes, licences, et les limites qu&#39;il faut connaître avant d&#39;interpréter ces chiffres.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bailleursuite.fr/radar-immobilier/methodologie">
+<meta property="og:image" content="https://bailleursuite.fr/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="BailleurSuite">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Méthodologie du Radar immobilier : sources, calculs et limites">
+<meta name="twitter:description" content="Comment sont calculés les prix au m² et le rendement brut du Radar immobilier : sources DVF et INSEE, millésimes, licences, et les limites qu&#39;il faut connaître avant d&#39;interpréter ces chiffres.">
+<meta name="twitter:image" content="https://bailleursuite.fr/og-image.png">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://bailleursuite.fr/"},{"@type":"ListItem","position":2,"name":"Radar immobilier","item":"https://bailleursuite.fr/radar-immobilier"},{"@type":"ListItem","position":3,"name":"Méthodologie","item":"https://bailleursuite.fr/radar-immobilier/methodologie"}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+<link rel="stylesheet" href="/styles/design-system.css">
+<link rel="stylesheet" href="/styles/radar.css">
+</head><body>
+<header>
+<nav class="site-nav" aria-label="Navigation principale">
+  <a class="nav-logo" href="https://bailleursuite.fr">
+    <div class="nav-logo-icon">
+      <svg width="30" height="30" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="eg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2D6A4F"/><stop offset="1" stop-color="#3D8B68"/>
+          </linearGradient>
+        </defs>
+        <rect width="320" height="320" rx="70" fill="url(#eg)"/>
+        <g transform="scale(1.6)"><g transform="translate(-14,0.8)">
+          <path d="M 66 150 L 66 70 L 90 44 L 120 44 Q 152 44 152 68 Q 152 92 120 92 Q 156 98 156 122 Q 156 150 120 150 Z M 96 64 L 96 91 L 113 91 Q 126 91 126 77.5 Q 126 64 113 64 Z M 96 99 L 96 130 L 117 130 Q 130 130 130 114.5 Q 130 99 117 99 Z" fill="#FFFFFF" fill-rule="evenodd"/>
+        </g></g>
+      </svg>
+    </div>
+    Bailleur<span class="nav-logo-suite">Suite</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice</a>
+    <a class="nav-link" href="https://bailleursuite.fr/declaration-2044-guide">Guide 2044</a>
+    <a class="nav-link" href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP</a>
+    <a class="nav-link" href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF</a>
+    <a class="nav-link" href="https://bailleursuite.fr/radar-immobilier">Radar</a>
+    <a class="nav-link" href="https://bailleursuite.fr/aide">Aide</a>
+    <a class="nav-link" href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif</a>
+  </div>
+  <a class="nav-cta" href="https://bailleursuite.fr/#waitlist">Être notifié au lancement — Septembre 2026</a>
+  <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-label="Ouvrir le menu">
+    <span class="nav-burger-line"></span>
+    <span class="nav-burger-line"></span>
+    <span class="nav-burger-line"></span>
+  </button>
+</nav>
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+  <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+  <a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP 2026</a>
+  <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+  <a href="https://bailleursuite.fr/radar-immobilier">Radar immobilier</a>
+  <a href="https://bailleursuite.fr/aide">Centre d'aide</a>
+  <a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif logiciels</a>
+</div>
+</header>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Méthodologie</div>
+    <h1>D'où viennent ces chiffres,<br><em>et ce qu'ils ne disent pas</em></h1>
+    <p class="hero-intro">
+      Sources, millésimes, formule de calcul et limites connues. Un indicateur
+      dont on ignore la méthode de fabrication ne vaut rien : voici la nôtre,
+      en entier.
+    </p>
+    <div class="hero-meta">
+      <span>40 villes · Panel V1</span>
+      <span>&nbsp;·&nbsp;</span>
+      <span>Généré le 2026-08-15</span>
+    </div>
+  </div>
+</section>
+
+<nav class="breadcrumb" aria-label="Fil d'Ariane">
+  <ol>
+    <li><a href="/">Accueil</a></li>
+    <li><a href="/radar-immobilier">Radar immobilier</a></li>
+    <li aria-current="page">Méthodologie</li>
+  </ol>
+</nav>
+
+<div class="radar-layout">
+  <article class="article-content">
+
+    <h2 id="sources">Les sources</h2>
+
+    <p>
+      Trois jeux de données publics, tous réutilisables librement. Aucune
+      donnée propriétaire, aucun scraping de portail immobilier, aucune
+      estimation d'agence.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Source</th>
+            <th scope="col">Producteur</th>
+            <th scope="col">Millésime</th>
+            <th scope="col">Licence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DVF géolocalisé (Etalab)</td>
+            <td>
+DGFiP
+            </td>
+            <td class="num">2021–2025</td>
+            <td>Licence Ouverte 2.0</td>
+          </tr>
+          <tr>
+            <td>COG INSEE — communes</td>
+            <td>
+INSEE
+            </td>
+            <td class="num">2025</td>
+            <td>Licence Ouverte 2.0</td>
+          </tr>
+          <tr>
+            <td>COG INSEE — régions</td>
+            <td>
+INSEE
+            </td>
+            <td class="num">2025</td>
+            <td>Licence Ouverte 2.0</td>
+          </tr>
+          <tr>
+            <td>Carte des loyers — appartements (DHUP)</td>
+            <td>
+DHUP / ministère du Logement
+            </td>
+            <td class="num">2023</td>
+            <td>Licence Ouverte 2.0</td>
+          </tr>
+          <tr>
+            <td>INSEE — comparateur de territoires</td>
+            <td>
+INSEE
+            </td>
+            <td class="num">2023</td>
+            <td>Licence Ouverte 2.0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Toutes ces données sont diffusées sous
+      <strong>Licence Ouverte 2.0 (Etalab)</strong>, qui autorise la
+      réutilisation, y compris commerciale, sous réserve de mentionner la
+      paternité — ce que fait chaque page du Radar, indicateur par indicateur.
+    </p>
+
+    <h3>Demandes de Valeurs Foncières (DVF)</h3>
+    <p>
+      Le fichier des ventes immobilières effectivement enregistrées par
+      l'administration fiscale. Il donne le prix signé, la surface bâtie et la
+      date de mutation. C'est la seule source publique de prix
+      <strong>réels</strong> : tout le reste, sur le marché, est du prix
+      d'annonce.
+    </p>
+
+    <h3>Carte des loyers</h3>
+    <p>
+      Produite par la DHUP à partir des annonces locatives, elle publie un
+      loyer d'annonce prédit au mètre carré par commune, accompagné du nombre
+      d'observations qui le fonde. Nous n'exploitons que le fichier
+      <em>appartements</em>.
+    </p>
+
+    <h3>Recensement et Filosofi (INSEE)</h3>
+    <p>
+      Population, ménages, parc de logements, logements vacants et revenu
+      médian. Le rattachement des communes s'appuie sur le Code Officiel
+      Géographique, qui fait foi pour les codes INSEE et pour le rattachement
+      des arrondissements municipaux à leur commune.
+    </p>
+
+    <h2 id="calculs">Les calculs</h2>
+
+    <h3>Prix médian au m²</h3>
+    <p>
+      Pour chaque vente d'appartement ou de maison, le prix est divisé par la
+      surface bâtie, puis la <strong>médiane</strong> de ces prix unitaires est
+      retenue pour la commune. Les mutations sans surface, les ventes
+      multi-lots, les surfaces inférieures à 9 m² et les prix unitaires hors
+      de l'intervalle 500–20 000 €/m² sont écartés en amont — ce sont des
+      erreurs de saisie ou des opérations qui ne relèvent pas du marché
+      résidentiel ordinaire.
+    </p>
+
+    <h3>Rendement brut</h3>
+    <div class="callout callout-info">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">🧮</span>
+        <span class="callout-label">Formule</span>
+      </div>
+      <p>
+        <strong>Rendement brut (%) = (loyer mensuel au m² × 12) ÷ prix de
+        vente au m² × 100</strong>
+      </p>
+    </div>
+    <p>
+      Ce rendement est <strong>brut</strong> au sens strict. N'en sont déduits
+      ni les charges de copropriété non récupérables, ni la taxe foncière, ni
+      l'assurance, ni les frais de gestion, ni la vacance entre deux
+      locataires, ni l'impôt. Sur un bien réel, l'écart entre brut et net
+      représente couramment deux à quatre points. Il sert à
+      <em>comparer des villes entre elles</em>, jamais à évaluer une
+      opération.
+    </p>
+
+    <h3>Évolutions</h3>
+    <p>
+      Les évolutions de prix sur un et trois ans comparent la médiane de la
+      fenêtre récente à celle de la fenêtre de référence, à méthode de calcul
+      constante. L'évolution de population est un taux de croissance annuel
+      moyen entre deux recensements.
+    </p>
+
+    <h2 id="limites">Les limites</h2>
+
+    <p>
+      Aucune de ces limites n'est un défaut d'exécution : ce sont des
+      propriétés des sources, qu'il vaut mieux connaître avant d'interpréter
+      un chiffre.
+    </p>
+
+    <h3>L'Alsace-Moselle est absente du DVF</h3>
+    <p>
+      Le Bas-Rhin, le Haut-Rhin et la Moselle relèvent du régime du
+      <strong>Livre foncier</strong>, hérité du droit local, et non du fichier
+      immobilier géré par la DGFiP. Leurs mutations ne sont donc pas publiées
+      dans le DVF. Strasbourg, Mulhouse et Metz ne peuvent pas figurer dans ce
+      panel : les y faire apparaître supposerait d'estimer leurs prix, ce que
+      nous ne faisons pas.
+    </p>
+
+    <h3>Une médiane n'est pas la moyenne affichée par les portails</h3>
+    <p>
+      Nous publions une <strong>médiane</strong> : la valeur qui sépare le
+      marché en deux moitiés. Les portails immobiliers publient le plus souvent
+      des moyennes de prix d'annonce. Deux écarts se cumulent donc. La moyenne
+      est tirée vers le haut par les biens d'exception, que la médiane ignore.
+      Et le prix d'annonce précède la négociation, quand le DVF enregistre le
+      prix signé. Un chiffre inférieur à celui d'un portail n'est pas une
+      erreur : c'est une mesure différente.
+    </p>
+
+    <h3>Les loyers viennent d'annonces, pas de baux</h3>
+    <p>
+      La carte des loyers repose sur des <strong>annonces locatives</strong>,
+      avec deux biais connus. Les petites surfaces y sont surreprésentées —
+      elles tournent plus vite, donc sont mises en ligne plus souvent — et
+      leur loyer au mètre carré est structurellement plus élevé qu'un grand
+      logement. Le loyer affiché tire donc légèrement vers le haut, et le
+      rendement qui en découle avec lui. Par ailleurs, un loyer d'annonce
+      n'est pas un loyer signé : il ignore les baux en cours, souvent
+      inférieurs au marché.
+    </p>
+
+    <h3>Paris, Lyon et Marseille sont des agrégats</h3>
+    <p>
+      La carte des loyers publie ces trois communes au niveau des
+      <strong>arrondissements municipaux</strong>, jamais au code commune.
+      Leur loyer est donc recomposé : moyenne des loyers d'arrondissement
+      pondérée par le nombre d'observations de chacun — un loyer au mètre
+      carré est une intensité, il ne s'additionne pas. Le prix DVF suit la même
+      logique d'agrégation. Conséquence directe : ces trois valeurs masquent
+      des écarts internes considérables. Un rendement parisien moyen n'existe
+      dans aucun arrondissement en particulier.
+    </p>
+
+    <h3>Ce sont des indicateurs communaux</h3>
+    <p>
+      Tout est calculé à l'échelle de la commune entière. Les écarts entre
+      quartiers — souvent du simple au double dans les grandes villes — sont
+      lissés. L'état du bien, l'étage, l'exposition, les charges de
+      copropriété, la qualité de la copropriété et le régime fiscal applicable
+      n'entrent dans aucun de ces chiffres.
+    </p>
+
+    <h2 id="absences">Ce qui manque reste vide</h2>
+
+    <p>
+      Quand une donnée n'existe pas dans la source, elle n'est ni estimée, ni
+      remplacée par une moyenne, ni reprise de l'année précédente ou d'une
+      commune voisine. Elle apparaît comme <em>non disponible</em>, et
+      l'indicateur qui en dépend — un rendement sans loyer, par exemple —
+      n'est pas calculé. C'est volontairement visible : une case vide se
+      repère, une valeur inventée non.
+    </p>
+
+    <p>
+      Le secret statistique de l'INSEE produit une partie de ces absences :
+      certaines valeurs sont masquées lorsque l'effectif est trop faible pour
+      préserver l'anonymat. Elles sont traitées comme manquantes, jamais comme
+      des zéros. De même, un loyer reposant sur moins de trente annonces n'est
+      pas publié.
+    </p>
+
+    <div class="callout callout-warn">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">⚠️</span>
+        <span class="callout-label">Portée de ces indicateurs</span>
+      </div>
+      <p>Les indicateurs présentés sont des estimations territoriales issues de données publiques. Ils ne constituent ni un conseil en investissement, ni une garantie de rendement, et ne se substituent pas à l&#39;analyse d&#39;un bien précis.</p>
+    </div>
+
+    <p class="updated-line">
+      Données mises à jour le 2026-08-15 · Panel V1 ·
+      40 villes ·
+      <a href="/radar-immobilier">Retour au radar</a>
+    </p>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <nav class="site-footer-nav" aria-label="Liens de pied de page">
+      <a href="https://bailleursuite.fr">Accueil</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#tarifs">Tarifs</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#faq">FAQ</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP 2026</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/radar-immobilier">Radar immobilier</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif logiciels</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/aide">Centre d'aide</a>
+    </nav>
+    <div class="site-footer-bottom">
+      <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>
+      <p style="margin-top:8px;">
+        <a href="https://bailleursuite.fr/conditions-utilisation.html">Mentions légales &amp; CGU</a>
+        <a href="https://bailleursuite.fr/politique-confidentialite.html">Politique de confidentialité</a>
+        <a href="mailto:contact@bailleursuite.fr">Contact</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var b=document.getElementById('nav-burger'),m=document.getElementById('nav-mobile-menu');
+  if(!b||!m)return;
+  b.addEventListener('click',function(){
+    var o=m.classList.toggle('is-open');
+    b.setAttribute('aria-expanded',String(o));
+  });
+  document.addEventListener('click',function(e){
+    if(m.classList.contains('is-open')&&!m.contains(e.target)&&!b.contains(e.target)){
+      m.classList.remove('is-open');
+      b.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script></body>
+</html>

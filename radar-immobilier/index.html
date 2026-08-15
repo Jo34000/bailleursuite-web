@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Prix au m², loyers et rendement brut dans 40 villes françaises. Médiane du panel : 2 689 €/m² et 6,06 % de rendement. Données DVF et INSEE, tableau triable.">
+<title>Radar immobilier : 40 villes comparées — prix au m² et rendement locatif | BailleurSuite</title>
+<link rel="canonical" href="https://bailleursuite.fr/radar-immobilier">
+<meta property="og:title" content="Radar immobilier : 40 villes comparées — prix au m² et rendement locatif">
+<meta property="og:description" content="Prix au m², loyers et rendement brut dans 40 villes françaises. Médiane du panel : 2 689 €/m² et 6,06 % de rendement. Données DVF et INSEE, tableau triable.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bailleursuite.fr/radar-immobilier">
+<meta property="og:image" content="https://bailleursuite.fr/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="BailleurSuite">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Radar immobilier : 40 villes comparées — prix au m² et rendement locatif">
+<meta name="twitter:description" content="Prix au m², loyers et rendement brut dans 40 villes françaises. Médiane du panel : 2 689 €/m² et 6,06 % de rendement. Données DVF et INSEE, tableau triable.">
+<meta name="twitter:image" content="https://bailleursuite.fr/og-image.png">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Comment le rendement brut est-il calculé ?","acceptedAnswer":{"@type":"Answer","text":"Loyer mensuel au m² × 12 ÷ prix de vente au m², × 100. C'est un rendement brut : il n'intègre ni charges de copropriété, ni taxe foncière, ni fiscalité, ni vacance locative. Le rendement net d'un bien réel est toujours inférieur."}},{"@type":"Question","name":"D'où viennent les prix affichés ?","acceptedAnswer":{"@type":"Answer","text":"Des Demandes de Valeurs Foncières (DVF), le fichier des ventes immobilières publié par la DGFiP sous Licence Ouverte 2.0. Ce sont des prix réellement signés chez le notaire, pas des prix d'annonce."}},{"@type":"Question","name":"Pourquoi les prix diffèrent-ils de ceux des portails immobiliers ?","acceptedAnswer":{"@type":"Answer","text":"Deux raisons. Les portails affichent des prix d'annonce, avant négociation ; le DVF enregistre le prix signé. Et nous publions une médiane, moins sensible aux biens d'exception qu'une moyenne."}},{"@type":"Question","name":"Toutes les communes françaises sont-elles couvertes ?","acceptedAnswer":{"@type":"Answer","text":"Non. Ce panel V1 couvre 40 villes. L'Alsace-Moselle (Bas-Rhin, Haut-Rhin, Moselle) est structurellement absente du DVF : ces départements relèvent du Livre foncier et non du fichier immobilier, et ne transmettent donc pas leurs mutations."}},{"@type":"Question","name":"À quelle fréquence ces données sont-elles mises à jour ?","acceptedAnswer":{"@type":"Answer","text":"À chaque nouvelle publication des sources : le DVF paraît deux fois par an, la carte des loyers et le recensement INSEE une fois par an. La date de mise à jour figure en bas de chaque page."}},{"@type":"Question","name":"Ces indicateurs suffisent-ils pour décider d'un investissement ?","acceptedAnswer":{"@type":"Answer","text":"Non. Ce sont des indicateurs communaux : ils lissent les écarts entre quartiers, ignorent l'état du bien, les charges, la copropriété et votre situation fiscale. Ils servent à comparer des villes entre elles, pas à valider un bien précis."}}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://bailleursuite.fr/"},{"@type":"ListItem","position":2,"name":"Radar immobilier","item":"https://bailleursuite.fr/radar-immobilier"}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+<link rel="stylesheet" href="/styles/design-system.css">
+<link rel="stylesheet" href="/styles/radar.css">
+</head><body>
+<header>
+<nav class="site-nav" aria-label="Navigation principale">
+  <a class="nav-logo" href="https://bailleursuite.fr">
+    <div class="nav-logo-icon">
+      <svg width="30" height="30" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="eg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2D6A4F"/><stop offset="1" stop-color="#3D8B68"/>
+          </linearGradient>
+        </defs>
+        <rect width="320" height="320" rx="70" fill="url(#eg)"/>
+        <g transform="scale(1.6)"><g transform="translate(-14,0.8)">
+          <path d="M 66 150 L 66 70 L 90 44 L 120 44 Q 152 44 152 68 Q 152 92 120 92 Q 156 98 156 122 Q 156 150 120 150 Z M 96 64 L 96 91 L 113 91 Q 126 91 126 77.5 Q 126 64 113 64 Z M 96 99 L 96 130 L 117 130 Q 130 130 130 114.5 Q 130 99 117 99 Z" fill="#FFFFFF" fill-rule="evenodd"/>
+        </g></g>
+      </svg>
+    </div>
+    Bailleur<span class="nav-logo-suite">Suite</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice</a>
+    <a class="nav-link" href="https://bailleursuite.fr/declaration-2044-guide">Guide 2044</a>
+    <a class="nav-link" href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP</a>
+    <a class="nav-link" href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF</a>
+    <a class="nav-link" href="https://bailleursuite.fr/radar-immobilier">Radar</a>
+    <a class="nav-link" href="https://bailleursuite.fr/aide">Aide</a>
+    <a class="nav-link" href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif</a>
+  </div>
+  <a class="nav-cta" href="https://bailleursuite.fr/#waitlist">Être notifié au lancement — Septembre 2026</a>
+  <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-label="Ouvrir le menu">
+    <span class="nav-burger-line"></span>
+    <span class="nav-burger-line"></span>
+    <span class="nav-burger-line"></span>
+  </button>
+</nav>
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+  <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+  <a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP 2026</a>
+  <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+  <a href="https://bailleursuite.fr/radar-immobilier">Radar immobilier</a>
+  <a href="https://bailleursuite.fr/aide">Centre d'aide</a>
+  <a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif logiciels</a>
+</div>
+</header>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Radar immobilier</div>
+    <h1>40 villes, <em>les mêmes indicateurs</em>, aucune estimation</h1>
+    <p class="hero-intro">
+      Prix au mètre carré, loyer de marché et rendement brut, calculés de la
+      même façon partout, à partir des ventes réellement signées et du
+      recensement. Médiane du panel : 2 689 €/m² pour
+      6,06 % de rendement brut.
+    </p>
+    <div class="hero-meta">
+      <span>Sources DVF (DGFiP) &amp; INSEE</span>
+      <span>&nbsp;·&nbsp;</span>
+      <span>Mis à jour le 2026-08-15</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#tableau" class="btn-primary">Voir le classement</a>
+      <a href="/radar-immobilier/methodologie" class="btn-secondary">Méthodologie</a>
+    </div>
+  </div>
+</section>
+
+<nav class="breadcrumb breadcrumb-wide" aria-label="Fil d'Ariane">
+  <ol>
+    <li><a href="/">Accueil</a></li>
+    <li aria-current="page">Radar immobilier</li>
+  </ol>
+</nav>
+
+<div class="radar-layout radar-layout-wide">
+  <article class="article-content">
+
+    <h2 id="intro">Comparer des villes, pas des annonces</h2>
+
+    <p>
+      La plupart des classements immobiliers reposent sur des prix d'annonce :
+      ce que les vendeurs <strong>espèrent</strong> obtenir. Le Radar part de
+      ce qui a été <strong>réellement signé</strong> chez le notaire, publié
+      par la DGFiP dans le fichier des Demandes de Valeurs Foncières. L'écart
+      entre les deux n'est pas anecdotique — il représente la marge de
+      négociation, qui varie fortement d'un marché à l'autre.
+    </p>
+
+    <p>
+      Chaque commune est traitée avec exactement la même chaîne de calcul :
+      même filtrage des mutations, même médiane, même formule de rendement.
+      C'est ce qui rend la comparaison honnête. Quand une donnée manque, elle
+      reste vide : rien n'est estimé, rien n'est reporté d'une année ou d'une
+      commune voisine.
+    </p>
+
+    <div class="callout callout-info">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">ℹ️</span>
+        <span class="callout-label">Rendement brut</span>
+      </div>
+      <p>
+        Loyer mensuel au m² × 12 ÷ prix de vente au m². Ni charges, ni taxe
+        foncière, ni fiscalité, ni vacance ne sont déduites — le rendement net
+        d'un bien réel est toujours inférieur. Cet indicateur sert à
+        <em>comparer</em> des villes, pas à évaluer une opération.
+      </p>
+    </div>
+
+    <h2 id="tableau">Le classement</h2>
+
+    <p class="table-note">
+      Trié par rendement brut décroissant. Cliquez sur un en-tête pour
+      changer de tri.
+    </p>
+
+    <div class="table-wrap">
+      <table class="radar-table" id="radar-table">
+        <thead>
+          <tr>
+            <th scope="col" data-sort="text"  aria-sort="none" tabindex="0" role="columnheader">Ville</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Prix €/m²</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Loyer €/m²</th>
+            <th scope="col" data-sort="num"   aria-sort="descending" tabindex="0" role="columnheader">Rendement</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Population</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Évol. pop.</th>
+            <th scope="col" data-sort="num"   aria-sort="none" tabindex="0" role="columnheader">Vacance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/saint-etienne">Saint-Étienne</a>
+              <div class="cell-dep">42 · Auvergne-Rhône-Alpes</div>
+            </td>
+            <td class="num" data-value="1207">
+1 207            </td>
+            <td class="num" data-value="9.88">
+9,88            </td>
+            <td class="num" data-value="9.82">
+9,82 %            </td>
+            <td class="num" data-value="173136">
+173 136            </td>
+            <td class="num" data-value="0.06">
++0,06 %            </td>
+            <td class="num" data-value="12.01">
+12,0 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/perpignan">Perpignan</a>
+              <div class="cell-dep">66 · Occitanie</div>
+            </td>
+            <td class="num" data-value="1508">
+1 508            </td>
+            <td class="num" data-value="12.18">
+12,18            </td>
+            <td class="num" data-value="9.69">
+9,69 %            </td>
+            <td class="num" data-value="121616">
+121 616            </td>
+            <td class="num" data-value="0.2">
++0,20 %            </td>
+            <td class="num" data-value="14.63">
+14,6 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/limoges">Limoges</a>
+              <div class="cell-dep">87 · Nouvelle-Aquitaine</div>
+            </td>
+            <td class="num" data-value="1520">
+1 520            </td>
+            <td class="num" data-value="10.36">
+10,36            </td>
+            <td class="num" data-value="8.18">
+8,18 %            </td>
+            <td class="num" data-value="129937">
+129 937            </td>
+            <td class="num" data-value="-0.28">
+−0,28 %            </td>
+            <td class="num" data-value="9.16">
+9,2 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/beziers">Béziers</a>
+              <div class="cell-dep">34 · Occitanie</div>
+            </td>
+            <td class="num" data-value="1673">
+1 673            </td>
+            <td class="num" data-value="11.16">
+11,16            </td>
+            <td class="num" data-value="8.0">
+8,00 %            </td>
+            <td class="num" data-value="81545">
+81 545            </td>
+            <td class="num" data-value="0.92">
++0,92 %            </td>
+            <td class="num" data-value="15.6">
+15,6 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/nimes">Nîmes</a>
+              <div class="cell-dep">30 · Occitanie</div>
+            </td>
+            <td class="num" data-value="2200">
+2 200            </td>
+            <td class="num" data-value="14.64">
+14,64            </td>
+            <td class="num" data-value="7.99">
+7,99 %            </td>
+            <td class="num" data-value="151839">
+151 839            </td>
+            <td class="num" data-value="0.14">
++0,14 %            </td>
+            <td class="num" data-value="11.06">
+11,1 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/le-mans">Le Mans</a>
+              <div class="cell-dep">72 · Pays de la Loire</div>
+            </td>
+            <td class="num" data-value="1935">
+1 935            </td>
+            <td class="num" data-value="11.77">
+11,77            </td>
+            <td class="num" data-value="7.3">
+7,30 %            </td>
+            <td class="num" data-value="146249">
+146 249            </td>
+            <td class="num" data-value="0.38">
++0,38 %            </td>
+            <td class="num" data-value="9.45">
+9,4 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/valence">Valence</a>
+              <div class="cell-dep">26 · Auvergne-Rhône-Alpes</div>
+            </td>
+            <td class="num" data-value="1970">
+1 970            </td>
+            <td class="num" data-value="11.93">
+11,93            </td>
+            <td class="num" data-value="7.27">
+7,27 %            </td>
+            <td class="num" data-value="64458">
+64 458            </td>
+            <td class="num" data-value="0.19">
++0,19 %            </td>
+            <td class="num" data-value="11.5">
+11,5 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/clermont-ferrand">Clermont-Ferrand</a>
+              <div class="cell-dep">63 · Auvergne-Rhône-Alpes</div>
+            </td>
+            <td class="num" data-value="2119">
+2 119            </td>
+            <td class="num" data-value="12.49">
+12,49            </td>
+            <td class="num" data-value="7.07">
+7,07 %            </td>
+            <td class="num" data-value="146351">
+146 351            </td>
+            <td class="num" data-value="0.28">
++0,28 %            </td>
+            <td class="num" data-value="9.65">
+9,7 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/besancon">Besançon</a>
+              <div class="cell-dep">25 · Bourgogne-Franche-Comté</div>
+            </td>
+            <td class="num" data-value="2201">
+2 201            </td>
+            <td class="num" data-value="12.88">
+12,88            </td>
+            <td class="num" data-value="7.02">
+7,02 %            </td>
+            <td class="num" data-value="118489">
+118 489            </td>
+            <td class="num" data-value="0.36">
++0,36 %            </td>
+            <td class="num" data-value="9.49">
+9,5 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/brest">Brest</a>
+              <div class="cell-dep">29 · Bretagne</div>
+            </td>
+            <td class="num" data-value="2149">
+2 149            </td>
+            <td class="num" data-value="12.18">
+12,18            </td>
+            <td class="num" data-value="6.8">
+6,80 %            </td>
+            <td class="num" data-value="142346">
+142 346            </td>
+            <td class="num" data-value="0.27">
++0,27 %            </td>
+            <td class="num" data-value="6.5">
+6,5 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/le-havre">Le Havre</a>
+              <div class="cell-dep">76 · Normandie</div>
+            </td>
+            <td class="num" data-value="2198">
+2 198            </td>
+            <td class="num" data-value="12.36">
+12,36            </td>
+            <td class="num" data-value="6.75">
+6,75 %            </td>
+            <td class="num" data-value="166687">
+166 687            </td>
+            <td class="num" data-value="-0.34">
+−0,34 %            </td>
+            <td class="num" data-value="10.85">
+10,8 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/orleans">Orléans</a>
+              <div class="cell-dep">45 · Centre-Val de Loire</div>
+            </td>
+            <td class="num" data-value="2532">
+2 532            </td>
+            <td class="num" data-value="14.25">
+14,25            </td>
+            <td class="num" data-value="6.75">
+6,75 %            </td>
+            <td class="num" data-value="116357">
+116 357            </td>
+            <td class="num" data-value="-0.05">
+−0,05 %            </td>
+            <td class="num" data-value="10.34">
+10,3 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/poitiers">Poitiers</a>
+              <div class="cell-dep">86 · Nouvelle-Aquitaine</div>
+            </td>
+            <td class="num" data-value="2174">
+2 174            </td>
+            <td class="num" data-value="12.18">
+12,18            </td>
+            <td class="num" data-value="6.72">
+6,72 %            </td>
+            <td class="num" data-value="89916">
+89 916            </td>
+            <td class="num" data-value="0.3">
++0,30 %            </td>
+            <td class="num" data-value="9.22">
+9,2 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/pau">Pau</a>
+              <div class="cell-dep">64 · Nouvelle-Aquitaine</div>
+            </td>
+            <td class="num" data-value="2182">
+2 182            </td>
+            <td class="num" data-value="12.05">
+12,05            </td>
+            <td class="num" data-value="6.63">
+6,63 %            </td>
+            <td class="num" data-value="80441">
+80 441            </td>
+            <td class="num" data-value="0.7">
++0,70 %            </td>
+            <td class="num" data-value="13.69">
+13,7 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/amiens">Amiens</a>
+              <div class="cell-dep">80 · Hauts-de-France</div>
+            </td>
+            <td class="num" data-value="2470">
+2 470            </td>
+            <td class="num" data-value="13.4">
+13,40            </td>
+            <td class="num" data-value="6.51">
+6,51 %            </td>
+            <td class="num" data-value="136449">
+136 449            </td>
+            <td class="num" data-value="0.3">
++0,30 %            </td>
+            <td class="num" data-value="9.28">
+9,3 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/nancy">Nancy</a>
+              <div class="cell-dep">54 · Grand Est</div>
+            </td>
+            <td class="num" data-value="2262">
+2 262            </td>
+            <td class="num" data-value="12.15">
+12,15            </td>
+            <td class="num" data-value="6.45">
+6,45 %            </td>
+            <td class="num" data-value="103671">
+103 671            </td>
+            <td class="num" data-value="-0.1">
+−0,10 %            </td>
+            <td class="num" data-value="12.01">
+12,0 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/grenoble">Grenoble</a>
+              <div class="cell-dep">38 · Auvergne-Rhône-Alpes</div>
+            </td>
+            <td class="num" data-value="2500">
+2 500            </td>
+            <td class="num" data-value="13.41">
+13,41            </td>
+            <td class="num" data-value="6.44">
+6,44 %            </td>
+            <td class="num" data-value="156140">
+156 140            </td>
+            <td class="num" data-value="-0.24">
+−0,24 %            </td>
+            <td class="num" data-value="13.5">
+13,5 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/toulon">Toulon</a>
+              <div class="cell-dep">83 · Provence-Alpes-Côte d&#39;Azur</div>
+            </td>
+            <td class="num" data-value="2708">
+2 708            </td>
+            <td class="num" data-value="14.43">
+14,43            </td>
+            <td class="num" data-value="6.39">
+6,39 %            </td>
+            <td class="num" data-value="179116">
+179 116            </td>
+            <td class="num" data-value="0.68">
++0,68 %            </td>
+            <td class="num" data-value="3.6">
+3,6 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/avignon">Avignon</a>
+              <div class="cell-dep">84 · Provence-Alpes-Côte d&#39;Azur</div>
+            </td>
+            <td class="num" data-value="2353">
+2 353            </td>
+            <td class="num" data-value="12.27">
+12,27            </td>
+            <td class="num" data-value="6.26">
+6,26 %            </td>
+            <td class="num" data-value="92188">
+92 188            </td>
+            <td class="num" data-value="0.05">
++0,05 %            </td>
+            <td class="num" data-value="14.28">
+14,3 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/marseille">Marseille</a>
+              <div class="cell-dep">13 · Provence-Alpes-Côte d&#39;Azur</div>
+            </td>
+            <td class="num" data-value="3181">
+3 181            </td>
+            <td class="num" data-value="16.3">
+16,30            </td>
+            <td class="num" data-value="6.15">
+6,15 %            </td>
+            <td class="num" data-value="886040">
+886 040            </td>
+            <td class="num" data-value="0.43">
++0,43 %            </td>
+            <td class="num" data-value="7.6">
+7,6 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/dijon">Dijon</a>
+              <div class="cell-dep">21 · Bourgogne-Franche-Comté</div>
+            </td>
+            <td class="num" data-value="2681">
+2 681            </td>
+            <td class="num" data-value="13.34">
+13,34            </td>
+            <td class="num" data-value="5.97">
+5,97 %            </td>
+            <td class="num" data-value="161830">
+161 830            </td>
+            <td class="num" data-value="0.51">
++0,51 %            </td>
+            <td class="num" data-value="7.34">
+7,3 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/reims">Reims</a>
+              <div class="cell-dep">51 · Grand Est</div>
+            </td>
+            <td class="num" data-value="2640">
+2 640            </td>
+            <td class="num" data-value="13.1">
+13,10            </td>
+            <td class="num" data-value="5.95">
+5,95 %            </td>
+            <td class="num" data-value="177674">
+177 674            </td>
+            <td class="num" data-value="-0.44">
+−0,44 %            </td>
+            <td class="num" data-value="9.97">
+10,0 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/rouen">Rouen</a>
+              <div class="cell-dep">76 · Normandie</div>
+            </td>
+            <td class="num" data-value="2697">
+2 697            </td>
+            <td class="num" data-value="13.28">
+13,28            </td>
+            <td class="num" data-value="5.91">
+5,91 %            </td>
+            <td class="num" data-value="117662">
+117 662            </td>
+            <td class="num" data-value="1.11">
++1,11 %            </td>
+            <td class="num" data-value="9.75">
+9,8 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/tours">Tours</a>
+              <div class="cell-dep">37 · Centre-Val de Loire</div>
+            </td>
+            <td class="num" data-value="2831">
+2 831            </td>
+            <td class="num" data-value="13.51">
+13,51            </td>
+            <td class="num" data-value="5.73">
+5,73 %            </td>
+            <td class="num" data-value="139259">
+139 259            </td>
+            <td class="num" data-value="0.42">
++0,42 %            </td>
+            <td class="num" data-value="11.18">
+11,2 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/caen">Caen</a>
+              <div class="cell-dep">14 · Normandie</div>
+            </td>
+            <td class="num" data-value="2972">
+2 972            </td>
+            <td class="num" data-value="13.83">
+13,83            </td>
+            <td class="num" data-value="5.58">
+5,58 %            </td>
+            <td class="num" data-value="109400">
+109 400            </td>
+            <td class="num" data-value="0.63">
++0,63 %            </td>
+            <td class="num" data-value="8.87">
+8,9 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/angers">Angers</a>
+              <div class="cell-dep">49 · Pays de la Loire</div>
+            </td>
+            <td class="num" data-value="3140">
+3 140            </td>
+            <td class="num" data-value="14.56">
+14,56            </td>
+            <td class="num" data-value="5.56">
+5,56 %            </td>
+            <td class="num" data-value="159022">
+159 022            </td>
+            <td class="num" data-value="0.65">
++0,65 %            </td>
+            <td class="num" data-value="5.94">
+5,9 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/montpellier">Montpellier</a>
+              <div class="cell-dep">34 · Occitanie</div>
+            </td>
+            <td class="num" data-value="3395">
+3 395            </td>
+            <td class="num" data-value="15.49">
+15,49            </td>
+            <td class="num" data-value="5.48">
+5,48 %            </td>
+            <td class="num" data-value="310240">
+310 240            </td>
+            <td class="num" data-value="1.42">
++1,42 %            </td>
+            <td class="num" data-value="6.93">
+6,9 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/saint-nazaire">Saint-Nazaire</a>
+              <div class="cell-dep">44 · Pays de la Loire</div>
+            </td>
+            <td class="num" data-value="2828">
+2 828            </td>
+            <td class="num" data-value="12.78">
+12,78            </td>
+            <td class="num" data-value="5.42">
+5,42 %            </td>
+            <td class="num" data-value="74568">
+74 568            </td>
+            <td class="num" data-value="1.06">
++1,06 %            </td>
+            <td class="num" data-value="7.14">
+7,1 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/villeurbanne">Villeurbanne</a>
+              <div class="cell-dep">69 · Auvergne-Rhône-Alpes</div>
+            </td>
+            <td class="num" data-value="3576">
+3 576            </td>
+            <td class="num" data-value="15.63">
+15,63            </td>
+            <td class="num" data-value="5.24">
+5,24 %            </td>
+            <td class="num" data-value="163684">
+163 684            </td>
+            <td class="num" data-value="1.73">
++1,73 %            </td>
+            <td class="num" data-value="8.13">
+8,1 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/toulouse">Toulouse</a>
+              <div class="cell-dep">31 · Occitanie</div>
+            </td>
+            <td class="num" data-value="3254">
+3 254            </td>
+            <td class="num" data-value="13.98">
+13,98            </td>
+            <td class="num" data-value="5.16">
+5,16 %            </td>
+            <td class="num" data-value="514819">
+514 819            </td>
+            <td class="num" data-value="1.19">
++1,19 %            </td>
+            <td class="num" data-value="8.24">
+8,2 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/nantes">Nantes</a>
+              <div class="cell-dep">44 · Pays de la Loire</div>
+            </td>
+            <td class="num" data-value="3396">
+3 396            </td>
+            <td class="num" data-value="14.5">
+14,50            </td>
+            <td class="num" data-value="5.12">
+5,12 %            </td>
+            <td class="num" data-value="327734">
+327 734            </td>
+            <td class="num" data-value="0.97">
++0,97 %            </td>
+            <td class="num" data-value="6.06">
+6,1 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/lille">Lille</a>
+              <div class="cell-dep">59 · Hauts-de-France</div>
+            </td>
+            <td class="num" data-value="3719">
+3 719            </td>
+            <td class="num" data-value="15.76">
+15,76            </td>
+            <td class="num" data-value="5.09">
+5,09 %            </td>
+            <td class="num" data-value="238246">
+238 246            </td>
+            <td class="num" data-value="0.39">
++0,39 %            </td>
+            <td class="num" data-value="8.03">
+8,0 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/nice">Nice</a>
+              <div class="cell-dep">06 · Provence-Alpes-Côte d&#39;Azur</div>
+            </td>
+            <td class="num" data-value="4836">
+4 836            </td>
+            <td class="num" data-value="20.43">
+20,43            </td>
+            <td class="num" data-value="5.07">
+5,07 %            </td>
+            <td class="num" data-value="357737">
+357 737            </td>
+            <td class="num" data-value="0.85">
++0,85 %            </td>
+            <td class="num" data-value="12.4">
+12,4 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/rennes">Rennes</a>
+              <div class="cell-dep">35 · Bretagne</div>
+            </td>
+            <td class="num" data-value="3700">
+3 700            </td>
+            <td class="num" data-value="14.87">
+14,87            </td>
+            <td class="num" data-value="4.82">
+4,82 %            </td>
+            <td class="num" data-value="230890">
+230 890            </td>
+            <td class="num" data-value="1.05">
++1,05 %            </td>
+            <td class="num" data-value="6.47">
+6,5 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/annecy">Annecy</a>
+              <div class="cell-dep">74 · Auvergne-Rhône-Alpes</div>
+            </td>
+            <td class="num" data-value="5118">
+5 118            </td>
+            <td class="num" data-value="20.45">
+20,45            </td>
+            <td class="num" data-value="4.79">
+4,79 %            </td>
+            <td class="num" data-value="132117">
+132 117            </td>
+            <td class="num" data-value="0.67">
++0,67 %            </td>
+            <td class="num" data-value="7.32">
+7,3 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/aix-en-provence">Aix-en-Provence</a>
+              <div class="cell-dep">13 · Provence-Alpes-Côte d&#39;Azur</div>
+            </td>
+            <td class="num" data-value="4818">
+4 818            </td>
+            <td class="num" data-value="19.14">
+19,14            </td>
+            <td class="num" data-value="4.77">
+4,77 %            </td>
+            <td class="num" data-value="149695">
+149 695            </td>
+            <td class="num" data-value="0.83">
++0,83 %            </td>
+            <td class="num" data-value="8.03">
+8,0 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/bordeaux">Bordeaux</a>
+              <div class="cell-dep">33 · Nouvelle-Aquitaine</div>
+            </td>
+            <td class="num" data-value="4133">
+4 133            </td>
+            <td class="num" data-value="15.99">
+15,99            </td>
+            <td class="num" data-value="4.64">
+4,64 %            </td>
+            <td class="num" data-value="267991">
+267 991            </td>
+            <td class="num" data-value="0.87">
++0,87 %            </td>
+            <td class="num" data-value="6.75">
+6,8 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/lyon">Lyon</a>
+              <div class="cell-dep">69 · Auvergne-Rhône-Alpes</div>
+            </td>
+            <td class="num" data-value="4500">
+4 500            </td>
+            <td class="num" data-value="16.57">
+16,57            </td>
+            <td class="num" data-value="4.42">
+4,42 %            </td>
+            <td class="num" data-value="519127">
+519 127            </td>
+            <td class="num" data-value="0.1">
++0,10 %            </td>
+            <td class="num" data-value="9.34">
+9,3 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/paris">Paris</a>
+              <div class="cell-dep">75 · Île-de-France</div>
+            </td>
+            <td class="num" data-value="9478">
+9 478            </td>
+            <td class="num" data-value="32.13">
+32,13            </td>
+            <td class="num" data-value="4.07">
+4,07 %            </td>
+            <td class="num" data-value="2103778">
+2 103 778            </td>
+            <td class="num" data-value="-0.65">
+−0,65 %            </td>
+            <td class="num" data-value="9.92">
+9,9 %            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/radar-immobilier/la-rochelle">La Rochelle</a>
+              <div class="cell-dep">17 · Nouvelle-Aquitaine</div>
+            </td>
+            <td class="num" data-value="4816">
+4 816            </td>
+            <td class="num" data-value="14.75">
+14,75            </td>
+            <td class="num" data-value="3.68">
+3,68 %            </td>
+            <td class="num" data-value="79851">
+79 851            </td>
+            <td class="num" data-value="0.89">
++0,89 %            </td>
+            <td class="num" data-value="6.27">
+6,3 %            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="table-note">
+      Un tiret signale une donnée absente de la source, jamais une valeur nulle.
+      Ces lignes se placent en fin de tri quel que soit le sens choisi.
+    </p>
+
+    <h2 id="lecture">Comment lire ce tableau</h2>
+
+    <p>
+      Un rendement élevé n'est pas en soi une bonne nouvelle. Il traduit le
+      plus souvent un prix d'achat bas — donc un marché où la revente est
+      moins liquide et la demande locative plus fragile. À l'inverse, les
+      villes les plus chères affichent des rendements modestes parce que
+      l'acheteur y paie aussi une espérance de plus-value et une sécurité
+      locative.
+    </p>
+
+    <p>
+      Les colonnes <strong>population</strong> et <strong>vacance</strong>
+      servent à trancher entre ces deux lectures : un rendement élevé dans une
+      ville qui gagne des habitants et dont le parc est peu vacant n'a rien à
+      voir avec le même rendement dans une ville qui se dépeuple.
+    </p>
+
+    <h2 id="faq">Questions fréquentes</h2>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Comment le rendement brut est-il calculé ?<span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><p>Loyer mensuel au m² × 12 ÷ prix de vente au m², × 100. C&#39;est un rendement brut : il n&#39;intègre ni charges de copropriété, ni taxe foncière, ni fiscalité, ni vacance locative. Le rendement net d&#39;un bien réel est toujours inférieur.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        D&#39;où viennent les prix affichés ?<span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><p>Des Demandes de Valeurs Foncières (DVF), le fichier des ventes immobilières publié par la DGFiP sous Licence Ouverte 2.0. Ce sont des prix réellement signés chez le notaire, pas des prix d&#39;annonce.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Pourquoi les prix diffèrent-ils de ceux des portails immobiliers ?<span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><p>Deux raisons. Les portails affichent des prix d&#39;annonce, avant négociation ; le DVF enregistre le prix signé. Et nous publions une médiane, moins sensible aux biens d&#39;exception qu&#39;une moyenne.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Toutes les communes françaises sont-elles couvertes ?<span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><p>Non. Ce panel V1 couvre 40 villes. L&#39;Alsace-Moselle (Bas-Rhin, Haut-Rhin, Moselle) est structurellement absente du DVF : ces départements relèvent du Livre foncier et non du fichier immobilier, et ne transmettent donc pas leurs mutations.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        À quelle fréquence ces données sont-elles mises à jour ?<span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><p>À chaque nouvelle publication des sources : le DVF paraît deux fois par an, la carte des loyers et le recensement INSEE une fois par an. La date de mise à jour figure en bas de chaque page.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Ces indicateurs suffisent-ils pour décider d&#39;un investissement ?<span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><p>Non. Ce sont des indicateurs communaux : ils lissent les écarts entre quartiers, ignorent l&#39;état du bien, les charges, la copropriété et votre situation fiscale. Ils servent à comparer des villes entre elles, pas à valider un bien précis.</p></div>
+    </div>
+
+    <div class="callout callout-warn">
+      <div class="callout-header">
+        <span class="callout-icon" aria-hidden="true">⚠️</span>
+        <span class="callout-label">Portée de ces indicateurs</span>
+      </div>
+      <p>Les indicateurs présentés sont des estimations territoriales issues de données publiques. Ils ne constituent ni un conseil en investissement, ni une garantie de rendement, et ne se substituent pas à l&#39;analyse d&#39;un bien précis.</p>
+    </div>
+
+    <section class="app-promo">
+      <div class="app-promo-badge">BailleurSuite</div>
+      <h2>Analysez votre projet dans BailleurSuite</h2>
+      <p>
+        Rendement net, cash-flow, amortissements LMNP et déclaration fiscale :
+        passez des moyennes communales à l'analyse de votre bien réel.
+      </p>
+      <a class="appstore-btn" href="/">Découvrir l'application</a>
+    </section>
+
+    <p class="updated-line">
+      Données mises à jour le 2026-08-15 · Panel V1 ·
+      40 villes ·
+      <a href="/radar-immobilier/methodologie">Méthodologie et sources</a>
+    </p>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <nav class="site-footer-nav" aria-label="Liens de pied de page">
+      <a href="https://bailleursuite.fr">Accueil</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#tarifs">Tarifs</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/#faq">FAQ</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP 2026</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/radar-immobilier">Radar immobilier</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif logiciels</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
+      <span class="site-footer-sep">·</span>
+      <a href="https://bailleursuite.fr/aide">Centre d'aide</a>
+    </nav>
+    <div class="site-footer-bottom">
+      <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>
+      <p style="margin-top:8px;">
+        <a href="https://bailleursuite.fr/conditions-utilisation.html">Mentions légales &amp; CGU</a>
+        <a href="https://bailleursuite.fr/politique-confidentialite.html">Politique de confidentialité</a>
+        <a href="mailto:contact@bailleursuite.fr">Contact</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var b=document.getElementById('nav-burger'),m=document.getElementById('nav-mobile-menu');
+  if(!b||!m)return;
+  b.addEventListener('click',function(){
+    var o=m.classList.toggle('is-open');
+    b.setAttribute('aria-expanded',String(o));
+  });
+  document.addEventListener('click',function(e){
+    if(m.classList.contains('is-open')&&!m.contains(e.target)&&!b.contains(e.target)){
+      m.classList.remove('is-open');
+      b.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+<script>
+/* Tri du tableau — vanilla, sans dépendance.
+   Les cellules numériques portent data-value ; une valeur absente est une
+   chaîne vide et se range toujours en fin de tri, dans les deux sens. */
+(function () {
+  var table = document.getElementById('radar-table');
+  if (!table) return;
+  var tbody = table.tBodies[0];
+  var entetes = table.tHead.rows[0].cells;
+
+  function trier(index, type, sens) {
+    var lignes = Array.prototype.slice.call(tbody.rows);
+    lignes.sort(function (a, b) {
+      var ca = a.cells[index], cb = b.cells[index];
+      if (type === 'num') {
+        var va = ca.getAttribute('data-value');
+        var vb = cb.getAttribute('data-value');
+        var na = va === '' || va === null ? null : parseFloat(va);
+        var nb = vb === '' || vb === null ? null : parseFloat(vb);
+        if (na === null && nb === null) return 0;
+        if (na === null) return 1;      // absents en fin, quel que soit le sens
+        if (nb === null) return -1;
+        return sens === 'ascending' ? na - nb : nb - na;
+      }
+      var ta = ca.textContent.trim(), tb = cb.textContent.trim();
+      return sens === 'ascending'
+        ? ta.localeCompare(tb, 'fr')
+        : tb.localeCompare(ta, 'fr');
+    });
+    lignes.forEach(function (l) { tbody.appendChild(l); });
+  }
+
+  function activer(th, index) {
+    var type = th.getAttribute('data-sort');
+    var actuel = th.getAttribute('aria-sort');
+    var sens = actuel === 'descending' ? 'ascending' : 'descending';
+    if (type === 'text') sens = actuel === 'ascending' ? 'descending' : 'ascending';
+    for (var i = 0; i < entetes.length; i++) entetes[i].setAttribute('aria-sort', 'none');
+    th.setAttribute('aria-sort', sens);
+    trier(index, type, sens);
+  }
+
+  Array.prototype.forEach.call(entetes, function (th, index) {
+    if (!th.hasAttribute('data-sort')) return;
+    th.addEventListener('click', function () { activer(th, index); });
+    th.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activer(th, index); }
+    });
+  });
+})();
+
+function toggleFaq(btn) {
+  var a = btn.nextElementSibling, icon = btn.querySelector('.faq-icon');
+  var open = a.style.display === 'block';
+  document.querySelectorAll('.faq-a').forEach(function (x) { x.style.display = 'none'; });
+  document.querySelectorAll('.faq-q').forEach(function (q) { q.setAttribute('aria-expanded', 'false'); });
+  document.querySelectorAll('.faq-icon').forEach(function (i) {
+    i.textContent = '+'; i.style.transform = 'rotate(0)';
+  });
+  if (!open) {
+    a.style.display = 'block';
+    btn.setAttribute('aria-expanded', 'true');
+    icon.textContent = '×';
+    icon.style.transform = 'rotate(90deg)';
+  }
+}
+</script>
+</body>
+</html>
