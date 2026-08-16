@@ -37,19 +37,6 @@
   --radar-neutral-bg:    rgba(255,255,255,.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --radar-bg:            #111315;
-    --radar-surface:       rgba(255,255,255,.05);
-    --radar-surface-strong: rgba(255,255,255,.08);
-    --radar-line:          rgba(255,255,255,.07);
-    --radar-pos:           #5DB888;
-    --radar-pos-bg:        rgba(45,106,79,.16);
-    --radar-warn:          #E2C47A;
-    --radar-warn-bg:       rgba(201,168,76,.10);
-    --radar-neutral-bg:    rgba(255,255,255,.04);
-  }
-}
 
 body { background: var(--radar-bg); color: var(--ink); }
 
@@ -128,9 +115,6 @@ body { background: var(--radar-bg); color: var(--ink); }
   transition: background 180ms var(--radar-ease);
 }
 .btn-secondary:hover { background: #fff; }
-@media (prefers-color-scheme: dark) {
-  .btn-secondary:hover { background: rgba(255,255,255,.12); }
-}
 
 /* ══════════════════════════════════
    3. LAYOUT ARTICLE
@@ -178,9 +162,6 @@ body { background: var(--radar-bg); color: var(--ink); }
 .callout-info   { background: var(--radar-pos-bg);  border-color: rgba(45,106,79,.2); }
 .callout-warn   { background: var(--radar-warn-bg); border-color: rgba(201,168,76,.25); }
 .callout-danger { background: rgba(253,233,233,.75); border-color: rgba(192,57,43,.15); }
-@media (prefers-color-scheme: dark) {
-  .callout-danger { background: rgba(192,57,43,.10); }
-}
 .callout-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .callout-icon { font-size: 1.1rem; }
 .callout-label {
@@ -190,9 +171,6 @@ body { background: var(--radar-bg); color: var(--ink); }
 .callout-info .callout-label   { color: var(--mint); }
 .callout-warn .callout-label   { color: var(--radar-warn); }
 .callout-danger .callout-label { color: #8B1A1A; }
-@media (prefers-color-scheme: dark) {
-  .callout-danger .callout-label { color: #E58B84; }
-}
 .callout p { font-size: .9rem; margin-bottom: 0; max-width: 100%; }
 
 /* ══════════════════════════════════

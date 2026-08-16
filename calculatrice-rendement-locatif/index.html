@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
 <!-- Preconnect & fonts — non-blocking -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,11 +36,6 @@
   --border: rgba(17,19,21,.08); --cream: rgba(255,255,255,.6);
   --radius: 26px; --radius-sm: 16px; --radius-xs: 12px;
   --shadow: 0 20px 60px rgba(0,0,0,.06);
-}
-@media (prefers-color-scheme: dark) {
-  :root { --bg: #111315; --surface: rgba(255,255,255,.05); --surface-strong: rgba(255,255,255,.09);
-    --ink: #F0EDE8; --ink-soft: #9A9DA3; --ink-light: #5A5D63;
-    --border: rgba(255,255,255,.08); --cream: rgba(255,255,255,.04); }
 }
 body { color: var(--ink); }
 
@@ -79,7 +75,6 @@ body { color: var(--ink); }
 /* CALCULATRICE */
 .calc-wrap{max-width:780px;margin:0 auto;padding:0 20px 80px}
 .calc-card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.68));border:1px solid var(--border);border-radius:var(--radius);padding:36px;box-shadow:none}
-@media(prefers-color-scheme:dark){.calc-card{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.04));border-color:rgba(255,255,255,.12)}}
 /* Réduction blur sur mobile pour GPU */
 @media(max-width:680px){.calc-card{-webkit-}.hero-stats{}}
 .calc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);border-radius:var(--radius) var(--radius) 0 0}
@@ -104,7 +99,6 @@ body { color: var(--ink); }
 
 /* Résultats */
 .results{background:rgba(255,255,255,.5);border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);margin-top:12px;box-shadow:none}
-@media(prefers-color-scheme:dark){.results{background:rgba(255,255,255,.04)}}
 .result-row{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid var(--border);transition:background 180ms cubic-bezier(.4,0,.2,1)}
 .result-row:hover{background:rgba(45,106,79,.025)}
 .result-row:last-child{border-bottom:none}
@@ -140,7 +134,6 @@ body { color: var(--ink); }
 .notaire-row{position:relative;border-bottom:1px solid var(--border);overflow:hidden}
 .notaire-blur{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;filter:blur(3.5px);user-select:none;pointer-events:none;opacity:.5}
 .notaire-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(247,244,238,.78)}
-@media(prefers-color-scheme:dark){.notaire-overlay{background:rgba(17,19,21,.78)}}
 
 /* CTA dynamique */
 .calc-cta{margin-top:16px;background:linear-gradient(135deg,#111214,#1D2022);border-radius:var(--radius-sm);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;opacity:0;transform:translateY(10px);transition:opacity 180ms cubic-bezier(.4,0,.2,1),transform 180ms cubic-bezier(.4,0,.2,1);border:1px solid rgba(255,255,255,.06);box-shadow:none}

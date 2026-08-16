@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
 <!-- Preconnect & fonts — non-blocking -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -166,11 +167,6 @@
     --shadow:0 1px 2px rgba(17,19,21,.04),0 8px 24px rgba(17,19,21,.06);
     --shadow-card:none; --shadow-card-hover:0 1px 2px rgba(17,19,21,.04),0 8px 24px rgba(17,19,21,.06);
   }
-  @media(prefers-color-scheme:dark){ :root{
-    --bg-alt:#16181A;
-    --surface-warm:#1A1B19; --surface-sage:#191B19; --surface-ochre:#1B1A17;
-    --surface-edge:rgba(255,255,255,.08); --page-neutral:#141513;
-  } }
 
   /* reading-progress retirée sur la home (barre de progression sélective) */
   .reading-progress{display:none}
@@ -183,11 +179,6 @@
       radial-gradient(120% 70% at 50% -10%, rgba(45,106,79,.10) 0%, transparent 60%),
       radial-gradient(90% 50% at 50% 100%, rgba(201,168,76,.06) 0%, transparent 70%),
       linear-gradient(180deg, #FBFAF7 0%, #F8F5EE 100%);
-  }
-  @media(prefers-color-scheme:dark){
-    .hero-bg{background:
-      radial-gradient(120% 70% at 50% -10%, rgba(61,139,104,.14) 0%, transparent 60%),
-      linear-gradient(180deg,#141513 0%,#101210 100%)}
   }
   .hero-content{position:relative;z-index:1;max-width:840px;margin:0 auto}
   .hero-badge{
@@ -1127,9 +1118,6 @@
     background-repeat:repeat;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-  @media(prefers-color-scheme:dark){
-    .feature-card::before,.distingue-card::before{opacity:.28}
-  }
 
   /* Alternance : la 2e carte (Déclarer) inverse texte et visuel */
   .feature-card:nth-of-type(2) .feature-body{order:2}
@@ -1144,9 +1132,6 @@
 
   .feature-visual{position:relative;z-index:1;display:flex;justify-content:center;align-items:flex-end;align-self:end}
   .device-shot{display:block;width:100%;max-width:300px;height:auto;align-self:end;margin-bottom:0;filter:drop-shadow(0 2px 4px rgba(28,26,20,.10)) drop-shadow(0 28px 50px rgba(28,26,20,.22))}
-  @media(prefers-color-scheme:dark){
-    .device-shot{filter:drop-shadow(0 2px 4px rgba(0,0,0,.35)) drop-shadow(0 28px 50px rgba(0,0,0,.5))}
-  }
   @media(max-width:860px){
     .product-story{padding:80px 20px}
     .product-story-inner{gap:20px}
