@@ -91,7 +91,7 @@ URLS_EXISTANTES = [
     ("/quittance-loyer-pdf-gratuit",       "2026-06-29", "monthly", "0.8"),
     ("/lmnp-guide-complet",                "2026-07-14", "monthly", "0.8"),
     ("/comparatif-logiciel-gestion-locative", "2026-07-14", "monthly", "0.8"),
-    ("/aide",                              "2026-06-29", "monthly", "0.7"),
+    ("/aide",                              "2026-08-17", "monthly", "0.7"),
 ]
 
 AVERTISSEMENT = (
