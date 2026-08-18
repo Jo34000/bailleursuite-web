@@ -37,6 +37,11 @@ try:
 except ImportError:  # pragma: no cover
     sys.exit("Jinja2 requis : pip install jinja2")
 
+# Module voisin : fonctionne que le build soit lancé depuis la racine
+# (`python3 tools/build_radar.py`) ou depuis tools/.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import aide_ancres  # noqa: E402
+
 RACINE = Path(__file__).resolve().parent.parent
 DIR_TEMPLATES = Path(__file__).resolve().parent / "templates"
 DIR_SORTIE = RACINE / "radar-immobilier"
@@ -1478,6 +1483,22 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         return 1
     print(f"✓ JSON-LD vérifié : {valides} blocs valides sur {len(toutes)} "
           f"pages ({len(pages)} Radar + {len(PAGES_HISTORIQUES)} historiques)")
+
+    # ── Contrôle des ancres du centre d'aide ──────────────────────
+    # Une ancre est une URL publique : un lien de support parti dans un
+    # mail doit continuer de fonctionner. Le mapping figé fait foi, et
+    # ce contrôle refuse tout écart entre lui et la page.
+    anomalies = aide_ancres.verifier()
+    if anomalies:
+        print(f"\n✗ {len(anomalies)} anomalie(s) d'ancrage sur /aide :",
+              file=sys.stderr)
+        for a in anomalies[:20]:
+            print(f"    {a}", file=sys.stderr)
+        if len(anomalies) > 20:
+            print(f"    … et {len(anomalies) - 20} autre(s)", file=sys.stderr)
+        return 1
+    print(f"✓ ancres /aide vérifiées : {len(aide_ancres.ANCRES)} articles, "
+          "identifiants uniques et conformes au mapping figé")
 
     total = ecrire_sitemap(preparees, jour)
     print(f"✓ sitemap régénéré : {total} URL ({len(URLS_EXISTANTES)} existantes "

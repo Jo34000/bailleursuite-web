@@ -174,6 +174,72 @@ body { font-family: var(--aide-font); color: var(--ink); }
 /* Accordion item */
 .aide-item + .aide-item { border-top: 1px solid var(--border); }
 
+/* Hauteur de la navbar fixe : une ancre qui viserait le haut exact de
+   l'article ferait passer son titre dessous. Sert au saut natif du
+   navigateur ; le JS applique la même marge pour son propre défilement. */
+.aide-item {
+  position: relative;
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+}
+
+/* Lien d'ancre, à la manière des documentations techniques : invisible
+   jusqu'au survol, logé dans la gouttière gauche du bouton (24px), donc
+   sans jamais recouvrir le titre. */
+.aide-ancre {
+  position: absolute;
+  left: 5px;
+  top: 18px;
+  z-index: 2;
+  width: 15px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--mint);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.aide-item:hover > .aide-ancre,
+.aide-ancre:focus-visible { opacity: 1; }
+.aide-ancre:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* Confirmation de copie. Une infobulle accrochée au lien recouvrirait
+   le titre — la gouttière fait 24px et les lignes sont serrées. Un
+   toast fixe ne masque rien, et role=status le fait annoncer par les
+   lecteurs d'écran, ce qu'un ::after ne garantit pas. */
+/* Bas-droite, pas bas-centre : les titres sont du texte aligné à
+   gauche sur toute la largeur de la carte, un toast centré les barre
+   en plein milieu. À droite il ne croise que la gouttière. */
+.aide-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  transform: translateY(8px);
+  z-index: 60;
+  background: var(--mint);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: var(--r-full);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+}
+.aide-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .aide-item-trigger {
   width: 100%;
   display: flex;
@@ -272,6 +338,10 @@ body { font-family: var(--aide-font); color: var(--ink); }
   .aide-section-header { padding: 18px 18px 14px; }
   .aide-item-trigger { padding: 16px 18px; font-size: 0.92rem; }
   .aide-item-content { padding: 4px 18px 18px; }
+  /* La gouttière tombe à 18px et il n'y a pas de survol au doigt : le
+     lien d'ancre n'aurait aucun moyen d'apparaître sans mordre sur le
+     titre. Les ancres restent évidemment fonctionnelles à l'ouverture. */
+  .aide-ancre { display: none; }
 }
 
 </style>
@@ -374,7 +444,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="ajouter-premier-bien">
+        <a class="aide-ancre" href="#ajouter-premier-bien" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Ajouter mon premier bien
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -386,7 +457,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="comprendre-plans-gratuit-gestion-zen-pass">
+        <a class="aide-ancre" href="#comprendre-plans-gratuit-gestion-zen-pass" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comprendre les plans (Gratuit / Gestion Zen / Pass Fiscal)
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -400,7 +472,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="configurer-profil">
+        <a class="aide-ancre" href="#configurer-profil" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Configurer mon profil
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -412,7 +485,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="modifier-informations-profil">
+        <a class="aide-ancre" href="#modifier-informations-profil" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment modifier mes informations de profil&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -437,7 +511,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="modifier-bien-deja-enregistre-type-location">
+        <a class="aide-ancre" href="#modifier-bien-deja-enregistre-type-location" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment modifier un bien déjà enregistré (type de location, prix, valeur estimée)&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -449,7 +524,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="modifier-informations-credit-bien">
+        <a class="aide-ancre" href="#modifier-informations-credit-bien" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment modifier les informations de crédit d'un bien&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -461,7 +537,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="modifier-loyer-deja-saisi-montant-statut">
+        <a class="aide-ancre" href="#modifier-loyer-deja-saisi-montant-statut" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment modifier un loyer déjà saisi (montant, statut, date)&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -473,7 +550,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="modifier-supprimer-charge">
+        <a class="aide-ancre" href="#modifier-supprimer-charge" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment modifier ou supprimer une charge&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -485,7 +563,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="ajouter-modifier-projet-projets-simulations">
+        <a class="aide-ancre" href="#ajouter-modifier-projet-projets-simulations" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment ajouter ou modifier un projet dans Projets &amp; Simulations&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -510,7 +589,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="encaisser-loyer">
+        <a class="aide-ancre" href="#encaisser-loyer" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Encaisser un loyer
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -522,7 +602,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="ajouter-charge">
+        <a class="aide-ancre" href="#ajouter-charge" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Ajouter une charge
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -534,7 +615,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="generer-quittance">
+        <a class="aide-ancre" href="#generer-quittance" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Générer une quittance
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -546,7 +628,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="combien-quittances-generer-plan-gratuit">
+        <a class="aide-ancre" href="#combien-quittances-generer-plan-gratuit" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Combien de quittances puis-je générer en plan gratuit&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -558,7 +641,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="obtenir-checklist-bailleur">
+        <a class="aide-ancre" href="#obtenir-checklist-bailleur" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Obtenir la checklist du bailleur
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -570,7 +654,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="relancer-locataire">
+        <a class="aide-ancre" href="#relancer-locataire" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Relancer un locataire
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -595,7 +680,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="modifier-informations-locataire">
+        <a class="aide-ancre" href="#modifier-informations-locataire" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment modifier les informations d'un locataire&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -607,7 +693,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="genere-quittance-ancien-locataire">
+        <a class="aide-ancre" href="#genere-quittance-ancien-locataire" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Je génère une quittance pour un ancien locataire, comment faire&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -619,7 +706,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="ajouter-second-locataire-bail-joint-colocation">
+        <a class="aide-ancre" href="#ajouter-second-locataire-bail-joint-colocation" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment ajouter un second locataire (bail joint, colocation, couple)&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -631,7 +719,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="locataire-percoit-aide-logement-caf-msa">
+        <a class="aide-ancre" href="#locataire-percoit-aide-logement-caf-msa" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Un locataire perçoit une aide au logement (CAF, MSA) versée directement à moi (tiers-payant), comment le renseigner&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -643,7 +732,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="gerer-loyer-partiel-changement-locataire-cours">
+        <a class="aide-ancre" href="#gerer-loyer-partiel-changement-locataire-cours" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment gérer un loyer partiel ou un changement de locataire en cours de mois&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -668,7 +758,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="fonctionne-analyse-fiscale">
+        <a class="aide-ancre" href="#fonctionne-analyse-fiscale" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment fonctionne l'analyse fiscale&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -680,7 +771,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="comprendre-recommandation-regime">
+        <a class="aide-ancre" href="#comprendre-recommandation-regime" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comprendre la recommandation de régime
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -692,7 +784,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="location-nue-declaration-2044">
+        <a class="aide-ancre" href="#location-nue-declaration-2044" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Location nue : la déclaration 2044
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -704,7 +797,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="lmnp-regime-reel-bic">
+        <a class="aide-ancre" href="#lmnp-regime-reel-bic" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           LMNP : le régime réel BIC
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -716,7 +810,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="configurer-amortissements-lmnp">
+        <a class="aide-ancre" href="#configurer-amortissements-lmnp" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment configurer mes amortissements (LMNP)&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -728,7 +823,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="seuil-lmp-23-000">
+        <a class="aide-ancre" href="#seuil-lmp-23-000" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Qu'est-ce que le seuil LMP (23&nbsp;000&nbsp;€)&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -741,7 +837,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="pass-fiscal">
+        <a class="aide-ancre" href="#pass-fiscal" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Qu'est-ce que le Pass Fiscal&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -753,7 +850,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="obtenir-synthese-fiscale-pdf">
+        <a class="aide-ancre" href="#obtenir-synthese-fiscale-pdf" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment obtenir ma synthèse fiscale en PDF&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -765,7 +863,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="calculs-officiels">
+        <a class="aide-ancre" href="#calculs-officiels" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Les calculs sont-ils officiels&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -778,7 +877,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="besoin-siret-louer-meuble">
+        <a class="aide-ancre" href="#besoin-siret-louer-meuble" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Ai-je besoin d'un SIRET pour louer en meublé&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -790,7 +890,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="declarer-revenus-lmnp">
+        <a class="aide-ancre" href="#declarer-revenus-lmnp" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Où déclarer mes revenus LMNP&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -802,7 +903,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="payer-autre-service-declaration-lmnp-reel">
+        <a class="aide-ancre" href="#payer-autre-service-declaration-lmnp-reel" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Pourquoi dois-je payer un autre service pour ma déclaration LMNP au réel&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -814,7 +916,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="fonctionne-preparation-declaration-fiscale-app">
+        <a class="aide-ancre" href="#fonctionne-preparation-declaration-fiscale-app" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment fonctionne la préparation de ma déclaration fiscale dans l'app&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -839,7 +942,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="calcul-projection">
+        <a class="aide-ancre" href="#calcul-projection" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment est calculée la projection&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -851,7 +955,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="valeur-bien-constante">
+        <a class="aide-ancre" href="#valeur-bien-constante" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Pourquoi la valeur du bien est-elle constante&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -864,7 +969,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="patrimoine-net-vs-valeur-brute">
+        <a class="aide-ancre" href="#patrimoine-net-vs-valeur-brute" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Patrimoine net vs valeur brute
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -889,7 +995,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="calcul-patrimoine-net">
+        <a class="aide-ancre" href="#calcul-patrimoine-net" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment est calculé le patrimoine net&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -901,7 +1008,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="calcul-capital-restant-du">
+        <a class="aide-ancre" href="#calcul-capital-restant-du" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment est calculé le capital restant dû&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -913,7 +1021,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="credit-comporte-differe-pause-pret-capital">
+        <a class="aide-ancre" href="#credit-comporte-differe-pause-pret-capital" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Mon crédit comporte un différé ou j'ai fait une pause de prêt. Le capital restant dû est-il exact&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -926,7 +1035,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="mensualites-affichees-incluent-assurance-emprunteur">
+        <a class="aide-ancre" href="#mensualites-affichees-incluent-assurance-emprunteur" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Les mensualités affichées incluent-elles l'assurance emprunteur&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -938,7 +1048,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="valeurs-biens-verifiees">
+        <a class="aide-ancre" href="#valeurs-biens-verifiees" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Les valeurs de mes biens sont-elles vérifiées&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -951,7 +1062,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="generer-rapport-patrimonial">
+        <a class="aide-ancre" href="#generer-rapport-patrimonial" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Générer le rapport patrimonial
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -976,7 +1088,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="fonctionne-simulation-vente">
+        <a class="aide-ancre" href="#fonctionne-simulation-vente" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment fonctionne la simulation de vente&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -988,7 +1101,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="app-indique-moins-value-fiscale-vends">
+        <a class="aide-ancre" href="#app-indique-moins-value-fiscale-vends" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Pourquoi l'app indique une «&nbsp;moins-value fiscale&nbsp;» alors que je vends plus cher que mon prix d'achat&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1001,7 +1115,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="frais-pris-compte-calcul">
+        <a class="aide-ancre" href="#frais-pris-compte-calcul" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Quels sont les frais pris en compte dans le calcul&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1017,7 +1132,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="abattement-duree-detention">
+        <a class="aide-ancre" href="#abattement-duree-detention" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Qu'est-ce que l'abattement pour durée de détention&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1032,7 +1148,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="simulation-calcul-definitif">
+        <a class="aide-ancre" href="#simulation-calcul-definitif" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           La simulation est-elle un calcul définitif&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1045,7 +1162,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="plus-value-lmnp">
+        <a class="aide-ancre" href="#plus-value-lmnp" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Et pour les biens en LMNP&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1058,7 +1176,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="simulation-vente-plan-gratuit">
+        <a class="aide-ancre" href="#simulation-vente-plan-gratuit" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Cette fonctionnalité est-elle incluse dans le plan gratuit&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1083,7 +1202,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="abonner-gestion-zen">
+        <a class="aide-ancre" href="#abonner-gestion-zen" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment s'abonner à Gestion Zen&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1095,7 +1215,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="acheter-pass-fiscal">
+        <a class="aide-ancre" href="#acheter-pass-fiscal" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment acheter le Pass Fiscal&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1107,7 +1228,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="restaurer-achats">
+        <a class="aide-ancre" href="#restaurer-achats" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Restaurer mes achats
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1119,7 +1241,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="resilier-abonnement">
+        <a class="aide-ancre" href="#resilier-abonnement" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Résilier mon abonnement
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1144,7 +1267,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="sauvegarder-documents-pdf-generes-app-quittances">
+        <a class="aide-ancre" href="#sauvegarder-documents-pdf-generes-app-quittances" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment sauvegarder les documents PDF générés par l'app (quittances, rapports, synthèses fiscales)&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1156,7 +1280,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="donnees-biens-loyers-charges-sauvegardees-synchronisees">
+        <a class="aide-ancre" href="#donnees-biens-loyers-charges-sauvegardees-synchronisees" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Mes données (biens, loyers, charges) sont-elles sauvegardées et synchronisées entre mes appareils&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1168,7 +1293,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="icloud-plein">
+        <a class="aide-ancre" href="#icloud-plein" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Mon iCloud est plein, que faire&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1193,7 +1319,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="stockage-donnees">
+        <a class="aide-ancre" href="#stockage-donnees" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Où sont stockées mes données&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1206,7 +1333,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="synchronisation-icloud">
+        <a class="aide-ancre" href="#synchronisation-icloud" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Synchronisation iCloud
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1218,7 +1346,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="supprimer-donnees">
+        <a class="aide-ancre" href="#supprimer-donnees" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Supprimer mes données
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1244,7 +1373,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
     </div>
     <div class="aide-accordion">
 
-      <div class="aide-item">
+      <div class="aide-item" id="app-fonctionne-sans-connexion-internet">
+        <a class="aide-ancre" href="#app-fonctionne-sans-connexion-internet" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           L'app fonctionne-t-elle sans connexion internet&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1256,7 +1386,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="gerer-plusieurs-biens">
+        <a class="aide-ancre" href="#gerer-plusieurs-biens" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Puis-je gérer plusieurs biens&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1268,7 +1399,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="app-gere-location-meublee-lmnp">
+        <a class="aide-ancre" href="#app-gere-location-meublee-lmnp" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           L'app gère-t-elle la location meublée (LMNP)&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1280,7 +1412,8 @@ body { font-family: var(--aide-font); color: var(--ink); }
         </div></div>
       </div>
 
-      <div class="aide-item">
+      <div class="aide-item" id="contacter-support">
+        <a class="aide-ancre" href="#contacter-support" title="Copier le lien de cet article" aria-label="Copier le lien de cet article">#</a>
         <button class="aide-item-trigger" aria-expanded="false">
           Comment contacter le support&nbsp;?
           <span class="aide-chevron" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
@@ -1332,6 +1465,10 @@ body { font-family: var(--aide-font); color: var(--ink); }
   </div>
 </footer>
 
+<!-- Région vive vide au chargement : c'est l'insertion du texte qui
+     déclenche l'annonce, pas sa présence. -->
+<div class="aide-toast" id="aide-toast" role="status" aria-live="polite"></div>
+
 <script>
 (function () {
 
@@ -1342,6 +1479,89 @@ body { font-family: var(--aide-font); color: var(--ink); }
       var open = item.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', String(open));
     });
+  });
+
+  /* ── Ancres d'article ── */
+
+  /* Position de mise en page, insensible aux transformations CSS. Les
+     cartes arrivent en translateY(18px) tant que le reveal n'a pas
+     joué : getBoundingClientRect renverrait la position animée, donc
+     fausse, et l'article atterrirait 18px trop bas. */
+  function sommet(el) {
+    var y = 0;
+    for (var n = el; n; n = n.offsetParent) y += n.offsetTop;
+    return y;
+  }
+
+  function marge() {
+    var v = getComputedStyle(document.documentElement).getPropertyValue('--nav-h');
+    return (parseInt(v, 10) || 86) + 16;
+  }
+
+  function viser(slug, doux) {
+    if (!slug) return;
+    var item = document.getElementById(slug);
+    if (!item || !item.classList.contains('aide-item')) return;
+
+    /* Un filtre de section ou une recherche en cours peut masquer
+       l'article visé : un lien direct doit primer sur le filtre. */
+    item.style.display = '';
+    var sec = item.closest('.aide-section');
+    if (sec) {
+      sec.style.display = '';
+      sec.classList.add('visible');
+    }
+
+    item.classList.add('is-open');
+    var btn = item.querySelector('.aide-item-trigger');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+
+    window.scrollTo({
+      top: Math.max(sommet(item) - marge(), 0),
+      behavior: doux ? 'smooth' : 'auto'
+    });
+  }
+
+  var toast = document.getElementById('aide-toast');
+  var minuteur;
+
+  function confirmer() {
+    if (!toast) return;
+    toast.textContent = 'Lien copié';
+    toast.classList.add('is-visible');
+    clearTimeout(minuteur);
+    minuteur = setTimeout(function () {
+      toast.classList.remove('is-visible');
+      toast.textContent = '';
+    }, 1600);
+  }
+
+  function lienDe(slug) {
+    var chemin = location.pathname.replace(/index\.html$/, '').replace(/\/+$/, '');
+    return location.origin + chemin + '#' + slug;
+  }
+
+  document.querySelectorAll('.aide-ancre').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var slug = a.getAttribute('href').slice(1);
+
+      /* replaceState plutôt que location.hash : pas d'entrée d'historique
+         par clic, et pas de saut natif concurrent du nôtre. */
+      if (history.replaceState) history.replaceState(null, '', '#' + slug);
+      else location.hash = slug;
+      viser(slug, true);
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(lienDe(slug)).then(
+          confirmer,
+          function () { /* presse-papiers refusé : le lien reste dans l'URL */ });
+      }
+    });
+  });
+
+  window.addEventListener('hashchange', function () {
+    viser(location.hash.slice(1), true);
   });
 
   /* ── Pills ── */
@@ -1410,6 +1630,15 @@ body { font-family: var(--aide-font); color: var(--ink); }
         b.setAttribute('aria-expanded', 'false');
       }
     });
+  }
+
+  /* ── Ouverture par ancre au chargement ── */
+  if (location.hash.length > 1) {
+    var cible = location.hash.slice(1);
+    viser(cible, false);
+    /* Les polices arrivent après coup et décalent la mise en page :
+       on repositionne une fois tout chargé. */
+    window.addEventListener('load', function () { viser(cible, false); });
   }
 
 })();
