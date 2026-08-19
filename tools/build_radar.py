@@ -29,8 +29,9 @@ import re
 import statistics
 import sys
 import unicodedata
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 try:
     from jinja2 import Environment, FileSystemLoader, StrictUndefined
@@ -87,6 +88,19 @@ ORGANISATION_MINIMALE = {
 # neuf. Seul `dateModified` suit les données, via `doc.genere_le` — la
 # date du run radar-data, pas celle du rendu HTML.
 DATE_PUBLICATION = "2026-08-15"
+
+
+def horodater(jour: str) -> str:
+    """« 2026-07-12 » → « 2026-07-12T09:00:00+02:00 ».
+
+    Google signale l'absence de fuseau sur une date seule. Le décalage
+    est calculé sur Europe/Paris plutôt que codé en dur : un build
+    lancé en hiver produirait sinon un +02:00 faux d'une heure.
+    """
+    if "T" in jour:                      # déjà horodaté, on n'y touche pas
+        return jour
+    return (datetime.fromisoformat(f"{jour}T09:00:00")
+            .replace(tzinfo=ZoneInfo("Europe/Paris")).isoformat())
 
 # Les 7 URL déjà en ligne. Elles sont conservées telles quelles : le
 # sitemap est régénéré intégralement, pas complété à l'aveugle.
@@ -768,7 +782,7 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
     breadcrumb = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": f"{SITE}/"},
+            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE},
             {"@type": "ListItem", "position": 2, "name": "Radar immobilier",
              "item": f"{SITE}/radar-immobilier"},
             {"@type": "ListItem", "position": 3, "name": nom, "item": canonical},
@@ -779,9 +793,9 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
         "headline": titre, "description": desc,
         "image": f"{SITE}/og-image.png",
         # Date figée : la publication ne recule pas à chaque rebuild.
-        "datePublished": f"{DATE_PUBLICATION}T09:00:00+02:00",
+        "datePublished": horodater(DATE_PUBLICATION),
         # Suit les DONNÉES (run radar-data), pas le rendu HTML.
-        "dateModified": f"{ctx['genere_le']}T09:00:00+02:00",
+        "dateModified": horodater(ctx["genere_le"]),
         "inLanguage": "fr",
         "isPartOf": {"@id": DATASET_ID},
         "about": {"@type": "Place", "name": nom,
@@ -927,8 +941,8 @@ def construire_dataset(doc: dict, villes: list[dict], ctx: dict) -> dict:
         "isBasedOn": fondee_sur,
         "spatialCoverage": {"@type": "Country", "name": "France"},
         "variableMeasured": variables,
-        "dateModified": doc.get("genere_le") or ctx["build_date"],
-        "datePublished": DATE_PUBLICATION,
+        "dateModified": horodater(doc.get("genere_le") or ctx["build_date"]),
+        "datePublished": horodater(DATE_PUBLICATION),
         "inLanguage": "fr",
         "isAccessibleForFree": True,
         "citation": f"{SITE}/radar-immobilier/methodologie",
@@ -1377,7 +1391,7 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
     breadcrumb_hub = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": f"{SITE}/"},
+            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE},
             {"@type": "ListItem", "position": 2, "name": "Radar immobilier",
              "item": f"{SITE}/radar-immobilier"},
         ],
@@ -1424,7 +1438,7 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
     breadcrumb_meth = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": f"{SITE}/"},
+            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE},
             {"@type": "ListItem", "position": 2, "name": "Radar immobilier",
              "item": f"{SITE}/radar-immobilier"},
             {"@type": "ListItem", "position": 3, "name": "Méthodologie",
