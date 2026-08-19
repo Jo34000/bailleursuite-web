@@ -41,6 +41,7 @@ except ImportError:  # pragma: no cover
 # (`python3 tools/build_radar.py`) ou depuis tools/.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import aide_ancres  # noqa: E402
+import faq_jsonld  # noqa: E402
 
 RACINE = Path(__file__).resolve().parent.parent
 DIR_TEMPLATES = Path(__file__).resolve().parent / "templates"
@@ -95,7 +96,7 @@ URLS_EXISTANTES = [
     ("/declaration-2044-guide",            "2026-06-29", "monthly", "0.8"),
     ("/quittance-loyer-pdf-gratuit",       "2026-06-29", "monthly", "0.8"),
     ("/lmnp-guide-complet",                "2026-07-14", "monthly", "0.8"),
-    ("/comparatif-logiciel-gestion-locative", "2026-07-14", "monthly", "0.8"),
+    ("/comparatif-logiciel-gestion-locative", "2026-08-19", "monthly", "0.8"),
     ("/aide",                              "2026-08-17", "monthly", "0.7"),
 ]
 
@@ -1499,6 +1500,22 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         return 1
     print(f"✓ ancres /aide vérifiées : {len(aide_ancres.ANCRES)} articles, "
           "identifiants uniques et conformes au mapping figé")
+
+    # ── Contrôle des FAQPage ──────────────────────────────────────
+    # Google exige que le contenu balisé soit visible sur la page.
+    # Un FAQPage qui décrit des questions absentes du corps expose à
+    # une action manuelle, et rien ne le signalait.
+    ecarts = faq_jsonld.verifier()
+    if ecarts:
+        print(f"\n✗ {len(ecarts)} écart(s) entre FAQPage et HTML visible :",
+              file=sys.stderr)
+        for e in ecarts:
+            print(f"    {e}", file=sys.stderr)
+        return 1
+    print("✓ FAQPage vérifiés : " + ", ".join(
+        f"{Path(rel).parent.name or 'racine'} "
+        f"{len(faq_jsonld.questions_visibles((RACINE / rel).read_text(encoding='utf-8'), motif))}"
+        for rel, (_, motif) in faq_jsonld.PAGES.items()) + " questions")
 
     total = ecrire_sitemap(preparees, jour)
     print(f"✓ sitemap régénéré : {total} URL ({len(URLS_EXISTANTES)} existantes "
