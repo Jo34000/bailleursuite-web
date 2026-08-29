@@ -111,6 +111,7 @@ URLS_EXISTANTES = [
     ("/quittance-loyer-pdf-gratuit",       "2026-06-29", "monthly", "0.8"),
     ("/lmnp-guide-complet",                "2026-07-14", "monthly", "0.8"),
     ("/comparatif-logiciel-gestion-locative", "2026-08-19", "monthly", "0.8"),
+    ("/application-gestion-locative-iphone", "2026-08-25", "monthly", "0.8"),
     ("/aide",                              "2026-08-17", "monthly", "0.7"),
 ]
 
@@ -1023,6 +1024,7 @@ PAGES_HISTORIQUES = [
     "declaration-2044-guide/index.html",
     "lmnp-guide-complet/index.html",
     "quittance-loyer-pdf-gratuit/index.html",
+    "application-gestion-locative-iphone/index.html",
     "conditions-utilisation.html",
     "politique-confidentialite.html",
 ]

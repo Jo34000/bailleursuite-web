@@ -42,6 +42,12 @@ PAGES: dict[str, tuple[str, re.Pattern]] = {
             r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon">.*?'
             r'<div class="faq-a">\s*(?P<r>.*?)\s*</div>', re.S),
     ),
+    "application-gestion-locative-iphone/index.html": (
+        GENERE,
+        re.compile(
+            r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon">.*?'
+            r'<div class="faq-a">\s*(?P<r>.*?)\s*</div>', re.S),
+    ),
     "aide/index.html": (
         PARITE,
         re.compile(
