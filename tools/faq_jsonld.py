@@ -48,6 +48,14 @@ PAGES: dict[str, tuple[str, re.Pattern]] = {
             r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon">.*?'
             r'<div class="faq-a">\s*(?P<r>.*?)\s*</div>', re.S),
     ),
+    # 13 questions écrites à la main, bloc JSON-LD indenté : on
+    # contrôle le nombre, sans réécrire la mise en forme.
+    "index.html": (
+        PARITE,
+        re.compile(
+            r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon"'
+            r'.*?<div class="faq-a"[^>]*>\s*(?P<r>.*?)\s*</div>', re.S),
+    ),
     "aide/index.html": (
         PARITE,
         re.compile(
@@ -57,9 +65,13 @@ PAGES: dict[str, tuple[str, re.Pattern]] = {
     ),
 }
 
+# Tolère l'indentation : le bloc de la home est mis en forme sur
+# plusieurs lignes, le motif compact ne le reconnaissait pas et ses
+# treize questions échappaient à tout contrôle.
 _BLOC_FAQ = re.compile(
     r'(<script type="application/ld\+json">\s*)'
-    r'(\{"@context":"https://schema\.org","@type":"FAQPage".*?\})'
+    r'(\{\s*"@context"\s*:\s*"https://schema\.org"\s*,\s*'
+    r'"@type"\s*:\s*"FAQPage".*?\})'
     r'(\s*</script>)', re.S)
 
 

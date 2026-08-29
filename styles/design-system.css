@@ -164,19 +164,17 @@ h1, h2, h3 {
 .nav-links {
   display: flex;
   align-items: center;
-  /* Sept entrées plus un CTA long : la capsule est plafonnée à 1140px
-     et le contenu débordait de 39px avant même l'ajout du second
-     comparatif. Gouttière et rembourrage resserrés plutôt que copie
-     raccourcie ou police réduite. */
+  /* Sept entrées plus le CTA : gouttière et rembourrage resserrés
+     pour que l'ensemble tienne dans la capsule, plafonnée à 1140px. */
   gap: 0;
   flex: 1;
   justify-content: center;
 }
-/* Sept entrées plus le CTA « Être notifié au lancement — Septembre
-   2026 » demandent 1133px ; la capsule ne les tient qu'au-delà de
-   ~1165px de fenêtre. En deçà, le menu burger prend le relais —
-   il porte les mêmes entrées, les deux comparatifs compris. */
-@media (max-width: 1180px) { .nav-links { display: none; } }
+/* Le CTA « Essayer BailleurSuite » ayant remplacé « Être notifié au
+   lancement — Septembre 2026 », la barre tient jusqu'à ~1000px de
+   fenêtre. En deçà, le burger prend le relais : il porte les mêmes
+   entrées, les deux comparatifs compris. */
+@media (max-width: 1000px) { .nav-links { display: none; } }
 .nav-link {
   font-size: 0.8rem;
   font-weight: 400;
@@ -191,6 +189,20 @@ h1, h2, h3 {
   color: var(--ink);
   background: rgba(0,0,0,.06);
 }
+
+/* ── Bouton App Store ────────────────────────────────────────────
+   Le CTA principal du hero depuis la publication de l'app. Fond
+   encre plutôt que menthe : c'est un bouton de téléchargement, il
+   se distingue des actions internes du site. */
+.btn-appstore{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--ink);color:#fff;
+  padding:16px 30px;border-radius:999px;
+  font-size:.9375rem;font-weight:600;text-decoration:none;
+  box-shadow:0 12px 28px -12px rgba(28,26,20,.5);
+  transition:transform 180ms cubic-bezier(.4,0,.2,1);
+}
+.btn-appstore:hover{transform:translateY(-2px)}
 
 /* ── Sous-menu de navigation ────────────────────────────────────
    Deux comparatifs cohabitent : les exposer tous deux au premier
@@ -242,7 +254,7 @@ h1, h2, h3 {
   color: var(--ink); background: rgba(0,0,0,.06);
 }
 .nav-drop-menu a.is-active { color: var(--mint); font-weight: 500; }
-@media (max-width: 1180px) { .nav-drop { display: none; } }
+@media (max-width: 1000px) { .nav-drop { display: none; } }
 
 /* ── Hamburger — visible ≤900px ── */
 .nav-burger {
@@ -257,7 +269,7 @@ h1, h2, h3 {
   flex-shrink: 0;
   transition: background .15s;
 }
-@media (max-width: 1180px) { .nav-burger { display: flex; } }
+@media (max-width: 1000px) { .nav-burger { display: flex; } }
 .nav-burger:hover { background: rgba(0,0,0,.06); }
 .nav-burger-line {
   display: block;
