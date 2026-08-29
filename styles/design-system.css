@@ -164,17 +164,25 @@ h1, h2, h3 {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2px;
+  /* Sept entrées plus un CTA long : la capsule est plafonnée à 1140px
+     et le contenu débordait de 39px avant même l'ajout du second
+     comparatif. Gouttière et rembourrage resserrés plutôt que copie
+     raccourcie ou police réduite. */
+  gap: 0;
   flex: 1;
   justify-content: center;
 }
-@media (max-width: 900px) { .nav-links { display: none; } }
+/* Sept entrées plus le CTA « Être notifié au lancement — Septembre
+   2026 » demandent 1133px ; la capsule ne les tient qu'au-delà de
+   ~1165px de fenêtre. En deçà, le menu burger prend le relais —
+   il porte les mêmes entrées, les deux comparatifs compris. */
+@media (max-width: 1180px) { .nav-links { display: none; } }
 .nav-link {
   font-size: 0.8rem;
   font-weight: 400;
   color: var(--ink-mid);
   text-decoration: none;
-  padding: 7px 10px;
+  padding: 7px 6px;
   border-radius: 8px;
   white-space: nowrap;
   transition: color .15s, background .15s;
@@ -183,6 +191,58 @@ h1, h2, h3 {
   color: var(--ink);
   background: rgba(0,0,0,.06);
 }
+
+/* ── Sous-menu de navigation ────────────────────────────────────
+   Deux comparatifs cohabitent : les exposer tous deux au premier
+   niveau faisait déborder la capsule (le CTA sortait du cadre).
+   Ils sont regroupés sous une seule entrée déroulante.
+
+   Ouverture au survol ET au focus clavier : `:focus-within` évite
+   d'enfermer les deux liens derrière un événement souris. Sous
+   900px, le menu burger prend le relais et liste les deux à plat. */
+.nav-drop { position: relative; display: flex; align-items: center; }
+.nav-drop-trigger {
+  font-family: inherit;
+  display: inline-flex; align-items: center; gap: 5px;
+  background: none; border: none; cursor: pointer;
+}
+.nav-drop-trigger svg { transition: transform .18s cubic-bezier(.4,0,.2,1); }
+.nav-drop:hover .nav-drop-trigger svg,
+.nav-drop:focus-within .nav-drop-trigger svg { transform: rotate(180deg); }
+.nav-drop-menu {
+  position: absolute; top: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  min-width: 210px; padding: 6px;
+  display: flex; flex-direction: column; gap: 2px;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(28,26,20,.04), 0 16px 40px -12px rgba(28,26,20,.24);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+}
+/* Pont invisible : sans lui, le curseur qui descend vers le menu
+   quitte le déclencheur et referme tout avant de l'atteindre. */
+.nav-drop::after {
+  content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px;
+}
+.nav-drop:hover .nav-drop-menu,
+.nav-drop:focus-within .nav-drop-menu {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-drop-menu a {
+  font-size: 0.8rem; font-weight: 400; color: var(--ink-mid);
+  text-decoration: none; padding: 9px 12px; border-radius: 9px;
+  white-space: nowrap; transition: color .15s, background .15s;
+}
+.nav-drop-menu a:hover, .nav-drop-menu a:focus-visible {
+  color: var(--ink); background: rgba(0,0,0,.06);
+}
+.nav-drop-menu a.is-active { color: var(--mint); font-weight: 500; }
+@media (max-width: 1180px) { .nav-drop { display: none; } }
 
 /* ── Hamburger — visible ≤900px ── */
 .nav-burger {
@@ -197,7 +257,7 @@ h1, h2, h3 {
   flex-shrink: 0;
   transition: background .15s;
 }
-@media (max-width: 900px) { .nav-burger { display: flex; } }
+@media (max-width: 1180px) { .nav-burger { display: flex; } }
 .nav-burger:hover { background: rgba(0,0,0,.06); }
 .nav-burger-line {
   display: block;

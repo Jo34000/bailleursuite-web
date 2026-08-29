@@ -58,8 +58,8 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .nav-logo{font-family:var(--sans);font-size:1.05rem;font-weight:600;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:9px;text-decoration:none}
 .nav-logo-icon{width:30px;height:30px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
 .nav-logo-suite{color:var(--mint)}
-.nav-links{display:flex;align-items:center;gap:4px}
-.nav-link{font-size:.82rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:7px 12px;border-radius:var(--r-md);transition:color 180ms cubic-bezier(.4,0,.2,1),background 180ms cubic-bezier(.4,0,.2,1)}
+.nav-links{display:flex;align-items:center;gap:0}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:7px 6px;border-radius:var(--r-md);transition:color 180ms cubic-bezier(.4,0,.2,1),background 180ms cubic-bezier(.4,0,.2,1)}
 .nav-link:hover,.nav-link.active{color:var(--ink);background:rgba(17,19,21,.05)}
 .nav-cta{background:var(--ink);color:#fff;padding:11px 22px;border-radius:999px;font-size:.8125rem;font-weight:600;text-decoration:none;transition:transform 180ms cubic-bezier(.4,0,.2,1)}
 .nav-cta:hover{opacity:.85}
@@ -70,6 +70,25 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .nav-mobile-menu a{padding:12px 16px;font-size:.9rem;color:var(--ink);text-decoration:none;border-radius:var(--r-md);font-weight:400}
 .nav-mobile-menu a:hover{background:rgba(45,106,79,.08)}
 @media(max-width:768px){.nav-links,.nav-cta{display:none}.nav-burger{display:flex}}
+/* === SOUS-MENU COMPARATIFS =====================================
+   Deux comparatifs cohabitent ; les exposer tous deux au premier
+   niveau faisait déborder la capsule. Ouverture au survol ET au
+   focus clavier — `:focus-within` évite d'enfermer les liens
+   derrière un événement souris. Sous 768px, le burger prend le
+   relais et les liste à plat. */
+.nav-drop{position:relative;display:flex;align-items:center}
+.nav-drop-trigger{font-family:inherit;display:inline-flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer}
+.nav-drop-trigger svg{transition:transform .18s cubic-bezier(.4,0,.2,1)}
+.nav-drop:hover .nav-drop-trigger svg,.nav-drop:focus-within .nav-drop-trigger svg{transform:rotate(180deg)}
+.nav-drop-menu{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:210px;padding:6px;display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.92);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.6);border-radius:14px;box-shadow:0 1px 2px rgba(28,26,20,.04),0 16px 40px -12px rgba(28,26,20,.24);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,transform .18s ease,visibility .18s}
+/* Pont invisible : sans lui le curseur quitte le déclencheur en
+   descendant et referme le menu avant de l'atteindre. */
+.nav-drop::after{content:'';position:absolute;top:100%;left:0;right:0;height:12px}
+.nav-drop:hover .nav-drop-menu,.nav-drop:focus-within .nav-drop-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.nav-drop-menu a{font-size:.82rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:9px 12px;border-radius:9px;white-space:nowrap;transition:color .15s,background .15s}
+.nav-drop-menu a:hover,.nav-drop-menu a:focus-visible{color:var(--ink);background:rgba(17,19,21,.05)}
+.nav-drop-menu a.is-active{color:var(--mint)}
+@media(max-width:768px){.nav-drop{display:none}}
 
 /* === HERO === */
 .hero{min-height:92vh;display:flex;align-items:center;padding:120px 24px 80px;position:relative;overflow:hidden}
@@ -330,8 +349,13 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     <a class="nav-link" href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP</a>
     <a class="nav-link" href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF</a>
     <a class="nav-link" href="https://bailleursuite.fr/radar-immobilier">Radar</a>
-    <a class="nav-link" href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif</a>
-    <a class="nav-link active" href="https://bailleursuite.fr/application-gestion-locative-iphone">App iPhone</a>
+    <div class="nav-drop">
+      <button class="nav-link nav-drop-trigger" aria-expanded="false" aria-haspopup="true">Comparatifs <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="nav-drop-menu">
+      <a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Logiciels de gestion</a>
+      <a href="https://bailleursuite.fr/application-gestion-locative-iphone" class="is-active">Applications iPhone</a>
+      </div>
+    </div>
   </div>
   <a href="https://bailleursuite.fr#waitlist" class="nav-cta">Accès bêta gratuit</a>
   <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-label="Ouvrir le menu">
