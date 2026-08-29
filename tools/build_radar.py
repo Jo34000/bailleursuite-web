@@ -68,8 +68,41 @@ SOFTWARE_ID = f"{SITE}/#software"
 WEBSITE_ID = f"{SITE}/#website"
 DATASET_ID = f"{SITE}/radar-immobilier#dataset"
 
-REF_ORGANIZATION = {"@id": ORGANIZATION_ID}
-REF_SOFTWARE = {"@id": SOFTWARE_ID}
+APP_STORE = "https://apps.apple.com/fr/app/bailleursuite/id6772793420"
+
+# Google valide page par page : une référence réduite au seul `@id`
+# y apparaît comme une entité sans nom. Les références portent donc
+# le minimum qui les rend lisibles isolément — même `@id`, donc même
+# entité une fois le graphe reconstitué à l'échelle du site.
+REF_ORGANIZATION = {
+    "@id": ORGANIZATION_ID,
+    "@type": "Organization",
+    "name": "BailleurSuite",
+    "url": f"{SITE}/",
+    "sameAs": [APP_STORE],
+}
+REF_SOFTWARE = {
+    "@id": SOFTWARE_ID,
+    "@type": "SoftwareApplication",
+    "name": "BailleurSuite",
+    "url": f"{SITE}/",
+    "operatingSystem": "iOS",
+    "applicationCategory": "FinanceApplication",
+    "downloadUrl": APP_STORE,
+}
+# Un Dataset sans `description` est signalé incomplet par Google : la
+# référence en porte une, sans quoi typer le nœud ferait plus de mal
+# que de le laisser anonyme.
+REF_DATASET = {
+    "@id": DATASET_ID,
+    "@type": "Dataset",
+    "name": "Radar immobilier BailleurSuite — 40 villes",
+    "description": ("Prix médian au m², loyer de marché et rendement brut "
+                    "locatif pour 40 communes françaises, calculés selon une "
+                    "méthode identique partout à partir des données publiques "
+                    "DVF, DHUP et INSEE."),
+    "url": f"{SITE}/radar-immobilier",
+}
 
 # Forme auto-suffisante de la référence, pour les entités que le
 # validateur inspecte page par page (Dataset notamment) : même @id, donc
@@ -783,7 +816,7 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
     breadcrumb = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE},
+            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": f"{SITE}/"},
             {"@type": "ListItem", "position": 2, "name": "Radar immobilier",
              "item": f"{SITE}/radar-immobilier"},
             {"@type": "ListItem", "position": 3, "name": nom, "item": canonical},
@@ -798,7 +831,7 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
         # Suit les DONNÉES (run radar-data), pas le rendu HTML.
         "dateModified": horodater(ctx["genere_le"]),
         "inLanguage": "fr",
-        "isPartOf": {"@id": DATASET_ID},
+        "isPartOf": REF_DATASET,
         "about": {"@type": "Place", "name": nom,
                   "address": {"@type": "PostalAddress",
                               "addressRegion": ville.get("region_nom") or "",
@@ -1393,7 +1426,7 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
     breadcrumb_hub = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE},
+            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": f"{SITE}/"},
             {"@type": "ListItem", "position": 2, "name": "Radar immobilier",
              "item": f"{SITE}/radar-immobilier"},
         ],
@@ -1426,7 +1459,7 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
                         "@id": f"{SITE}/radar-immobilier#webpage",
                         "url": f"{SITE}/radar-immobilier",
                         "isPartOf": {"@id": WEBSITE_ID},
-                        "about": {"@id": DATASET_ID},
+                        "about": {"@id": DATASET_ID},   # nœud déclaré sur la même page
                         "mainEntity": {"@id": DATASET_ID},
                         "mentions": REF_SOFTWARE,
                         "publisher": REF_ORGANIZATION,
@@ -1440,7 +1473,7 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
     breadcrumb_meth = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE},
+            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": f"{SITE}/"},
             {"@type": "ListItem", "position": 2, "name": "Radar immobilier",
              "item": f"{SITE}/radar-immobilier"},
             {"@type": "ListItem", "position": 3, "name": "Méthodologie",
