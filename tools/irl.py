@@ -41,7 +41,48 @@ SOURCE = {
 # Ordre chronologique croissant. NE RIEN INTERPOLER : un trimestre
 # non publié doit être absent, pas estimé.
 INDICES: list[tuple[int, int, float]] = [
-    # À COMPLÉTER depuis la publication INSEE.
+    # 2018
+    (2018, 2, 127.77),
+    (2018, 3, 128.45),
+    (2018, 4, 129.03),
+    # 2019
+    (2019, 1, 129.38),
+    (2019, 2, 129.72),
+    (2019, 3, 129.99),
+    (2019, 4, 130.26),
+    # 2020
+    (2020, 1, 130.57),
+    (2020, 2, 130.57),
+    (2020, 3, 130.59),
+    (2020, 4, 130.52),
+    # 2021
+    (2021, 1, 130.69),
+    (2021, 2, 131.12),
+    (2021, 3, 131.67),
+    (2021, 4, 132.62),
+    # 2022
+    (2022, 1, 133.93),
+    (2022, 2, 135.84),
+    (2022, 3, 136.27),
+    (2022, 4, 137.26),
+    # 2023
+    (2023, 1, 138.61),
+    (2023, 2, 140.59),
+    (2023, 3, 141.03),
+    (2023, 4, 142.06),
+    # 2024
+    (2024, 1, 143.46),
+    (2024, 2, 145.17),
+    (2024, 3, 144.51),
+    (2024, 4, 144.64),
+    # 2025
+    (2025, 1, 145.47),
+    (2025, 2, 146.68),
+    (2025, 3, 145.77),
+    (2025, 4, 145.78),
+    # 2026
+    (2026, 1, 146.60),
+    (2026, 2, 148.37),
 ]
 
 # Couverture minimale : une révision peut porter sur un indice ancien,
@@ -151,6 +192,15 @@ def main() -> int:
 
     if args.ecrire:
         args.sortie.parent.mkdir(parents=True, exist_ok=True)
+        # Idempotence : `genere_le` seul ne justifie pas une réécriture.
+        # Sans cela, relancer l'export produirait un diff sans contenu,
+        # et un commit qui ferait croire à une mise à jour d'indice.
+        if args.sortie.exists():
+            ancien = json.loads(args.sortie.read_text(encoding="utf-8"))
+            if {k: v for k, v in ancien.items() if k != "genere_le"} == \
+               {k: v for k, v in doc.items() if k != "genere_le"}:
+                print(f"  inchangé : {args.sortie.relative_to(RACINE)}")
+                return 0
         args.sortie.write_text(
             json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"  écrit : {args.sortie.relative_to(RACINE)} "

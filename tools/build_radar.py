@@ -43,6 +43,7 @@ except ImportError:  # pragma: no cover
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import aide_ancres  # noqa: E402
 import faq_jsonld  # noqa: E402
+import irl  # noqa: E402
 
 RACINE = Path(__file__).resolve().parent.parent
 DIR_TEMPLATES = Path(__file__).resolve().parent / "templates"
@@ -1561,6 +1562,34 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         for e in ecarts:
             print(f"    {e}", file=sys.stderr)
         return 1
+    # ── Contrôle de la table IRL ──────────────────────────────────
+    # Ces indices servent à calculer des révisions de loyer dans l'app :
+    # une valeur fausse produit une révision illégale. Le contrôle vaut
+    # autant pour la table que pour le fichier publié, qui doivent dire
+    # la même chose.
+    anomalies = irl.verifier(irl.INDICES)
+    fichier = RACINE / "irl" / "v1" / "indices.json"
+    if not fichier.exists():
+        anomalies.append(f"{fichier.relative_to(RACINE)} absent — lancer "
+                         "python3 tools/irl.py --ecrire")
+    else:
+        publie = json.loads(fichier.read_text(encoding="utf-8"))
+        attendu = [{"annee": a, "trimestre": q, "valeur": v}
+                   for a, q, v in irl.INDICES]
+        if publie.get("indices") != attendu:
+            anomalies.append(
+                "le fichier publié diverge de la table figée — "
+                "relancer python3 tools/irl.py --ecrire")
+    if anomalies:
+        print(f"\n✗ {len(anomalies)} anomalie(s) sur les indices IRL :",
+              file=sys.stderr)
+        for a_ in anomalies:
+            print(f"    {a_}", file=sys.stderr)
+        return 1
+    print(f"✓ IRL vérifiés : {len(irl.INDICES)} trimestres, "
+          f"{irl.INDICES[0][0]}-T{irl.INDICES[0][1]} → "
+          f"{irl.INDICES[-1][0]}-T{irl.INDICES[-1][1]}, fichier publié conforme")
+
     print("✓ FAQPage vérifiés : " + ", ".join(
         f"{Path(rel).parent.name or 'racine'} "
         f"{len(faq_jsonld.questions_visibles((RACINE / rel).read_text(encoding='utf-8'), motif))}"
