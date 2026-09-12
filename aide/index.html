@@ -178,6 +178,20 @@ body { font-family: var(--aide-font); color: var(--ink); }
   margin: 0;
 }
 
+/* Ligne de conversion en fin de catégorie. Volontairement discrète :
+   le visiteur du centre d'aide cherche une réponse, pas une offre.
+   Elle ouvre une porte vers l'outil qui prolonge le sujet, sans
+   interrompre la lecture ni rompre la sobriété de l'accordéon. */
+.aide-conversion {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 6px 10px;
+  margin: 14px 0 0; padding: 0 2px;
+  font-size: 0.82rem; color: var(--ink-light);
+}
+.aide-conversion a { color: var(--mint); text-decoration: none; font-weight: 500; }
+.aide-conversion a:hover { text-decoration: underline; }
+.aide-conversion-sep { color: var(--border); }
+
 /* Accordion item */
 .aide-item + .aide-item { border-top: 1px solid var(--border); }
 
@@ -514,6 +528,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/calculatrice-rendement-locatif">Calculer le rendement net de votre bien</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 1b — Gérer mes biens -->
@@ -592,6 +611,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/calculatrice-rendement-locatif">Calculer le rendement net de votre bien</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 2 — Gestion quotidienne -->
@@ -683,6 +707,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/quittance-loyer-pdf-gratuit">Générer une quittance gratuitement</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 2b — Locataire & bail -->
@@ -761,6 +790,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/quittance-loyer-pdf-gratuit">Générer une quittance gratuitement</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 3 — Fiscalité -->
@@ -945,6 +979,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/declaration-2044-guide">Le guide de la déclaration 2044</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 4 — Projection patrimoniale -->
@@ -998,6 +1037,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/calculatrice-rendement-locatif">Calculer le rendement net de votre bien</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 4b — Comprendre vos chiffres patrimoniaux -->
@@ -1091,6 +1135,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/calculatrice-rendement-locatif">Calculer le rendement net de votre bien</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 4c — Simulation de vente -->
@@ -1205,6 +1254,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/calculatrice-rendement-locatif">Calculer le rendement net de votre bien</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 5 — Abonnement & achats -->
@@ -1270,6 +1324,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/declaration-2044-guide">Le guide de la déclaration 2044</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 5b — Documents & sauvegarde -->
@@ -1322,6 +1381,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/quittance-loyer-pdf-gratuit">Générer une quittance gratuitement</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 6 — Données & confidentialité -->
@@ -1376,6 +1440,9 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
   <!-- Section 7 — Questions fréquentes -->
@@ -1442,6 +1509,11 @@ body { font-family: var(--aide-font); color: var(--ink); }
       </div>
 
     </div>
+    <p class="aide-conversion">
+      <a href="/lmnp-guide-complet">Le guide complet du LMNP</a>
+      <span class="aide-conversion-sep" aria-hidden="true">·</span>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=aide&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'aide'}})">Télécharger BailleurSuite</a>
+    </p>
   </section>
 
 </main>

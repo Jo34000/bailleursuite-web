@@ -120,7 +120,16 @@ def verifier() -> list[str]:
 
     if not cts:
         erreurs.append("aucun lien App Store tracké trouvé")
+
+    # Une valeur déclarée mais jamais posée n'est pas un détail de
+    # tenue de liste : elle signale un emplacement censé convertir qui
+    # n'a aucun lien, et la campagne correspondante reste vide dans
+    # App Store Connect sans que rien ne le dise.
     manquants = CT_CONNUS - set(cts)
+    for ct in sorted(manquants):
+        erreurs.append(f"ct={ct} déclaré mais utilisé nulle part — "
+                       "emplacement sans lien, ou valeur à retirer de CT_CONNUS")
+
     return erreurs, cts, nb_canonique, manquants
 
 
@@ -135,9 +144,6 @@ def main() -> int:
           f"{nb_canonique} références JSON-LD canoniques")
     for ct, n in sorted(cts.items(), key=lambda x: (-x[1], x[0])):
         print(f"    {n:4d}  ct={ct}")
-    if manquants:
-        print(f"    (valeurs déclarées mais inutilisées : "
-              f"{', '.join(sorted(manquants))})")
     return 0
 
 

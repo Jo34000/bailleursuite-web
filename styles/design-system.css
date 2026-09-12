@@ -407,3 +407,53 @@ h1, h2, h3 {
   .tool-conversion { padding: 22px 20px; }
   .tool-conversion .btn-appstore { width: 100%; justify-content: center; }
 }
+
+/* ══════════════════════════════════
+   CAPTURE EMAIL — RAPPEL FISCAL
+   ══════════════════════════════════
+   Nommé .email-reminder et non .email-capture : la calculatrice porte
+   déjà une .email-capture, qui est en réalité un encart App Store à
+   l'intérieur des résultats, masqué par visibility et piloté par
+   l'identifiant #email-capture. Réutiliser ce nom rendait le nouveau
+   bloc invisible sur la page qui en a le plus besoin. */
+.email-reminder {
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, rgba(28,26,20,.12));
+  border-radius: var(--r-md); padding: 26px 28px; margin: 32px 0;
+}
+.email-reminder h3 {
+  font-family: var(--serif); font-weight: 400; font-size: 1.3rem;
+  margin: 0 0 8px; letter-spacing: -.02em; color: var(--ink);
+}
+.email-reminder > p {
+  color: var(--ink-light); font-size: .9rem; line-height: 1.6;
+  margin: 0 0 16px; max-width: 52ch;
+}
+.email-form { display: flex; flex-wrap: wrap; gap: 10px; }
+.email-form input {
+  flex: 1 1 220px; min-width: 0;
+  padding: 12px 16px; font: inherit; font-size: .9rem;
+  color: var(--ink); background: #fff;
+  border: 1px solid var(--line, rgba(28,26,20,.16));
+  border-radius: var(--r-full);
+}
+.email-form input:focus-visible { outline: 2px solid var(--mint); outline-offset: 1px; }
+.email-form button {
+  padding: 12px 24px; font: inherit; font-size: .875rem; font-weight: 600;
+  color: #fff; background: var(--mint); border: 0;
+  border-radius: var(--r-full); cursor: pointer;
+  transition: transform 180ms cubic-bezier(.4,0,.2,1);
+}
+.email-form button:hover:not(:disabled) { transform: translateY(-1px); }
+.email-form button:disabled { opacity: .55; cursor: default; }
+.email-note { font-size: .75rem; color: var(--ink-light); margin: 10px 0 0; }
+.email-status { font-size: .85rem; margin: 12px 0 0; line-height: 1.55; }
+.email-status[hidden] { display: none; }
+.email-status.is-ok { color: var(--mint-dark, #1A4A35); font-weight: 500; }
+/* #8A6100 et non un orange vif : 5,05:1 sur fond clair, au-dessus du
+   seuil AA pour du texte normal. */
+.email-status.is-ko { color: #8A6100; }
+@media (max-width: 520px) {
+  .email-reminder { padding: 22px 20px; }
+  .email-form button { width: 100%; }
+}
