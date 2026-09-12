@@ -42,6 +42,7 @@ except ImportError:  # pragma: no cover
 # (`python3 tools/build_radar.py`) ou depuis tools/.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import aide_ancres  # noqa: E402
+import appstore  # noqa: E402
 import faq_jsonld  # noqa: E402
 import irl  # noqa: E402
 
@@ -1589,6 +1590,23 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
     print(f"✓ IRL vérifiés : {len(irl.INDICES)} trimestres, "
           f"{irl.INDICES[0][0]}-T{irl.INDICES[0][1]} → "
           f"{irl.INDICES[-1][0]}-T{irl.INDICES[-1][1]}, fichier publié conforme")
+
+    # ── Contrôle des liens App Store ──────────────────────────────
+    # Deux formes coexistent et ne sont pas interchangeables : jeton de
+    # campagne sur les liens cliquables, forme canonique dans le JSON-LD.
+    # Un copier-coller entre les deux casse soit la mesure d'acquisition,
+    # soit le rattachement de l'app à l'entité chez Google, sans rien
+    # casser de visible.
+    fautes, cts, canoniques, _ = appstore.verifier()
+    if fautes:
+        print(f"\n✗ {len(fautes)} anomalie(s) sur les liens App Store :",
+              file=sys.stderr)
+        for f_ in fautes:
+            print(f"    {f_}", file=sys.stderr)
+        return 1
+    print(f"✓ liens App Store vérifiés : {sum(cts.values())} liens trackés "
+          f"sur {len(cts)} emplacements, {canoniques} références JSON-LD "
+          "canoniques")
 
     print("✓ FAQPage vérifiés : " + ", ".join(
         f"{Path(rel).parent.name or 'racine'} "
