@@ -451,6 +451,17 @@ tr:hover td{background:rgba(45,106,79,.025)}
       <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8" class="cta-btn" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'calculatrice'}})">Optimiser mon rendement →</a>
     </div>
     <p style="margin-top:12px;font-size:.7rem;color:var(--ink-light);text-align:center;">Aucune donnée bancaire requise · 100% anonyme · Calculs indicatifs</p>
+
+    <div class="tool-conversion" id="tool-conversion" hidden>
+      <h3>Ce calcul, mais suivi toute l'année</h3>
+      <p>BailleurSuite recalcule votre rendement à chaque loyer encaissé et
+      chaque charge saisie, puis prépare votre déclaration en fin d'année.</p>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8"
+         class="btn-appstore" target="_blank" rel="noopener"
+         onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'calculatrice'}})">
+        Télécharger sur l'App Store
+      </a>
+    </div>
   </div>
 </div>
 
@@ -824,6 +835,7 @@ tr:hover td{background:rgba(45,106,79,.025)}
       if (score <= 4) msg += ` Des optimisations peuvent significativement améliorer ce profil.`;
       document.getElementById('calc-cta-text').textContent = msg;
       document.getElementById('calc-cta').classList.add('visible');
+      document.getElementById('tool-conversion').hidden = false;
 
       // Teaser projection patrimoine 10 ans (+18% effet optimisation estimé)
       const gainEstime = Math.round(cashAnnuel * 10 * 1.18);
@@ -833,6 +845,7 @@ tr:hover td{background:rgba(45,106,79,.025)}
       document.getElementById('score-row').style.visibility = 'hidden';
       document.getElementById('email-capture').style.visibility = 'hidden';
       document.getElementById('calc-cta').classList.remove('visible');
+      document.getElementById('tool-conversion').hidden = true;
       lastScore = 0;
     }
   }

@@ -44,6 +44,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import aide_ancres  # noqa: E402
 import appstore  # noqa: E402
 import faq_jsonld  # noqa: E402
+import indexnow  # noqa: E402
 import irl  # noqa: E402
 
 RACINE = Path(__file__).resolve().parent.parent
@@ -1607,6 +1608,19 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
     print(f"✓ liens App Store vérifiés : {sum(cts.values())} liens trackés "
           f"sur {len(cts)} emplacements, {canoniques} références JSON-LD "
           "canoniques")
+
+    # ── Contrôle de la clé IndexNow ───────────────────────────────
+    # Le fichier de clé à la racine est la seule preuve de propriété du
+    # domaine. S'il disparaît, les envois continuent de partir et sont
+    # rejetés côté moteur, sans que rien ne le signale ici.
+    soucis = indexnow.verifier()
+    if soucis:
+        print(f"\n✗ {len(soucis)} anomalie(s) sur IndexNow :", file=sys.stderr)
+        for s in soucis:
+            print(f"    {s}", file=sys.stderr)
+        return 1
+    print(f"✓ clé IndexNow publiée, {len(indexnow.urls_du_sitemap())} URL "
+          "annonçables")
 
     print("✓ FAQPage vérifiés : " + ", ".join(
         f"{Path(rel).parent.name or 'racine'} "

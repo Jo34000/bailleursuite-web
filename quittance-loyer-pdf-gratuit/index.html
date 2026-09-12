@@ -959,6 +959,17 @@
       </button>
     </div>
 
+    <div class="tool-conversion" id="tool-conversion" hidden>
+      <h3>Vos quittances envoyées sans y penser</h3>
+      <p>BailleurSuite génère et envoie vos quittances automatiquement à chaque
+      échéance, et archive tout pour votre déclaration.</p>
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
+         class="btn-appstore" target="_blank" rel="noopener"
+         onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'quittance'}})">
+        Télécharger sur l'App Store
+      </a>
+    </div>
+
     <!-- UPSELL -->
     <div class="upsell-banner">
       <div class="upsell-content">
@@ -1291,6 +1302,7 @@
     document.getElementById('preview-content').innerHTML = html;
     const ps = document.getElementById('preview-section');
     ps.classList.add('visible');
+    document.getElementById('tool-conversion').hidden = false;
     setTimeout(() => ps.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   }
 

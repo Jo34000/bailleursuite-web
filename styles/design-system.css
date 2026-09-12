@@ -365,3 +365,45 @@ h1, h2, h3 {
   font-size: 0.72rem; text-transform: uppercase;
   letter-spacing: 0.1em; color: var(--gold); font-weight: 600;
 }
+
+/* ══════════════════════════════════
+   BLOC DE CONVERSION SOUS UN RÉSULTAT D'OUTIL
+   ══════════════════════════════════
+   Variante compacte et alignée à gauche de .app-promo : même fond,
+   même bouton pilule blanc, padding réduit. Défini ici plutôt qu'en
+   ligne sur chaque page pour que la calculatrice et le générateur de
+   quittances ne divergent pas visuellement à la première retouche.
+
+   Aucune propriété `display` n'est posée : l'attribut `hidden` du
+   HTML doit rester maître de l'affichage. La règle explicite
+   ci-dessous le garantit même si une feuille de page ajoutait plus
+   tard un `display` à ce bloc. */
+.tool-conversion {
+  position: relative; overflow: hidden;
+  background: radial-gradient(circle at top right, rgba(45,106,79,.28), transparent 48%),
+              linear-gradient(145deg, #0E1012, #1A1D20);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--r-md);
+  padding: 26px 28px; margin: 16px 0 0; text-align: left;
+}
+.tool-conversion[hidden] { display: none; }
+.tool-conversion h3 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: 1.35rem; color: #fff;
+  margin: 0 0 8px; letter-spacing: -.02em;
+}
+.tool-conversion p {
+  color: rgba(255,255,255,.62); font-size: .9rem;
+  line-height: 1.65; margin: 0 0 18px; max-width: 52ch;
+}
+/* .btn-appstore est encre sur fond clair ; sur ce fond sombre il
+   faut l'inverse. La spécificité (0,2,0) passe devant la règle de
+   base comme devant une redéfinition en ligne de page. */
+.tool-conversion .btn-appstore {
+  background: #fff; color: #111;
+  padding: 12px 24px; font-size: .86rem; box-shadow: none;
+}
+@media (max-width: 600px) {
+  .tool-conversion { padding: 22px 20px; }
+  .tool-conversion .btn-appstore { width: 100%; justify-content: center; }
+}
