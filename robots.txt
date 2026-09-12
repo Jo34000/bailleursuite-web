@@ -1,13 +1,26 @@
+# Aucune ligne vide entre « User-agent » et la dernière directive : une
+# ligne vide sépare deux enregistrements, et les directives qui suivent
+# se retrouvent rattachées à aucun robot. C'était le cas ici — les deux
+# Disallow n'ont jamais été opposables à un parseur strict. Google est
+# tolérant sur ce point, Bing et les robots plus littéraux ne le sont
+# pas. Les commentaires, eux, ne coupent rien.
+#
+# Pas de « Allow: / » non plus : tout ce qui n'est pas bloqué est déjà
+# autorisé, et cette ligne correspondait à chaque chemin, donc au premier
+# match pour qui lit dans l'ordre.
 User-agent: *
-Allow: /
-
-# Bloquer les ressources inutiles pour l'indexation
+# La table des indices IRL est une donnée publique, référencée depuis le
+# JSON-LD du site. Elle doit rester atteignable malgré la règle /api/
+# ci-dessous. Le préfixe plutôt que le fichier exact : une v2 serait
+# sinon bloquée en silence, le jour où on la publiera.
+#
+# L'autorisation précède le blocage : Google tranche au chemin le plus
+# long quel que soit l'ordre, les autres s'arrêtent au premier match.
+Allow: /api/irl/
+# Endpoints applicatifs : rien à y indexer.
 Disallow: /api/
 Disallow: /admin/
-Disallow: /*.json$
-
-# Sitemap
-Sitemap: https://bailleursuite.fr/sitemap.xml
-
-# Délai de crawl conseillé (optionnel)
+# Ignoré par Google, respecté par Bing. Conservé tel quel.
 Crawl-delay: 1
+
+Sitemap: https://bailleursuite.fr/sitemap.xml
