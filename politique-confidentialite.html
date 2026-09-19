@@ -160,6 +160,9 @@
     :root{--r-sm:8px;--r-md:14px;--r-full:999px;}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
+<link rel="stylesheet" href="/styles/consent.css">
+<script defer src="/scripts/consent.js"></script>
+<script defer src="/scripts/source-tracking.js"></script>
 </head>
 <body>
 <div class="reading-progress" id="reading-progress"></div>
@@ -220,7 +223,7 @@
   <div class="page-hero-label">Légal</div>
   <h1>Politique de<br><em>confidentialité</em></h1>
   <p>Vos données ne nous appartiennent pas. Elles restent sur votre iPhone.</p>
-  <div class="page-hero-date">Dernière mise à jour : juin 2026</div>
+  <div class="page-hero-date">Dernière mise à jour : septembre 2026</div>
 </div>
 
 <div class="page-content">
@@ -339,8 +342,21 @@
   <div class="section" id="cookies">
     <div class="section-num">Article 07</div>
     <h2>Cookies</h2>
-    <p>Le site <strong>bailleursuite.fr</strong> n'utilise pas de cookies publicitaires ou de traçage tiers. Le seul cookie éventuellement déposé est un cookie de session technique, strictement nécessaire au fonctionnement du site, qui ne nécessite pas de consentement selon la réglementation CNIL.</p>
-    <p>Aucun cookie Google Analytics, Facebook Pixel ou assimilé n'est présent sur ce site.</p>
+
+    <h3>Le site et l'application sont deux choses distinctes</h3>
+    <p>Cette section ne concerne que le site <strong>bailleursuite.fr</strong>. L'<strong>application iPhone BailleurSuite ne dépose aucun cookie et ne collecte aucune donnée</strong> : vos biens, loyers, charges et documents restent sur votre appareil, et nous n'y avons aucun accès. Rien de ce qui suit ne s'y applique.</p>
+
+    <h3>Mesure de conversion publicitaire (Google Ads)</h3>
+    <p>Le site utilise <strong>Google Ads</strong> (balise <code>gtag.js</code>, éditée par Google Ireland Limited) dans un seul but : savoir quelles campagnes publicitaires amènent des visiteurs jusqu'à nous, et lesquelles n'en amènent pas. Cette mesure repose sur des cookies déposés par Google.</p>
+    <p>Cette balise <strong>n'est chargée qu'après votre acceptation explicite</strong>. Tant que vous n'avez pas accepté — ou si vous refusez — aucun script Google n'est appelé et aucun cookie publicitaire n'est déposé. Le refus est aussi simple et aussi accessible que l'acceptation.</p>
+    <p>Google est susceptible de transférer ces données hors de l'Union européenne. Ces transferts sont encadrés par les clauses contractuelles types de la Commission européenne et par le cadre de protection des données UE&nbsp;–&nbsp;États-Unis. Vous pouvez consulter la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">politique de confidentialité de Google</a>.</p>
+
+    <h3>Mesure d'audience sans cookie</h3>
+    <p>Le site utilise également un outil de mesure d'audience qui ne dépose aucun cookie et ne collecte aucune donnée personnelle (pages visitées, durée de session, agrégées). Conformément aux recommandations de la CNIL, cette mesure strictement nécessaire au suivi du site est exemptée de consentement et reste active quel que soit votre choix.</p>
+
+    <h3>Revenir sur votre choix</h3>
+    <p>Votre décision est conservée dans votre navigateur et vous pouvez en changer à tout moment : le lien <strong>« Gérer les cookies »</strong>, en bas de chaque page du site, réaffiche le bandeau. Si vous passez de l'acceptation au refus, la balise Google cesse d'être chargée aux pages suivantes ; vous pouvez supprimer les cookies déjà déposés depuis les réglages de votre navigateur.</p>
+    <p>Aucun cookie Facebook Pixel, aucune régie publicitaire tierce et aucun dispositif de reciblage autre que celui décrit ci-dessus n'est présent sur ce site.</p>
   </div>
 
   <!-- 8. Sécurité -->
@@ -401,6 +417,7 @@
       <p style="margin-top:8px;">
         <a href="https://bailleursuite.fr/conditions-utilisation.html">Mentions légales & CGU</a>
         <a href="https://bailleursuite.fr/politique-confidentialite.html">Politique de confidentialité</a>
+        <button type="button" data-bs-consent="ouvrir">Gérer les cookies</button>
         <a href="mailto:contact@bailleursuite.fr">Contact</a>
       </p>
     </div>

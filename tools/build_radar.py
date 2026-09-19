@@ -43,6 +43,7 @@ except ImportError:  # pragma: no cover
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import aide_ancres  # noqa: E402
 import appstore  # noqa: E402
+import consentement  # noqa: E402
 import faq_jsonld  # noqa: E402
 import indexnow  # noqa: E402
 import irl  # noqa: E402
@@ -1621,6 +1622,19 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         return 1
     print(f"✓ clé IndexNow publiée, {len(indexnow.urls_du_sitemap())} URL "
           "annonçables")
+
+    # ── Contrôle du consentement ──────────────────────────────────
+    # gtag.js dépose des cookies : il ne doit exister nulle part en
+    # statique, sous peine de charger avant tout choix de l'utilisateur.
+    # Rien à l'écran ne signalerait la régression.
+    manques = consentement.verifier()
+    if manques:
+        print(f"\n✗ {len(manques)} anomalie(s) sur le consentement :", file=sys.stderr)
+        for m_ in manques:
+            print(f"    {m_}", file=sys.stderr)
+        return 1
+    print("✓ consentement vérifié : aucun tag Google en statique, "
+          "bandeau et retour en arrière présents partout")
 
     print("✓ FAQPage vérifiés : " + ", ".join(
         f"{Path(rel).parent.name or 'racine'} "

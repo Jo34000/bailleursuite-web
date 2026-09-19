@@ -73,6 +73,9 @@
           afficher(msg, 'C\'est noté. Vous recevrez un email de confirmation '
                         + 'dans quelques instants.', true);
           if (window.va) window.va('event', { name: 'Email_Capture', data: { source: source } });
+          // Conversion secondaire Google Ads. Sans effet tant que le
+          // consentement n'est pas accordé ou le libellé non renseigné.
+          if (window.bsConversion) window.bsConversion('Email_Capture');
         })
         .catch(function (err) {
           afficher(msg, err.message

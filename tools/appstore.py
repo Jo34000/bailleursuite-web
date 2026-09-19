@@ -43,6 +43,15 @@ CT_CONNUS = {
     "comparatif", "compariphone", "radar", "aide",
 }
 
+# Préfixe posé au chargement par scripts/source-tracking.js quand la
+# visite vient d'une campagne Google : ct=hero devient ct=ads_hero.
+#
+# Ces valeurs sont acceptées mais ne sont pas attendues dans les pages :
+# elles naissent dans le navigateur, jamais dans le HTML. Les inscrire
+# dans CT_CONNUS aurait fait échouer le contrôle « valeur déclarée mais
+# jamais posée » sur les quatorze variantes ads_*, à chaque build.
+PREFIXE_ADS = "ads_"
+
 SUFFIXES = (".html", ".j2")
 BALISE_A = re.compile(r"<a\b[^>]*>")
 LIEN_SUIVI = re.compile(
@@ -92,7 +101,8 @@ def verifier() -> list[str]:
                 erreurs.append(
                     f"{rel}:{ligne} : pt={jeton} au lieu de "
                     f"{PROVIDER_TOKEN}")
-            if ct not in CT_CONNUS:
+            base = ct[len(PREFIXE_ADS):] if ct.startswith(PREFIXE_ADS) else ct
+            if base not in CT_CONNUS:
                 erreurs.append(
                     f"{rel}:{ligne} : ct={ct} hors de la liste connue")
             cts[ct] += 1
@@ -125,7 +135,11 @@ def verifier() -> list[str]:
     # tenue de liste : elle signale un emplacement censé convertir qui
     # n'a aucun lien, et la campagne correspondante reste vide dans
     # App Store Connect sans que rien ne le dise.
-    manquants = CT_CONNUS - set(cts)
+    # Les variantes ads_* sont retirées du décompte : elles ne sont
+    # jamais attendues dans les pages.
+    poses = {c[len(PREFIXE_ADS):] if c.startswith(PREFIXE_ADS) else c
+             for c in cts}
+    manquants = CT_CONNUS - poses
     for ct in sorted(manquants):
         erreurs.append(f"ct={ct} déclaré mais utilisé nulle part — "
                        "emplacement sans lien, ou valeur à retirer de CT_CONNUS")

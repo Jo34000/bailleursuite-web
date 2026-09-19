@@ -1,0 +1,71 @@
+/* Bandeau de consentement et bouton « Gérer les cookies ».
+ *
+ * Feuille séparée plutôt qu'ajout à design-system.css : le
+ * comparatif des logiciels et celui des applications iPhone sont les
+ * deux seules pages du site à ne pas charger le design system, tout
+ * leur CSS étant en ligne. Le bandeau, lui, doit s'afficher partout —
+ * il y serait resté sans aucun style.
+ */
+/* ══════════════════════════════════
+   BANDEAU DE CONSENTEMENT
+   ══════════════════════════════════
+   `position: fixed` : le bandeau ne participe pas au flux, donc
+   n'induit aucun décalage de mise en page à son apparition comme à sa
+   disparition. Le contenu de la page n'est jamais repoussé.
+
+   z-index 9000 : au-dessus des CTA collants (200) et de la navigation
+   (100), en dessous de la barre de progression de lecture (9999), qui
+   ne fait que 3 px en haut d'écran et n'entre pas en conflit. */
+.bs-consent {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 9000;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px;
+  padding: 16px clamp(16px, 4vw, 32px);
+  background: rgba(20, 19, 15, .97);
+  border-top: 1px solid rgba(255,255,255,.1);
+  backdrop-filter: blur(8px);
+}
+.bs-consent-texte {
+  flex: 1 1 320px; margin: 0;
+  font-size: .82rem; line-height: 1.55;
+  color: rgba(255,255,255,.72);
+}
+.bs-consent-texte a { color: #fff; text-decoration: underline; }
+.bs-consent-actions { display: flex; gap: 10px; flex-shrink: 0; }
+/* Refuser et accepter ont le même poids visuel : même taille, même
+   graisse, même surface. Un refus ne doit pas coûter plus qu'un accord. */
+.bs-consent-btn {
+  font: inherit; font-size: .82rem; font-weight: 600;
+  padding: 10px 22px; border-radius: var(--r-full);
+  cursor: pointer; border: 1px solid transparent;
+  transition: transform 180ms cubic-bezier(.4,0,.2,1);
+}
+.bs-consent-btn:hover { transform: translateY(-1px); }
+.bs-consent-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.bs-consent-refus {
+  background: transparent; color: #fff;
+  border-color: rgba(255,255,255,.35);
+}
+.bs-consent-accord { background: #fff; color: #14130F; }
+@media (max-width: 560px) {
+  .bs-consent { flex-direction: column; align-items: stretch; gap: 12px; padding: 14px 16px; }
+  /* flex-basis porte sur l'axe principal : en colonne, 320px devenait
+     une hauteur imposée et le bandeau occupait la moitié de l'écran. */
+  .bs-consent-texte { flex: 0 1 auto; font-size: .78rem; line-height: 1.5; }
+  .bs-consent-actions > .bs-consent-btn { flex: 1; padding: 11px 12px; }
+}
+
+/* Lien « Gérer les cookies » du pied de page. Un bouton, puisqu'il
+   n'emmène nulle part, mis au gabarit des liens qui l'entourent — et
+   ces liens n'ont pas la même allure selon le pied de page. */
+[data-bs-consent="ouvrir"] {
+  font: inherit; font-size: inherit;
+  background: none; border: 0; padding: 0;
+  cursor: pointer; text-decoration: none; color: inherit;
+}
+/* Pied de page commun : liens blancs très atténués. */
+.site-footer-bottom [data-bs-consent="ouvrir"] {
+  color: rgba(255,255,255,.35); margin: 0 8px;
+}
+.site-footer-bottom [data-bs-consent="ouvrir"]:hover { color: rgba(255,255,255,.75); }
+/* Pied de page à plat des deux comparatifs : liens verts, autre marge. */
+footer > [data-bs-consent="ouvrir"] { color: var(--mint); margin: 0 10px; }
