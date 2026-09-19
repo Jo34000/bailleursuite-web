@@ -35,9 +35,9 @@
    * D'où la validation ci-dessous, doublée d'un contrôle bloquant dans
    * tools/consentement.py. */
   var CONVERSIONS = {
-    AppStore_Click: '',          // conversion principale
-    Email_Capture: '',           // conversion secondaire
-    Calculatrice_Resultat: '',   // micro-conversion
+    AppStore_Click: 'AW-18454674623/jQgGCKOK2f0cEL_5799E',        // principale
+    Email_Capture: 'AW-18454674623/oePrCNH56v0cEL_5799E',         // secondaire
+    Calculatrice_Resultat: 'AW-18454674623/At7LCL6t8f0cEL_5799E', // secondaire
   };
 
   /* Un libellé plausible : l'identifiant du compte, une barre oblique,
