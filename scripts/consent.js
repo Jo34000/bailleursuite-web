@@ -24,16 +24,45 @@
 
   /* Libellés de conversion Google Ads.
    *
-   * À renseigner après création des actions de conversion dans
-   * l'interface, sous la forme 'AW-18454674623/AbCd_EfGhIjKlMnOp'.
-   * Tant qu'un libellé est vide, la conversion correspondante n'est pas
-   * envoyée : un `send_to` vide serait accepté par gtag et perdu en
-   * silence, ce qui est pire qu'un envoi absent. */
+   * À copier depuis l'interface après création des actions de
+   * conversion. Un vrai libellé est une chaîne opaque, par exemple
+   * 'AW-18454674623/7d2QCMSm1rEDEP-x4v8o'.
+   *
+   * Vide tant qu'il n'est pas renseigné : gtag accepte n'importe quel
+   * `send_to`, y compris vide ou factice, puis Google le jette en
+   * silence. Rien dans l'interface ne distinguerait alors « aucune
+   * conversion » de « conversions envoyées à une adresse inexistante ».
+   * D'où la validation ci-dessous, doublée d'un contrôle bloquant dans
+   * tools/consentement.py. */
   var CONVERSIONS = {
     AppStore_Click: '',          // conversion principale
     Email_Capture: '',           // conversion secondaire
     Calculatrice_Resultat: '',   // micro-conversion
   };
+
+  /* Un libellé plausible : l'identifiant du compte, une barre oblique,
+   * puis un jeton contenant au moins une minuscule ou un chiffre.
+   * C'est ce dernier point qui écarte les marque-places du genre
+   * LIBELLE_APP_STORE ou A_REMPLACER, qui passeraient sinon pour des
+   * jetons valides. */
+  var FORME_LIBELLE = /^AW-\d{9,12}\/[A-Za-z0-9_-]{8,32}$/;
+
+  /* Certains marque-places ont la forme d'un vrai jeton — à commencer
+   * par l'exemple donné plus haut, qui a toutes les apparences requises.
+   * Seule une liste explicite les écarte. */
+  var JETONS_FACTICES = ['LIBELLE', 'REMPLACER', 'PLACEHOLDER', 'TODO',
+                         'XXX', 'EXEMPLE', 'EXAMPLE', 'ABCD'];
+
+  function libelleValide(valeur) {
+    if (!valeur || !FORME_LIBELLE.test(valeur)) return false;
+    var jeton = valeur.split('/')[1];
+    if (!/[a-z0-9]/.test(jeton)) return false;
+    var majuscules = jeton.toUpperCase();
+    for (var i = 0; i < JETONS_FACTICES.length; i++) {
+      if (majuscules.indexOf(JETONS_FACTICES[i]) !== -1) return false;
+    }
+    return true;
+  }
 
   // ── Stockage ────────────────────────────────────────────────────
   // localStorage lève en navigation privée sur certains navigateurs et
@@ -77,6 +106,15 @@
     if (lire() !== ACCORDE || !gtagCharge) return;
     var envoi = CONVERSIONS[nom];
     if (!envoi) return;
+    if (!libelleValide(envoi)) {
+      // Visible à la console pendant une recette, plutôt qu'un envoi
+      // parti nulle part et des campagnes pilotées sur du vide.
+      if (window.console) {
+        console.warn('[BailleurSuite] Libellé de conversion invalide pour '
+          + nom + ' : « ' + envoi + ' ». Rien n\'a été envoyé.');
+      }
+      return;
+    }
     window.gtag('event', 'conversion', { send_to: envoi });
   };
 

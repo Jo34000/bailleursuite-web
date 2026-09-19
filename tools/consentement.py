@@ -49,6 +49,45 @@ REQUIS = [
 ID_ADS = "AW-18454674623"
 
 
+# Un libellé de conversion : l'identifiant du compte, puis un jeton
+# opaque. Le jeton doit contenir au moins une minuscule ou un chiffre —
+# c'est ce qui sépare un vrai libellé d'un marque-place en capitales,
+# que gtag accepterait avant que Google ne le jette en silence.
+FORME_LIBELLE = re.compile(r"^AW-\d{9,12}/[A-Za-z0-9_-]{8,32}$")
+# Certains marque-places ont toutes les apparences d'un vrai jeton —
+# à commencer par l'exemple de la documentation. Seule une liste
+# explicite les écarte.
+JETONS_FACTICES = ("LIBELLE", "REMPLACER", "PLACEHOLDER", "TODO",
+                   "XXX", "EXEMPLE", "EXAMPLE", "ABCD")
+BLOC_CONVERSIONS = re.compile(
+    r"var CONVERSIONS = \{(.*?)\};", re.S)
+LIGNE_LIBELLE = re.compile(r"(\w+)\s*:\s*'([^']*)'")
+
+
+def verifier_libelles(consent: str) -> list[str]:
+    """Une conversion est soit vide — donc inactive et assumée — soit
+    d'une forme plausible. Jamais entre les deux."""
+    bloc = BLOC_CONVERSIONS.search(consent)
+    if not bloc:
+        return ["bloc CONVERSIONS introuvable dans scripts/consent.js"]
+
+    erreurs = []
+    for nom, valeur in LIGNE_LIBELLE.findall(bloc.group(1)):
+        if valeur == "":
+            continue  # non encore renseignée, aucun envoi
+        jeton = valeur.split("/")[-1]
+        factice = any(f in jeton.upper() for f in JETONS_FACTICES)
+        if (not FORME_LIBELLE.match(valeur)
+                or not re.search(r"[a-z0-9]", jeton)
+                or factice):
+            erreurs.append(
+                f"scripts/consent.js : libellé de conversion invalide pour "
+                f"{nom} — « {valeur} ». Attendu la forme "
+                f"AW-18454674623/<jeton>, copiée depuis Google Ads ; "
+                f"un marque-place enverrait les conversions dans le vide")
+    return erreurs
+
+
 def pages() -> list[Path]:
     """Pages livrées et gabarits qui les produisent."""
     out = [p for p in sorted(RACINE.rglob("*.html")) if ".git" not in p.parts]
@@ -68,6 +107,7 @@ def verifier() -> list[str]:
     consent = CONSENT_JS.read_text(encoding="utf-8")
     if ID_ADS not in consent:
         erreurs.append(f"identifiant {ID_ADS} absent de scripts/consent.js")
+    erreurs += verifier_libelles(consent)
     # Le tag ne doit pas partir au chargement : le seul appel à
     # chargerGtag() hors d'une fonction est celui gardé par l'état.
     if "granted" not in consent:
