@@ -292,6 +292,27 @@
       outline: none;
       width: 100%;
     }
+    /* Safari iOS impose aux champs de date une largeur intrinsèque qui
+       ignore width:100% et déborde du conteneur. Neutraliser l'apparence
+       native rend la largeur à la feuille de style ; min-width:0 lève la
+       taille minimale implicite qu'un élément de formulaire conserve
+       dans une grille. */
+    input[type="date"] {
+      -webkit-appearance: none;
+      appearance: none;
+      display: block;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      min-height: 52px;
+      text-align: left;
+    }
+    input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+
+    /* Mois concerné : deux listes de largeur égale, qui se partagent la
+       ligne quelle que soit la largeur d'écran. */
+    .mois-choix { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
     .form-input:focus, .form-select:focus {
       border-color: var(--green-mid);
       box-shadow: 0 0 0 3px rgba(64,145,108,.12);
@@ -484,16 +505,24 @@
       margin-top: 40px;
       box-shadow: var(--shadow-lg);
     }
+    /* La couleur est posée explicitement : `color: var(--white)` sur
+       .upsell-banner n'est qu'héritée, et toute règle visant h3
+       directement la supplante. C'est ce qui arrivait ici — le titre
+       ressortait en encre sombre sur le vert, à 1,54:1. */
     .upsell-content h3 {
       font-size: 20px;
       margin-bottom: 8px;
       font-weight: normal;
+      color: var(--white);
     }
-    .upsell-content h3 em { font-style: italic; color: var(--green-light); }
+    /* #74C69D ne tenait que 3,14:1 sur la borne claire du dégradé.
+       #D8F3DC en donne 5,41:1 au pire, avec de la marge. Les ors
+       envisagés échouaient tous sur cette même borne. */
+    .upsell-content h3 em { font-style: italic; color: #D8F3DC; }
     .upsell-content p {
       font-family: -apple-system, sans-serif;
       font-size: 14px;
-      color: rgba(255,255,255,.75);
+      color: rgba(255,255,255,.85);
       max-width: 400px;
     }
     .upsell-features {
@@ -535,10 +564,15 @@
       font-weight: 400;
       color: rgba(255,255,255,.7);
     }
+    .upsell-gratuit {
+      font-family: -apple-system, sans-serif;
+      font-size: 17px; font-weight: 700; color: var(--white);
+      letter-spacing: -.01em; margin-bottom: 4px;
+    }
     .upsell-price-sub {
       font-family: -apple-system, sans-serif;
       font-size: 12px;
-      color: rgba(255,255,255,.6);
+      color: rgba(255,255,255,.85);
       margin-bottom: 14px;
     }
     .btn-upsell {
@@ -904,6 +938,14 @@
             <input class="form-input" id="charges" type="number" min="0" step="0.01" placeholder="ex : 80" />
             <span class="form-hint">Provisions pour charges — 0 si non applicable</span>
           </div>
+          <div class="form-group full">
+            <label class="form-label" for="mois-concerne">Mois concerné</label>
+            <div class="mois-choix">
+              <select class="form-select" id="mois-concerne" aria-label="Mois concerné"></select>
+              <select class="form-select" id="annee-concernee" aria-label="Année concernée"></select>
+            </div>
+            <span class="form-hint">Renseigne la période du 1er au dernier jour du mois. Les dates ci-dessous restent modifiables, pour un premier mois au prorata.</span>
+          </div>
           <div class="form-group">
             <label class="form-label" for="periode-debut">Période — début</label>
             <input class="form-input" id="periode-debut" type="date" />
@@ -977,18 +1019,17 @@
     <!-- UPSELL -->
     <div class="upsell-banner">
       <div class="upsell-content">
-        <h3>Arrêtez de faire ça <em>à la main</em> chaque mois</h3>
-        <p>BailleurSuite génère et envoie vos quittances automatiquement le 1er du mois, pour chaque locataire, avec archivage.</p>
+        <h3>Votre quittance est prête.<br><em>Le mois prochain, elle partira toute seule.</em></h3>
+        <p>BailleurSuite génère et envoie vos quittances chaque mois, pour chaque locataire, et les archive pour votre déclaration.</p>
         <div class="upsell-features">
-          <span class="upsell-feature">Quittances PDF auto + envoi email au locataire</span>
-          <span class="upsell-feature">Alertes IRL et échéances importantes</span>
-          <span class="upsell-feature">Analyse fiscale complète (réel vs micro)</span>
-          <span class="upsell-feature">Biens illimités, données 100% sur iPhone</span>
+          <span class="upsell-feature">Quittances PDF envoyées automatiquement au locataire</span>
+          <span class="upsell-feature">Alertes de révision IRL et d'échéances</span>
+          <span class="upsell-feature">Données stockées sur votre iPhone, sans compte</span>
         </div>
       </div>
       <div class="upsell-cta">
-        <div class="upsell-price">5,99€<span class="upsell-price-period">/mois</span></div>
-        <div class="upsell-price-sub">ou 49,99€/an</div>
+        <div class="upsell-gratuit">Téléchargement gratuit</div>
+        <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
         <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8" class="btn-upsell" onclick="track('AppStore_Click',{ct:'quittance'})">Télécharger sur l'App Store →</a>
       </div>
     </div>
@@ -1169,8 +1210,8 @@
         </div>
       </div>
       <div class="upsell-cta">
-        <div class="upsell-price">5,99€<span class="upsell-price-period">/mois</span></div>
-        <div class="upsell-price-sub">lancement sept. 2026</div>
+        <div class="upsell-gratuit">Téléchargement gratuit</div>
+        <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
         <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8" class="btn-upsell" onclick="track('AppStore_Click',{ct:'quittance'})">Télécharger sur l'App Store →</a>
       </div>
     </div>
@@ -1219,16 +1260,74 @@
 </footer>
 
 <script>
-  // ── Dates par défaut ──
+  /* ── Mois concerné et période ──────────────────────────────────
+   *
+   * `toISOString()` convertit en UTC avant de découper la chaîne. Pour
+   * un fuseau en avance sur UTC — Paris l'est toute l'année —, minuit
+   * local tombe la veille en UTC : le 1er septembre devenait le
+   * 31 août, et le 30 septembre le 29. D'où la période « 31 août →
+   * 29 sept. » observée, alors que le calcul du mois, lui, était juste.
+   * Le format doit donc être produit à partir des composantes locales.
+   */
+  const NOMS_MOIS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                     'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre',
+                     'Décembre'];
+
+  function dateLocale(d) {
+    const p = (n) => String(n).padStart(2, '0');
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+  }
+
+  function aujourdhui() { return dateLocale(new Date()); }
+
+  /* Le jour 0 du mois suivant est le dernier du mois courant : la
+   * bascule 28/29/30/31 et les années bissextiles sont traitées par le
+   * calendrier lui-même, sans table ni condition à maintenir. */
+  function bornesDuMois(annee, mois) {
+    return { debut: new Date(annee, mois, 1), fin: new Date(annee, mois + 1, 0) };
+  }
+
   (function() {
+    const selMois = document.getElementById('mois-concerne');
+    const selAnnee = document.getElementById('annee-concernee');
+    const debut = document.getElementById('periode-debut');
+    const fin = document.getElementById('periode-fin');
+    const paiement = document.getElementById('date-paiement');
     const now = new Date();
-    const y = now.getFullYear(), m = now.getMonth();
-    const firstDay = new Date(y, m, 1);
-    const lastDay  = new Date(y, m + 1, 0);
-    const fmt = d => d.toISOString().split('T')[0];
-    document.getElementById('periode-debut').value = fmt(firstDay);
-    document.getElementById('periode-fin').value   = fmt(lastDay);
-    document.getElementById('date-paiement').value = fmt(firstDay);
+
+    NOMS_MOIS.forEach(function (nom, i) {
+      const o = document.createElement('option');
+      o.value = String(i); o.textContent = nom;
+      selMois.appendChild(o);
+    });
+    // Une quittance se rédige pour le mois écoulé, parfois pour un mois
+    // ancien qu'on régularise. Deux ans en arrière, un an en avant.
+    for (let a = now.getFullYear() - 2; a <= now.getFullYear() + 1; a++) {
+      const o = document.createElement('option');
+      o.value = String(a); o.textContent = String(a);
+      selAnnee.appendChild(o);
+    }
+    selMois.value = String(now.getMonth());
+    selAnnee.value = String(now.getFullYear());
+
+    function appliquerMois() {
+      const b = bornesDuMois(parseInt(selAnnee.value, 10), parseInt(selMois.value, 10));
+      debut.value = dateLocale(b.debut);
+      fin.value = dateLocale(b.fin);
+      paiement.value = dateLocale(b.debut);
+      // Si l'aperçu est déjà à l'écran, il doit suivre le mois choisi
+      // plutôt que d'afficher une période que le formulaire a quittée.
+      const ps = document.getElementById('preview-section');
+      if (ps && ps.classList.contains('visible')) generateQuittance();
+    }
+
+    // Les dates ne sont réécrites qu'ici, c'est-à-dire au chargement et
+    // sur un changement de mois ou d'année. Une saisie manuelle dans
+    // début ou fin n'est donc jamais écrasée tant que le visiteur ne
+    // revient pas sur le mois.
+    selMois.addEventListener('change', appliquerMois);
+    selAnnee.addEventListener('change', appliquerMois);
+    appliquerMois();
   })();
 
   // ── Helpers ──
@@ -1294,7 +1393,7 @@
 
       ${sig ? `
       <div class="preview-signature">
-        <p>Fait le ${fmtDate(new Date().toISOString().split('T')[0])}</p>
+        <p>Fait le ${fmtDate(aujourdhui())}</p>
         <p style="margin-top:48px;border-top:1px solid var(--border);padding-top:8px;width:200px;margin-left:auto;">Signature du bailleur</p>
       </div>` : ''}
 
@@ -1409,7 +1508,7 @@
     if (sig) {
       y += 6;
       doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(100, 130, 110);
-      const today = fmtDate(new Date().toISOString().split('T')[0]);
+      const today = fmtDate(aujourdhui());
       doc.text(`Fait le ${today}`, W - M, y, { align: 'right' });
       y += 16;
       doc.setDrawColor(150, 180, 160); doc.line(W - M - 50, y, W - M, y); y += 5;
