@@ -19,6 +19,7 @@ import { pipeline, jour, identifiants } from './_redis.js';
 // base avec des clés arbitraires.
 const EVENEMENTS = new Set([
   'Calculatrice_Resultat',
+  'Quittance_CTA_Hero',
   'Quittance_Generee',
   'AppStore_Click',
   'Email_Capture',

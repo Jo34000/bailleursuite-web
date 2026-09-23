@@ -52,6 +52,9 @@
    ══════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; overflow-x: hidden; overscroll-behavior-x: none; }
+/* Le défilement fluide est un mouvement comme un autre : il doit
+   céder devant une préférence système pour moins d'animation. */
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 /* ══════════════════════════════════
    3. BASE

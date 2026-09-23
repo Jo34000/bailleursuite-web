@@ -13,6 +13,7 @@ import { pipeline, jour, identifiants } from './_redis.js';
 
 const EVENEMENTS = [
   'AppStore_Click',
+  'Quittance_CTA_Hero',
   'Calculatrice_Resultat',
   'Quittance_Generee',
   'Email_Capture',

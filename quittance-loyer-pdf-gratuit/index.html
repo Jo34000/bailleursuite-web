@@ -82,25 +82,98 @@
     }
 
     /* ── HERO ── */
+    /* Le halo était un ::before de 700 px, débordant latéralement sous
+       580 px — d'où le overflow:hidden qui l'a longtemps contenu. Porté
+       par le fond lui-même, il ne déborde plus, et le hero peut enfin
+       laisser le visuel mordre sur la section suivante. */
     .hero {
-      background: var(--bg);
+      background:
+        radial-gradient(ellipse 700px 700px at 50% -160px, rgba(45,106,79,.09) 0%, transparent 62%),
+        var(--bg);
       color: var(--ink);
-      padding: 108px 24px 52px;
+      padding: 108px 24px 0;
       text-align: center;
       position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -160px; left: 50%;
-      transform: translateX(-50%);
-      width: 700px; height: 700px;
-      background: radial-gradient(ellipse, rgba(45,106,79,.09) 0%, transparent 62%);
-      pointer-events: none;
     }
     @media (max-width: 580px) {
-      .hero { padding: 96px 16px 40px; }
+      .hero { padding: 96px 16px 0; }
+    }
+
+    /* Deux colonnes sur grand écran, le visuel plus large que le texte.
+       Empilé en dessous, dans l'ordre du DOM : le CTA reste au-dessus du
+       visuel, donc visible sans défiler. */
+    .hero-inner {
+      display: grid; gap: 32px; align-items: center;
+      max-width: 1040px; margin: 0 auto; padding: 0 20px;
+    }
+    @media (min-width: 900px) {
+      .hero { text-align: left; padding-bottom: 0; }
+      .hero-inner { grid-template-columns: 1fr 1.2fr; gap: 48px; }
+      .hero-inner .breadcrumb, .hero-inner .hero h1 { margin-left: 0; }
+    }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; min-height: 52px; padding: 0 30px;
+      background: var(--green-main); color: var(--white);
+      border-radius: var(--r-full); text-decoration: none;
+      font-family: -apple-system, sans-serif; font-size: 16px; font-weight: 600;
+      box-shadow: 0 10px 24px -10px rgba(45,106,79,.6);
+      transition: transform 180ms cubic-bezier(.4,0,.2,1);
+    }
+    .hero-cta:hover { transform: translateY(-2px); }
+    .hero-cta:focus-visible { outline: 2px solid var(--green-dark); outline-offset: 3px; }
+    @media (max-width: 899px) { .hero-cta { width: 100%; } }
+
+    .hero-reassurance {
+      font-family: -apple-system, sans-serif;
+      font-size: 13px; color: var(--ink-mid);
+      margin: 14px 0 0;
+    }
+
+    /* Le visuel est le LCP de la page : ratio réservé par width/height,
+       aucun chargement paresseux. La marge négative le fait mordre sur
+       la section suivante, ce qui donne de la profondeur sans hauteur
+       supplémentaire. */
+    /* 85 % de l'écran, pas du conteneur : celui-ci porte déjà
+       20 px de marge intérieure de chaque côté. */
+    .hero-visuel { margin: 8px auto -56px; width: min(85vw, 420px); }
+    .hero-visuel img {
+      display: block; width: 100%; height: auto;
+      border-radius: 14px;
+      box-shadow: 0 30px 60px -24px rgba(28,26,20,.35);
+      transform: rotate(-2.5deg);
+    }
+    @media (min-width: 900px) {
+      /* width doit être relâché, sinon le plafond de 420 px posé pour
+         le mobile l'emporte sur max-width et le visuel reste plus
+         étroit que le texte.
+
+         Pas de débordement négatif ici : le visuel y est bien plus haut
+         que sur mobile et venait recouvrir le titre de la section
+         suivante. La profondeur était demandée pour le mobile, elle y
+         reste. */
+      .hero-visuel { width: auto; max-width: 100%; margin: 0; }
+      .hero { padding-bottom: 28px; }
+    }
+    /* Une inclinaison est un mouvement figé, mais elle relève de la même
+       gêne vestibulaire pour qui a demandé moins d'animation. */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-visuel img { transform: none; }
+    }
+
+    /* Le défilement fluide vient du design system, qui le pose pour
+       tout le site. Ici, seul le décalage d'ancre est nécessaire, pour
+       que le titre ne passe pas sous la capsule de navigation. */
+    #generateur { scroll-margin-top: 84px; }
+
+    /* Pastilles de progression du formulaire. */
+    .etape {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; flex-shrink: 0;
+      background: var(--green-main); color: var(--white);
+      border-radius: 50%; font-size: 12px; font-weight: 700;
+      font-family: -apple-system, sans-serif;
     }
     .breadcrumb {
       font-family: -apple-system, sans-serif;
@@ -151,9 +224,12 @@
       font-size: 1.05rem;
       color: var(--ink-mid);
       max-width: 520px;
-      margin: 0 auto 32px;
+      margin: 0 auto 28px;
       line-height: 1.65;
       position: relative;
+    }
+    @media (min-width: 900px) {
+      .hero h1, .hero-sub { margin-left: 0; margin-right: 0; }
     }
     .hero-meta {
       display: flex;
@@ -198,6 +274,11 @@
       padding: 44px 0 40px;
       background: var(--cream);
     }
+    /* Le visuel du hero mord de 56 px sur cette section. Sans cette
+       réserve, il recouvrait son titre : le débordement doit passer sur
+       le fond, pas sur du texte. Déclarée ici, après la règle
+       ci-dessus, qui a la même spécificité et l'emporterait sinon. */
+    @media (max-width: 899px) { #generateur { padding-top: 96px; } }
     .section-label {
       display: inline-flex;
       align-items: center;
@@ -900,18 +981,23 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="container">
-    <p class="breadcrumb">
-      <a href="https://bailleursuite.fr/">BailleurSuite</a> › Quittance de loyer PDF gratuite
-    </p>
-    <div class="hero-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="14" y2="12"/></svg> Outil gratuit · Mis à jour mai 2026</div>
-    <h1>Votre quittance de loyer PDF <em>prête en 30 secondes</em></h1>
-    <p class="hero-sub">Plus besoin de Word, Excel ou modèles bricolés. PDF conforme loi ALUR, généré localement, téléchargement immédiat — sans compte.</p>
-    <div class="hero-meta">
-      <span>✓ 100% gratuit</span>
-      <span>✓ Conforme loi ALUR &amp; art. 21</span>
-      <span>✓ Aucune donnée envoyée</span>
-      <span>✓ PDF instantané</span>
+  <div class="hero-inner">
+    <div class="hero-texte">
+      <p class="breadcrumb">
+        <a href="https://bailleursuite.fr/">BailleurSuite</a> › Quittance de loyer PDF gratuite
+      </p>
+      <div class="hero-badge">Gratuit · sans inscription</div>
+      <h1>Quittance de loyer PDF gratuite<br><em>prête en 30 secondes</em></h1>
+      <p class="hero-sub">Remplissez quelques champs, téléchargez un PDF conforme à la loi. Rien n'est envoyé, rien à créer.</p>
+      <a class="hero-cta" href="#generateur" onclick="track('Quittance_CTA_Hero')">Créer ma quittance →</a>
+      <p class="hero-reassurance">Conforme loi du 6 juillet 1989 · Sans compte · PDF immédiat</p>
+    </div>
+    <div class="hero-visuel">
+      <picture>
+        <source srcset="/quittance-hero.webp" type="image/webp">
+        <img src="/quittance-hero.jpg" width="900" height="919" fetchpriority="high"
+             alt="Exemple de quittance de loyer générée">
+      </picture>
     </div>
   </div>
 </div>
@@ -920,26 +1006,18 @@
 <section id="generateur">
   <div class="container">
 
-    <div class="proof-bar">
-      <div class="proof-item"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> <strong>Données 100% locales</strong> — rien n'est envoyé</div>
-      <div class="proof-item"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><polyline points="14 3 14 8 19 8"/></svg> <strong>PDF généré</strong> dans votre navigateur</div>
-      <div class="proof-item"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M12 4v16"/><path d="M6 8h12"/><path d="M6 8l-3 6h6z"/><path d="M18 8l-3 6h6z"/><path d="M8 20h8"/></svg> <strong>Conforme</strong> loi ALUR 2014</div>
-    </div>
-
-    <div class="section-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M13 3 5 13h6l-1 8 8-11h-6z"/></svg> Générateur instantané</div>
     <h2 class="section-title">Remplissez et téléchargez</h2>
     <p class="section-sub">Toutes les mentions obligatoires sont incluses automatiquement.</p>
 
     <div class="generator-card">
       <div class="generator-header">
         <span class="generator-header-title"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.2A1.2 1.2 0 0 1 10.2 2h3.6A1.2 1.2 0 0 1 15 3.2V4"/></svg> Générateur de quittance de loyer</span>
-        <span class="badge-free">Gratuit · Sans inscription</span>
       </div>
 
       <div class="generator-body">
         <div class="form-grid">
 
-          <div class="section-group-title"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M4 10 12 3l8 7"/><path d="M6 9.5V20h12V9.5"/></svg> Propriétaire bailleur</div>
+          <div class="section-group-title"><span class="etape" aria-hidden="true">1</span> Le propriétaire</div>
 
           <div class="form-group">
             <label class="form-label" for="bailleur-nom">Nom & prénom</label>
@@ -951,7 +1029,7 @@
           </div>
 
           <div class="divider"></div>
-          <div class="section-group-title"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg> Locataire</div>
+          <div class="section-group-title"><span class="etape" aria-hidden="true">2</span> Le locataire</div>
 
           <div class="form-group">
             <label class="form-label" for="locataire-nom">Nom & prénom</label>
@@ -963,7 +1041,7 @@
           </div>
 
           <div class="divider"></div>
-          <div class="section-group-title"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 9.2a4 4 0 1 0 0 5.6"/><line x1="7" y1="11" x2="13" y2="11"/><line x1="7" y1="13.5" x2="12" y2="13.5"/></svg> Loyer & période</div>
+          <div class="section-group-title"><span class="etape" aria-hidden="true">3</span> Loyer et période</div>
 
           <div class="form-group">
             <label class="form-label" for="loyer-hc">Loyer hors charges (€)</label>
@@ -1026,7 +1104,6 @@
 
       <div class="generator-footer">
         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Aucune donnée envoyée — PDF généré localement</span>
-        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.2A1.2 1.2 0 0 1 10.2 2h3.6A1.2 1.2 0 0 1 15 3.2V4"/></svg> Mentions ALUR incluses automatiquement</span>
       </div>
     </div>
 
