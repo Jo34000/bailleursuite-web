@@ -82,14 +82,16 @@
     }
 
     /* ── HERO ── */
-    /* Le halo était un ::before de 700 px, débordant latéralement sous
-       580 px — d'où le overflow:hidden qui l'a longtemps contenu. Porté
-       par le fond lui-même, il ne déborde plus, et le hero peut enfin
-       laisser le visuel mordre sur la section suivante. */
+    /* Fond repris de la page d'accueil, couche pour couche : halo vert
+       en haut, reflet or en bas, dégradé ivoire vertical. Porté par
+       l'élément plutôt que par une couche absolue — il peint derrière
+       ses enfants de la même façon, sans nœud supplémentaire, et sans
+       le overflow:hidden qui couperait le débordement du visuel. */
     .hero {
       background:
-        radial-gradient(ellipse 700px 700px at 50% -160px, rgba(45,106,79,.09) 0%, transparent 62%),
-        var(--bg);
+        radial-gradient(120% 70% at 50% -10%, rgba(45,106,79,.10) 0%, transparent 60%),
+        radial-gradient(90% 50% at 50% 100%, rgba(201,168,76,.06) 0%, transparent 70%),
+        linear-gradient(180deg, #FBFAF7 0%, #F8F5EE 100%);
       color: var(--ink);
       padding: 108px 24px 0;
       text-align: center;
@@ -117,7 +119,7 @@
       gap: 8px; min-height: 52px; padding: 0 30px;
       background: var(--green-main); color: var(--white);
       border-radius: var(--r-full); text-decoration: none;
-      font-family: -apple-system, sans-serif; font-size: 16px; font-weight: 600;
+      font-family: var(--sans); font-size: 1rem; font-weight: 600;
       box-shadow: 0 10px 24px -10px rgba(45,106,79,.6);
       transition: transform 180ms cubic-bezier(.4,0,.2,1);
     }
@@ -126,8 +128,8 @@
     @media (max-width: 899px) { .hero-cta { width: 100%; } }
 
     .hero-reassurance {
-      font-family: -apple-system, sans-serif;
-      font-size: 13px; color: var(--ink-mid);
+      font-family: var(--sans);
+      font-size: .8125rem; color: var(--ink-mid);
       margin: 14px 0 0;
     }
 
@@ -142,7 +144,6 @@
       display: block; width: 100%; height: auto;
       border-radius: 14px;
       box-shadow: 0 30px 60px -24px rgba(28,26,20,.35);
-      transform: rotate(-2.5deg);
     }
     @media (min-width: 900px) {
       /* width doit être relâché, sinon le plafond de 420 px posé pour
@@ -155,11 +156,6 @@
          reste. */
       .hero-visuel { width: auto; max-width: 100%; margin: 0; }
       .hero { padding-bottom: 28px; }
-    }
-    /* Une inclinaison est un mouvement figé, mais elle relève de la même
-       gêne vestibulaire pour qui a demandé moins d'animation. */
-    @media (prefers-reduced-motion: reduce) {
-      .hero-visuel img { transform: none; }
     }
 
     /* Le défilement fluide vient du design system, qui le pose pour
@@ -176,7 +172,7 @@
       font-family: -apple-system, sans-serif;
     }
     .breadcrumb {
-      font-family: -apple-system, sans-serif;
+      font-family: var(--sans);
       font-size: 13px;
       color: var(--ink-light);
       margin-bottom: 20px;
@@ -184,30 +180,35 @@
     }
     .breadcrumb a { color: var(--mint); text-decoration: none; }
     .breadcrumb a:hover { text-decoration: underline; }
+    /* Badge de la page d'accueil : encre atténuée sur blanc translucide,
+       et non pastille verte. --surface-edge n'existe que dans les
+       jetons de la home ; sa valeur est reprise telle quelle. */
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--mint-pale);
-      border: 1px solid rgba(45,106,79,.2);
-      border-radius: var(--r-full);
-      padding: 5px 14px;
-      font-family: -apple-system, sans-serif;
-      font-size: 12px;
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: .6875rem;
       font-weight: 600;
-      letter-spacing: .5px;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      color: var(--mint);
-      margin-bottom: 24px;
+      color: var(--ink);
+      opacity: .7;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(28,26,20,.09);
+      padding: 8px 16px;
+      border-radius: 999px;
+      margin-bottom: 32px;
       position: relative;
     }
+    /* Interlignage et chasse de la page d'accueil. La taille maximale
+       est plus basse : le titre y occupe toute la largeur, ici il
+       partage la ligne avec le visuel. */
     .hero h1 {
       font-family: var(--serif);
-      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-size: clamp(2.2rem, 4.4vw, 3.4rem);
       font-weight: 400;
       font-synthesis: none;
-      line-height: 1.15;
-      letter-spacing: -0.03em;
+      line-height: 1.06;
+      letter-spacing: -0.035em;
       margin-bottom: 20px;
       max-width: 700px;
       margin-left: auto;
@@ -220,12 +221,13 @@
       color: var(--mint);
     }
     .hero-sub {
-      font-family: -apple-system, sans-serif;
-      font-size: 1.05rem;
+      font-family: var(--sans);
+      font-size: 1.125rem;
+      font-weight: 300;
       color: var(--ink-mid);
-      max-width: 520px;
-      margin: 0 auto 28px;
-      line-height: 1.65;
+      max-width: 38ch;
+      margin: 0 auto 32px;
+      line-height: 1.7;
       position: relative;
     }
     @media (min-width: 900px) {
@@ -607,7 +609,6 @@
       display: block; width: 100%; height: auto;
       border-radius: 10px;
       box-shadow: 0 18px 40px -12px rgba(0,0,0,.45);
-      transform: rotate(2.5deg);
     }
     /* Le badge Apple ne se redessine pas : ni couleur, ni texte, ni
        proportions. Seule sa taille varie, et il lui faut un espace
@@ -622,7 +623,6 @@
          mange de la largeur utile pour rien. */
       .upsell-banner { flex-direction: column; align-items: stretch; }
       .upsell-visuel { order: -1; max-width: 200px; margin: 0 auto; }
-      .upsell-visuel img { transform: none; }
       .upsell-content p, .upsell-content h3 { max-width: none; }
     }
 
