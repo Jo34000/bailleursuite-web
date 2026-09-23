@@ -509,6 +509,42 @@
        .upsell-banner n'est qu'héritée, et toute règle visant h3
        directement la supplante. C'est ce qui arrivait ici — le titre
        ressortait en encre sombre sur le vert, à 1,54:1. */
+    /* L'attribut hidden doit rester maître : .upsell-banner pose
+       display:flex, qui l'emporterait sur la règle par défaut du
+       navigateur. */
+    .upsell-banner[hidden] { display: none; }
+
+    /* Visuel du spécimen. Largeur bornée en ch d'écran, ratio porté par
+       les attributs width/height de l'image : la place est réservée
+       avant le chargement, donc aucun décalage de mise en page. */
+    /* Sans base souple, le bloc de texte garde sa largeur naturelle,
+       la somme dépasse la carte et le visuel bascule à la ligne — il
+       se retrouvait sous le texte au lieu d'être à sa droite. */
+    #tool-conversion .upsell-content { flex: 1 1 300px; min-width: 0; }
+    .upsell-visuel { flex: 0 0 auto; max-width: 260px; }
+    .upsell-visuel img {
+      display: block; width: 100%; height: auto;
+      border-radius: 10px;
+      box-shadow: 0 18px 40px -12px rgba(0,0,0,.45);
+      transform: rotate(2.5deg);
+    }
+    /* Le badge Apple ne se redessine pas : ni couleur, ni texte, ni
+       proportions. Seule sa taille varie, et il lui faut un espace
+       libre d'au moins un quart de sa hauteur — 12 px pour 48. */
+    .badge-appstore { display: inline-block; margin: 16px 0 14px; }
+    .badge-appstore img { display: block; height: 48px; width: auto; }
+    .badge-appstore:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
+
+    @media (max-width: 780px) {
+      /* Empilé, visuel en tête : c'est lui qui fait comprendre l'offre
+         avant même la lecture. Pas de rotation sur petit écran, où elle
+         mange de la largeur utile pour rien. */
+      .upsell-banner { flex-direction: column; align-items: stretch; }
+      .upsell-visuel { order: -1; max-width: 200px; margin: 0 auto; }
+      .upsell-visuel img { transform: none; }
+      .upsell-content p, .upsell-content h3 { max-width: none; }
+    }
+
     .upsell-content h3 {
       font-size: 20px;
       margin-bottom: 8px;
@@ -1005,21 +1041,37 @@
       </button>
     </div>
 
-    <div class="tool-conversion" id="tool-conversion" hidden>
-      <h3>Vos quittances envoyées sans y penser</h3>
-      <p>BailleurSuite génère et envoie vos quittances automatiquement à chaque
-      échéance, et archive tout pour votre déclaration.</p>
-      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
-         class="btn-appstore" target="_blank" rel="noopener"
-         onclick="track('AppStore_Click',{ct:'quittance'})">
-        Télécharger sur l'App Store
-      </a>
+    <div class="upsell-banner" id="tool-conversion" hidden>
+      <div class="upsell-content">
+        <h3>Votre quittance est prête.<br><em>Le mois prochain, elle partira toute seule.</em></h3>
+        <p>BailleurSuite génère et envoie vos quittances chaque mois, pour chaque locataire, et les archive pour votre déclaration.</p>
+        <div class="upsell-features">
+          <span class="upsell-feature">Quittances PDF envoyées automatiquement au locataire</span>
+          <span class="upsell-feature">Alertes de révision IRL et d'échéances</span>
+          <span class="upsell-feature">Données stockées sur votre iPhone, sans compte</span>
+        </div>
+        <a class="badge-appstore" target="_blank" rel="noopener"
+           href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
+           onclick="track('AppStore_Click',{ct:'quittance'})">
+          <img src="/badge-app-store-fr.svg" width="152" height="48"
+               alt="Télécharger dans l'App Store">
+        </a>
+        <div class="upsell-gratuit">Téléchargement gratuit</div>
+        <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
+      </div>
+      <div class="upsell-visuel">
+        <picture>
+          <source srcset="/quittance-specimen.webp" type="image/webp">
+          <img src="/quittance-specimen.png" width="1179" height="1420" loading="lazy"
+               alt="Exemple de quittance générée par BailleurSuite">
+        </picture>
+      </div>
     </div>
 
     <!-- UPSELL -->
-    <div class="upsell-banner">
+    <div class="upsell-banner" id="upsell-statique">
       <div class="upsell-content">
-        <h3>Votre quittance est prête.<br><em>Le mois prochain, elle partira toute seule.</em></h3>
+        <h3>Et le mois prochain&nbsp;?<br><em>Elle partira toute seule.</em></h3>
         <p>BailleurSuite génère et envoie vos quittances chaque mois, pour chaque locataire, et les archive pour votre déclaration.</p>
         <div class="upsell-features">
           <span class="upsell-feature">Quittances PDF envoyées automatiquement au locataire</span>
@@ -1030,7 +1082,12 @@
       <div class="upsell-cta">
         <div class="upsell-gratuit">Téléchargement gratuit</div>
         <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
-        <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8" class="btn-upsell" onclick="track('AppStore_Click',{ct:'quittance'})">Télécharger sur l'App Store →</a>
+        <a class="badge-appstore" target="_blank" rel="noopener"
+           href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
+           onclick="track('AppStore_Click',{ct:'quittance'})">
+          <img src="/badge-app-store-fr.svg" width="152" height="48"
+               alt="Télécharger dans l'App Store">
+        </a>
       </div>
     </div>
 
@@ -1212,7 +1269,12 @@
       <div class="upsell-cta">
         <div class="upsell-gratuit">Téléchargement gratuit</div>
         <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
-        <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8" class="btn-upsell" onclick="track('AppStore_Click',{ct:'quittance'})">Télécharger sur l'App Store →</a>
+        <a class="badge-appstore" target="_blank" rel="noopener"
+           href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
+           onclick="track('AppStore_Click',{ct:'quittance'})">
+          <img src="/badge-app-store-fr.svg" width="152" height="48"
+               alt="Télécharger dans l'App Store">
+        </a>
       </div>
     </div>
 
@@ -1407,6 +1469,11 @@
     const ps = document.getElementById('preview-section');
     ps.classList.add('visible');
     document.getElementById('tool-conversion').hidden = false;
+    // Les deux cartes disent la même chose une fois la quittance
+    // produite. La statique parle au futur, la seconde au passé : on
+    // ne garde que celle qui correspond à l'état de la page.
+    const statique = document.getElementById('upsell-statique');
+    if (statique) statique.hidden = true;
     setTimeout(() => ps.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   }
 
