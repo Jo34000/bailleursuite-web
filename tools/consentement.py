@@ -88,9 +88,17 @@ def verifier_libelles(consent: str) -> list[str]:
     return erreurs
 
 
+# Outillage interne : hors du site public, exclu de l'indexation par
+# robots.txt et par une balise noindex, sans lien App Store ni tag
+# publicitaire. Lui imposer le bandeau n'aurait rien protégé.
+HORS_SITE = ("admin",)
+
+
 def pages() -> list[Path]:
     """Pages livrées et gabarits qui les produisent."""
-    out = [p for p in sorted(RACINE.rglob("*.html")) if ".git" not in p.parts]
+    out = [p for p in sorted(RACINE.rglob("*.html"))
+           if ".git" not in p.parts
+           and not any(d in p.parts for d in HORS_SITE)]
     out += [RACINE / "tools" / "templates" / "_head.j2",
             RACINE / "tools" / "templates" / "_footer.j2"]
     return [p for p in out if p.exists()]

@@ -68,8 +68,36 @@ def fichiers() -> list[Path]:
     return out
 
 
+# Le point de collecte /api/track valide le ct reçu contre sa propre
+# copie de la liste, dans api/_ct.js : tools/ étant exclu du déploiement,
+# une fonction serverless ne peut pas lire ce fichier-ci. Les deux listes
+# doivent donc être tenues d'accord, et c'est vérifié plutôt qu'espéré.
+CT_JS = RACINE / "api" / "_ct.js"
+
+
+def verifier_liste_js() -> list[str]:
+    if not CT_JS.exists():
+        return [f"{CT_JS.relative_to(RACINE)} absent — /api/track ne "
+                "pourrait plus valider les ct reçus"]
+    texte = CT_JS.read_text(encoding="utf-8")
+    bloc = re.search(r"export const CT_CONNUS = \[(.*?)\];", texte, re.S)
+    if not bloc:
+        return [f"{CT_JS.relative_to(RACINE)} : liste CT_CONNUS introuvable"]
+    cotes = set(re.findall(r"'([a-z0-9_]+)'", bloc.group(1)))
+    erreurs = []
+    if cotes - CT_CONNUS:
+        erreurs.append(f"api/_ct.js déclare {sorted(cotes - CT_CONNUS)} "
+                       "que appstore.py ne connaît pas")
+    if CT_CONNUS - cotes:
+        erreurs.append(f"api/_ct.js ignore {sorted(CT_CONNUS - cotes)} "
+                       "— ces clics seraient refusés par /api/track")
+    if f"'{PREFIXE_ADS}'" not in texte:
+        erreurs.append(f"api/_ct.js : préfixe {PREFIXE_ADS} absent")
+    return erreurs
+
+
 def verifier() -> list[str]:
-    erreurs: list[str] = []
+    erreurs: list[str] = verifier_liste_js()
     cts: Counter[str] = Counter()
     nb_canonique = 0
 
@@ -107,13 +135,21 @@ def verifier() -> list[str]:
                     f"{rel}:{ligne} : ct={ct} hors de la liste connue")
             cts[ct] += 1
 
+            # Sur les pages livrées seulement : les fragments Jinja
+            # n'ont pas de <head>, le script est déclaré dans _head.j2
+            # qu'ils incluent.
+            if p.suffix == ".html" and "/scripts/track.js" not in texte:
+                erreurs.append(
+                    f"{rel} : lien App Store tracké mais /scripts/track.js "
+                    "non chargé — les clics ne seraient comptés nulle part")
             if "target=\"_blank\"" not in balise or "rel=\"noopener\"" not in balise:
                 erreurs.append(
                     f"{rel}:{ligne} : target=\"_blank\" rel=\"noopener\" manquant")
-            if f"ct:'{ct}'" not in balise:
+            attendu = f"track('AppStore_Click',{{ct:'{ct}'}})"
+            if attendu not in balise:
                 erreurs.append(
-                    f"{rel}:{ligne} : événement Vercel absent ou "
-                    f"désaccordé du ct de l'URL")
+                    f"{rel}:{ligne} : appel de comptage absent ou désaccordé "
+                    f"du ct de l'URL — attendu {attendu}")
 
         # Champs JSON-LD : la forme canonique et elle seule.
         for m in re.finditer(

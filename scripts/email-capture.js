@@ -72,10 +72,9 @@
           if (note) note.hidden = true;
           afficher(msg, 'C\'est noté. Vous recevrez un email de confirmation '
                         + 'dans quelques instants.', true);
-          if (window.va) window.va('event', { name: 'Email_Capture', data: { source: source } });
-          // Conversion secondaire Google Ads. Sans effet tant que le
-          // consentement n'est pas accordé ou le libellé non renseigné.
-          if (window.bsConversion) window.bsConversion('Email_Capture');
+          // track() relaie vers le compteur de première partie, vers Vercel
+          // Analytics et vers la conversion Google Ads, en un seul appel.
+          track('Email_Capture', { source: source });
         })
         .catch(function (err) {
           afficher(msg, err.message

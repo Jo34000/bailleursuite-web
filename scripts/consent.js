@@ -200,13 +200,9 @@
     if (cible.closest('[data-bs-consent="ouvrir"]')) {
       e.preventDefault();
       afficher();
-      return;
     }
-    // Conversion principale. Délégué plutôt que posé sur chacun des
-    // deux cent trente-deux liens : un seul point à maintenir, et la
-    // mécanique suit les liens que le gabarit Jinja ajoutera.
-    if (cible.closest('a[href*="apple-store"]')) {
-      window.bsConversion('AppStore_Click');
-    }
+    // La conversion AppStore_Click n'est plus déclenchée ici : elle part
+    // de scripts/track.js, appelé par l'attribut onclick de chaque lien.
+    // Garder les deux chemins compterait chaque clic deux fois.
   });
 })();

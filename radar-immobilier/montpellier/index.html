@@ -37,6 +37,7 @@
 <link rel="stylesheet" href="/styles/radar.css">
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="stylesheet" href="/styles/consent.css">
+<script defer src="/scripts/track.js"></script>
 <script defer src="/scripts/consent.js"></script>
 <script defer src="/scripts/source-tracking.js"></script>
 </head><body>
@@ -73,7 +74,7 @@
       </div>
     </div>
   </div>
-  <a class="nav-cta" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=nav&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'nav'}})">Essayer BailleurSuite</a>
+  <a class="nav-cta" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=nav&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'nav'})">Essayer BailleurSuite</a>
   <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-label="Ouvrir le menu">
     <span class="nav-burger-line"></span>
     <span class="nav-burger-line"></span>
@@ -344,7 +345,7 @@
         </a>
         <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=radar&amp;mt=8"
            class="btn-appstore" target="_blank" rel="noopener"
-           onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'radar'}})">
+           onclick="track('AppStore_Click',{ct:'radar'})">
           Télécharger l'app
         </a>
       </div>
@@ -378,7 +379,7 @@
         Rendement net, cash-flow, amortissements LMNP et déclaration fiscale :
         passez des moyennes communales à l'analyse de votre bien réel.
       </p>
-      <a class="appstore-btn" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=radar&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'radar'}})">Découvrir l'application</a>
+      <a class="appstore-btn" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=radar&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'radar'})">Découvrir l'application</a>
     </section>
 
     <p class="updated-line">
@@ -415,7 +416,7 @@
       <span class="site-footer-sep">·</span>
       <a href="https://bailleursuite.fr/aide">Centre d'aide</a>
     <span class="site-footer-sep">·</span>
-    <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=footer&amp;mt=8" target="_blank" rel="noopener" onclick="if(window.va)window.va('event',{name:'AppStore_Click',data:{ct:'footer'}})">Télécharger sur l'App Store</a>
+    <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=footer&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'footer'})">Télécharger sur l'App Store</a>
     </nav>
     <div class="site-footer-bottom">
       <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>

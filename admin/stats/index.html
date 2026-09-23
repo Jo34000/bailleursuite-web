@@ -1,0 +1,235 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Page d'outillage interne : jamais indexée, jamais suivie. Elle est
+     déjà couverte par « Disallow: /admin/ » dans robots.txt, mais un
+     robot qui ignorerait robots.txt lit encore cette balise. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Statistiques d'usage — BailleurSuite</title>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="stylesheet" href="/styles/design-system.css">
+<style>
+  body { background: var(--cream, #F7F4EE); color: var(--ink, #1C1A14);
+         font-family: var(--sans, -apple-system, sans-serif); margin: 0; }
+  .enveloppe { max-width: 900px; margin: 0 auto; padding: 48px 20px 80px; }
+  h1 { font-family: var(--serif); font-weight: 400; font-size: 1.9rem;
+       letter-spacing: -.02em; margin: 0 0 6px; }
+  .sous { color: var(--ink-light); font-size: .9rem; margin: 0 0 28px; }
+  .barre { display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+           margin-bottom: 28px; }
+  .barre input, .barre select {
+    font: inherit; font-size: .88rem; padding: 10px 14px;
+    border: 1px solid var(--line, rgba(28,26,20,.16));
+    border-radius: var(--r-full, 999px); background: #fff; color: var(--ink);
+  }
+  .barre input[type="password"] { flex: 1 1 240px; min-width: 0; }
+  .barre button {
+    font: inherit; font-size: .88rem; font-weight: 600; cursor: pointer;
+    padding: 10px 22px; border: 0; border-radius: var(--r-full, 999px);
+    background: var(--mint, #2D6A4F); color: #fff;
+  }
+  .barre button.secondaire { background: transparent; color: var(--ink-light);
+                             border: 1px solid var(--line, rgba(28,26,20,.16)); }
+  .message { font-size: .9rem; padding: 14px 16px; border-radius: var(--r-md, 14px);
+             margin-bottom: 24px; }
+  .message.erreur { background: rgba(138,97,0,.08); color: #8A6100; }
+  .message.info { background: rgba(45,106,79,.07); color: var(--mint-dark, #1A4A35); }
+  section { margin-bottom: 40px; }
+  h2 { font-size: .74rem; text-transform: uppercase; letter-spacing: .12em;
+       color: var(--mint, #2D6A4F); font-weight: 700; margin: 0 0 14px; }
+  .cartes { display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+  .carte { background: #fff; border: 1px solid var(--line, rgba(28,26,20,.1));
+           border-radius: var(--r-md, 14px); padding: 18px 20px; }
+  .carte .valeur { font-size: 1.8rem; font-weight: 600; letter-spacing: -.02em; }
+  .carte .nom { font-size: .78rem; color: var(--ink-light); margin-top: 2px; }
+  .tableau { overflow-x: auto; background: #fff;
+             border: 1px solid var(--line, rgba(28,26,20,.1));
+             border-radius: var(--r-md, 14px); }
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; }
+  th, td { padding: 9px 14px; text-align: left; white-space: nowrap; }
+  thead th { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em;
+             color: var(--ink-light); font-weight: 600;
+             border-bottom: 1px solid var(--line, rgba(28,26,20,.1)); }
+  tbody tr + tr td { border-top: 1px solid rgba(28,26,20,.05); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.zero { color: var(--ink-light); }
+  [hidden] { display: none !important; }
+</style>
+
+<div class="enveloppe">
+  <h1>Statistiques d'usage</h1>
+  <p class="sous">Compteurs de première partie. Aucune adresse IP, aucun
+    identifiant, aucun parcours individuel — seulement des totaux.</p>
+
+  <div class="barre">
+    <input type="password" id="jeton" placeholder="Jeton STATS_TOKEN"
+           aria-label="Jeton d'accès" autocomplete="off">
+    <select id="jours" aria-label="Période">
+      <option value="7">7 jours</option>
+      <option value="30" selected>30 jours</option>
+      <option value="90">90 jours</option>
+      <option value="365">365 jours</option>
+    </select>
+    <button type="button" id="charger">Afficher</button>
+    <button type="button" id="oublier" class="secondaire">Oublier le jeton</button>
+  </div>
+
+  <div class="message erreur" id="erreur" hidden></div>
+  <div class="message info" id="info" hidden></div>
+
+  <div id="resultats" hidden>
+    <section>
+      <h2>Totaux sur la période</h2>
+      <div class="cartes" id="cartes"></div>
+    </section>
+
+    <section>
+      <h2>Clics App Store par emplacement</h2>
+      <div class="tableau"><table id="tbl-ct">
+        <thead><tr><th>Emplacement</th><th class="num">Clics</th><th class="num">Part</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </section>
+
+    <section>
+      <h2>Détail par jour</h2>
+      <div class="tableau"><table id="tbl-jours">
+        <thead><tr><th>Jour</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var CLE = 'bs_stats_token';
+  var $ = function (id) { return document.getElementById(id); };
+
+  function memoire(action, valeur) {
+    try {
+      if (action === 'lire') return localStorage.getItem(CLE);
+      if (action === 'ecrire') localStorage.setItem(CLE, valeur);
+      if (action === 'effacer') localStorage.removeItem(CLE);
+    } catch (e) { /* stockage indisponible : le jeton sera resaisi */ }
+    return null;
+  }
+
+  function montrer(el, texte) { el.textContent = texte; el.hidden = false; }
+  function cacher(el) { el.hidden = true; }
+
+  function nombre(n) { return n.toLocaleString('fr-FR'); }
+
+  function rendre(d) {
+    // Totaux
+    var cartes = $('cartes');
+    cartes.innerHTML = '';
+    Object.keys(d.evenements).forEach(function (nom) {
+      var c = document.createElement('div');
+      c.className = 'carte';
+      var v = document.createElement('div');
+      v.className = 'valeur';
+      v.textContent = nombre(d.evenements[nom].total);
+      var n = document.createElement('div');
+      n.className = 'nom';
+      n.textContent = nom.replace(/_/g, ' ');
+      c.appendChild(v); c.appendChild(n); cartes.appendChild(c);
+    });
+
+    // Par emplacement
+    var corpsCt = $('tbl-ct').querySelector('tbody');
+    corpsCt.innerHTML = '';
+    var entrees = Object.keys(d.appstore_par_ct)
+      .map(function (k) { return [k, d.appstore_par_ct[k]]; })
+      .sort(function (a, b) { return b[1] - a[1]; });
+    var somme = entrees.reduce(function (s, e) { return s + e[1]; }, 0);
+    if (!entrees.length) {
+      var vide = document.createElement('tr');
+      var td = document.createElement('td');
+      td.colSpan = 3; td.className = 'zero';
+      td.textContent = 'Aucun clic enregistré sur la période.';
+      vide.appendChild(td); corpsCt.appendChild(vide);
+    }
+    entrees.forEach(function (e) {
+      var tr = document.createElement('tr');
+      var a = document.createElement('td'); a.textContent = e[0];
+      var b = document.createElement('td'); b.className = 'num'; b.textContent = nombre(e[1]);
+      var c = document.createElement('td'); c.className = 'num';
+      c.textContent = somme ? (e[1] / somme * 100).toFixed(1) + ' %' : '—';
+      tr.appendChild(a); tr.appendChild(b); tr.appendChild(c);
+      corpsCt.appendChild(tr);
+    });
+
+    // Par jour
+    var noms = Object.keys(d.evenements);
+    var tete = $('tbl-jours').querySelector('thead tr');
+    tete.innerHTML = '<th>Jour</th>';
+    noms.forEach(function (n) {
+      var th = document.createElement('th');
+      th.className = 'num';
+      th.textContent = n.replace(/_/g, ' ');
+      tete.appendChild(th);
+    });
+    var corps = $('tbl-jours').querySelector('tbody');
+    corps.innerHTML = '';
+    var jours = Object.keys(d.evenements[noms[0]].par_jour).reverse();
+    jours.forEach(function (j) {
+      var tr = document.createElement('tr');
+      var td = document.createElement('td'); td.textContent = j; tr.appendChild(td);
+      noms.forEach(function (n) {
+        var v = d.evenements[n].par_jour[j];
+        var c = document.createElement('td');
+        c.className = 'num' + (v ? '' : ' zero');
+        c.textContent = v ? nombre(v) : '·';
+        tr.appendChild(c);
+      });
+      corps.appendChild(tr);
+    });
+
+    $('resultats').hidden = false;
+  }
+
+  function charger() {
+    var jeton = $('jeton').value.trim();
+    var jours = $('jours').value;
+    cacher($('erreur')); cacher($('info'));
+    if (!jeton) { montrer($('erreur'), 'Renseignez le jeton.'); return; }
+
+    montrer($('info'), 'Chargement…');
+    fetch('/api/stats?token=' + encodeURIComponent(jeton) + '&days=' + jours)
+      .then(function (r) {
+        return r.json().catch(function () { return {}; })
+          .then(function (d) { return { ok: r.ok, statut: r.status, d: d }; });
+      })
+      .then(function (res) {
+        cacher($('info'));
+        if (res.statut === 401) {
+          memoire('effacer');
+          throw new Error('Jeton refusé. Il a été oublié, ressaisissez-le.');
+        }
+        if (!res.ok) throw new Error(res.d.error || 'Erreur ' + res.statut);
+        memoire('ecrire', jeton);
+        rendre(res.d);
+      })
+      .catch(function (err) {
+        cacher($('info'));
+        $('resultats').hidden = true;
+        montrer($('erreur'), err.message);
+      });
+  }
+
+  $('charger').addEventListener('click', charger);
+  $('jeton').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') charger();
+  });
+  $('oublier').addEventListener('click', function () {
+    memoire('effacer'); $('jeton').value = '';
+    $('resultats').hidden = true; cacher($('erreur'));
+    montrer($('info'), 'Jeton oublié.');
+  });
+
+  var garde = memoire('lire');
+  if (garde) { $('jeton').value = garde; charger(); }
+})();
+</script>

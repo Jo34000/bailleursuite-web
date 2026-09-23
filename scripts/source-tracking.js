@@ -55,6 +55,14 @@
   var source = (stock.utm_source || '').toLowerCase();
   if (source !== SOURCE_ADS) return;
 
+  /* Drapeau lu par scripts/track.js. Le jeton de campagne existe en deux
+   * exemplaires pour un même clic : dans l'URL App Store, réécrite
+   * ci-dessous, et dans l'attribut onclick du lien, qui porte un ct figé
+   * au moment de la génération de la page. Sans ce drapeau, App Store
+   * Connect verrait ads_nav et le compteur de première partie nav — deux
+   * chiffres qu'on ne pourrait plus rapprocher. */
+  window.__bsAds = true;
+
   // ── Réécriture ──────────────────────────────────────────────────
   var liens = document.querySelectorAll('a[href*="apple-store"]');
   for (var i = 0; i < liens.length; i++) {
