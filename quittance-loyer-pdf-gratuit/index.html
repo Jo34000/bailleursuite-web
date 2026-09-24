@@ -620,21 +620,9 @@
        quelque chose que la page ne montre pas. */
     .upsell-banner { display: grid; grid-template-columns: 1fr; gap: 32px;
                      align-items: center; }
-    @media (min-width: 900px) {
-      .upsell-banner-visuel { grid-template-columns: 55fr 45fr; }
-    }
     .upsell-content { min-width: 0; }
-    .upsell-visuel { min-width: 0; }
     /* L'image est un rectangle net : arrondi, ombre et inclinaison
        viennent d'ici, pas du fichier. */
-    /* Pas d'inclinaison non plus ici : le principe vaut pour la page
-       entière, une image se pose dans la mise en page plutôt que d'y
-       être collée. */
-    .upsell-visuel img {
-      display: block; width: 100%; height: auto;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.06), 0 24px 60px -12px rgba(28,26,20,.28);
-    }
     /* Le badge Apple ne se redessine pas : ni couleur, ni texte, ni
        proportions. Seule sa taille varie, et il lui faut un espace
        libre d'au moins un quart de sa hauteur — 12 px pour 48. */
@@ -674,7 +662,6 @@
          avant même la lecture. Pas d'inclinaison sur petit écran, où
          elle mange de la largeur utile pour rien. */
       .upsell-banner { grid-template-columns: 1fr; gap: 24px; }
-      .upsell-visuel { order: -1; max-width: 220px; margin: 0 auto; }
       .upsell-content p, .upsell-content h3 { max-width: none; }
       .upsell-content { text-align: center; }
       .upsell-action { justify-content: center; }
@@ -1394,7 +1381,7 @@
     </div>
 
     <!-- Final CTA -->
-    <div class="upsell-banner upsell-banner-visuel">
+    <div class="upsell-banner">
       <div class="upsell-content">
         <h3>Tout votre patrimoine locatif<br><em>dans votre poche</em></h3>
         <p>Loyers, charges, quittances, déclaration fiscale et projection sur 20 ans. Vos données restent sur votre iPhone.</p>
@@ -1419,13 +1406,6 @@
         </div>
         <div class="upsell-gratuit">Téléchargement gratuit</div>
         <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
-      </div>
-      <div class="upsell-visuel">
-        <picture>
-          <source srcset="/screen-index.webp" type="image/webp">
-          <img src="/screen-index.png" width="640" height="942" loading="lazy"
-               alt="Tableau de bord de l'application BailleurSuite">
-        </picture>
       </div>
     </div>
 
