@@ -158,10 +158,31 @@ body { color: var(--ink); }
 .email-btn:hover{opacity:.88}
 .email-success{display:none;font-size:.82rem;color:var(--mint);font-weight:500;padding:10px 0}
 
-/* Notaire flouté */
-.notaire-row{position:relative;border-bottom:1px solid var(--border);overflow:hidden}
-.notaire-blur{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;filter:blur(3.5px);user-select:none;pointer-events:none;opacity:.5}
-.notaire-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(247,244,238,.78)}
+/* Notaire flouté.
+   Les deux couches occupent la même cellule de grille plutôt qu'un
+   inset:0 absolu : la hauteur de la ligne suit celle de la plus haute
+   des deux. En absolu, le voile se réglait sur la hauteur du chiffre
+   flouté — suffisante sur large écran, trop courte dès que le libellé
+   passait à la ligne sur iPhone, et overflow:hidden coupait le texte. */
+.notaire-row{display:grid;border-bottom:1px solid var(--border)}
+.notaire-row>*{grid-area:1/1}
+.notaire-blur{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:15px 20px;filter:blur(3.5px);user-select:none;pointer-events:none;opacity:.5}
+.notaire-overlay{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:rgba(247,244,238,.82)}
+.notaire-texte{display:flex;align-items:center;gap:9px;flex:1 1 auto;min-width:0}
+.notaire-cadenas{width:28px;height:28px;flex-shrink:0;background:var(--gold-pale);border:1px solid rgba(201,168,76,.4);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center}
+.notaire-titre{font-size:.8rem;font-weight:600;color:var(--ink);line-height:1.3}
+.notaire-desc{font-size:.7rem;color:var(--ink-light);line-height:1.4;margin-top:2px}
+.notaire-btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 14px;flex-shrink:0;font-size:.75rem;font-weight:600;color:var(--mint);text-decoration:none;white-space:nowrap;border:1px solid var(--mint);border-radius:var(--r-md)}
+@media(max-width:480px){
+  /* Sous 480 px, le libellé et le bouton se disputent la largeur : le
+     bouton passe dessous, pleine largeur, et devient une vraie cible. */
+  .notaire-overlay{flex-direction:column;align-items:stretch;gap:12px}
+  /* Le libellé tient sur deux lignes à cette largeur : le cadenas
+     s'aligne sur la première, pas sur le milieu du pavé. */
+  .notaire-texte{align-items:flex-start}
+  .notaire-cadenas{margin-top:1px}
+  .notaire-btn{width:100%;min-height:44px}
+}
 
 /* CTA dynamique */
 .calc-cta{margin-top:16px;background:linear-gradient(135deg,#111214,#1D2022);border-radius:var(--radius-sm);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;opacity:0;transform:translateY(10px);transition:opacity 180ms cubic-bezier(.4,0,.2,1),transform 180ms cubic-bezier(.4,0,.2,1);border:1px solid rgba(255,255,255,.06);box-shadow:none}
@@ -410,16 +431,16 @@ tr:hover td{background:rgba(45,106,79,.025)}
           <strong id="r-notaire-blur" style="font-family:'Instrument Serif',serif;font-size:1.25rem;color:#e67e22;">4,87 %</strong>
         </div>
         <div class="notaire-overlay">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="width:28px;height:28px;background:var(--gold-pale);border:1px solid rgba(201,168,76,.4);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;">
+          <div class="notaire-texte">
+            <div class="notaire-cadenas" aria-hidden="true">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             </div>
             <div>
-              <div style="font-size:.8rem;font-weight:600;color:var(--ink);">Rendement réel d'acquisition</div>
-              <div style="font-size:.68rem;color:var(--ink-light);">Frais de notaire + coût total réel — disponible dans l'app</div>
+              <div class="notaire-titre">Rendement réel d'acquisition</div>
+              <div class="notaire-desc">Frais de notaire + coût total réel — disponible dans l'app</div>
             </div>
           </div>
-          <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8" style="font-size:.72rem;font-weight:600;color:var(--mint);text-decoration:none;white-space:nowrap;border:1px solid var(--mint);padding:4px 10px;border-radius:var(--r-md);" onclick="track('AppStore_Click',{ct:'calculatrice'})">Débloquer →</a>
+          <a class="notaire-btn" target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8" onclick="track('AppStore_Click',{ct:'calculatrice'})">Débloquer →</a>
         </div>
       </div>
 
