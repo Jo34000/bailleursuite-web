@@ -140,8 +140,25 @@
        la section suivante, ce qui donne de la profondeur sans hauteur
        supplémentaire. */
     /* 85 % de l'écran, pas du conteneur : celui-ci porte déjà
-       20 px de marge intérieure de chaque côté. */
-    .hero-visuel { margin: 8px auto -56px; width: min(85vw, 420px); }
+       20 px de marge intérieure de chaque côté. Plus de marge négative
+       depuis qu'une légende suit l'image : elle aurait mordu sur la
+       section suivante. */
+    .hero-visuel { margin: 8px auto 0; width: min(85vw, 420px); }
+
+    /* Légende de provenance. Elle doit se lire sans effort : c'est une
+       distinction commerciale, pas une mention d'usage — le document
+       montré vient de l'application, celui du générateur gratuit est
+       plus sobre. Taille et couleur d'un texte courant atténué, au-dessus
+       du seuil AA. */
+    .hero-legende {
+      margin: 14px 0 0;
+      font-family: var(--sans);
+      font-size: .8125rem;
+      line-height: 1.55;
+      color: var(--ink-light);
+      text-align: left;
+    }
+    .hero-legende strong { color: var(--ink-mid); font-weight: 600; }
     /* Ni inclinaison, ni ombre appuyée : la feuille doit se poser dans
        la page, pas y être collée. Un liseré discret et une ombre légère
        suffisent à la détacher du fond ivoire. */
@@ -286,11 +303,6 @@
       padding: 44px 0 40px;
       background: var(--cream);
     }
-    /* Le visuel du hero mord de 56 px sur cette section. Sans cette
-       réserve, il recouvrait son titre : le débordement doit passer sur
-       le fond, pas sur du texte. Déclarée ici, après la règle
-       ci-dessus, qui a la même spécificité et l'emporterait sinon. */
-    @media (max-width: 899px) { #generateur { padding-top: 96px; } }
     .section-label {
       display: inline-flex;
       align-items: center;
@@ -1034,13 +1046,18 @@
       <a class="hero-cta" href="#generateur" onclick="track('Quittance_CTA_Hero')">Créer ma quittance →</a>
       <p class="hero-reassurance">Conforme loi du 6 juillet 1989 · Sans compte · PDF immédiat</p>
     </div>
-    <div class="hero-visuel">
+    <figure class="hero-visuel">
       <picture>
         <source srcset="/quittance-feuille.webp" type="image/webp">
         <img src="/quittance-feuille.jpg" width="900" height="911" fetchpriority="high"
-             alt="Exemple de quittance de loyer générée">
+             alt="Exemple de quittance de loyer générée par l'application BailleurSuite">
       </picture>
-    </div>
+      <figcaption class="hero-legende">
+        Quittance générée par <strong>l'application BailleurSuite</strong>.
+        Le générateur gratuit ci-dessous produit un document plus sobre,
+        tout aussi conforme à la loi.
+      </figcaption>
+    </figure>
   </div>
 </div>
 
