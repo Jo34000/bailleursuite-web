@@ -461,3 +461,89 @@ h1, h2, h3 {
   .email-form button { width: 100%; }
 }
 
+
+/* ══════════════════════════════════
+   CARD DE CONVERSION APP — composant partagé
+   ══════════════════════════════════
+   Née sur la page quittance, reprise par la calculatrice. Les valeurs
+   sont littérales plutôt que liées à des jetons : ces deux pages ont
+   chacune leur propre palette locale, et un composant partagé ne peut
+   pas dépendre de jetons qui n'existent que chez l'une.
+
+   Les ratios de contraste ont été mesurés sur la borne claire du
+   dégradé (#2D6A4F), la moins favorable : titre 6,39:1, accent
+   5,41:1, corps et puces 5,14:1. Tous au-dessus du seuil AA. */
+.upsell-banner {
+  display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center;
+  background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+  border-radius: 20px; padding: 32px 36px; margin-top: 40px;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(27,67,50,.16);
+}
+/* L'attribut hidden doit rester maître : la grille l'emporterait sur
+   la règle par défaut du navigateur. */
+.upsell-banner[hidden] { display: none; }
+.upsell-content { min-width: 0; }
+
+.upsell-content h3 {
+  font-size: 20px; font-weight: 400; margin-bottom: 8px; color: #fff;
+}
+.upsell-content h3 em { font-style: italic; color: #D8F3DC; }
+.upsell-content p {
+  font-family: var(--sans); font-size: 14px;
+  color: rgba(255,255,255,.85); max-width: 400px;
+}
+.upsell-features { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+.upsell-feature {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,.85);
+}
+.upsell-feature::before { content: '✓'; color: #74C69D; font-weight: 700; }
+
+/* Une seule ligne d'alignement : titre, puces, badge et prix partagent
+   le bord gauche de leur colonne. */
+.upsell-action {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin: 18px 0 14px;
+}
+.badge-appstore { display: inline-block; }
+.badge-appstore img { display: block; height: 48px; width: auto; }
+.badge-appstore:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+
+.upsell-gratuit {
+  font-family: var(--sans); font-size: 17px; font-weight: 700;
+  color: #fff; letter-spacing: -.01em; margin-bottom: 4px;
+}
+.upsell-price-sub {
+  font-family: var(--sans); font-size: 12px;
+  color: rgba(255,255,255,.85); margin-bottom: 14px;
+}
+
+/* Le QR n'a de sens que devant un écran d'ordinateur : sur un
+   téléphone, le badge installe l'application directement. */
+.qr-appstore { display: none; }
+@media (min-width: 900px) {
+  /* Légende sous le code et non à côté : à droite, le bloc faisait
+     177 px et ne tenait plus à côté du badge dans une colonne de
+     350 px. */
+  .qr-appstore {
+    display: inline-flex; flex-direction: column; align-items: center; gap: 6px;
+    text-decoration: none; color: rgba(255,255,255,.8);
+    font-family: var(--sans); font-size: .7rem; line-height: 1.3; text-align: center;
+  }
+  .qr-appstore img {
+    display: block; width: 88px; height: 88px;
+    background: #fff; border-radius: 8px;
+    /* Marge de silence : le QR l'embarque déjà (2 modules), ce
+       rembourrage la double côté page. */
+    padding: 6px;
+  }
+  .qr-appstore:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+}
+@media (max-width: 899px) {
+  .upsell-banner { padding: 24px 20px; gap: 24px; }
+  .upsell-content { text-align: center; }
+  .upsell-content p, .upsell-content h3 { max-width: none; }
+  .upsell-action { justify-content: center; }
+  .upsell-features { align-items: flex-start; text-align: left; }
+}

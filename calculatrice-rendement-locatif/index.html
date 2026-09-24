@@ -58,7 +58,7 @@ body { color: var(--ink); }
 }
 
 /* HERO */
-.hero{min-height:65vh;display:flex;align-items:center;padding:100px 24px 64px;position:relative;overflow:hidden;text-align:center}
+.hero{display:flex;align-items:center;padding:84px 24px 24px;position:relative;overflow:hidden;text-align:center}
 .hero::before{content:'';position:absolute;inset:-20%;background:radial-gradient(circle at 20% 20%,rgba(45,106,79,.13),transparent 35%),radial-gradient(circle at 80% 30%,rgba(201,168,76,.09),transparent 35%);pointer-events:none}
 .hero-content{max-width:760px;margin:0 auto;position:relative;z-index:1}
 .hero-breadcrumb{font-size:.72rem;color:var(--ink-light);display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:20px}
@@ -127,6 +127,23 @@ body { color: var(--ink); }
 .score-denom{font-size:.58rem;color:var(--ink-light)}
 .score-details{flex:1;min-width:0}
 .score-title{font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:3px}
+/* Bloc de une : les deux chiffres qui décident, en taille display. */
+.result-une{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.result-une-bloc{background:var(--surface);padding:18px 20px}
+.result-une-label{font-size:.72rem;color:var(--ink-light);margin-bottom:4px}
+.result-une-val{font-family:'Instrument Serif',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:400;line-height:1.1;display:block}
+.result-secondaire{display:flex;flex-wrap:wrap;gap:6px 22px;padding:12px 20px;border-bottom:1px solid var(--border);font-size:.8rem;color:var(--ink-soft)}
+.result-secondaire strong{color:var(--ink);font-weight:600}
+@media(max-width:420px){.result-une{grid-template-columns:1fr}}
+/* Étapes numérotées, comme sur la page quittance : la progression se
+   voit, le formulaire paraît plus court qu'il ne l'est. */
+.calc-etape{display:flex;align-items:center;gap:9px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink);margin:22px 0 12px}
+.calc-etape:first-of-type{margin-top:0}
+.calc-etape-note{font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-light)}
+.etape{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;flex-shrink:0;background:var(--mint);color:#fff;border-radius:50%;font-size:12px;font-weight:700}
+/* Les champs sont préremplis : le dire évite qu'on prenne l'exemple
+   pour un résultat. */
+.calc-exemple{font-size:.75rem;color:var(--ink-light);margin:10px 0 0}
 .score-msg-txt{font-size:.75rem;color:var(--ink-light);line-height:1.4;margin-bottom:6px}
 .score-insight{font-size:.78rem;color:var(--mint);font-weight:500;background:var(--mint-pale);padding:6px 12px;border-radius:var(--r-sm);display:none;line-height:1.45}
 
@@ -288,26 +305,8 @@ tr:hover td{background:rgba(45,106,79,.025)}
       <span>Calculatrice rendement locatif</span>
     </div>
     <div class="hero-badge">Outil gratuit · Mis à jour 2026</div>
-    <h1>Calculatrice de<br><em>rendement locatif</em></h1>
-    <p class="hero-intro">Rendement brut, net, cashflow mensuel et simulation crédit — en 30 secondes. Aucune inscription requise.</p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-val">3 modes</span>
-        <span class="hero-stat-label">Brut · Net · Crédit</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-val">Mode crédit</span>
-        <span class="hero-stat-label">Cashflow · Mensualité</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-val">100%</span>
-        <span class="hero-stat-label">Gratuit</span>
-      </div>
-    </div>
-    <div class="hero-actions">
-      <a href="#calculatrice" class="btn-primary">Lancer la simulation</a>
-      <a href="https://bailleursuite.fr/declaration-2044-guide" class="btn-secondary">Guide 2044 →</a>
-    </div>
+    <h1>Calculatrice de rendement locatif <em>gratuite</em></h1>
+    <p class="hero-intro">Rendement brut, net et cashflow de votre bien, avec ou sans crédit.</p>
   </div>
 </section>
 
@@ -315,28 +314,38 @@ tr:hover td{background:rgba(45,106,79,.025)}
 <div class="calc-wrap" id="calculatrice">
   <div class="calc-card">
     <div class="calc-header">
-      <div class="calc-title">Simulateur de rendement locatif</div>
-      <div class="calc-sub">Renseignez vos données pour obtenir une estimation instantanée.</div>
+      <p class="calc-exemple">Exemple — remplacez par votre bien</p>
     </div>
 
+    <div class="calc-etape"><span class="etape">1</span> Le bien</div>
     <div class="calc-grid">
       <div>
-        <label class="calc-label" for="c-prix">Prix d'achat (€)</label>
-        <input id="c-prix" type="number" value="200000" class="calc-input" inputmode="numeric" oninput="calcRentab()">
+        <label class="calc-label" for="c-prix">Prix d'achat</label>
+        <input id="c-prix" type="text" value="200000" class="calc-input" inputmode="numeric"
+               data-montant data-suffixe=" €" oninput="calcRentab()">
       </div>
       <div>
-        <label class="calc-label" for="c-loyer">Loyer mensuel (€)</label>
-        <input id="c-loyer" type="number" value="900" class="calc-input" inputmode="numeric" oninput="calcRentab()">
-      </div>
-      <div>
-        <label class="calc-label" for="c-charges">Charges annuelles (€)</label>
-        <input id="c-charges" type="number" value="1800" class="calc-input" inputmode="numeric" oninput="calcRentab()">
-      </div>
-      <div>
-        <label class="calc-label" for="c-taxe">Taxe foncière (€)</label>
-        <input id="c-taxe" type="number" value="1200" class="calc-input" inputmode="numeric" oninput="calcRentab()">
+        <label class="calc-label" for="c-loyer">Loyer mensuel</label>
+        <input id="c-loyer" type="text" value="900" class="calc-input" inputmode="numeric"
+               data-montant data-suffixe=" €/mois" oninput="calcRentab()">
       </div>
     </div>
+
+    <div class="calc-etape"><span class="etape">2</span> Les charges</div>
+    <div class="calc-grid">
+      <div>
+        <label class="calc-label" for="c-charges">Charges annuelles</label>
+        <input id="c-charges" type="text" value="1800" class="calc-input" inputmode="numeric"
+               data-montant data-suffixe=" €" oninput="calcRentab()">
+      </div>
+      <div>
+        <label class="calc-label" for="c-taxe">Taxe foncière</label>
+        <input id="c-taxe" type="text" value="1200" class="calc-input" inputmode="numeric"
+               data-montant data-suffixe=" €" oninput="calcRentab()">
+      </div>
+    </div>
+
+    <div class="calc-etape"><span class="etape">3</span> Le financement <span class="calc-etape-note">(optionnel)</span></div>
 
     <!-- Toggle crédit -->
     <div class="toggle-row">
@@ -350,8 +359,9 @@ tr:hover td{background:rgba(45,106,79,.025)}
       <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mint-dark);margin-bottom:14px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.2A1.2 1.2 0 0 1 10.2 2h3.6A1.2 1.2 0 0 1 15 3.2V4"/></svg> Paramètres du prêt</div>
       <div class="credit-fields-inner">
         <div>
-          <label class="calc-label" for="c-emprunt">Capital (€)</label>
-          <input id="c-emprunt" type="number" value="160000" class="calc-input" style="background:white;min-height:44px;" inputmode="numeric" oninput="calcRentab()">
+          <label class="calc-label" for="c-emprunt">Capital</label>
+          <input id="c-emprunt" type="text" value="160000" class="calc-input" style="background:white;min-height:44px;"
+                 inputmode="numeric" data-montant data-suffixe=" €" oninput="calcRentab()">
         </div>
         <div>
           <label class="calc-label" for="c-taux">Taux (%)</label>
@@ -365,18 +375,22 @@ tr:hover td{background:rgba(45,106,79,.025)}
     </div>
 
     <!-- Résultats -->
-    <div class="results">
-      <div class="result-row">
-        <span class="result-label">Rendement brut</span>
-        <strong id="r-brut" class="result-val">5.40 %</strong>
+    <div class="results" id="resultats">
+      <!-- Le chiffre d'abord : c'est ce que le visiteur est venu
+           chercher. Le détail passe en ligne secondaire. -->
+      <div class="result-une">
+        <div class="result-une-bloc">
+          <div class="result-une-label">Rendement net de charges</div>
+          <strong id="r-net" class="result-une-val" style="color:#f39c12;">3.90 %</strong>
+        </div>
+        <div class="result-une-bloc">
+          <div class="result-une-label">Cashflow hors crédit / mois</div>
+          <strong id="r-cash-mois" class="result-une-val">650 €</strong>
+        </div>
       </div>
-      <div class="result-row">
-        <span class="result-label">Rendement net de charges</span>
-        <strong id="r-net" class="result-val" style="color:#f39c12;">3.90 %</strong>
-      </div>
-      <div class="result-row">
-        <span class="result-label">Cashflow hors crédit / an</span>
-        <strong id="r-cash" class="result-val">7 800 €</strong>
+      <div class="result-secondaire">
+        <span>Rendement brut <strong id="r-brut">5.40 %</strong></span>
+        <span>Cashflow hors crédit / an <strong id="r-cash">7 800 €</strong></span>
       </div>
       <div id="r-credit-row" style="display:none;flex-direction:column;padding:15px 20px;border-bottom:1px solid var(--border);background:rgba(232,242,236,.35);">
         <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -424,21 +438,13 @@ tr:hover td{background:rgba(45,106,79,.025)}
             </div>
           </div>
           <div class="score-details">
-            <div class="score-title">Score de Santé Fiscale</div>
+            <div class="score-title">Indice de rendement</div>
             <div id="score-msg" class="score-msg-txt">En dessous de la moyenne</div>
             <div id="score-insight" class="score-insight"></div>
           </div>
         </div>
       </div>
 
-      <!-- CTA app inline après score -->
-      <div class="email-capture" id="email-capture" style="visibility:visible;">
-        <div class="email-capture-title"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Aller plus loin avec ce bien</div>
-        <div class="email-capture-sub">Charges optimisables, régime fiscal recommandé, projection 10 ans — disponibles directement dans l'app BailleurSuite, gratuite sur l'App Store.</div>
-        <div class="email-capture-form">
-          <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8" class="email-btn" onclick="track('AppStore_Click',{ct:'calculatrice'})">Découvrir l'app →</a>
-        </div>
-      </div>
 
       <div class="result-row">
         <span class="result-label">Verdict</span>
@@ -446,25 +452,34 @@ tr:hover td{background:rgba(45,106,79,.025)}
       </div>
     </div>
 
-    <!-- CTA dynamique -->
-    <div id="calc-cta" class="calc-cta">
-      <div style="flex:1;min-width:200px;">
-        <div class="cta-badge">Ne laissez pas d'argent sur la table</div>
-        <div id="calc-cta-text" class="cta-text">Pilotez ce bien en temps réel, quittances auto, déclaration 2044 pré-remplie.</div>
-      </div>
-      <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8" class="cta-btn" onclick="track('AppStore_Click',{ct:'calculatrice'})">Optimiser mon rendement →</a>
-    </div>
     <p style="margin-top:12px;font-size:.7rem;color:var(--ink-light);text-align:center;">Aucune donnée bancaire requise · 100% anonyme · Calculs indicatifs</p>
 
-    <div class="tool-conversion" id="tool-conversion" hidden>
-      <h3>Ce calcul, mais suivi toute l'année</h3>
-      <p>BailleurSuite recalcule votre rendement à chaque loyer encaissé et
-      chaque charge saisie, puis prépare votre déclaration en fin d'année.</p>
-      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8"
-         class="btn-appstore" target="_blank" rel="noopener"
-         onclick="track('AppStore_Click',{ct:'calculatrice'})">
-        Télécharger sur l'App Store
-      </a>
+    <div class="upsell-banner" id="tool-conversion" hidden>
+      <div class="upsell-content">
+        <h3><span id="conv-titre">Votre bien rapporte 3,90 % net.</span><br><em>Suivez-le toute l'année.</em></h3>
+        <p>BailleurSuite recalcule votre rendement à chaque loyer encaissé et chaque charge saisie, puis prépare votre déclaration.</p>
+        <div class="upsell-features">
+          <span class="upsell-feature">Rendement et cashflow mis à jour en continu</span>
+          <span class="upsell-feature">Comparaison des régimes fiscaux sur vos chiffres réels</span>
+          <span class="upsell-feature">Projection de votre patrimoine sur 20 ans</span>
+        </div>
+        <div class="upsell-action">
+          <a class="badge-appstore" target="_blank" rel="noopener"
+             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8"
+             onclick="track('AppStore_Click',{ct:'calculatrice'})">
+            <img src="/badge-app-store-fr.svg" width="152" height="48"
+                 alt="Télécharger dans l'App Store">
+          </a>
+          <a class="qr-appstore" target="_blank" rel="noopener"
+             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice_qr&amp;mt=8"
+             onclick="track('AppStore_Click',{ct:'calculatrice_qr'})">
+            <img src="/qr-appstore-calculatrice.svg" width="96" height="96" alt="" aria-hidden="true">
+            <span>Scannez avec votre iPhone</span>
+          </a>
+        </div>
+        <div class="upsell-gratuit">Téléchargement gratuit</div>
+        <div class="upsell-price-sub">Suivi automatique de vos biens avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
+      </div>
     </div>
 
     <div class="email-reminder">
@@ -482,68 +497,6 @@ tr:hover td{background:rgba(45,106,79,.025)}
   </div>
 </div>
 
-
-<!-- TEASERS APP : Score de Santé Fiscale (optimisations) + projection patrimoine 10 ans -->
-<div style="max-width:680px;margin:28px auto 0;padding:0 20px;">
-
-  <!-- Teaser : 3 optimisations -->
-  <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:16px;">
-    <div style="padding:16px 20px;border-bottom:1px solid var(--border);">
-      <div style="font-size:.85rem;font-weight:600;color:var(--ink);">Vos optimisations fiscales</div>
-      <div style="font-size:.72rem;color:var(--ink-light);margin-top:2px;">Détectées automatiquement dans l'app à partir de votre profil</div>
-    </div>
-    <div style="position:relative;padding:16px 20px;">
-      <div style="filter:blur(4px);user-select:none;pointer-events:none;opacity:0.5;display:flex;flex-direction:column;gap:5px;">
-        <div style="font-size:.75rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px;"><span style="color:#e67e22;">●</span> Déficit foncier potentiel non optimisé</div>
-        <div style="font-size:.75rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px;"><span style="color:#f39c12;">●</span> Charges déductibles incomplètes détectées</div>
-        <div style="font-size:.75rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px;"><span style="color:var(--mint);">●</span> Micro-foncier vs régime réel à comparer</div>
-      </div>
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-        <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8" style="display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:white;padding:8px 16px;border-radius:var(--r-md);text-decoration:none;font-size:.78rem;font-weight:600;" onclick="track('AppStore_Click',{ct:'calculatrice'})">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Voir les 3 optimisations dans l'app
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Teaser : projection patrimoine 10 ans -->
-  <div style="border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);background:var(--cream);">
-    <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-      <div>
-        <div style="font-size:.82rem;font-weight:600;color:var(--ink);">Évolution patrimoine sur 10 ans</div>
-        <div style="font-size:.7rem;color:var(--ink-light);margin-top:1px;">Avec vs sans optimisation BailleurSuite</div>
-      </div>
-      <div style="display:flex;gap:12px;font-size:.68rem;">
-        <span style="display:flex;align-items:center;gap:4px;color:var(--mint);font-weight:600;"><span style="display:inline-block;width:10px;height:3px;background:var(--mint);border-radius:2px;"></span>Optimisé</span>
-        <span style="display:flex;align-items:center;gap:4px;color:var(--ink-light);"><span style="display:inline-block;width:10px;height:2px;background:var(--border);border-radius:2px;"></span>Sans app</span>
-      </div>
-    </div>
-    <div style="position:relative;padding:16px 20px 20px;">
-      <svg width="100%" viewBox="0 0 400 120" preserveAspectRatio="none" style="display:block;filter:blur(5px);opacity:0.45;">
-        <line x1="0" y1="30" x2="400" y2="30" stroke="#E0D9CC" stroke-width="0.5"/>
-        <line x1="0" y1="60" x2="400" y2="60" stroke="#E0D9CC" stroke-width="0.5"/>
-        <line x1="0" y1="90" x2="400" y2="90" stroke="#E0D9CC" stroke-width="0.5"/>
-        <polyline fill="none" stroke="#C8C0B4" stroke-width="2" stroke-dasharray="5,3" points="0,100 40,96 80,92 120,90 160,87 200,85 240,83 280,81 320,79 360,77 400,75"/>
-        <polyline fill="none" stroke="#2D6A4F" stroke-width="2.5" points="0,100 40,92 80,82 120,70 160,58 200,47 240,38 280,30 320,23 360,17 400,12"/>
-        <polygon fill="rgba(45,106,79,0.08)" points="0,100 40,92 80,82 120,70 160,58 200,47 240,38 280,30 320,23 360,17 400,12 400,100"/>
-        <circle cx="200" cy="47" r="3" fill="#2D6A4F"/>
-        <circle cx="400" cy="12" r="3" fill="#2D6A4F"/>
-      </svg>
-      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
-        <div style="background:white;border:1px solid var(--border);border-radius:var(--r-md);padding:10px 18px;text-align:center;box-shadow:none;">
-          <div id="graph-gain" style="font-family:'Instrument Serif',serif;font-size:1.5rem;color:var(--mint);font-weight:400;">+XX XXX €</div>
-          <div style="font-size:.72rem;color:var(--ink-light);margin-top:2px;">de patrimoine supplémentaire estimé à 10 ans</div>
-        </div>
-        <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8" style="display:inline-flex;align-items:center;gap:6px;background:var(--mint);color:white;padding:8px 16px;border-radius:var(--r-md);text-decoration:none;font-size:.78rem;font-weight:600;box-shadow:var(--shadow);" onclick="track('AppStore_Click',{ct:'calculatrice'})">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Voir la projection complète
-        </a>
-      </div>
-    </div>
-  </div>
-
-</div>
 
 <!-- ÉDITORIAL -->
 <article class="editorial">
@@ -617,38 +570,77 @@ tr:hover td{background:rgba(45,106,79,.025)}
 </section>
 
 <!-- CTA APP -->
-<div class="app-promo fade-up">
-  <div class="app-promo-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Disponible sur l'App Store</div>
-  <h2>Allez plus loin avec BailleurSuite</h2>
-  <p>Calculatrice en temps réel sur votre iPhone, module fiscal complet et quittances automatiques.</p>
-  <div class="promo-cards">
-    <div class="promo-card">
-      <div class="promo-card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="11" width="3" height="7"/><rect x="11" y="6" width="3" height="12"/><rect x="16" y="13" width="3" height="5"/></svg></div>
-      <span class="promo-card-val">Temps réel</span>
-      <span class="promo-card-label">Rendement live</span>
+<div class="upsell-banner" style="max-width:760px;margin-left:auto;margin-right:auto;">
+  <div class="upsell-content">
+    <h3>Tout votre patrimoine locatif<br><em>dans votre poche</em></h3>
+    <p>Loyers, charges, quittances, déclaration fiscale et projection sur 20 ans. Vos données restent sur votre iPhone.</p>
+    <div class="upsell-features">
+      <span class="upsell-feature">Quittances envoyées automatiquement chaque mois</span>
+      <span class="upsell-feature">Déclaration 2044 et LMNP préparée case par case</span>
+      <span class="upsell-feature">Projection patrimoniale et simulation de revente</span>
     </div>
-    <div class="promo-card">
-      <div class="promo-card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="14" y2="12"/></svg></div>
-      <span class="promo-card-val">2044 · 2042C PRO · 2031</span>
-      <span class="promo-card-label">Module Fiscal complet</span>
+    <div class="upsell-action">
+      <a class="badge-appstore" target="_blank" rel="noopener"
+         href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8"
+         onclick="track('AppStore_Click',{ct:'calculatrice'})">
+        <img src="/badge-app-store-fr.svg" width="152" height="48"
+             alt="Télécharger dans l'App Store">
+      </a>
+      <a class="qr-appstore" target="_blank" rel="noopener"
+         href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice_qr&amp;mt=8"
+         onclick="track('AppStore_Click',{ct:'calculatrice_qr'})">
+        <img src="/qr-appstore-calculatrice.svg" width="96" height="96" alt="" aria-hidden="true">
+        <span>Scannez avec votre iPhone</span>
+      </a>
     </div>
-    <div class="promo-card">
-      <div class="promo-card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><polyline points="14 3 14 8 19 8"/></svg></div>
-      <span class="promo-card-val">0 min</span>
-      <span class="promo-card-label">Quittances auto</span>
-    </div>
+    <div class="upsell-gratuit">Téléchargement gratuit</div>
+    <div class="upsell-price-sub">Suivi automatique de vos biens avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
   </div>
-  <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8" class="appstore-btn" onclick="track('AppStore_Click',{ct:'calculatrice'})">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-    Télécharger sur l'App Store →
-  </a>
 </div>
 
 <!-- MOBILE STICKY -->
-<div class="mobile-cta-sticky">
-  <span>Calculatrice rendement gratuite</span>
-  <a href="#calculatrice">Lancer la simulation →</a>
+<div class="mobile-cta-sticky" id="sticky-calc" hidden>
+  <span id="sticky-calc-texte">Calculatrice rendement gratuite</span>
+  <a id="sticky-calc-lien" href="#calculatrice">Lancer la simulation →</a>
 </div>
+
+<script>
+/* La barre ne sert qu'à ramener vers l'outil. Elle n'a donc rien à
+ * faire tant que le formulaire est sous les yeux, et son libellé doit
+ * suivre l'état : avant le premier calcul elle y emmène, après elle
+ * ramène au résultat. */
+(function () {
+  var barre = document.getElementById('sticky-calc');
+  var texte = document.getElementById('sticky-calc-texte');
+  var lien = document.getElementById('sticky-calc-lien');
+  var carte = document.getElementById('calculatrice');
+  if (!barre || !carte) return;
+
+  var formulaireVisible = true;
+  function rafraichir() {
+    var calcule = !!window.__calcTracked;
+    if (calcule) {
+      texte.textContent = 'Votre résultat est prêt';
+      lien.textContent = 'Voir mon résultat →';
+      lien.setAttribute('href', '#resultats');
+    }
+    barre.hidden = formulaireVisible;
+  }
+
+  new IntersectionObserver(function (entrees) {
+    formulaireVisible = entrees[0].isIntersecting;
+    rafraichir();
+  }, { threshold: 0 }).observe(carte);
+
+  // Le calcul se déclenche à la saisie : on suit le même signal.
+  document.addEventListener('input', function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains('calc-input')) {
+      setTimeout(rafraichir, 0);
+    }
+  }, true);
+  rafraichir();
+})();
+</script>
 
 </main>
 
@@ -750,28 +742,63 @@ tr:hover td{background:rgba(45,106,79,.025)}
   ];
   const scoreMsgs = [
     'Investissement à revoir', 'Rendement très faible', 'Marge réduite',
-    'En dessous de la moyenne', 'Des leviers d\'optimisation existent', 'Potentiel identifié',
+    'En dessous de la moyenne', 'Dans la moyenne basse', 'Dans la moyenne',
     'Rendement compétitif', 'Profil attractif', 'Très bon profil',
-    'Profil optimal'
+    'Profil très compétitif'
   ];
+  /* Constats sur les chiffres saisis, sans promesse de gain chiffrée :
+   * aucune comparaison de régime n'est faite ici, et l'indice ne repose
+   * que sur le rendement net. */
   const scoreInsights = [
-    '', 'Vos charges semblent très élevées par rapport aux loyers. Vérifiez chaque poste de charge déductible.',
+    '', 'Vos charges sont élevées par rapport aux loyers. Vérifiez chaque poste de charge déductible.',
     'Le rendement brut est faible. Étudiez le potentiel de revalorisation du loyer ou la négociation du prix.',
-    'Vos charges représentent plus de 70% des loyers. Le régime réel pourrait améliorer votre rendement net.',
-    'L\'optimisation fiscale (régime réel vs micro-foncier) pourrait faire gagner 1 à 2 points de rendement.',
+    'Vos charges représentent plus de 70 % des loyers.',
+    'Le choix du régime fiscal se compare au cas par cas.',
     'Comparez micro-foncier et régime réel sur votre situation précise.',
-    '', 'Bon profil. L\'app identifie les derniers leviers d\'optimisation disponibles.',
-    '', ''
+    '', '', '', ''
   ];
   const scoreColors = ['','#e74c3c','#e74c3c','#e67e22','#e67e22','#f39c12','#f39c12','#2D6A4F','#2D6A4F','#0f8c55','#0f8c55'];
 
   let lastScore = 0;
 
+  /* Les champs de montant sont passés en type="text" pour porter le
+   * séparateur de milliers et le suffixe. La lecture doit donc écarter
+   * tout ce qui n'est pas chiffre : espaces fines, € et libellés. */
+  function montant(id) {
+    const brut = document.getElementById(id).value
+      .replace(/[^\d.,-]/g, '')
+      .replace(/,/g, '.');
+    return parseFloat(brut) || 0;
+  }
+
+  /* Formatage à la sortie du champ seulement. Pendant la frappe, la
+   * valeur reste brute : reformater à chaque touche déplacerait le
+   * curseur à chaque millier franchi. */
+  function formaterMontant(el) {
+    const v = montant(el.id);
+    el.value = v ? v.toLocaleString('fr-FR') + (el.dataset.suffixe || '') : '';
+  }
+  function defaireFormat(el) {
+    const v = montant(el.id);
+    el.value = v ? String(v) : '';
+  }
+  document.querySelectorAll('[data-montant]').forEach(function (el) {
+    el.addEventListener('focus', function () {
+      defaireFormat(el);
+      // Le contenu est un exemple : la première frappe doit le
+      // remplacer, pas s'y ajouter. Réécrire la valeur place le curseur
+      // en fin de champ, d'où la sélection explicite.
+      el.select();
+    });
+    el.addEventListener('blur', function () { formaterMontant(el); });
+    formaterMontant(el);
+  });
+
   function calcRentab() {
-    const p = parseFloat(document.getElementById('c-prix').value) || 0;
-    const l = parseFloat(document.getElementById('c-loyer').value) || 0;
-    const c = parseFloat(document.getElementById('c-charges').value) || 0;
-    const t = parseFloat(document.getElementById('c-taxe').value) || 0;
+    const p = montant('c-prix');
+    const l = montant('c-loyer');
+    const c = montant('c-charges');
+    const t = montant('c-taxe');
 
     // Une fois par visite, et seulement après une saisie réelle. Les champs
     // sont préremplis et calcRentab() s'exécute au chargement : sans le
@@ -810,11 +837,13 @@ tr:hover td{background:rgba(45,106,79,.025)}
     document.getElementById('r-net').textContent = net.toFixed(2) + ' %';
     document.getElementById('r-net').style.color = color;
     document.getElementById('r-cash').textContent = Math.round(cashAnnuel).toLocaleString('fr-FR') + ' €';
+    document.getElementById('r-cash-mois').textContent =
+      Math.round(cashAnnuel / 12).toLocaleString('fr-FR') + ' €';
     document.getElementById('r-verdict').textContent = verdict;
     document.getElementById('r-verdict').style.color = color;
 
     if (creditActif) {
-      const emprunt = parseFloat(document.getElementById('c-emprunt').value) || 0;
+      const emprunt = montant('c-emprunt');
       const taux = parseFloat(document.getElementById('c-taux').value) || 0;
       const duree = parseFloat(document.getElementById('c-duree').value) || 0;
       const mensualite = calcMensualite(emprunt, taux, duree);
@@ -846,24 +875,12 @@ tr:hover td{background:rgba(45,106,79,.025)}
       if (scoreInsights[score]) { insightEl.textContent = scoreInsights[score]; insightEl.style.display = 'block'; }
       else { insightEl.style.display = 'none'; }
 
-      // Capture email — apparaît dès qu'il y a un résultat
-      document.getElementById('email-capture').style.visibility = 'visible';
-
-      const netStr = net.toFixed(1);
-      let msg = `Votre bien affiche ${netStr}% net — profil fiscal ${score}/10.`;
-      if (score <= 4) msg += ` Des optimisations peuvent significativement améliorer ce profil.`;
-      document.getElementById('calc-cta-text').textContent = msg;
-      document.getElementById('calc-cta').classList.add('visible');
+      // Le titre de la card reprend le chiffre réel du visiteur.
+      document.getElementById('conv-titre').textContent =
+        `Votre bien rapporte ${net.toFixed(2).replace('.', ',')} % net.`;
       document.getElementById('tool-conversion').hidden = false;
-
-      // Teaser projection patrimoine 10 ans (+18% effet optimisation estimé)
-      const gainEstime = Math.round(cashAnnuel * 10 * 1.18);
-      const gainEl = document.getElementById('graph-gain');
-      if (gainEl) gainEl.textContent = '+' + Math.max(0, gainEstime).toLocaleString('fr-FR') + ' €';
     } else {
       document.getElementById('score-row').style.visibility = 'hidden';
-      document.getElementById('email-capture').style.visibility = 'hidden';
-      document.getElementById('calc-cta').classList.remove('visible');
       document.getElementById('tool-conversion').hidden = true;
       lastScore = 0;
     }
