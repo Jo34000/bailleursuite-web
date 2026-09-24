@@ -142,16 +142,16 @@
     /* 85 % de l'écran, pas du conteneur : celui-ci porte déjà
        20 px de marge intérieure de chaque côté. */
     .hero-visuel { margin: 8px auto -56px; width: min(85vw, 420px); }
+    /* Ni inclinaison, ni ombre appuyée : la feuille doit se poser dans
+       la page, pas y être collée. Un liseré discret et une ombre légère
+       suffisent à la détacher du fond ivoire. */
     .hero-visuel img {
       display: block; width: 100%; height: auto;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.06), 0 24px 60px -12px rgba(28,26,20,.28);
+      border: 1px solid rgba(28,26,20,.07);
+      box-shadow: 0 1px 2px rgba(28,26,20,.04), 0 12px 32px -16px rgba(28,26,20,.18);
     }
-    /* Inclinaison sur grand écran seulement : sur téléphone elle rogne
-       la largeur utile sans rien apporter. */
-    @media (min-width: 900px) {
-      .hero-visuel img { transform: rotate(-2.5deg); }
-    }
+
     @media (min-width: 900px) {
       /* width doit être relâché, sinon le plafond de 420 px posé pour
          le mobile l'emporte sur max-width et le visuel reste plus
@@ -613,18 +613,27 @@
     /* Sans base souple, le bloc de texte garde sa largeur naturelle,
        la somme dépasse la carte et le visuel bascule à la ligne — il
        se retrouvait sous le texte au lieu d'être à sa droite. */
-    /* Grille 55 / 45 : le texte porte l'argument, le visuel l'illustre. */
-    .upsell-banner { display: grid; grid-template-columns: 55fr 45fr; gap: 32px;
+    /* Une seule colonne par défaut. Les deux cards qui parlent de la
+       quittance n'ont plus de visuel : le document est déjà à l'écran,
+       en haut de page et dans l'aperçu — le remontrer sur fond vert
+       n'ajoutait rien. Seule la card du tableau de bord illustre
+       quelque chose que la page ne montre pas. */
+    .upsell-banner { display: grid; grid-template-columns: 1fr; gap: 32px;
                      align-items: center; }
+    @media (min-width: 900px) {
+      .upsell-banner-visuel { grid-template-columns: 55fr 45fr; }
+    }
     .upsell-content { min-width: 0; }
     .upsell-visuel { min-width: 0; }
     /* L'image est un rectangle net : arrondi, ombre et inclinaison
        viennent d'ici, pas du fichier. */
+    /* Pas d'inclinaison non plus ici : le principe vaut pour la page
+       entière, une image se pose dans la mise en page plutôt que d'y
+       être collée. */
     .upsell-visuel img {
       display: block; width: 100%; height: auto;
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,.06), 0 24px 60px -12px rgba(28,26,20,.28);
-      transform: rotate(-2.5deg);
     }
     /* Le badge Apple ne se redessine pas : ni couleur, ni texte, ni
        proportions. Seule sa taille varie, et il lui faut un espace
@@ -666,7 +675,6 @@
          elle mange de la largeur utile pour rien. */
       .upsell-banner { grid-template-columns: 1fr; gap: 24px; }
       .upsell-visuel { order: -1; max-width: 220px; margin: 0 auto; }
-      .upsell-visuel img { transform: none; }
       .upsell-content p, .upsell-content h3 { max-width: none; }
       .upsell-content { text-align: center; }
       .upsell-action { justify-content: center; }
@@ -1191,13 +1199,6 @@
         <div class="upsell-gratuit">Téléchargement gratuit</div>
         <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
       </div>
-      <div class="upsell-visuel">
-        <picture>
-          <source srcset="/quittance-feuille.webp" type="image/webp">
-          <img src="/quittance-feuille.jpg" width="900" height="911" loading="lazy"
-               alt="Exemple de quittance de loyer générée">
-        </picture>
-      </div>
     </div>
 
     <!-- UPSELL -->
@@ -1226,13 +1227,6 @@
         </div>
         <div class="upsell-gratuit">Téléchargement gratuit</div>
         <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
-      </div>
-      <div class="upsell-visuel">
-        <picture>
-          <source srcset="/quittance-feuille.webp" type="image/webp">
-          <img src="/quittance-feuille.jpg" width="900" height="911" loading="lazy"
-               alt="Exemple de quittance de loyer générée">
-        </picture>
       </div>
     </div>
 
@@ -1400,7 +1394,7 @@
     </div>
 
     <!-- Final CTA -->
-    <div class="upsell-banner">
+    <div class="upsell-banner upsell-banner-visuel">
       <div class="upsell-content">
         <h3>Tout votre patrimoine locatif<br><em>dans votre poche</em></h3>
         <p>Loyers, charges, quittances, déclaration fiscale et projection sur 20 ans. Vos données restent sur votre iPhone.</p>
