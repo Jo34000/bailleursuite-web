@@ -28,7 +28,7 @@
 <meta name="twitter:description" content="Calculez en 30 secondes le rendement brut et net de votre investissement locatif. Simulation crédit incluse.">
 <meta property="og:locale" content="fr_FR">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","@id":"https://bailleursuite.fr/calculatrice-rendement-locatif#webapp","name":"Calculatrice Rendement Locatif BailleurSuite","description":"Outil interactif gratuit pour calculer le rendement brut, net et net-net d'un investissement locatif. Intègre la simulation de crédit immobilier et les frais de notaire.","url":"https://bailleursuite.fr/calculatrice-rendement-locatif","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"inLanguage":"fr","publisher":{"@id":"https://bailleursuite.fr/#organization","@type":"Organization","name":"BailleurSuite","url":"https://bailleursuite.fr/","sameAs":["https://apps.apple.com/fr/app/bailleursuite/id6772793420"]}}
+{"@context":"https://schema.org","@type":"WebApplication","dateModified":"2026-09-25","@id":"https://bailleursuite.fr/calculatrice-rendement-locatif#webapp","name":"Calculatrice Rendement Locatif BailleurSuite","description":"Outil interactif gratuit pour calculer le rendement brut, net et net-net d'un investissement locatif. Intègre la simulation de crédit immobilier et les frais de notaire.","url":"https://bailleursuite.fr/calculatrice-rendement-locatif","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"inLanguage":"fr","publisher":{"@id":"https://bailleursuite.fr/#organization","@type":"Organization","name":"BailleurSuite","url":"https://bailleursuite.fr/","sameAs":["https://apps.apple.com/fr/app/bailleursuite/id6772793420"]}}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@id":"https://bailleursuite.fr/#software","@type":"SoftwareApplication","name":"BailleurSuite","url":"https://bailleursuite.fr/","operatingSystem":"iOS","applicationCategory":"FinanceApplication","downloadUrl":"https://apps.apple.com/fr/app/bailleursuite/id6772793420","description":"Application iOS de gestion locative pour bailleurs particuliers : quittances, suivi des loyers et des charges, préparation de la déclaration 2044 et du LMNP au régime réel.","publisher":{"@id":"https://bailleursuite.fr/#organization","@type":"Organization","name":"BailleurSuite","url":"https://bailleursuite.fr/","sameAs":["https://apps.apple.com/fr/app/bailleursuite/id6772793420"]},"sameAs":["https://apps.apple.com/fr/app/bailleursuite/id6772793420"]}
@@ -60,6 +60,20 @@ body { color: var(--ink); }
 /* HERO */
 .hero{display:flex;align-items:center;padding:84px 24px 24px;position:relative;overflow:hidden;text-align:center}
 .hero::before{content:'';position:absolute;inset:-20%;background:radial-gradient(circle at 20% 20%,rgba(45,106,79,.13),transparent 35%),radial-gradient(circle at 80% 30%,rgba(201,168,76,.09),transparent 35%);pointer-events:none}
+/* Le halo est peint sur une couche qui déborde de 20 % puis se fait
+   couper net par l'overflow:hidden du hero : la coupe se lisait comme
+   un trait horizontal. Le masque l'éteint avant le bord, la section se
+   termine donc exactement sur la couleur de fond de la page.
+   Desktop seulement — le rendu mobile est validé et ne bouge pas. */
+@media(min-width:900px){
+  .hero::before{
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 88%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 88%);
+  }
+  /* Le formulaire remonte dans la zone de transition : il la traverse
+     au lieu de commencer après elle. */
+  .calc-wrap{margin-top:-48px;position:relative;z-index:1}
+}
 .hero-content{max-width:760px;margin:0 auto;position:relative;z-index:1}
 .hero-breadcrumb{font-size:.72rem;color:var(--ink-light);display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:20px}
 .hero-breadcrumb a{color:var(--mint);text-decoration:none}
@@ -477,29 +491,33 @@ tr:hover td{background:rgba(45,106,79,.025)}
 
     <div class="upsell-banner" id="tool-conversion" hidden>
       <div class="upsell-content">
-        <h3><span id="conv-titre">Votre bien rapporte 3,90 % net.</span><br><em>Suivez-le toute l'année.</em></h3>
-        <p>BailleurSuite recalcule votre rendement à chaque loyer encaissé et chaque charge saisie, puis prépare votre déclaration.</p>
-        <div class="upsell-features">
-          <span class="upsell-feature">Rendement et cashflow mis à jour en continu</span>
-          <span class="upsell-feature">Comparaison des régimes fiscaux sur vos chiffres réels</span>
-          <span class="upsell-feature">Projection de votre patrimoine sur 20 ans</span>
+        <div class="upsell-texte">
+          <h3><span id="conv-titre">Votre bien rapporte 3,90 % net.</span><br><em>Suivez-le toute l'année.</em></h3>
+          <p>BailleurSuite recalcule votre rendement à chaque loyer encaissé et chaque charge saisie, puis prépare votre déclaration.</p>
+          <div class="upsell-features">
+            <span class="upsell-feature">Rendement et cashflow mis à jour en continu</span>
+            <span class="upsell-feature">Comparaison des régimes fiscaux sur vos chiffres réels</span>
+            <span class="upsell-feature">Projection de votre patrimoine sur 20 ans</span>
+          </div>
         </div>
-        <div class="upsell-action">
-          <a class="badge-appstore" target="_blank" rel="noopener"
-             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8"
-             onclick="track('AppStore_Click',{ct:'calculatrice'})">
-            <img src="/badge-app-store-fr.svg" width="152" height="48"
-                 alt="Télécharger dans l'App Store">
-          </a>
-          <a class="qr-appstore" target="_blank" rel="noopener"
-             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice_qr&amp;mt=8"
-             onclick="track('AppStore_Click',{ct:'calculatrice_qr'})">
-            <img src="/qr-appstore-calculatrice.svg" width="96" height="96" alt="" aria-hidden="true">
-            <span>Scannez avec votre iPhone</span>
-          </a>
+        <div class="upsell-panneau">
+          <div class="upsell-action">
+            <a class="badge-appstore" target="_blank" rel="noopener"
+              href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8"
+              onclick="track('AppStore_Click',{ct:'calculatrice'})">
+              <img src="/badge-app-store-fr.svg" width="152" height="48"
+              alt="Télécharger dans l'App Store">
+            </a>
+            <a class="qr-appstore" target="_blank" rel="noopener"
+              href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice_qr&amp;mt=8"
+              onclick="track('AppStore_Click',{ct:'calculatrice_qr'})">
+              <img src="/qr-appstore-calculatrice.svg" width="96" height="96" alt="" aria-hidden="true">
+              <span>Scannez avec votre iPhone</span>
+            </a>
+          </div>
+          <div class="upsell-gratuit">Téléchargement gratuit</div>
+          <div class="upsell-price-sub">Suivi automatique de vos biens avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
         </div>
-        <div class="upsell-gratuit">Téléchargement gratuit</div>
-        <div class="upsell-price-sub">Suivi automatique de vos biens avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
       </div>
     </div>
 
@@ -591,31 +609,35 @@ tr:hover td{background:rgba(45,106,79,.025)}
 </section>
 
 <!-- CTA APP -->
-<div class="upsell-banner" style="max-width:760px;margin-left:auto;margin-right:auto;">
+<div class="upsell-banner">
   <div class="upsell-content">
-    <h3>Tout votre patrimoine locatif<br><em>dans votre poche</em></h3>
-    <p>Loyers, charges, quittances, déclaration fiscale et projection sur 20 ans. Vos données restent sur votre iPhone.</p>
-    <div class="upsell-features">
-      <span class="upsell-feature">Quittances envoyées automatiquement chaque mois</span>
-      <span class="upsell-feature">Déclaration 2044 et LMNP préparée case par case</span>
-      <span class="upsell-feature">Projection patrimoniale et simulation de revente</span>
+    <div class="upsell-texte">
+      <h3>Tout votre patrimoine locatif<br><em>dans votre poche</em></h3>
+      <p>Loyers, charges, quittances, déclaration fiscale et projection sur 20 ans. Vos données restent sur votre iPhone.</p>
+      <div class="upsell-features">
+        <span class="upsell-feature">Quittances envoyées automatiquement chaque mois</span>
+        <span class="upsell-feature">Déclaration 2044 et LMNP préparée case par case</span>
+        <span class="upsell-feature">Projection patrimoniale et simulation de revente</span>
+      </div>
     </div>
-    <div class="upsell-action">
-      <a class="badge-appstore" target="_blank" rel="noopener"
-         href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8"
-         onclick="track('AppStore_Click',{ct:'calculatrice'})">
-        <img src="/badge-app-store-fr.svg" width="152" height="48"
-             alt="Télécharger dans l'App Store">
-      </a>
-      <a class="qr-appstore" target="_blank" rel="noopener"
-         href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice_qr&amp;mt=8"
-         onclick="track('AppStore_Click',{ct:'calculatrice_qr'})">
-        <img src="/qr-appstore-calculatrice.svg" width="96" height="96" alt="" aria-hidden="true">
-        <span>Scannez avec votre iPhone</span>
-      </a>
+    <div class="upsell-panneau">
+      <div class="upsell-action">
+        <a class="badge-appstore" target="_blank" rel="noopener"
+          href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice&amp;mt=8"
+          onclick="track('AppStore_Click',{ct:'calculatrice'})">
+          <img src="/badge-app-store-fr.svg" width="152" height="48"
+          alt="Télécharger dans l'App Store">
+        </a>
+        <a class="qr-appstore" target="_blank" rel="noopener"
+          href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=calculatrice_qr&amp;mt=8"
+          onclick="track('AppStore_Click',{ct:'calculatrice_qr'})">
+          <img src="/qr-appstore-calculatrice.svg" width="96" height="96" alt="" aria-hidden="true">
+          <span>Scannez avec votre iPhone</span>
+        </a>
+      </div>
+      <div class="upsell-gratuit">Téléchargement gratuit</div>
+      <div class="upsell-price-sub">Suivi automatique de vos biens avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
     </div>
-    <div class="upsell-gratuit">Téléchargement gratuit</div>
-    <div class="upsell-price-sub">Suivi automatique de vos biens avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
   </div>
 </div>
 

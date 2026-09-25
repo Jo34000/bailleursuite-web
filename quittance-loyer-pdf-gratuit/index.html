@@ -25,7 +25,7 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "WebApplication","dateModified":"2026-09-25",
     "name": "Générateur de quittance de loyer PDF gratuit",
     "description": "Outil gratuit pour générer une quittance de loyer PDF conforme loi ALUR en 30 secondes.",
     "url": "https://bailleursuite.fr/quittance-loyer-pdf-gratuit",
@@ -112,7 +112,9 @@
       .hero { text-align: left; padding-bottom: 0; }
       /* 45 / 55 : le visuel domine, et le vide à sa droite se réduit
          d'autant. */
-      .hero-inner { grid-template-columns: 45fr 55fr; gap: 40px; max-width: 1140px; }
+      /* 52 / 48 : la feuille n'a plus besoin de la colonne large depuis
+         qu'elle est bornée à 440 px, et le texte respire. */
+      .hero-inner { grid-template-columns: 52fr 48fr; gap: 40px; max-width: 1140px; }
       .hero-inner .breadcrumb, .hero-inner .hero h1 { margin-left: 0; }
     }
 
@@ -178,8 +180,55 @@
          que sur mobile et venait recouvrir le titre de la section
          suivante. La profondeur était demandée pour le mobile, elle y
          reste. */
-      .hero-visuel { width: auto; max-width: 100%; margin: 0; }
-      .hero { padding-bottom: 28px; }
+      /* La feuille était large et posée à plat : elle occupait la
+         colonne entière sans rien évoquer. Bornée à 440 px et centrée,
+         légèrement tournée, posée sur une seconde feuille, elle
+         redevient un document sur un bureau. */
+      .hero-visuel { width: auto; max-width: 440px; margin: 0 auto; }
+
+      /* Le dégradé s'arrêtait sur #F8F5EE quand la page continue en
+         var(--cream) : deux unités d'écart, assez pour dessiner un
+         trait. Le reflet or, centré sur le bord bas, y était de surcroît
+         à pleine intensité. Il remonte, et le dégradé se termine
+         exactement sur la couleur de la page. */
+      .hero {
+        padding-bottom: 28px;
+        background:
+          radial-gradient(120% 70% at 50% -10%, rgba(45,106,79,.10) 0%, transparent 60%),
+          radial-gradient(90% 40% at 50% 70%, rgba(201,168,76,.06) 0%, transparent 70%),
+          linear-gradient(180deg, #FBFAF7 0%, var(--cream) 82%, var(--cream) 100%);
+      }
+
+      .hero-visuel picture { display: block; position: relative; }
+      /* La pile : un simple rectangle, pas une seconde image. Il ne
+         porte aucune information, seulement l'épaisseur. */
+      .hero-visuel picture::before {
+        content: ''; position: absolute; inset: 0; z-index: 0;
+        background: #FBF9F4;
+        border-radius: 10px;
+        transform: rotate(2deg);
+        transform-origin: center;
+        box-shadow: 0 1px 3px rgba(28,26,20,.05), 0 14px 30px -14px rgba(28,26,20,.16);
+      }
+      .hero-visuel img {
+        position: relative; z-index: 1;
+        /* Le liseré servait à détacher une image à plat du fond ivoire.
+           L'ombre portée le fait mieux, et sans cerner le document. */
+        border: 0;
+        transform: rotate(-2.5deg);
+        transform-origin: center;
+        box-shadow: 0 2px 6px rgba(28,26,20,.06), 0 30px 60px -18px rgba(28,26,20,.30);
+      }
+      /* La légende suit la feuille, pas la colonne. */
+      .hero-legende { font-size: .75rem; margin-top: 22px; }
+    }
+
+    /* Le mouvement figé compte aussi : une rotation permanente reste
+       une transformation imposée. Sans elle, la pile fournit encore la
+       profondeur, par simple décalage. */
+    @media (min-width: 900px) and (prefers-reduced-motion: reduce) {
+      .hero-visuel img, .hero-visuel picture::before { transform: none; }
+      .hero-visuel picture::before { inset: 12px -12px -12px 12px; }
     }
 
     /* Le défilement fluide vient du design system, qui le pose pour
@@ -1179,58 +1228,66 @@
 
     <div class="upsell-banner" id="tool-conversion" hidden>
       <div class="upsell-content">
-        <h3>Votre quittance est prête.<br><em>Le mois prochain, elle partira toute seule.</em></h3>
-        <p>BailleurSuite génère et envoie vos quittances chaque mois, pour chaque locataire, et les archive pour votre déclaration.</p>
-        <div class="upsell-features">
-          <span class="upsell-feature">Quittances PDF envoyées automatiquement au locataire</span>
-          <span class="upsell-feature">Alertes de révision IRL et d'échéances</span>
-          <span class="upsell-feature">Données stockées sur votre iPhone, sans compte</span>
+        <div class="upsell-texte">
+          <h3>Votre quittance est prête.<br><em>Le mois prochain, elle partira toute seule.</em></h3>
+          <p>BailleurSuite génère et envoie vos quittances chaque mois, pour chaque locataire, et les archive pour votre déclaration.</p>
+          <div class="upsell-features">
+            <span class="upsell-feature">Quittances PDF envoyées automatiquement au locataire</span>
+            <span class="upsell-feature">Alertes de révision IRL et d'échéances</span>
+            <span class="upsell-feature">Données stockées sur votre iPhone, sans compte</span>
+          </div>
         </div>
-        <div class="upsell-action">
-          <a class="badge-appstore" target="_blank" rel="noopener"
-             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
-             onclick="track('AppStore_Click',{ct:'quittance'})">
-            <img src="/badge-app-store-fr.svg" width="152" height="48"
-                 alt="Télécharger dans l'App Store">
-          </a>
-          <a class="qr-appstore" target="_blank" rel="noopener"
-             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance_qr&amp;mt=8"
-             onclick="track('AppStore_Click',{ct:'quittance_qr'})">
-            <img src="/qr-appstore-quittance.svg" width="96" height="96" alt="" aria-hidden="true">
-            <span>Scannez avec votre iPhone</span>
-          </a>
+        <div class="upsell-panneau">
+          <div class="upsell-action">
+            <a class="badge-appstore" target="_blank" rel="noopener"
+              href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
+              onclick="track('AppStore_Click',{ct:'quittance'})">
+              <img src="/badge-app-store-fr.svg" width="152" height="48"
+              alt="Télécharger dans l'App Store">
+            </a>
+            <a class="qr-appstore" target="_blank" rel="noopener"
+              href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance_qr&amp;mt=8"
+              onclick="track('AppStore_Click',{ct:'quittance_qr'})">
+              <img src="/qr-appstore-quittance.svg" width="96" height="96" alt="" aria-hidden="true">
+              <span>Scannez avec votre iPhone</span>
+            </a>
+          </div>
+          <div class="upsell-gratuit">Téléchargement gratuit</div>
+          <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
         </div>
-        <div class="upsell-gratuit">Téléchargement gratuit</div>
-        <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
       </div>
     </div>
 
     <!-- UPSELL -->
     <div class="upsell-banner" id="upsell-statique">
       <div class="upsell-content">
-        <h3>Et le mois prochain&nbsp;?<br><em>Elle partira toute seule.</em></h3>
-        <p>BailleurSuite génère et envoie vos quittances chaque mois, pour chaque locataire, et les archive pour votre déclaration.</p>
-        <div class="upsell-features">
-          <span class="upsell-feature">Quittances PDF envoyées automatiquement au locataire</span>
-          <span class="upsell-feature">Alertes de révision IRL et d'échéances</span>
-          <span class="upsell-feature">Données stockées sur votre iPhone, sans compte</span>
+        <div class="upsell-texte">
+          <h3>Et le mois prochain&nbsp;?<br><em>Elle partira toute seule.</em></h3>
+          <p>BailleurSuite génère et envoie vos quittances chaque mois, pour chaque locataire, et les archive pour votre déclaration.</p>
+          <div class="upsell-features">
+            <span class="upsell-feature">Quittances PDF envoyées automatiquement au locataire</span>
+            <span class="upsell-feature">Alertes de révision IRL et d'échéances</span>
+            <span class="upsell-feature">Données stockées sur votre iPhone, sans compte</span>
+          </div>
         </div>
-        <div class="upsell-action">
-          <a class="badge-appstore" target="_blank" rel="noopener"
-             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
-             onclick="track('AppStore_Click',{ct:'quittance'})">
-            <img src="/badge-app-store-fr.svg" width="152" height="48"
-                 alt="Télécharger dans l'App Store">
-          </a>
-          <a class="qr-appstore" target="_blank" rel="noopener"
-             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance_qr&amp;mt=8"
-             onclick="track('AppStore_Click',{ct:'quittance_qr'})">
-            <img src="/qr-appstore-quittance.svg" width="96" height="96" alt="" aria-hidden="true">
-            <span>Scannez avec votre iPhone</span>
-          </a>
+        <div class="upsell-panneau">
+          <div class="upsell-action">
+            <a class="badge-appstore" target="_blank" rel="noopener"
+              href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
+              onclick="track('AppStore_Click',{ct:'quittance'})">
+              <img src="/badge-app-store-fr.svg" width="152" height="48"
+              alt="Télécharger dans l'App Store">
+            </a>
+            <a class="qr-appstore" target="_blank" rel="noopener"
+              href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance_qr&amp;mt=8"
+              onclick="track('AppStore_Click',{ct:'quittance_qr'})">
+              <img src="/qr-appstore-quittance.svg" width="96" height="96" alt="" aria-hidden="true">
+              <span>Scannez avec votre iPhone</span>
+            </a>
+          </div>
+          <div class="upsell-gratuit">Téléchargement gratuit</div>
+          <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
         </div>
-        <div class="upsell-gratuit">Téléchargement gratuit</div>
-        <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
       </div>
     </div>
 
@@ -1252,7 +1309,7 @@
       </div>
       <div style="display:flex;gap:16px;flex-wrap:wrap;">
         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><line x1="4" y1="9" x2="20" y2="9"/><line x1="8" y1="3" x2="8" y2="6"/><line x1="16" y1="3" x2="16" y2="6"/></svg> Publié : janvier 2026</span>
-        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><polyline points="20 4 20 8 16 8"/></svg> Mis à jour : mai 2026</span>
+        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><polyline points="20 4 20 8 16 8"/></svg> Mis à jour : septembre 2026</span>
         <span>⏱ Lecture : 6 min</span>
       </div>
     </div>
@@ -1400,29 +1457,33 @@
     <!-- Final CTA -->
     <div class="upsell-banner">
       <div class="upsell-content">
-        <h3>Tout votre patrimoine locatif<br><em>dans votre poche</em></h3>
-        <p>Loyers, charges, quittances, déclaration fiscale et projection sur 20 ans. Vos données restent sur votre iPhone.</p>
-        <div class="upsell-features">
-          <span class="upsell-feature">Quittances envoyées automatiquement chaque mois</span>
-          <span class="upsell-feature">Déclaration 2044 et LMNP préparée case par case</span>
-          <span class="upsell-feature">Projection patrimoniale et simulation de revente</span>
+        <div class="upsell-texte">
+          <h3>Tout votre patrimoine locatif<br><em>dans votre poche</em></h3>
+          <p>Loyers, charges, quittances, déclaration fiscale et projection sur 20 ans. Vos données restent sur votre iPhone.</p>
+          <div class="upsell-features">
+            <span class="upsell-feature">Quittances envoyées automatiquement chaque mois</span>
+            <span class="upsell-feature">Déclaration 2044 et LMNP préparée case par case</span>
+            <span class="upsell-feature">Projection patrimoniale et simulation de revente</span>
+          </div>
         </div>
-        <div class="upsell-action">
-          <a class="badge-appstore" target="_blank" rel="noopener"
-             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
-             onclick="track('AppStore_Click',{ct:'quittance'})">
-            <img src="/badge-app-store-fr.svg" width="152" height="48"
-                 alt="Télécharger dans l'App Store">
-          </a>
-          <a class="qr-appstore" target="_blank" rel="noopener"
-             href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance_qr&amp;mt=8"
-             onclick="track('AppStore_Click',{ct:'quittance_qr'})">
-            <img src="/qr-appstore-quittance.svg" width="96" height="96" alt="" aria-hidden="true">
-            <span>Scannez avec votre iPhone</span>
-          </a>
+        <div class="upsell-panneau">
+          <div class="upsell-action">
+            <a class="badge-appstore" target="_blank" rel="noopener"
+              href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance&amp;mt=8"
+              onclick="track('AppStore_Click',{ct:'quittance'})">
+              <img src="/badge-app-store-fr.svg" width="152" height="48"
+              alt="Télécharger dans l'App Store">
+            </a>
+            <a class="qr-appstore" target="_blank" rel="noopener"
+              href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance_qr&amp;mt=8"
+              onclick="track('AppStore_Click',{ct:'quittance_qr'})">
+              <img src="/qr-appstore-quittance.svg" width="96" height="96" alt="" aria-hidden="true">
+              <span>Scannez avec votre iPhone</span>
+            </a>
+          </div>
+          <div class="upsell-gratuit">Téléchargement gratuit</div>
+          <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
         </div>
-        <div class="upsell-gratuit">Téléchargement gratuit</div>
-        <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
       </div>
     </div>
 

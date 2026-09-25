@@ -546,4 +546,69 @@ h1, h2, h3 {
   .upsell-content p, .upsell-content h3 { max-width: none; }
   .upsell-action { justify-content: center; }
   .upsell-features { align-items: flex-start; text-align: left; }
+  /* display:contents retire le conteneur de l'arbre de boîtes : ses
+     enfants redeviennent enfants directs de .upsell-content, exactement
+     comme avant son introduction. Le rendu mobile, validé, ne bouge
+     donc pas d'un pixel — le panneau n'existe que sur grand écran. */
+  .upsell-panneau, .upsell-texte { display: contents; }
+}
+
+/* Panneau d'action, colonne droite sur grand écran.
+   Sans visuel, la carte s'étalait sur toute sa largeur avec un texte
+   court et une moitié droite vide. Le bloc d'action y est déplacé et
+   posé sur un fond légèrement plus clair : la carte se lit en deux
+   temps, l'argument à gauche, le geste à droite. */
+@media (min-width: 900px) {
+  /* La carte déborde de la colonne de contenu pour atteindre 960 px,
+     sans jamais dépasser la fenêtre : le pourcentage des marges se
+     résout sur la largeur du conteneur, la soustraction donne donc le
+     débordement exact de chaque côté. */
+  .upsell-banner {
+    --upsell-large: min(960px, calc(100vw - 48px));
+    width: var(--upsell-large);
+    margin-inline: calc((100% - var(--upsell-large)) / 2);
+  }
+  .upsell-content {
+    display: grid; grid-template-columns: 58fr 42fr;
+    gap: 28px; align-items: center;
+  }
+  /* Une seule cellule pour les trois éléments de gauche. Posés
+     directement dans la grille, ils occupaient trois rangées que la
+     hauteur du panneau étirait : titre, texte et puces se retrouvaient
+     éparpillés sur toute la hauteur de la carte. */
+  .upsell-texte { grid-column: 1; }
+  /* Le plafond de 400 px datait de la carte pleine largeur. La colonne
+     le rend inutile, et il laissait un drapeau droit très irrégulier.
+     Sélecteur à trois classes : les pages quittance et calculatrice
+     redéclarent .upsell-content p dans leur feuille en ligne, chargée
+     après celle-ci. */
+  .upsell-content .upsell-texte p { max-width: none; }
+  .upsell-panneau {
+    grid-column: 2; grid-row: 1 / -1;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center;
+    gap: 14px; padding: 22px 20px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 14px;
+  }
+  /* Le QR passe devant : sur un ordinateur, c'est lui qui fait
+     traverser vers le téléphone. Le badge suit. */
+  .upsell-panneau .upsell-action {
+    flex-direction: column; gap: 14px; margin: 0; justify-content: center;
+  }
+  .upsell-panneau .qr-appstore { order: 1; }
+  .upsell-panneau .badge-appstore { order: 2; }
+  /* 147 = 135 + 2×6 de rembourrage, en border-box. Le code fait
+     45 modules de côté : 135 leur donne exactement 3 px chacun, donc
+     aucun module à cheval sur deux pixels. À 128 px le module tombait
+     à 2,58 px et le tramage rendait le code de la quittance illisible
+     par un décodeur sur écran non Retina. */
+  .upsell-panneau .qr-appstore img { width: 147px; height: 147px; }
+  .upsell-panneau .upsell-gratuit { margin-bottom: 0; }
+  .upsell-panneau .upsell-price-sub { margin-bottom: 0; }
+  /* Espace libre réglementaire autour du badge Apple : au moins un
+     quart de sa hauteur, soit 12 px pour 48. Le gap de 14 px du
+     panneau le fournit au-dessus et en dessous ; le rembourrage
+     latéral de 20 px le couvre sur les côtés. */
 }
