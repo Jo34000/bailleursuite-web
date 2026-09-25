@@ -48,6 +48,17 @@ PAGES: dict[str, tuple[str, re.Pattern]] = {
             r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon">.*?'
             r'<div class="faq-a">\s*(?P<r>.*?)\s*</div>', re.S),
     ),
+    # Ajoutée au contrôle en septembre 2026 : son FAQPage balisait six
+    # questions qu'aucun accordéon n'affichait, pendant que les sept
+    # questions visibles n'étaient balisées nulle part. Le cas exact
+    # que ce fichier existe pour attraper, sur une page qu'il ne
+    # regardait pas.
+    "lmnp-guide-complet/index.html": (
+        GENERE,
+        re.compile(
+            r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon">.*?'
+            r'<div class="faq-a">\s*(?P<r>.*?)\s*</div>', re.S),
+    ),
     # 13 questions écrites à la main, bloc JSON-LD indenté : on
     # contrôle le nombre, sans réécrire la mise en forme.
     "index.html": (
