@@ -73,6 +73,7 @@ body { color: var(--ink); }
   /* Le formulaire remonte dans la zone de transition : il la traverse
      au lieu de commencer après elle. */
   .calc-wrap{margin-top:-48px;position:relative;z-index:1}
+
 }
 .hero-content{max-width:760px;margin:0 auto;position:relative;z-index:1}
 .hero-breadcrumb{font-size:.72rem;color:var(--ink-light);display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:20px}
@@ -266,6 +267,54 @@ tr:hover td{background:rgba(45,106,79,.025)}
 
   /* refonte éditoriale : tokens */
   :root{--r-sm:8px;--r-md:14px;--r-full:999px;--radius:14px;--radius-sm:14px;--radius-xs:8px;--shadow:0 1px 2px rgba(17,19,21,.04),0 8px 24px rgba(17,19,21,.06);}
+
+/* ══════════════════════════════════════════════════════════════
+   LARGEUR UNIQUE DE COLONNE — grand écran
+   ══════════════════════════════════════════════════════════════
+   En fin de feuille à dessein : ces règles ont la même spécificité
+   que les définitions de base qu'elles remplacent, c'est l'ordre de
+   déclaration qui tranche. Déclarées plus haut, elles étaient
+   silencieusement perdues. */
+@media(min-width:900px){
+  /* .calc-wrap, .editorial et .faq-section portaient 780, 760 et
+     760 px avec chacun 20 px de rembourrage : trois bords différents
+     pour une même colonne. Le rembourrage disparaît, la fenêtre étant
+     toujours bien plus large que la colonne. */
+  .calc-wrap, .editorial, .faq-section{
+    max-width:var(--content-width); padding-left:0; padding-right:0;
+  }
+  /* La card finale n'avait aucun conteneur : elle prenait toute la
+     largeur de la fenêtre depuis que son max-width en ligne a été
+     retiré. */
+  .upsell-banner{max-width:var(--content-width);margin-left:auto;margin-right:auto}
+
+  /* Le rappel par email était une carte claire posée dans la carte du
+     formulaire : deux fonds empilés. Il devient la dernière section de
+     cette carte, séparée par un simple filet. */
+  .email-reminder{
+    background:none; border:0; border-top:1px solid var(--border);
+    border-radius:0; padding:var(--bloc-gap) 0 0; margin:var(--bloc-gap) 0 0;
+  }
+
+  /* Rythme vertical : un seul intervalle, du résultat jusqu'au bas de
+     page. Il valait 62, 28 puis 133 px entre les mêmes blocs. */
+  .calc-wrap, .editorial, .faq-section{padding-bottom:var(--bloc-gap)}
+  /* Le premier titre de chaque section porte la marge haute prévue
+     pour séparer deux sous-parties : en tête de bloc, elle s'ajoutait
+     à l'intervalle et le portait à 85 px. */
+  .editorial>:first-child, .faq-section>:first-child{margin-top:0}
+  /* La card de résultat est imbriquée dans la carte du formulaire :
+     elle s'arrêtait 37 px avant ses bords, soit 74 px de moins que la
+     card finale, plus bas dans la même colonne. Deux cards vertes de
+     largeurs différentes sur une même page. Elle traverse donc le
+     rembourrage (36 px) et la bordure (1 px) de sa carte hôte pour
+     retrouver la largeur de colonne. */
+  #tool-conversion{
+    margin-top:var(--bloc-gap);
+    width:calc(100% + 74px); margin-left:-37px; margin-right:-37px;
+  }
+  .upsell-banner{margin-top:var(--bloc-gap);margin-bottom:var(--bloc-gap)}
+}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="stylesheet" href="/styles/consent.css">

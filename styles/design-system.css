@@ -40,6 +40,15 @@
   --r-sm: 8px; --r-md: 14px; --r-full: 999px;
   --radius-sm:   8px;
 
+  /* Largeur unique de la colonne de contenu, sous le hero. Elle vaut
+     celle de la colonne éditoriale, qui faisait déjà foi visuellement ;
+     formulaire, résultat, cards et FAQ s'y rangent. Ne s'applique qu'au
+     grand écran : sous 900 px chaque page garde ses propres marges,
+     validées. Seul le hero a le droit de dépasser. */
+  --content-width: 720px;
+  /* Intervalle vertical entre deux blocs de cette colonne. */
+  --bloc-gap: 32px;
+
   /* Élévation cartes — grammaire unique */
   --shadow-card: none;
   --shadow-card-hover: 0 1px 2px rgba(17,19,21,.04), 0 8px 24px rgba(17,19,21,.06);
@@ -559,18 +568,14 @@ h1, h2, h3 {
    posé sur un fond légèrement plus clair : la carte se lit en deux
    temps, l'argument à gauche, le geste à droite. */
 @media (min-width: 900px) {
-  /* La carte déborde de la colonne de contenu pour atteindre 960 px,
-     sans jamais dépasser la fenêtre : le pourcentage des marges se
-     résout sur la largeur du conteneur, la soustraction donne donc le
-     débordement exact de chaque côté. */
-  .upsell-banner {
-    --upsell-large: min(960px, calc(100vw - 48px));
-    width: var(--upsell-large);
-    margin-inline: calc((100% - var(--upsell-large)) / 2);
-  }
+  /* La carte s'alignait sur 960 px, plus large que le reste de la
+     colonne : elle en débordait, puis la page se resserrait. Elle suit
+     maintenant la colonne comme les autres blocs, et son contenu se
+     resserre en conséquence — le rembourrage vertical perd un tiers. */
+  .upsell-banner { padding: 22px 32px; gap: 24px; margin-top: var(--bloc-gap); }
   .upsell-content {
-    display: grid; grid-template-columns: 58fr 42fr;
-    gap: 28px; align-items: center;
+    display: grid; grid-template-columns: 60fr 40fr;
+    gap: 24px; align-items: center;
   }
   /* Une seule cellule pour les trois éléments de gauche. Posés
      directement dans la grille, ils occupaient trois rangées que la
@@ -587,7 +592,7 @@ h1, h2, h3 {
     grid-column: 2; grid-row: 1 / -1;
     display: flex; flex-direction: column; align-items: center;
     justify-content: center; text-align: center;
-    gap: 14px; padding: 22px 20px;
+    gap: 10px; padding: 16px 14px;
     background: rgba(255,255,255,.06);
     border: 1px solid rgba(255,255,255,.10);
     border-radius: 14px;
@@ -595,20 +600,20 @@ h1, h2, h3 {
   /* Le QR passe devant : sur un ordinateur, c'est lui qui fait
      traverser vers le téléphone. Le badge suit. */
   .upsell-panneau .upsell-action {
-    flex-direction: column; gap: 14px; margin: 0; justify-content: center;
+    flex-direction: column; gap: 10px; margin: 0; justify-content: center;
   }
   .upsell-panneau .qr-appstore { order: 1; }
   .upsell-panneau .badge-appstore { order: 2; }
-  /* 147 = 135 + 2×6 de rembourrage, en border-box. Le code fait
-     45 modules de côté : 135 leur donne exactement 3 px chacun, donc
-     aucun module à cheval sur deux pixels. À 128 px le module tombait
-     à 2,58 px et le tramage rendait le code de la quittance illisible
-     par un décodeur sur écran non Retina. */
-  .upsell-panneau .qr-appstore img { width: 147px; height: 147px; }
-  .upsell-panneau .upsell-gratuit { margin-bottom: 0; }
-  .upsell-panneau .upsell-price-sub { margin-bottom: 0; }
+  /* 102 = 90 + 2×6 de rembourrage, en border-box. Le code fait
+     45 modules de côté : 90 leur donne exactement 2 px chacun. La
+     valeur demandée, ~104 px, tomberait à 2,04 px par module, et ce
+     tramage-là a déjà rendu un de ces deux codes indécodable sur écran
+     non Retina. Deux pixels pleins par module est le plancher tenable. */
+  .upsell-panneau .qr-appstore img { width: 102px; height: 102px; }
+  .upsell-panneau .upsell-gratuit { margin-bottom: 0; font-size: 15px; }
+  .upsell-panneau .upsell-price-sub { margin-bottom: 0; font-size: 11px; }
   /* Espace libre réglementaire autour du badge Apple : au moins un
-     quart de sa hauteur, soit 12 px pour 48. Le gap de 14 px du
-     panneau le fournit au-dessus et en dessous ; le rembourrage
-     latéral de 20 px le couvre sur les côtés. */
+     quart de sa hauteur, soit 12 px pour 48. Le gap de 10 px du panneau
+     ne suffit plus depuis le resserrement, il est complété ici. */
+  .upsell-panneau .badge-appstore { margin: 2px 0; }
 }

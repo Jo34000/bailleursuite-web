@@ -221,6 +221,7 @@
       }
       /* La légende suit la feuille, pas la colonne. */
       .hero-legende { font-size: .75rem; margin-top: 22px; }
+
     }
 
     /* Le mouvement figé compte aussi : une rotation permanente reste
@@ -1019,7 +1020,30 @@
       gap: 6px;
     }
     .proof-item strong { color: var(--green-dark); }
-  </style>
+  
+    /* ══════════════════════════════════════════════════════════
+       LARGEUR UNIQUE DE COLONNE — grand écran
+       ══════════════════════════════════════════════════════════
+       En fin de feuille à dessein : ces règles ont la même
+       spécificité que les définitions de base qu'elles remplacent,
+       c'est l'ordre de déclaration qui tranche. */
+    @media (min-width: 900px) {
+      /* Le conteneur perd son rembourrage, la fenêtre étant toujours
+         bien plus large que la colonne. La card verte, qui débordait
+         à 960 px, rentre dans le rang avec tout le reste. */
+      .container, .container-wide {
+        max-width: var(--content-width); padding-left: 0; padding-right: 0;
+      }
+
+      /* Rythme vertical : un seul intervalle entre blocs de la colonne.
+         Les sections en portaient 40, les blocs éditoriaux 20. */
+      section { padding: var(--bloc-gap) 0; }
+      section + section { padding-top: 0; }
+      .content-section { margin-bottom: var(--bloc-gap); }
+      .content-section:last-child { margin-bottom: 0; }
+      .upsell-banner { margin-top: var(--bloc-gap); margin-bottom: 0; }
+    }
+</style>
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="stylesheet" href="/styles/consent.css">
 <script defer src="/scripts/track.js"></script>
