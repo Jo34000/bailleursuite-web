@@ -13,7 +13,7 @@ export const CT_CONNUS = [
   'nav', 'footer', 'hero', 'cta_final', 'tarifs', 'sticky',
   'calculatrice', 'quittance', 'guide2044', 'guidelmnp',
   'comparatif', 'compariphone', 'radar', 'aide',
-  'quittance_qr', 'calculatrice_qr',
+  'quittance_qr', 'calculatrice_qr', 'cta_final_qr',
 ];
 
 // Posé au chargement par scripts/source-tracking.js quand la visite

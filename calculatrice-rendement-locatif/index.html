@@ -896,7 +896,15 @@ tr:hover td{background:rgba(45,106,79,.025)}
     // sont préremplis et calcRentab() s'exécute au chargement : sans le
     // garde d'interaction, l'événement doublonnerait la page vue au lieu de
     // mesurer l'usage de l'outil.
-    if (window.__calcInteraction && !window.__calcTracked && p > 0 && l > 0) {
+    //
+    // typeof plutôt qu'un appel direct : depuis qu'une arrivée avec
+    // ?prix=&loyer= vaut saisie, ce calcul peut avoir lieu au chargement,
+    // donc avant l'exécution de /scripts/track.js, qui est en defer. Un
+    // appel nu levait alors une ReferenceError qui interrompait le script
+    // et laissait les résultats affichés sur les valeurs d'exemple. Le
+    // garde couvre aussi le cas d'un bloqueur qui supprime le fichier.
+    if (window.__calcInteraction && !window.__calcTracked && p > 0 && l > 0
+        && typeof track === 'function') {
       window.__calcTracked = true;
       track('Calculatrice_Resultat');
     }
@@ -999,6 +1007,46 @@ tr:hover td{background:rgba(45,106,79,.025)}
       window.__calcInteraction = true;
     }
   }, true);
+
+  /* Préremplissage depuis ?prix=&loyer=, posés par le mini-calculateur
+   * de la page d'accueil. Les deux valeurs viennent de l'URL, donc de
+   * n'importe qui : elles sont bornées avant d'entrer dans le calcul,
+   * et le préremplissage n'a lieu que si les DEUX sont exploitables —
+   * un seul champ rempli donnerait un rendement faux.
+   *
+   * Une arrivée avec des paramètres valides vaut saisie : le visiteur
+   * a bien tapé ces chiffres, sur la page précédente. Le drapeau
+   * d'interaction est donc levé, et Calculatrice_Resultat part comme
+   * après une frappe. */
+  (function () {
+    var MAX = { 'c-prix': 100000000, 'c-loyer': 1000000 };
+    var params = new URLSearchParams(location.search);
+    var valeurs = {};
+    [['prix', 'c-prix'], ['loyer', 'c-loyer']].forEach(function (paire) {
+      var brut = params.get(paire[0]);
+      if (brut === null) return;
+      var v = parseFloat(String(brut).replace(',', '.'));
+      if (!isFinite(v) || v <= 0 || v > MAX[paire[1]]) return;
+      valeurs[paire[1]] = Math.round(v);
+    });
+    if (Object.keys(valeurs).length !== 2) return;
+
+    Object.keys(valeurs).forEach(function (id) {
+      var el = document.getElementById(id);
+      el.value = String(valeurs[id]);
+      formaterMontant(el);
+    });
+    // Les chiffres affichés ne sont plus un exemple.
+    var exemple = document.querySelector('.calc-exemple');
+    if (exemple) exemple.hidden = true;
+    window.__calcInteraction = true;
+
+    // /scripts/track.js est en defer : il n'est pas encore exécuté au
+    // moment du calcul d'initialisation, qui laisse donc passer
+    // l'événement. Un second appel une fois la page chargée le fait
+    // partir ; le garde __calcTracked interdit le doublon.
+    window.addEventListener('load', function () { calcRentab(); });
+  })();
 
   calcRentab();
 </script>

@@ -17,6 +17,7 @@ const EVENEMENTS = [
   'Calculatrice_Resultat',
   'Quittance_Generee',
   'Email_Capture',
+  'Home_MiniCalc',
 ];
 
 const JOURS_MAX = 365;

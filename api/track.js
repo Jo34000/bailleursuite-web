@@ -23,6 +23,7 @@ const EVENEMENTS = new Set([
   'Quittance_Generee',
   'AppStore_Click',
   'Email_Capture',
+  'Home_MiniCalc',
 ]);
 
 // Un corps légitime fait moins de cent octets. Au-delà, ce n'est pas

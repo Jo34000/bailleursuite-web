@@ -346,6 +346,48 @@
     transition:transform 180ms cubic-bezier(.4,0,.2,1);
   }
   .appstore-btn:hover{transform:translateY(-2px)}
+
+  /* ── BADGE APP STORE OFFICIEL ────────────────────────────────
+     Le badge d'Apple ne se redessine pas : ni couleur, ni texte, ni
+     proportions, ni effet. La seule variable est sa taille, et il lui
+     faut un espace libre d'au moins un quart de sa hauteur — 12 px
+     pour 48. Le conteneur ne porte donc ni fond, ni bordure, ni
+     ombre ; le survol déplace, il ne transforme pas l'image. */
+  .badge-officiel{
+    display:inline-block;line-height:0;text-decoration:none;
+    margin:12px;position:relative;
+    transition:transform 180ms cubic-bezier(.4,0,.2,1);
+  }
+  .badge-officiel img{display:block;height:48px;width:auto}
+  .badge-officiel:hover{transform:translateY(-2px)}
+  .badge-officiel:focus-visible{outline:2px solid var(--mint);outline-offset:4px}
+  /* La marge de 12 px du badge décalerait l'alignement du groupe :
+     elle est reprise sur le conteneur. */
+  .hero-actions{margin:-12px}
+  .pricing-cta .badge-officiel{margin-bottom:4px}
+
+  /* CTA final : badge blanc sur fond sombre, QR à côté sur desktop. */
+  .promo-actions{
+    display:flex;align-items:center;justify-content:center;
+    gap:36px;flex-wrap:wrap;position:relative;
+  }
+  .app-promo .badge-officiel:focus-visible{outline-color:#fff}
+  .app-promo .qr-appstore{display:none}
+  @media(min-width:900px){
+    .app-promo .qr-appstore{
+      display:inline-flex;flex-direction:column;align-items:center;gap:8px;
+      text-decoration:none;color:rgba(255,255,255,.72);
+      font-family:var(--sans);font-size:.72rem;line-height:1.3;text-align:center;
+    }
+    /* 102 = 90 + 2×6 : le code fait 45 modules, 90 px leur donnent
+       exactement 2 px chacun, le plancher sous lequel le tramage le
+       rend illisible sur écran non Retina. */
+    .app-promo .qr-appstore img{
+      display:block;width:102px;height:102px;
+      background:#fff;border-radius:8px;padding:6px;
+    }
+    .app-promo .qr-appstore:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  }
   .btn-primary{
     background:var(--ink);color:#fff;
     padding:16px 32px;border-radius:999px;
@@ -998,11 +1040,48 @@
     line-height: 1.55;
     flex: 1;
   }
+  /* L'indice d'action doit tenir au repos : l'élévation au survol
+     n'existe pas sur mobile, et rien d'autre ne disait que ces cartes
+     mènent quelque part. Couleur principale, graisse medium, flèche
+     détachée pour pouvoir glisser seule. */
   .res-arrow {
-    font-size: 0.78rem;
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.82rem;
     font-weight: 500;
     color: var(--mint);
-    margin-top: 4px;
+    margin-top: 6px;
+  }
+  .res-fleche {
+    display: inline-block;
+    transition: transform 180ms cubic-bezier(.4,0,.2,1);
+  }
+  /* Le survol conserve l'élévation de .res-card ; la flèche glisse en
+     plus. Réservé au pointeur fin : sur écran tactile, « hover » reste
+     collé après le tap. */
+  @media (hover: hover) and (pointer: fine) {
+    .res-card:hover .res-fleche { transform: translateX(4px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .res-fleche { transition: none; }
+  }
+  /* Nature de la ressource, en haut à droite. La carte est en
+     flex-direction:column : la pastille en sort par un positionnement
+     absolu, sans s'insérer dans le flux ni décaler l'icône. */
+  .res-card { position: relative; }
+  .res-pastille {
+    position: absolute; top: 14px; right: 14px;
+    font-size: .62rem; font-weight: 600;
+    letter-spacing: .07em; text-transform: uppercase;
+    color: var(--mint);
+    background: var(--mint-pale);
+    border-radius: var(--r-full);
+    padding: 3px 9px;
+  }
+  .res-mention {
+    /* #8A6100 : 5,54:1 sur le fond blanc de la carte. Un or plus vif
+       passe sous le seuil AA à cette taille. */
+    font-size: .7rem; font-weight: 500; color: #8A6100;
+    margin-top: -4px;
   }
 
   /* ── APP FEATURES (cartes compactes uniformes) ── */
@@ -1145,6 +1224,68 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 28px rgba(0,0,0,.24);
   }
+  /* ── MINI-CALCULATEUR (grand écran) ──────────────────────────
+     La moitié droite de la card était vide. Un rendement brut s'y
+     obtient en deux champs ; le lien vers la calculatrice complète
+     devient alors « affiner » plutôt que « calculer », et emporte les
+     deux valeurs déjà saisies.
+     Rien de tout cela sous 900 px : le bloc n'y est pas affiché et le
+     libellé court reste en place, le rendu mobile est inchangé. */
+  .mini-calc { display: none; }
+  .mini-libelle-long { display: none; }
+  /* display:contents sous 900 px : le conteneur sort de l'arbre de
+     boîtes et .res-featured retrouve exactement ses deux enfants
+     d'origine — le pavé de texte et le bouton, séparés par le gap de
+     la colonne. Le rendu mobile, validé, ne bouge pas d'un pixel. */
+  .res-featured-texte { display: contents; }
+  @media (min-width: 900px) {
+    .res-featured {
+      display: grid; grid-template-columns: 1fr 340px;
+      gap: 40px; align-items: center;
+    }
+    .res-featured-texte { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+    .res-featured-texte .res-featured-btn { margin-top: 26px; }
+    .mini-libelle-court { display: none; }
+    .mini-libelle-long { display: inline; }
+
+    .mini-calc {
+      display: block;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      padding: 22px 22px 18px;
+    }
+    .mini-champ { margin-bottom: 12px; }
+    .mini-champ label {
+      display: block; font-size: .72rem; font-weight: 500;
+      color: rgba(255,255,255,.72); margin-bottom: 5px;
+    }
+    .mini-champ input {
+      width: 100%; min-height: 42px; padding: 9px 13px;
+      font-family: var(--sans); font-size: .95rem; font-weight: 500;
+      color: #fff; background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: var(--radius-sm);
+      outline: none; -webkit-appearance: none;
+      transition: border-color 180ms cubic-bezier(.4,0,.2,1);
+    }
+    /* rgba(255,255,255,.62) sur le fond composité du champ donne
+       5,3:1 — au-dessus du seuil AA, contrairement au .5 habituel. */
+    .mini-champ input::placeholder { color: rgba(255,255,255,.62); font-weight: 400; }
+    .mini-champ input:focus { border-color: #ECD79B; }
+    .mini-resultat {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 12px; margin-top: 16px; padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.14);
+    }
+    .mini-resultat-label { font-size: .78rem; color: rgba(255,255,255,.72); }
+    .mini-resultat strong {
+      font-family: var(--serif); font-weight: 400; font-size: 1.9rem;
+      line-height: 1; color: #ECD79B; letter-spacing: -.02em;
+    }
+    .mini-note { font-size: .68rem; color: rgba(255,255,255,.55); margin: 8px 0 0; }
+  }
+
   @media (max-width: 600px) {
     .res-featured { padding: 38px 26px; gap: 26px; }
     .res-featured-btn { width: 100%; text-align: center; padding: 18px 24px; }
@@ -1304,9 +1445,8 @@
     <h1>Gérez vos locations <em>simplement</em>,<br>déclarez vos revenus fonciers sans stress.</h1>
     <p class="hero-sub">L'application iPhone des bailleurs particuliers qui gèrent eux-mêmes leur patrimoine locatif.</p>
     <div class="hero-actions">
-      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=hero&amp;mt=8" class="btn-appstore" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'hero'})">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        Télécharger sur l'App Store
+      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=hero&amp;mt=8" class="badge-officiel" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'hero'})">
+        <img src="/badge-app-store-black-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store">
       </a>
       <a href="#tarifs" class="btn-ghost">Voir les tarifs</a>
     </div>
@@ -1441,22 +1581,45 @@
   <div class="container">
     <div class="reveal" style="text-align:center; max-width: 580px; margin: 0 auto;">
       <h2 class="section-title">Des outils gratuits, dès maintenant.</h2>
-      <p class="section-sub">En attendant l'app, accédez à nos calculettes et guides — sans inscription.</p>
+      <p class="section-sub">Calculettes et guides, accessibles sans inscription.</p>
     </div>
 
     <!-- Teaser calculatrice en vedette -->
     <div class="res-featured reveal">
-      <div>
-        <div class="section-label" style="text-align:left;">Outil gratuit · Sans inscription</div>
-        <div class="res-featured-title">Calculez la rentabilité de votre bien en 30 secondes</div>
-        <div class="res-featured-desc">Brut, net et cash-flow, avec ou sans crédit.</div>
+      <div class="res-featured-texte">
+        <div>
+          <div class="section-label" style="text-align:left;">Outil gratuit · Sans inscription</div>
+          <div class="res-featured-title">Calculez la rentabilité de votre bien en 30 secondes</div>
+          <div class="res-featured-desc">Brut, net et cash-flow, avec ou sans crédit.</div>
+        </div>
+        <a href="/calculatrice-rendement-locatif" class="res-featured-btn" id="mini-lien"><span class="mini-libelle-court">Calculer mon rendement →</span><span class="mini-libelle-long">Affiner avec charges et crédit →</span></a>
       </div>
-      <a href="/calculatrice-rendement-locatif" class="res-featured-btn">Calculer mon rendement →</a>
+      <!-- Mini-calculateur : grand écran seulement. Sur mobile la
+           moitié droite n'existe pas, et deux champs de plus avant le
+           lien rallongeraient le chemin au lieu de le raccourcir. -->
+      <div class="mini-calc" aria-hidden="false">
+        <div class="mini-champ">
+          <label for="mini-prix">Prix d'achat</label>
+          <input id="mini-prix" type="text" inputmode="numeric" autocomplete="off"
+                 data-mini data-suffixe=" €" placeholder="200 000 €">
+        </div>
+        <div class="mini-champ">
+          <label for="mini-loyer">Loyer mensuel</label>
+          <input id="mini-loyer" type="text" inputmode="numeric" autocomplete="off"
+                 data-mini data-suffixe=" €" placeholder="900 €">
+        </div>
+        <div class="mini-resultat">
+          <span class="mini-resultat-label">Rendement brut</span>
+          <strong id="mini-valeur">—</strong>
+        </div>
+        <p class="mini-note">Hors charges, taxe foncière et crédit</p>
+      </div>
     </div>
 
     <div class="res-grid reveal">
 
       <a class="res-card" href="/declaration-2044-guide">
+        <span class="res-pastille">Guide</span>
         <div class="res-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
@@ -1465,21 +1628,24 @@
         </div>
         <div class="res-title">Guide déclaration 2044</div>
         <div class="res-desc">Tout comprendre sur la 2044 : régime réel, cases à remplir, charges déductibles.</div>
-        <div class="res-arrow">Lire le guide →</div>
+        <div class="res-arrow">Lire le guide · 6 min <span class="res-fleche">→</span></div>
       </a>
 
       <a class="res-card" href="/lmnp-guide-complet">
+        <span class="res-pastille">Guide</span>
         <div class="res-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
           </svg>
         </div>
         <div class="res-title">Guide LMNP 2026</div>
+        <div class="res-mention">Seuils 2026 à jour</div>
         <div class="res-desc">Micro-BIC, régime réel, amortissements, liasse 2031 et seuil LMP expliqués.</div>
-        <div class="res-arrow">Lire le guide →</div>
+        <div class="res-arrow">Lire le guide · 15 min <span class="res-fleche">→</span></div>
       </a>
 
       <a class="res-card" href="/quittance-loyer-pdf-gratuit">
+        <span class="res-pastille">Outil</span>
         <div class="res-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/>
@@ -1488,10 +1654,11 @@
         </div>
         <div class="res-title">Quittance PDF gratuite</div>
         <div class="res-desc">Générez une quittance conforme à la loi du 6 juillet 1989 en moins d'une minute.</div>
-        <div class="res-arrow">Générer ma quittance →</div>
+        <div class="res-arrow">Générer ma quittance <span class="res-fleche">→</span></div>
       </a>
 
       <a class="res-card" href="/radar-immobilier">
+        <span class="res-pastille">Outil</span>
         <div class="res-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
@@ -1500,7 +1667,7 @@
         </div>
         <div class="res-title">Radar immobilier</div>
         <div class="res-desc">Prix au m², loyers et rendement brut de 40 villes françaises, calculés depuis les ventes réellement signées.</div>
-        <div class="res-arrow">Comparer les villes →</div>
+        <div class="res-arrow">Explorer 40 villes <span class="res-fleche">→</span></div>
       </a>
 
     </div>
@@ -1584,10 +1751,12 @@
       </div>
     </div>
 
-    <!-- CTA UNIQUE — l'app n'est pas publiée, rien n'est achetable
-         carte par carte : un seul appel, vers l'App Store. -->
+    <!-- CTA UNIQUE : rien ne s'achète carte par carte, les formules
+         se souscrivent depuis l'app. Un seul appel, vers l'App Store. -->
     <div class="pricing-cta reveal">
-      <a target="_blank" rel="noopener" class="pricing-cta-btn" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=tarifs&amp;mt=8" onclick="track('AppStore_Click',{ct:'tarifs'})">Télécharger sur l'App Store</a>
+      <a target="_blank" rel="noopener" class="badge-officiel" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=tarifs&amp;mt=8" onclick="track('AppStore_Click',{ct:'tarifs'})">
+        <img src="/badge-app-store-black-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store">
+      </a>
       <p class="pricing-cta-note">L'application est gratuite ; les formules payantes s'y souscrivent depuis l'app.</p>
     </div>
 
@@ -1760,10 +1929,17 @@
   <span class="app-promo-badge">Disponible sur l'App Store</span>
   <h2>Gérez votre patrimoine locatif depuis votre iPhone.</h2>
   <p>Quittances automatiques, comparateur fiscal location nue et LMNP, préparation de votre déclaration. Vos données restent sur votre appareil.</p>
-  <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=cta_final&amp;mt=8" class="appstore-btn" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'cta_final'})">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-    Télécharger gratuitement
-  </a>
+  <div class="promo-actions">
+    <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=cta_final&amp;mt=8" class="badge-officiel" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'cta_final'})">
+      <img src="/badge-app-store-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store">
+    </a>
+    <a class="qr-appstore" target="_blank" rel="noopener"
+       href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=cta_final_qr&amp;mt=8"
+       onclick="track('AppStore_Click',{ct:'cta_final_qr'})">
+      <img src="/qr-appstore-accueil.svg" width="96" height="96" alt="" aria-hidden="true">
+      <span>Scannez avec votre iPhone</span>
+    </a>
+  </div>
 </section>
 
 </main>
@@ -1948,6 +2124,68 @@
       raf = null;
     });
   }, {passive:true});
+})();
+</script>
+<script>
+/* Mini-calculateur de la card en vedette — grand écran seulement.
+ *
+ * Le rendement brut n'a besoin que du prix et du loyer :
+ *     (loyer × 12) ÷ prix × 100
+ * Les charges, la taxe foncière et le crédit sont l'affaire de la
+ * page calculatrice, vers laquelle le lien emporte les deux valeurs
+ * déjà saisies — on ne les redemande pas.
+ */
+(function () {
+  var prix = document.getElementById('mini-prix');
+  var loyer = document.getElementById('mini-loyer');
+  var valeur = document.getElementById('mini-valeur');
+  var lien = document.getElementById('mini-lien');
+  if (!prix || !loyer || !valeur || !lien) return;
+
+  var BASE = '/calculatrice-rendement-locatif';
+  // Mêmes plafonds que la page calculatrice, pour qu'une valeur
+  // acceptée ici ne soit pas refusée à l'arrivée.
+  var MAX_PRIX = 100000000;
+  var MAX_LOYER = 1000000;
+  var signale = false;
+
+  function nombre(el) {
+    var brut = el.value.replace(/[^\d.,-]/g, '').replace(/,/g, '.');
+    var v = parseFloat(brut);
+    return isFinite(v) && v > 0 ? v : 0;
+  }
+  function formater(el) {
+    var v = nombre(el);
+    el.value = v ? v.toLocaleString('fr-FR') + (el.dataset.suffixe || '') : '';
+  }
+  function defaireFormat(el) {
+    var v = nombre(el);
+    el.value = v ? String(v) : '';
+  }
+
+  function calculer() {
+    var p = Math.min(nombre(prix), MAX_PRIX);
+    var l = Math.min(nombre(loyer), MAX_LOYER);
+    if (p > 0 && l > 0) {
+      valeur.textContent = (l * 12 / p * 100).toFixed(2).replace('.', ',') + ' %';
+      lien.setAttribute('href', BASE + '?prix=' + Math.round(p) + '&loyer=' + Math.round(l));
+    } else {
+      valeur.textContent = '—';
+      lien.setAttribute('href', BASE);
+    }
+    // Une seule fois, et seulement sur une saisie réelle : ces champs
+    // sont vides au chargement, l'événement ne peut pas partir seul.
+    if (!signale && (p > 0 || l > 0)) {
+      signale = true;
+      if (typeof track === 'function') track('Home_MiniCalc', {});
+    }
+  }
+
+  [prix, loyer].forEach(function (el) {
+    el.addEventListener('input', calculer);
+    el.addEventListener('focus', function () { defaireFormat(el); el.select(); });
+    el.addEventListener('blur', function () { formater(el); calculer(); });
+  });
 })();
 </script>
 </body>

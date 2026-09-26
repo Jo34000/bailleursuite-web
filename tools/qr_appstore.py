@@ -33,6 +33,7 @@ BASE = ("https://apps.apple.com/app/apple-store/id6772793420"
 CODES = {
     "quittance_qr": RACINE / "qr-appstore-quittance.svg",
     "calculatrice_qr": RACINE / "qr-appstore-calculatrice.svg",
+    "cta_final_qr": RACINE / "qr-appstore-accueil.svg",
 }
 
 
