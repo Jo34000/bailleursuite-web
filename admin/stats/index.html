@@ -10,7 +10,7 @@
 <style>
   body { background: var(--cream, #F7F4EE); color: var(--ink, #1C1A14);
          font-family: var(--sans, -apple-system, sans-serif); margin: 0; }
-  .enveloppe { max-width: 900px; margin: 0 auto; padding: 48px 20px 80px; }
+  .enveloppe { max-width: 1240px; margin: 0 auto; padding: 48px 20px 80px; }
   h1 { font-family: var(--serif); font-weight: 400; font-size: 1.9rem;
        letter-spacing: -.02em; margin: 0 0 6px; }
   .sous { color: var(--ink-light); font-size: .9rem; margin: 0 0 28px; }
@@ -45,7 +45,21 @@
   .tableau { overflow-x: auto; background: #fff;
              border: 1px solid var(--line, rgba(28,26,20,.1));
              border-radius: var(--r-md, 14px); }
-  table { border-collapse: collapse; width: 100%; font-size: .86rem; }
+  /* Le détail par jour compte une ligne par jour : sur 365 jours, la
+     barre de défilement horizontale se retrouvait à deux mille pixels
+     sous le pli, et il fallait descendre toute la page pour atteindre
+     les dernières colonnes. En bornant la hauteur, les deux barres
+     restent dans le cadre, à portée. */
+  .tableau-haut { max-height: 62vh; overflow: auto; overscroll-behavior: contain; }
+  /* En-tête figé pendant le défilement vertical, première colonne figée
+     pendant l'horizontal : on ne perd jamais de vue ni la date ni le
+     nom de l'événement qu'on lit. */
+  .tableau-haut thead th { position: sticky; top: 0; z-index: 2; background: #fff; }
+  .tableau-haut tbody td:first-child,
+  .tableau-haut thead th:first-child { position: sticky; left: 0; background: #fff; }
+  .tableau-haut thead th:first-child { z-index: 3; }
+  .tableau-haut tbody td:first-child { z-index: 1; }
+  table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: .86rem; }
   th, td { padding: 9px 14px; text-align: left; white-space: nowrap; }
   thead th { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em;
              color: var(--ink-light); font-weight: 600;
@@ -53,6 +67,10 @@
   tbody tr + tr td { border-top: 1px solid rgba(28,26,20,.05); }
   td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
   td.zero { color: var(--ink-light); }
+  /* Le nom complet de l'événement reste accessible au survol et aux
+     lecteurs d'écran, l'en-tête n'en montre qu'une forme courte. */
+  th[title] { cursor: help; }
+  .legende { font-size: .75rem; color: var(--ink-light); margin: 10px 0 0; line-height: 1.6; }
   [hidden] { display: none !important; }
 </style>
 
@@ -93,10 +111,23 @@
 
     <section>
       <h2>Détail par jour</h2>
-      <div class="tableau"><table id="tbl-jours">
+      <div class="tableau tableau-haut"><table id="tbl-jours">
         <thead><tr><th>Jour</th></tr></thead>
         <tbody></tbody>
       </table></div>
+      <p class="legende" id="legende"></p>
+    </section>
+
+    <section>
+      <h2>Exporter</h2>
+      <div class="barre">
+        <button type="button" id="csv">Télécharger le CSV</button>
+        <button type="button" id="copier" class="secondaire">Copier le résumé</button>
+      </div>
+      <p class="legende">Le CSV reprend les trois tableaux, séparateur
+        point-virgule et encodage UTF-8 avec BOM — il s'ouvre directement
+        dans Excel et Numbers sans réglage. Le résumé est un bloc de texte
+        court, à coller dans un message.</p>
     </section>
   </div>
 </div>
@@ -121,7 +152,27 @@
 
   function nombre(n) { return n.toLocaleString('fr-FR'); }
 
+  /* Sept colonnes de « Calculatrice Resultat » ne tiennent pas dans une
+   * page lisible. L'en-tête porte une forme courte, le nom entier reste
+   * dans title= et dans l'export. Un événement absent de cette table
+   * retombe sur son nom technique : ajouter un événement ne casse rien,
+   * la colonne est seulement plus large. */
+  var COURT = {
+    AppStore_Click: 'App Store',
+    Quittance_CTA_Hero: 'CTA quittance',
+    Quittance_Generee: 'Quittance',
+    Calculatrice_Resultat: 'Calculatrice',
+    Email_Capture: 'Email',
+    Home_MiniCalc: 'Mini-calc'
+  };
+  function court(nom) { return COURT[nom] || nom.replace(/_/g, ' '); }
+
+  // Dernier jeu de données rendu : l'export travaille dessus plutôt que
+  // de relire le DOM, ce qui garderait les nombres déjà mis en forme.
+  var dernier = null;
+
   function rendre(d) {
+    dernier = d;
     // Totaux
     var cartes = $('cartes');
     cartes.innerHTML = '';
@@ -168,7 +219,8 @@
     noms.forEach(function (n) {
       var th = document.createElement('th');
       th.className = 'num';
-      th.textContent = n.replace(/_/g, ' ');
+      th.textContent = court(n);
+      if (court(n) !== n.replace(/_/g, ' ')) th.title = n.replace(/_/g, ' ');
       tete.appendChild(th);
     });
     var corps = $('tbl-jours').querySelector('tbody');
@@ -187,8 +239,112 @@
       corps.appendChild(tr);
     });
 
+    // Rappel des abréviations employées dans l'en-tête.
+    $('legende').textContent = noms
+      .filter(function (n) { return court(n) !== n.replace(/_/g, ' '); })
+      .map(function (n) { return court(n) + ' = ' + n.replace(/_/g, ' '); })
+      .join(' · ');
+
     $('resultats').hidden = false;
   }
+
+  /* ── EXPORT ───────────────────────────────────────────────────
+   * Point-virgule et non virgule : les nombres français s'écrivent
+   * avec une virgule décimale, et Excel en français attend le
+   * point-virgule comme séparateur de colonnes. Le BOM force la
+   * lecture en UTF-8, sans quoi les accents arrivent en mojibake. */
+  function champ(v) {
+    var s = String(v);
+    return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+  function ligne(cases) { return cases.map(champ).join(';'); }
+
+  function csv(d) {
+    var noms = Object.keys(d.evenements);
+    var jours = Object.keys(d.evenements[noms[0]].par_jour).reverse();
+    var L = [];
+    L.push(ligne(['Statistiques BailleurSuite']));
+    L.push(ligne(['Période', d.periode.debut + ' → ' + d.periode.fin,
+                  d.periode.jours + ' jours']));
+    L.push('');
+    L.push(ligne(['Totaux sur la période']));
+    L.push(ligne(['Événement', 'Total']));
+    noms.forEach(function (n) { L.push(ligne([n, d.evenements[n].total])); });
+    L.push('');
+    L.push(ligne(['Clics App Store par emplacement']));
+    L.push(ligne(['Emplacement', 'Clics', 'Part']));
+    var cts = Object.keys(d.appstore_par_ct)
+      .map(function (k) { return [k, d.appstore_par_ct[k]]; })
+      .sort(function (a, b) { return b[1] - a[1]; });
+    var somme = cts.reduce(function (s, e) { return s + e[1]; }, 0);
+    cts.forEach(function (e) {
+      L.push(ligne([e[0], e[1],
+        somme ? (e[1] / somme * 100).toFixed(1).replace('.', ',') + ' %' : '']));
+    });
+    L.push('');
+    L.push(ligne(['Détail par jour']));
+    L.push(ligne(['Jour'].concat(noms)));
+    jours.forEach(function (j) {
+      L.push(ligne([j].concat(noms.map(function (n) {
+        return d.evenements[n].par_jour[j] || 0;
+      }))));
+    });
+    return L.join('\r\n');
+  }
+
+  function telecharger(texte, nomFichier) {
+    var blob = new Blob(['﻿' + texte], { type: 'text/csv;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = nomFichier;
+    document.body.appendChild(a); a.click(); a.remove();
+    // Révocation différée : Safari lit encore l'URL après le clic.
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  }
+
+  function resume(d) {
+    var noms = Object.keys(d.evenements);
+    var L = ['BailleurSuite — usage du ' + d.periode.debut + ' au ' + d.periode.fin
+             + ' (' + d.periode.jours + ' jours)', ''];
+    noms.forEach(function (n) {
+      L.push('• ' + n.replace(/_/g, ' ') + ' : ' + nombre(d.evenements[n].total));
+    });
+    var cts = Object.keys(d.appstore_par_ct)
+      .map(function (k) { return [k, d.appstore_par_ct[k]]; })
+      .sort(function (a, b) { return b[1] - a[1]; });
+    if (cts.length) {
+      L.push('', 'Clics App Store par emplacement :');
+      cts.forEach(function (e) { L.push('• ' + e[0] + ' : ' + nombre(e[1])); });
+    }
+    return L.join('\n');
+  }
+
+  $('csv').addEventListener('click', function () {
+    if (!dernier) return;
+    telecharger(csv(dernier),
+      'bailleursuite-stats-' + dernier.periode.fin + '.csv');
+  });
+
+  $('copier').addEventListener('click', function () {
+    if (!dernier) return;
+    var texte = resume(dernier);
+    var fini = function () { montrer($('info'), 'Résumé copié.'); };
+    // navigator.clipboard exige un contexte sécurisé ; la page admin est
+    // en HTTPS, mais la bascule manuelle couvre le cas contraire.
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(texte).then(fini, function () {
+        montrer($('erreur'), 'Copie refusée par le navigateur.');
+      });
+    } else {
+      var z = document.createElement('textarea');
+      z.value = texte; z.setAttribute('readonly', '');
+      z.style.position = 'fixed'; z.style.opacity = '0';
+      document.body.appendChild(z); z.select();
+      try { document.execCommand('copy'); fini(); }
+      catch (e) { montrer($('erreur'), 'Copie impossible.'); }
+      z.remove();
+    }
+  });
 
   function charger() {
     var jeton = $('jeton').value.trim();
