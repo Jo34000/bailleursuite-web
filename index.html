@@ -456,29 +456,37 @@
     .hero h1{line-height:1.02;margin-bottom:18px}
     .sub-long{display:none}
     .sub-court{display:inline}
-    /* Deux lignes, et non une comme demandé : « L'app iPhone des
-       bailleurs qui gèrent eux-mêmes. » mesure 381 px d'un seul tenant
-       à cette taille, pour 326 px disponibles à 390 px d'écran. Il
-       faudrait descendre à 13 px pour la tenir sur une ligne — et
-       elle repasserait à deux dès 360 px. Deux lignes à 16 px, soit
-       48 px de haut contre 92 avant, tiennent l'intention sans sacrifier
-       la lisibilité. */
+    /* Une seule ligne, à toutes les largeurs de téléphone. La taille
+       suit la fenêtre plutôt qu'une valeur fixe : à 16 px la phrase
+       mesure 304 px pour 300 px disponibles à 360 px d'écran, et
+       passait à deux lignes. 4 vw donnent la même réserve partout —
+       environ 10 % — de quoi absorber l'écart de métriques entre
+       DM Sans et la police de repli. */
     .hero-sub{
-      font-size:1rem;line-height:1.5;
+      font-size:min(4vw,1rem);line-height:1.5;
       max-width:none;margin:0 auto 22px;
     }
 
     /* Badge seul et centré ; les tarifs passent dessous, en lien
        discret — la navigation y mène déjà. */
     .hero-actions{flex-direction:column;gap:10px}
-    /* Le filet sous le texte est conservé : sans lui, « Voir les
-       tarifs » centré et isolé ne se lit plus comme un lien. */
-    .hero-actions .btn-ghost{font-size:.8125rem;margin-top:2px}
+    /* Les tarifs sortent du hero : la navigation y mène, et la place
+       gagnée fait remonter le téléphone d'autant. Masqué plutôt que
+       retiré du HTML — le lien reste dans le hero sur grand écran. */
+    .hero-actions .btn-ghost{display:none}
 
     /* Le téléphone occupe 78 % de la largeur et monte dans l'écran.
        La hauteur de la scène décide du point de coupe ; l'image la
        dépasse et c'est le bord arrondi de la carte qui la tranche. */
-    .hero-stage{margin-top:14px;height:320px;align-items:flex-start;overflow:visible}
+    /* Le point de coupe est calculé sur la capture, pas choisi à
+       l'œil. Dans screen-index.png (640×942), la carte « Synthèse
+       fiscale » s'arrête à y=910, soit 910/640 = 1,422 fois la largeur
+       affichée du téléphone. Les 16 px de marge s'ajoutent APRÈS la
+       mise à l'échelle : posés dans l'image source ils ne pesaient plus
+       que 7 px à l'écran. La scène suit la largeur du téléphone —
+       min(78vw, 340px) — au lieu d'une hauteur fixe qui aurait déplacé
+       la coupe à chaque taille d'écran. */
+    .hero-stage{margin-top:14px;height:calc(min(110.9vw,483px) + 16px);align-items:flex-start;overflow:visible}
     .hero-device{
       /* 78 % de l'ÉCRAN, pas de la scène : celle-ci est déjà rentrée
          de 12 px de marge et 20 px de rembourrage, un pourcentage y
@@ -1516,7 +1524,7 @@
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="hero-content">
     <h1>Gérez vos locations <em>simplement</em>,<br>déclarez vos revenus fonciers sans stress.</h1>
-    <p class="hero-sub"><span class="sub-long">L'application iPhone des bailleurs particuliers qui gèrent eux-mêmes leur patrimoine locatif.</span><span class="sub-court">L'app iPhone des bailleurs qui gèrent eux-mêmes.</span></p>
+    <p class="hero-sub"><span class="sub-long">L'application iPhone des bailleurs particuliers qui gèrent eux-mêmes leur patrimoine locatif.</span><span class="sub-court">L'app iPhone du bailleur indépendant.</span></p>
     <div class="hero-actions">
       <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=hero&amp;mt=8" class="badge-officiel" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'hero'})">
         <img src="/badge-app-store-black-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store">
