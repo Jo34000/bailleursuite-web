@@ -309,6 +309,7 @@
     color:var(--ink-mid);max-width:38ch;margin:0 auto 40px;
   }
   .hero-actions{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .sub-court{display:none}
 
   /* ── CTA FINAL — reprend .app-promo des pages guides ────────── */
   .app-promo{
@@ -421,9 +422,71 @@
     .hero-device{transition:transform 400ms cubic-bezier(.4,0,.2,1);will-change:transform}
   }
   @media(max-width:900px){
-    .hero{padding:130px 20px 0}
-    .hero-stage{margin-top:40px}
-    .hero-device{width:250px;margin-bottom:0}
+    /* ── LE HERO DEVIENT UNE SURFACE ───────────────────────────
+       Sur téléphone, le hero n'est plus un fond de page mais une
+       carte posée dessus : mêmes 12 px de marge latérale que la
+       capsule de navigation, qui s'y pose donc exactement. Elle
+       commence tout en haut et se termine sous le téléphone, qu'elle
+       rogne par son bord bas — la coupure est ainsi décidée par la
+       page, et non subie par la barre de Safari, dont la hauteur
+       varie au défilement. */
+    .hero{
+      margin:0 12px;
+      padding:78px 18px 0;
+      border-radius:30px;
+      overflow:hidden;
+      isolation:isolate;
+    }
+    /* Vert d'eau très pâle, repris de --surface-sage, sans halo ni
+       forme décorative. */
+    .hero-bg{
+      background:linear-gradient(170deg,#EFF3E9 0%,#E9EEE3 52%,#EDF0E7 100%);
+    }
+    /* Même grain papier que les feature-cards, même recette : bruit
+       fractal désaturé en soft-light. */
+    .hero-bg::after{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      opacity:.5;mix-blend-mode:soft-light;
+      background-size:200px 200px;background-repeat:repeat;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Le titre serre ses lignes et son sous-titre : 130 px séparaient
+       la navigation du H1, pour rien. */
+    .hero h1{line-height:1.02;margin-bottom:18px}
+    .sub-long{display:none}
+    .sub-court{display:inline}
+    /* Deux lignes, et non une comme demandé : « L'app iPhone des
+       bailleurs qui gèrent eux-mêmes. » mesure 381 px d'un seul tenant
+       à cette taille, pour 326 px disponibles à 390 px d'écran. Il
+       faudrait descendre à 13 px pour la tenir sur une ligne — et
+       elle repasserait à deux dès 360 px. Deux lignes à 16 px, soit
+       48 px de haut contre 92 avant, tiennent l'intention sans sacrifier
+       la lisibilité. */
+    .hero-sub{
+      font-size:1rem;line-height:1.5;
+      max-width:none;margin:0 auto 22px;
+    }
+
+    /* Badge seul et centré ; les tarifs passent dessous, en lien
+       discret — la navigation y mène déjà. */
+    .hero-actions{flex-direction:column;gap:10px}
+    /* Le filet sous le texte est conservé : sans lui, « Voir les
+       tarifs » centré et isolé ne se lit plus comme un lien. */
+    .hero-actions .btn-ghost{font-size:.8125rem;margin-top:2px}
+
+    /* Le téléphone occupe 78 % de la largeur et monte dans l'écran.
+       La hauteur de la scène décide du point de coupe ; l'image la
+       dépasse et c'est le bord arrondi de la carte qui la tranche. */
+    .hero-stage{margin-top:14px;height:320px;align-items:flex-start;overflow:visible}
+    .hero-device{
+      /* 78 % de l'ÉCRAN, pas de la scène : celle-ci est déjà rentrée
+         de 12 px de marge et 20 px de rembourrage, un pourcentage y
+         aurait donné 65 %. */
+      width:78vw;max-width:340px;margin-bottom:0;
+      filter:drop-shadow(0 18px 40px rgba(28,26,20,.22));
+    }
+
   }
   /* feature pill gold variant (fiscal) */
   .feature-pill-gold {
@@ -1374,6 +1437,16 @@
     .res-section,.pricing-section,#faq{padding:64px 24px}
     .section-head{margin-bottom:44px}
   }
+
+  /* ── TRANSITION SOUS LA CARTE — téléphone ────────────────────
+     En fin de feuille à dessein : .trust-band se redéclare plus haut
+     avec la même spécificité, et c'est l'ordre qui tranche. Sa teinte
+     et son ombre intérieure dessinaient une couture juste sous la
+     carte ; elle reprend maintenant le fond de page, à distance
+     régulière. */
+  @media(max-width:900px){
+    .trust-band{margin-top:28px;background:transparent;box-shadow:none}
+  }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="stylesheet" href="/styles/consent.css">
@@ -1443,7 +1516,7 @@
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="hero-content">
     <h1>Gérez vos locations <em>simplement</em>,<br>déclarez vos revenus fonciers sans stress.</h1>
-    <p class="hero-sub">L'application iPhone des bailleurs particuliers qui gèrent eux-mêmes leur patrimoine locatif.</p>
+    <p class="hero-sub"><span class="sub-long">L'application iPhone des bailleurs particuliers qui gèrent eux-mêmes leur patrimoine locatif.</span><span class="sub-court">L'app iPhone des bailleurs qui gèrent eux-mêmes.</span></p>
     <div class="hero-actions">
       <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=hero&amp;mt=8" class="badge-officiel" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'hero'})">
         <img src="/badge-app-store-black-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store">
