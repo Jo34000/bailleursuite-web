@@ -66,6 +66,9 @@ ANCRES: dict[str, str] = {
     'Comment ajouter ou modifier un projet dans Projets &amp; Simulations&nbsp;?':
         'ajouter-modifier-projet-projets-simulations',
 
+    'Consulter les prix et rendements avec le Radar Immobilier':
+        'consulter-prix-rendements-radar-immobilier',
+
     # ── gestion ──
     'Encaisser un loyer':
         'encaisser-loyer',
@@ -79,6 +82,13 @@ ANCRES: dict[str, str] = {
         'obtenir-checklist-bailleur',
     'Relancer un locataire':
         'relancer-locataire',
+
+    "Régulariser les charges de l'année":
+        'regulariser-charges-annee',
+    'Envoyer le décompte de charges au locataire':
+        'envoyer-decompte-charges-locataire',
+    "Réviser un loyer selon l'IRL":
+        'reviser-loyer-irl',
 
     # ── locataire ──
     "Comment modifier les informations d'un locataire&nbsp;?":
@@ -173,6 +183,9 @@ ANCRES: dict[str, str] = {
         'donnees-biens-loyers-charges-sauvegardees-synchronisees',
     'Mon iCloud est plein, que faire&nbsp;?':
         'icloud-plein',
+
+    "Préparer un dossier pour l'IA de votre choix":
+        'preparer-dossier-ia',
 
     # ── donnees ──
     'Où sont stockées mes données&nbsp;?':
