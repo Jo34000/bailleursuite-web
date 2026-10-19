@@ -83,6 +83,7 @@ INDICES: list[tuple[int, int, float]] = [
     # 2026
     (2026, 1, 146.60),
     (2026, 2, 148.37),
+    (2026, 3, 148.06),
 ]
 
 # Couverture minimale : une révision peut porter sur un indice ancien,

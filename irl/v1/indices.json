@@ -1,6 +1,6 @@
 {
   "schema": "irl-1",
-  "genere_le": "2026-09-05T21:33:49+02:00",
+  "genere_le": "2026-10-19T13:57:56+02:00",
   "source": {
     "organisme": "INSEE",
     "libelle": "Indice de référence des loyers (IRL) — base 100 au 4e trimestre 1998",
@@ -12,9 +12,9 @@
   "avertissement": "Indices publiés par l'INSEE, reproduits sans modification. La révision d'un loyer se calcule avec l'indice du trimestre de référence inscrit au bail.",
   "trimestre_le_plus_recent": {
     "annee": 2026,
-    "trimestre": 2
+    "trimestre": 3
   },
-  "nb_indices": 33,
+  "nb_indices": 34,
   "indices": [
     {
       "annee": 2018,
@@ -180,6 +180,11 @@
       "annee": 2026,
       "trimestre": 2,
       "valeur": 148.37
+    },
+    {
+      "annee": 2026,
+      "trimestre": 3,
+      "valeur": 148.06
     }
   ]
 }
