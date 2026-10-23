@@ -237,7 +237,14 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .section-why-sub{text-align:center;color:var(--ink-soft);font-size:.95rem;font-weight:300;margin-bottom:60px;max-width:50ch;margin-left:auto;margin-right:auto;line-height:1.75}
 /* Phrase-réponse sous un H2 formulé en question : une affirmation
    autonome, vraie hors de son contexte, avant tout développement. */
-.reponse-directe{text-align:center;color:var(--ink-soft);font-size:.95rem;font-weight:300;margin:-28px auto 44px;max-width:62ch;line-height:1.75}
+/* La marge haute était à -28px, pour tasser la phrase-réponse contre son
+   titre. Elle supposait que le h2 au-dessus porte une marge basse capable
+   de l'absorber : vrai dans le flux .content (18px, d'où un écart final de
+   -10px seulement, invisible au premier coup d'œil), faux dans
+   .privacy-text où le h2 n'a aucune marge basse — le paragraphe remontait
+   alors de 28px en plein dans le titre. L'espacement est désormais celui
+   du h2, sans remontée. */
+.reponse-directe{text-align:center;color:var(--ink-soft);font-size:.95rem;font-weight:300;margin:0 auto 44px;max-width:62ch;line-height:1.75}
 /* « L'essentiel en 30 secondes » — même composant que le guide LMNP :
    la réponse courte avant le développement, pour le lecteur pressé
    comme pour un moteur qui cite. */
@@ -250,7 +257,7 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .essentiel strong{color:var(--ink);font-weight:600}
 .maj-ligne{font-size:.78rem;color:var(--ink-light);text-align:center;margin:0 auto 22px}
 @media(max-width:560px){.essentiel{padding:18px 18px;margin-bottom:30px}.essentiel li{font-size:.88rem}}
-@media(max-width:560px){.reponse-directe{margin:-16px auto 32px}}
+@media(max-width:560px){.reponse-directe{margin:0 auto 32px}}
 .why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 @media(max-width:680px){.why-grid{grid-template-columns:1fr}}
 .why-card{background:var(--surface-strong);border:1px solid var(--line);border-radius:var(--r-md);padding:36px;box-shadow:var(--shadow-soft);transition:transform 180ms cubic-bezier(.4,0,.2,1),box-shadow 180ms cubic-bezier(.4,0,.2,1),border-color 180ms cubic-bezier(.4,0,.2,1)}
@@ -356,6 +363,13 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
 .badge-officiel:hover{transform:translateY(-2px)}
 .badge-officiel:focus-visible{outline:2px solid var(--mint);outline-offset:4px}
 .mega-cta .badge-officiel:focus-visible{outline-color:#fff}
+
+/* Le h2 de la section vie privée ne portait aucune marge basse : il
+   s'appuyait sur le paragraphe suivant pour respirer, ce qui le collait
+   à son texte dès que ce paragraphe n'apportait pas de marge haute. On
+   lui donne les 18px du h2 de .content, pour un espacement identique
+   dans les deux contextes. */
+.section-privacy .privacy-text h2{margin-bottom:18px}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="stylesheet" href="/styles/consent.css">
