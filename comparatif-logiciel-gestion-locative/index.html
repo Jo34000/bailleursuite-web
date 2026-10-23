@@ -243,6 +243,22 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .section-why{background:linear-gradient(180deg,rgba(45,106,79,.05),rgba(45,106,79,.02));border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:96px 0}
 .section-why .section-inner > h2{font-family:var(--serif);font-size:clamp(1.7rem,3.2vw,2.5rem);color:var(--ink);margin-bottom:14px;letter-spacing:-0.03em;line-height:1.15;text-align:center}
 .section-why-sub{text-align:center;color:var(--ink-soft);font-size:.95rem;font-weight:300;margin-bottom:60px;max-width:50ch;margin-left:auto;margin-right:auto;line-height:1.75}
+/* Phrase-réponse sous un H2 formulé en question : une affirmation
+   autonome, vraie hors de son contexte, avant tout développement. */
+.reponse-directe{text-align:center;color:var(--ink-soft);font-size:.95rem;font-weight:300;margin:-28px auto 44px;max-width:62ch;line-height:1.75}
+/* « L'essentiel en 30 secondes » — même composant que le guide LMNP :
+   la réponse courte avant le développement, pour le lecteur pressé
+   comme pour un moteur qui cite. */
+.essentiel{background:var(--surface,#fff);border:1px solid var(--line,rgba(28,26,20,.12));border-left:3px solid var(--mint);border-radius:var(--r-md,14px);padding:22px 26px;margin:0 auto 40px;max-width:820px}
+.essentiel-titre{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--mint);margin-bottom:12px}
+.essentiel ul{list-style:none;margin:0;padding:0}
+.essentiel li{font-size:.92rem;line-height:1.6;color:var(--ink-soft);padding-left:18px;position:relative;margin-bottom:9px}
+.essentiel li:last-child{margin-bottom:0}
+.essentiel li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--mint);opacity:.5}
+.essentiel strong{color:var(--ink);font-weight:600}
+.maj-ligne{font-size:.78rem;color:var(--ink-light);text-align:center;margin:0 auto 22px}
+@media(max-width:560px){.essentiel{padding:18px 18px;margin-bottom:30px}.essentiel li{font-size:.88rem}}
+@media(max-width:560px){.reponse-directe{margin:-16px auto 32px}}
 .why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 @media(max-width:680px){.why-grid{grid-template-columns:1fr}}
 .why-card{background:var(--surface-strong);border:1px solid var(--line);border-radius:var(--r-md);padding:36px;box-shadow:var(--shadow-soft);transition:transform 180ms cubic-bezier(.4,0,.2,1),box-shadow 180ms cubic-bezier(.4,0,.2,1),border-color 180ms cubic-bezier(.4,0,.2,1)}
@@ -395,6 +411,16 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
       </div>
       <div class="hero-badge">Comparatif · Mis à jour octobre 2026</div>
       <h1>Quel logiciel de gestion locative<br><em>choisir en 2026 ?</em></h1>
+      <p class="maj-ligne">Mis à jour le 23 octobre 2026</p>
+      <div class="essentiel fade-up">
+        <div class="essentiel-titre">L'essentiel en 30 secondes</div>
+        <ul>
+          <li><strong>Sept solutions comparées</strong>, de 0 à 269&nbsp;€/an, toutes destinées aux bailleurs particuliers&nbsp;: Rentila, Immobilier Loyer, BailFacile, Smartloc, Horiz.io, Qlower et BailleurSuite.</li>
+          <li><strong>Aucune ne couvre tout.</strong> Le gratuit, les documents juridiques, la garantie contre les impayés, la comptabilité LMNP déléguée et la confidentialité renvoient chacun à un outil différent.</li>
+          <li><strong>Deux familles.</strong> Six de ces solutions sont des plateformes web hébergeant vos données&nbsp;; BailleurSuite est une application iPhone qui les conserve sur l'appareil.</li>
+          <li><strong>Le volet fiscal départage.</strong> Tous gèrent quittances et loyers&nbsp;; la préparation de la 2044 et du régime réel LMNP, elle, varie fortement d'un outil à l'autre.</li>
+        </ul>
+      </div>
       <p class="hero-intro">Rentila, Immobilier Loyer, BailFacile, Smartloc, Horiz.io, Qlower et BailleurSuite : comparatif factuel des prix, des fonctionnalités fiscales et de la confidentialité des données pour choisir selon votre profil. Ce comparatif permet aussi de comprendre une différence essentielle : certains outils gèrent vos tâches quotidiennes, tandis que BailleurSuite se place du côté du suivi patrimonial et fiscal du bailleur indépendant, en vous aidant à prendre de meilleures décisions sur le long terme.</p>
       <div class="hero-meta">
         <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex-shrink:0" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><line x1="4" y1="9" x2="20" y2="9"/><line x1="8" y1="3" x2="8" y2="6"/><line x1="16" y1="3" x2="16" y2="6"/></svg> Données de juillet 2026</span>
@@ -911,6 +937,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
 <!-- ═══ VERDICT PAR PROFIL ═══ -->
 <div class="content">
   <h2 class="fade-up">Quel logiciel selon votre profil ?</h2>
+  <p class="reponse-directe fade-up">Le choix dépend surtout du nombre de biens à gérer, du besoin de documents juridiques et de la place que prend la fiscalité dans votre gestion. Les six profils ci-dessous reprennent les situations les plus courantes.</p>
   <div class="verdict-grid">
     <div class="verdict-card fade-up">
       <div class="verdict-profil">Profil 1</div>
@@ -964,6 +991,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     <div class="privacy-grid">
       <div class="privacy-text">
         <h2 class="fade-up">Et vos données dans tout ça ?</h2>
+        <p class="reponse-directe fade-up">La plupart des solutions de ce comparatif sont des plateformes web&nbsp;: les données sont hébergées sur les serveurs de l'éditeur. BailleurSuite les conserve sur l'iPhone, avec une synchronisation iCloud facultative.</p>
         <p class="fade-up">Un logiciel de gestion locative connaît tout de votre patrimoine : adresses de vos biens, montants des loyers, identité de vos locataires, crédits en cours, revenus fonciers. Presque toutes les solutions de ce comparatif sont des plateformes web : vos données vivent sur les serveurs d'une société tierce, avec les risques que cela implique — piratage, revente à des partenaires, ou plus simplement fermeture du service.</p>
         <p class="fade-up"><strong>La question à se poser n'est pas « cet éditeur est-il sérieux ? », mais « que se passe-t-il si le service s'arrête ? »</strong> Un logiciel en ligne peut fermer, être racheté, changer d'offre ou de conditions tarifaires — c'est vrai de n'importe quel éditeur, quelle que soit la qualité de son équipe. Trois questions valent d'être posées avant de confier dix ans d'historique locatif à une plateforme : puis-je exporter mes données à tout moment et dans quel format, mes documents générés restent-ils lisibles hors du service, et combien de temps l'accès est-il maintenu après une résiliation&nbsp;?</p>
         <p class="fade-up">BailleurSuite a fait un choix d'architecture différent : <strong>aucun serveur</strong>. Vos données sont stockées sur votre iPhone et, si vous l'activez, synchronisées dans votre propre espace iCloud privé chiffré par Apple. Que BailleurSuite existe encore dans 10 ans ou non ne change rien à l'accès à vos données : elles vous appartiennent, physiquement, sur votre appareil.</p>
@@ -999,6 +1027,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
   <p class="fade-up">Notre ambition est de réunir <strong>le suivi patrimonial et fiscal du bailleur indépendant</strong> : un outil qui simplifie la gestion quotidienne tout en donnant une vision claire des conséquences financières de chaque décision.</p>
 
   <h2 class="fade-up">En résumé : quelle solution pour quel besoin ?</h2>
+  <p class="reponse-directe fade-up">Aucune des solutions comparées ne couvre tous les besoins&nbsp;: cinq besoins dominants sont associés ci-dessous à l'outil le plus adapté parmi ceux étudiés.</p>
   <div class="resume-cards">
     <div class="resume-card fade-up">
       <div class="resume-need">Vous cherchez <strong>la solution gratuite</strong></div>
