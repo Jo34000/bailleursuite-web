@@ -153,7 +153,39 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .compare-wrap td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;line-height:1.5}
 .compare-wrap tr:last-child td{border-bottom:none}
 .compare-wrap tr:hover td{background:rgba(17,19,21,.015)}
-.compare-wrap td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+/* Plus de nowrap : « Utilisation avec un assistant IA (Claude,
+   ChatGPT, Gemini) » portait la colonne à 457 px sur grand écran et
+   écrasait les sept colonnes de comparaison. Elle se replie, bornée. */
+.compare-wrap td:first-child{font-weight:600;color:var(--ink);white-space:normal;max-width:230px}
+/* Le tableau défile dans son conteneur : sans colonne figée, on perd
+   le nom du critère dès la deuxième colonne. Elle reste donc en place,
+   avec un fond opaque — sinon les cellules défilantes se lisent par
+   transparence dessous. Le nouveau libellé « Utilisation avec un
+   assistant IA » est long : il se replie plutôt que d'élargir la
+   colonne figée au point de masquer le tableau. */
+/* Fond OPAQUE et non var(--surface-strong), qui vaut
+   rgba(255,255,255,.9) : à 90 % d'opacité les cellules qui défilent
+   dessous se lisaient à travers la colonne figée. #FEFEFD est la même
+   couleur une fois composée sur le fond de page. Le survol est
+   neutralisé sur cette colonne pour la même raison. */
+.compare-wrap th:first-child,
+.compare-wrap td:first-child,
+.compare-wrap tr:hover td:first-child{position:sticky;left:0;z-index:1;background:#FEFEFD}
+.compare-wrap th:first-child{z-index:2;background:#F2F1EE}
+@media(max-width:680px){
+  /* break-word et non anywhere : « (amortissements, » débordait de la
+     colonne figée sur la cellule voisine, mais « anywhere » coupe tous
+     les mots ET effondre la largeur minimale de la colonne, qui
+     tombait à 55 px avec « Quitta/nces auto ». break-word ne coupe que
+     le mot qui ne tient pas seul sur sa ligne, et laisse la largeur
+     intrinsèque tranquille. */
+  /* hyphens:auto profite aux navigateurs qui embarquent le dictionnaire
+     français (Safari iOS, la cible de cette page) ; Chromium ne l'a pas et
+     l'ignore. Les mots connus pour déborder portent donc en plus un &shy;
+     dans le HTML, et break-word reste le filet de sécurité. */
+  .compare-wrap th:first-child,
+  .compare-wrap td:first-child{min-width:118px;max-width:132px;overflow-wrap:break-word;hyphens:auto}
+}
 .compare-wrap td.cell-bs{background:rgba(45,106,79,.07);font-weight:500;color:var(--ink)}
 .check{color:var(--mint);font-weight:700}
 .cross{color:var(--ink-light);font-weight:700}
@@ -245,6 +277,11 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .section-why-sub{text-align:center;color:var(--ink-soft);font-size:.95rem;font-weight:300;margin-bottom:60px;max-width:50ch;margin-left:auto;margin-right:auto;line-height:1.75}
 /* Phrase-réponse sous un H2 formulé en question : une affirmation
    autonome, vraie hors de son contexte, avant tout développement. */
+/* Deux rédactions pour une même cellule : la longue au-dessus de
+   680 px, la courte en dessous, où la colonne ne fait plus que
+   quelques dizaines de pixels. */
+.cell-court{display:none}
+@media(max-width:680px){.cell-long{display:none}.cell-court{display:inline}}
 .reponse-directe{text-align:center;color:var(--ink-soft);font-size:.95rem;font-weight:300;margin:-28px auto 44px;max-width:62ch;line-height:1.75}
 /* « L'essentiel en 30 secondes » — même composant que le guide LMNP :
    la réponse courte avant le développement, pour le lecteur pressé
@@ -530,7 +567,11 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
             <td><span class="check">✓</span></td>
           </tr>
           <tr>
-            <td>LMNP régime réel<br>(amortissements, 2031)</td>
+            <!-- &shy; : césure explicite. « (amortissements, » est trop large
+                 pour la colonne figée du mobile et break-word le coupait au
+                 caractère près (« amortisseme / nts »). Le trait conditionnel
+                 ne s'affiche que si la coupure a lieu. -->
+            <td>LMNP régime réel<br>(amor&shy;tis&shy;sements, 2031)</td>
             <td class="cell-bs"><span class="check">✓</span> préparation incluse au Pass Fiscal</td>
             <td><span class="cross">✗</span></td>
             <td><span class="cross">✗</span></td>
@@ -540,14 +581,24 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
             <td><span class="check">✓</span> avec télétransmission</td>
           </tr>
           <tr>
-            <td>Projection patrimoniale</td>
-            <td class="cell-bs"><span class="check">✓</span> 20 ans</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="partial">~</span> comparateur régimes</td>
-            <td><span class="partial">~</span> analyse par bien</td>
+            <td>Suivi et projection du patrimoine</td>
+            <td class="cell-bs"><span class="check">✓</span> <span class="cell-long">patrimoine brut et net, capital restant dû calculé depuis le prêt saisi, bilan PDF du parc, projection 20 ans</span><span class="cell-court">patrimoine net, prêt suivi, bilan PDF, projection 20 ans</span></td>
+            <td>non communiqué</td>
+            <td>non communiqué</td>
+            <td>non communiqué</td>
+            <td>non communiqué</td>
+            <td><span class="check">✓</span> vue consolidée du patrimoine</td>
+            <td><span class="partial">~</span> valeur de marché par bien</td>
+          </tr>
+          <tr>
+            <td>Utilisation avec un assistant IA (Claude, ChatGPT, Gemini)</td>
+            <td class="cell-bs"><span class="check">✓</span> <span class="cell-long">export d'un dossier depuis l'iPhone, données personnelles masquées par défaut</span><span class="cell-court">export d'un dossier, données personnelles masquées</span></td>
+            <td><span class="check">✓</span> assistant IA intégré + connexion API/MCP</td>
+            <td>non communiqué</td>
+            <td>non communiqué</td>
+            <td>non communiqué</td>
+            <td>non communiqué</td>
+            <td>non communiqué</td>
           </tr>
           <tr>
             <td>Simulation vente<br>(plus-value)</td>
@@ -612,7 +663,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
         </tbody>
       </table>
     </div>
-    <p class="table-note fade-up">Tarifs TTC relevés en juillet 2026 sur les sites officiels des éditeurs, susceptibles d'évoluer. Les lignes « Révision de loyer IRL » et « Régularisation des charges » ont été vérifiées en octobre 2026. Ce tableau est limité aux solutions destinées aux bailleurs particuliers — les logiciels professionnels (agences, syndics) font l'objet d'une section distincte plus bas.</p>
+    <p class="table-note fade-up">Tarifs TTC relevés en juillet 2026 sur les sites officiels des éditeurs, susceptibles d'évoluer. Les lignes « Révision de loyer IRL », « Régularisation des charges », « Suivi et projection du patrimoine » et « Utilisation avec un assistant IA » ont été vérifiées en octobre 2026. Ce tableau est limité aux solutions destinées aux bailleurs particuliers — les logiciels professionnels (agences, syndics) font l'objet d'une section distincte plus bas.</p>
   </div>
 </section>
 
@@ -684,9 +735,11 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
         <div class="bs-diff">
           <h4>Ce qui différencie réellement BailleurSuite</h4>
           <div class="bs-diff-grid">
+            <div class="bs-diff-item">Patrimoine brut et net, capital restant dû calculé depuis le prêt saisi</div>
             <div class="bs-diff-item">Projection patrimoniale sur 20 ans</div>
             <div class="bs-diff-item">Régularisation reliée à la ligne 230 de la 2044</div>
             <div class="bs-diff-item">Export de dossier pour l'assistant IA de votre choix</div>
+            <div class="bs-diff-item">Dossier IA préparé sur l'iPhone, données personnelles masquées par défaut</div>
             <div class="bs-diff-item">Préparation fiscale 2044 et LMNP réel</div>
             <div class="bs-diff-item">Simulation de plus-value</div>
             <div class="bs-diff-item">Comparaison location nue / LMNP</div>
@@ -995,6 +1048,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
         <p class="fade-up">Un logiciel de gestion locative connaît tout de votre patrimoine : adresses de vos biens, montants des loyers, identité de vos locataires, crédits en cours, revenus fonciers. Presque toutes les solutions de ce comparatif sont des plateformes web : vos données vivent sur les serveurs d'une société tierce, avec les risques que cela implique — piratage, revente à des partenaires, ou plus simplement fermeture du service.</p>
         <p class="fade-up"><strong>La question à se poser n'est pas « cet éditeur est-il sérieux ? », mais « que se passe-t-il si le service s'arrête ? »</strong> Un logiciel en ligne peut fermer, être racheté, changer d'offre ou de conditions tarifaires — c'est vrai de n'importe quel éditeur, quelle que soit la qualité de son équipe. Trois questions valent d'être posées avant de confier dix ans d'historique locatif à une plateforme : puis-je exporter mes données à tout moment et dans quel format, mes documents générés restent-ils lisibles hors du service, et combien de temps l'accès est-il maintenu après une résiliation&nbsp;?</p>
         <p class="fade-up">BailleurSuite a fait un choix d'architecture différent : <strong>aucun serveur</strong>. Vos données sont stockées sur votre iPhone et, si vous l'activez, synchronisées dans votre propre espace iCloud privé chiffré par Apple. Que BailleurSuite existe encore dans 10 ans ou non ne change rien à l'accès à vos données : elles vous appartiennent, physiquement, sur votre appareil.</p>
+        <p class="fade-up">Le même principe s'applique à l'usage d'un assistant IA. Avec BailleurSuite, le dossier destiné à l'IA est préparé sur l'iPhone et partagé par l'utilisateur lui-même ; aucune donnée ne transite par un serveur BailleurSuite. Les données personnelles y sont masquées par défaut, et c'est l'utilisateur qui choisit l'assistant auquel il confie le dossier.</p>
       </div>
       <div class="fade-up">
         <div class="privacy-visual">
@@ -1079,6 +1133,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
 
   <h2 class="fade-up">Méthodologie de ce comparatif</h2>
   <p class="fade-up">Les fonctionnalités et tarifs ont été relevés en <strong>juillet 2026</strong> à partir des sites officiels des éditeurs et recoupés avec les informations publiques disponibles. Chaque critère présenté correspond à une fonctionnalité identifiable dans l'offre annoncée par l'éditeur. Cette page est mise à jour régulièrement afin de conserver un comparatif fiable du marché.</p>
+  <p class="fade-up">Les lignes «&nbsp;Suivi et projection du patrimoine&nbsp;» et «&nbsp;Utilisation avec un assistant IA&nbsp;» ont été vérifiées le <strong>23/10/2026</strong> sur les sites officiels des éditeurs&nbsp;: rentila.com (page d'accueil et conditions générales d'utilisation), horiz.io/investissement-immobilier/gestion-de-patrimoine-immobilier, qlower.com, bailfacile.fr, smartloc.fr et immobilierloyer.com. La mention «&nbsp;non communiqué&nbsp;» signifie qu'aucune information publique sur ce point n'a été trouvée sur le site de l'éditeur à cette date&nbsp;; elle n'affirme pas que la fonction est absente de la solution.</p>
 
   <div class="author-box fade-up">
     <div class="author-icon"><svg width="22" height="22" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="320" rx="70" fill="#2D6A4F"/><g transform="scale(1.6)"><g transform="translate(-14,0.8)"><path d="M 66 150 L 66 70 L 90 44 L 120 44 Q 152 44 152 68 Q 152 92 120 92 Q 156 98 156 122 Q 156 150 120 150 Z M 96 64 L 96 91 L 113 91 Q 126 91 126 77.5 Q 126 64 113 64 Z M 96 99 L 96 130 L 117 130 Q 130 130 130 114.5 Q 130 99 117 99 Z" fill="#FFFFFF" fill-rule="evenodd"/></g></g></svg></div>
@@ -1088,7 +1143,7 @@ footer a{color:var(--mint);text-decoration:none;margin:0 10px}
     </div>
   </div>
 
-  <p class="disclaimer fade-up">Tarifs et fonctionnalités des solutions tierces relevés en juillet 2026 sur les sites officiels des éditeurs et des comparatifs indépendants publics. Les lignes « Révision de loyer IRL » et « Régularisation des charges » ont été vérifiées en octobre 2026. Ces informations sont susceptibles d'évoluer ; consultez les sites des éditeurs pour les conditions à jour. Les marques citées appartiennent à leurs propriétaires respectifs. Ce comparatif reflète notre analyse honnête du marché à la date de publication.</p>
+  <p class="disclaimer fade-up">Tarifs et fonctionnalités des solutions tierces relevés en juillet 2026 sur les sites officiels des éditeurs et des comparatifs indépendants publics. Les lignes « Révision de loyer IRL », « Régularisation des charges », « Suivi et projection du patrimoine » et « Utilisation avec un assistant IA » ont été vérifiées en octobre 2026. Ces informations sont susceptibles d'évoluer ; consultez les sites des éditeurs pour les conditions à jour. Les marques citées appartiennent à leurs propriétaires respectifs. Ce comparatif reflète notre analyse honnête du marché à la date de publication.</p>
 </div>
 
 <!-- ═══ MEGA CTA ═══ -->
