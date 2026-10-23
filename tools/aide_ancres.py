@@ -89,6 +89,8 @@ ANCRES: dict[str, str] = {
         'envoyer-decompte-charges-locataire',
     "Réviser un loyer selon l'IRL":
         'reviser-loyer-irl',
+    'Comprendre le bilan du mois':
+        'comprendre-bilan-du-mois',
 
     # ── locataire ──
     "Comment modifier les informations d'un locataire&nbsp;?":
@@ -105,7 +107,7 @@ ANCRES: dict[str, str] = {
     # ── fiscalite ──
     "Comment fonctionne l'analyse fiscale&nbsp;?":
         'fonctionne-analyse-fiscale',
-    'Comprendre la recommandation de régime':
+    'Comprendre la comparaison de régimes':
         'comprendre-recommandation-regime',
     'Location nue : la déclaration 2044':
         'location-nue-declaration-2044',
