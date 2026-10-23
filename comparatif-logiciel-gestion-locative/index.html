@@ -219,6 +219,12 @@ nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% 
 .solution-card,.bs-featured{scroll-margin-top:96px}
 @media(max-width:600px){.solution-ancre{display:none}}
 .solution-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 12px;border-radius:var(--r-full);white-space:nowrap}
+/* « La solution historique de gestion locative » mesure 353 px d'un
+   seul tenant : avec white-space:nowrap, l'étiquette débordait de la
+   fenêtre sur téléphone et entraînait toute la page avec elle —
+   48 px à 360, 18 px à 390. Elle se replie sous 560 px ; au-dessus,
+   le nowrap garde les étiquettes courtes sur une ligne. */
+@media(max-width:560px){.solution-tag{white-space:normal}}
 .tag-mint{background:var(--mint-pale);color:var(--mint)}
 .tag-gray{background:rgba(17,19,21,.06);color:var(--ink-soft)}
 .solution-price{font-size:.86rem;color:var(--ink);font-weight:600;margin-bottom:10px}
