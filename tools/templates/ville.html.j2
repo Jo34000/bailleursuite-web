@@ -129,6 +129,17 @@
     </p>
     {% endif %}
 
+    <section class="app-inline">
+      <div class="app-inline-texte">
+        <h2 id="app-radar">Ces {{ doc.nb_villes }} villes sont aussi dans l'app</h2>
+        <p>Le Radar est gratuit dans BailleurSuite&nbsp;: recherche, tri par prix
+        ou rendement, fiche ville partageable en image.</p>
+      </div>
+      <a class="badge-officiel" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=radar&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'radar'})">
+        <img src="/badge-app-store-black-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store">
+      </a>
+    </section>
+
     <h2 id="analyse">Ce que disent ces chiffres</h2>
 
     {% for bloc in blocs %}
@@ -268,17 +279,6 @@
       </div>
       <p>{{ AVERTISSEMENT }}</p>
     </div>
-
-    <section class="app-promo">
-      <div class="app-promo-badge">BailleurSuite</div>
-      <h2>Ces {{ doc.nb_villes }} villes sont aussi dans l'app</h2>
-      <p>
-        Le Radar est gratuit dans BailleurSuite : recherche, tri par prix ou
-        rendement, et fiche ville partageable en image. Ajoutez ensuite votre
-        bien pour passer de la moyenne de la commune à vos propres chiffres.
-      </p>
-      <a class="appstore-btn" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=radar&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'radar'})">Découvrir l'application</a>
-    </section>
 
     <p class="updated-line">
       Données mises à jour le {{ doc.genere_le }} · Panel {{ doc.panel }} ·
