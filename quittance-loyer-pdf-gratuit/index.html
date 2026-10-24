@@ -36,7 +36,7 @@
   }
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Puis-je facturer l'envoi d'une quittance de loyer ?","acceptedAnswer":{"@type":"Answer","text":"Non. La remise d'une quittance est gratuite et obligatoire sur demande du locataire. Facturer des frais pour ce service est illégal selon l'article 21 de la loi du 6 juillet 1989."}},{"@type":"Question","name":"La quittance de loyer doit-elle être signée ?","acceptedAnswer":{"@type":"Answer","text":"La signature n'est pas légalement obligatoire, mais elle est fortement recommandée. Elle renforce la valeur probatoire du document en cas de litige."}},{"@type":"Question","name":"Quelle différence entre une quittance et un avis d'échéance ?","acceptedAnswer":{"@type":"Answer","text":"L'avis d'échéance est envoyé avant le paiement pour rappeler au locataire le montant à régler. La quittance est émise après le paiement pour en attester la réception. Ce sont deux documents distincts avec des fonctions opposées."}},{"@type":"Question","name":"En colocation, faut-il une quittance par locataire ?","acceptedAnswer":{"@type":"Answer","text":"En colocation avec bail commun, une seule quittance est émise au nom de tous les colocataires. En colocation avec baux individuels, chaque locataire reçoit sa propre quittance pour sa part de loyer."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Puis-je facturer l'envoi d'une quittance de loyer ?","acceptedAnswer":{"@type":"Answer","text":"Non. La remise d'une quittance est gratuite et obligatoire sur demande du locataire. Facturer des frais pour ce service est illégal selon l'article 21 de la loi du 6 juillet 1989."}},{"@type":"Question","name":"La quittance de loyer doit-elle être signée ?","acceptedAnswer":{"@type":"Answer","text":"La signature n'est pas légalement obligatoire, mais elle est fortement recommandée. Elle renforce la valeur probatoire du document en cas de litige."}},{"@type":"Question","name":"Quelle différence entre une quittance et un avis d'échéance ?","acceptedAnswer":{"@type":"Answer","text":"L'avis d'échéance est envoyé avant le paiement pour rappeler au locataire le montant à régler. La quittance est émise après le paiement pour en attester la réception. Ce sont deux documents distincts avec des fonctions opposées."}},{"@type":"Question","name":"En colocation, faut-il une quittance par locataire ?","acceptedAnswer":{"@type":"Answer","text":"En colocation avec bail commun, une seule quittance est émise au nom de tous les colocataires. En colocation avec baux individuels, chaque locataire reçoit sa propre quittance pour sa part de loyer."}},{"@type":"Question","name":"Le numéro SIREN du bailleur doit-il figurer sur la quittance ?","acceptedAnswer":{"@type":"Answer","text":"La loi du 6 juillet 1989 (article 21) ne le place pas parmi les mentions obligatoires : la quittance doit détailler les sommes versées en distinguant le loyer et les charges. Un particulier qui loue un logement nu n'a en général pas de SIREN. Un loueur en meublé (LMNP), immatriculé, en a un ; certains guides spécialisés recommandent de l'indiquer, et l'ajouter ne pose aucun problème."}}]}
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -434,6 +434,16 @@
       color: var(--text-mid);
       letter-spacing: .3px;
       text-transform: uppercase;
+    }
+    /* Aide sous un champ facultatif. Marge haute seule : le .form-group
+       est une colonne flex avec son propre gap, une marge basse ici
+       doublerait l'écart avec le champ suivant. */
+    .form-aide {
+      font-family: -apple-system, sans-serif;
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--text-mid);
+      margin: 4px 0 0;
     }
     .form-input, .form-select {
       border: 1.5px solid var(--border);
@@ -1159,6 +1169,13 @@
             <label class="form-label" for="bailleur-adresse">Adresse du bailleur</label>
             <input class="form-input" id="bailleur-adresse" type="text" placeholder="ex : 12 rue des Lilas, 75011 Paris" />
           </div>
+          <div class="form-group">
+            <label class="form-label" for="bailleur-siren">SIREN (facultatif)</label>
+            <input class="form-input" id="bailleur-siren" type="text" inputmode="numeric"
+                   autocomplete="off" maxlength="11" placeholder="ex : 123 456 789"
+                   aria-describedby="siren-aide" />
+            <p class="form-aide" id="siren-aide">Laissez vide si vous n'en avez pas : la loi ne l'exige pas sur une quittance.</p>
+          </div>
 
           <div class="divider"></div>
           <div class="section-group-title"><span class="etape" aria-hidden="true">2</span> Le locataire</div>
@@ -1380,7 +1397,7 @@
     <!-- 3 -->
     <div class="content-section" id="mentions">
       <h2>3. Les mentions obligatoires d'une quittance conforme</h2>
-      <p>Pour être valide et conforme à la loi ALUR, une quittance doit obligatoirement contenir les éléments suivants. Notre générateur les inclut tous automatiquement.</p>
+      <p>Pour être valide et conforme à la loi du 6 juillet 1989, modifiée par la loi ALUR, une quittance doit obligatoirement contenir les éléments suivants. Notre générateur les inclut tous automatiquement.</p>
 
       <table class="compare-table">
         <thead>
@@ -1398,7 +1415,7 @@
           <tr><td>Période couverte</td><td class="yes">✓ Oui</td><td>Ex : du 1er au 31 mai 2026</td></tr>
           <tr><td>Loyer hors charges</td><td class="yes">✓ Oui</td><td>Montant exact</td></tr>
           <tr><td>Montant des charges</td><td class="yes">✓ Oui</td><td>0 si forfait inclus ou charges nulles</td></tr>
-          <tr><td>Total TTC perçu</td><td class="yes">✓ Oui</td><td>Loyer HC + charges</td></tr>
+          <tr><td>Total perçu (loyer + charges)</td><td class="yes">✓ Oui</td><td>Loyer HC + charges</td></tr>
           <tr><td>Date de paiement</td><td class="yes">✓ Recommandé</td><td>Non imposée mais fortement conseillée</td></tr>
           <tr><td>Mode de paiement</td><td class="no">— Facultatif</td><td>Virement, chèque, espèces…</td></tr>
           <tr><td>Signature du bailleur</td><td class="no">— Facultatif</td><td>Mais fortement recommandée</td></tr>
@@ -1454,6 +1471,11 @@
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">Ma quittance doit-elle être signée ?</div>
         <div class="faq-a">La signature n'est pas légalement obligatoire, mais elle est fortement recommandée. Elle renforce la valeur probatoire du document en cas de litige. Notre générateur inclut une ligne de signature optionnelle.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Le numéro SIREN du bailleur doit-il figurer sur la quittance ?</div>
+        <div class="faq-a">La loi du 6 juillet 1989 (article 21) ne le place pas parmi les mentions obligatoires : la quittance doit détailler les sommes versées en distinguant le loyer et les charges. Un particulier qui loue un logement nu n'a en général pas de SIREN. Un loueur en meublé (LMNP), immatriculé, en a un ; certains guides spécialisés recommandent de l'indiquer, et l'ajouter ne pose aucun problème.</div>
       </div>
 
       <div class="faq-item">
@@ -1625,6 +1647,22 @@
     appliquerMois();
   })();
 
+  // ── SIREN : facultatif, jamais bloquant ──
+  // Le champ se contente de retenir neuf chiffres et de les regrouper
+  // par trois. Rien n'est refusé, rien n'empêche de générer : un SIREN
+  // n'est pas une mention obligatoire de la quittance, et une saisie
+  // incomplète ne doit pas coûter son document au visiteur.
+  (function () {
+    const champ = document.getElementById('bailleur-siren');
+    if (!champ) return;
+    champ.addEventListener('input', function () {
+      const chiffres = champ.value.replace(/\D/g, '').slice(0, 9);
+      champ.value = chiffres.replace(/(\d{3})(?=\d)/g, '$1 ').trim();
+      const ps = document.getElementById('preview-section');
+      if (ps && ps.classList.contains('visible')) generateQuittance();
+    });
+  })();
+
   // ── Helpers ──
   function fmtDate(str) {
     if (!str) return '—';
@@ -1644,6 +1682,7 @@
   function generateQuittance() {
     const bail    = document.getElementById('bailleur-nom').value.trim()    || '[Nom du bailleur]';
     const bailAdr = document.getElementById('bailleur-adresse').value.trim()|| '[Adresse bailleur]';
+    const bailSiren = document.getElementById('bailleur-siren').value.trim();
     const loc     = document.getElementById('locataire-nom').value.trim()   || '[Nom du locataire]';
     const bien    = document.getElementById('bien-adresse').value.trim()    || '[Adresse du logement]';
     const hc      = parseFloat(document.getElementById('loyer-hc').value)   || 0;
@@ -1663,6 +1702,7 @@
 
       <div class="preview-row"><span class="preview-label">Bailleur</span><span class="preview-value">${bail}</span></div>
       <div class="preview-row"><span class="preview-label">Adresse bailleur</span><span class="preview-value">${bailAdr}</span></div>
+      ${bailSiren ? `<div class="preview-row"><span class="preview-label">SIREN bailleur</span><span class="preview-value">${bailSiren}</span></div>` : ''}
       <hr class="preview-separator-light" />
       <div class="preview-row"><span class="preview-label">Locataire</span><span class="preview-value">${loc}</span></div>
       <div class="preview-row"><span class="preview-label">Logement loué</span><span class="preview-value">${bien}</span></div>
@@ -1717,6 +1757,7 @@
 
     const bail    = document.getElementById('bailleur-nom').value.trim()    || '[Nom du bailleur]';
     const bailAdr = document.getElementById('bailleur-adresse').value.trim()|| '[Adresse bailleur]';
+    const bailSiren = document.getElementById('bailleur-siren').value.trim();
     const loc     = document.getElementById('locataire-nom').value.trim()   || '[Nom du locataire]';
     const bien    = document.getElementById('bien-adresse').value.trim()    || '[Adresse du logement]';
     const hc      = parseFloat(document.getElementById('loyer-hc').value)   || 0;
@@ -1765,6 +1806,10 @@
     col('Adresse', bailAdr, M, y);
     col('Logement loué', bien, W / 2 + 5, y);
     y += 12;
+    // Rangée supplémentaire seulement si un SIREN a été saisi : sans
+    // cela le PDF porterait une étiquette vide, et la quittance n'a
+    // aucune obligation de mentionner un SIREN.
+    if (bailSiren) { col('SIREN', bailSiren, M, y); y += 12; }
 
     doc.setDrawColor(45, 106, 79); doc.setLineWidth(.5);
     doc.line(M, y, W - M, y); y += 8;
