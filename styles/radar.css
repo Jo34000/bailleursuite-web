@@ -379,6 +379,54 @@ body { background: var(--radar-bg); color: var(--ink); }
 }
 .appstore-btn:hover { transform: translateY(-2px); }
 
+/* Bloc app en ligne, posé juste après les chiffres clés : le visiteur
+   vient d'y lire les données de la commune, c'est l'endroit où lui dire
+   qu'elles existent aussi dans l'app. Volontairement discret — fond
+   clair, pas d'ornement, et un h2 ramené à la taille d'un intertitre
+   pour qu'il ne concurrence pas « Ce que disent ces chiffres » qui
+   suit immédiatement. Le niveau h2 est conservé pour la structure du
+   document, pas pour le poids visuel. */
+.app-inline {
+  display: flex; align-items: center; gap: 28px;
+  background: var(--radar-surface-strong);
+  border: 1px solid var(--radar-line);
+  border-radius: var(--radar-radius-lg, var(--r-lg));
+  padding: 22px 26px; margin: 36px 0 48px;
+}
+.app-inline-texte { flex: 1 1 auto; min-width: 0; }
+.app-inline h2 {
+  font-family: var(--serif); font-weight: 400; font-size: 1.12rem;
+  line-height: 1.3; color: var(--ink); letter-spacing: -.01em;
+  margin: 0 0 6px;
+}
+.app-inline p {
+  font-size: .9rem; line-height: 1.6; color: var(--ink-soft);
+  font-weight: 300; margin: 0;
+}
+/* Badge officiel Apple : image posée telle quelle, ni couleur ni
+   proportions modifiées. La largeur reste auto, c'est le ratio du
+   fichier d'Apple qui commande. L'espace libre d'un quart de hauteur
+   qu'Apple exige vient du gap de 28 px et du padding de la carte, pas
+   d'une marge portée par le badge — le conteneur n'a donc ni fond, ni
+   bordure, ni ombre, et le survol déplace sans transformer. */
+.badge-officiel {
+  display: inline-block; line-height: 0; text-decoration: none;
+  flex: 0 0 auto;
+  transition: transform 180ms var(--radar-ease);
+}
+.badge-officiel img { display: block; height: 48px; width: auto; }
+.badge-officiel:hover { transform: translateY(-2px); }
+.badge-officiel:focus-visible { outline: 2px solid var(--mint); outline-offset: 4px; }
+
+/* Sous 680 px la carte passe en colonne, badge sous le texte. Le gap
+   de 18 px reste au-dessus des 12 px d'espace libre exigés. */
+@media (max-width: 680px) {
+  .app-inline {
+    flex-direction: column; align-items: flex-start;
+    gap: 18px; padding: 20px; margin: 28px 0 40px;
+  }
+}
+
 /* ══════════════════════════════════
    12. FIL D'ARIANE
    ══════════════════════════════════ */
