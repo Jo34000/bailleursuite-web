@@ -59,6 +59,15 @@ PAGES: dict[str, tuple[str, re.Pattern]] = {
             r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon">.*?'
             r'<div class="faq-a">\s*(?P<r>.*?)\s*</div>', re.S),
     ),
+    # Ajoutée en octobre 2026, pour la même raison que le guide LMNP :
+    # son FAQPage balisait deux questions absentes de la page, et les
+    # cinq questions réellement affichées n'étaient balisées nulle part.
+    "declaration-2044-guide/index.html": (
+        GENERE,
+        re.compile(
+            r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon">.*?'
+            r'<div class="faq-a">\s*(?P<r>.*?)\s*</div>', re.S),
+    ),
     # 13 questions écrites à la main, bloc JSON-LD indenté : on
     # contrôle le nombre, sans réécrire la mise en forme.
     "index.html": (
