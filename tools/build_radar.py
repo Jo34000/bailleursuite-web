@@ -221,6 +221,121 @@ def mediane(villes: list[dict], champ: str) -> float | None:
     return statistics.median(valeurs) if valeurs else None
 
 
+# Titres sur mesure, par slug. Vide pour toute ville absente : elle
+# garde le gabarit commun de `preparer_ville`. Les champs disponibles
+# sont {nom}, {prix} et {rdt}, déjà formatés. « | BailleurSuite » est
+# ajouté ensuite, comme pour les autres pages — ne pas l'écrire ici.
+SURCHARGES_TITRE: dict[str, str] = {
+    "besancon": ("Investissement locatif à {nom} : {rdt} % de rendement "
+                 "brut, {prix} €/m²"),
+}
+
+
+def rangs(villes: list[dict], champ: str,
+          meilleur: str = "haut") -> dict[str, int]:
+    """Rang de chaque ville sur `champ`, 1 = la position la plus favorable.
+
+    `meilleur` dit de quel côté se trouve le rang 1 : « haut » pour le
+    rendement, où l'on cherche le chiffre le plus élevé, « bas » pour le
+    prix, où la ville la moins chère est la mieux placée. Le sens n'est
+    donc pas celui de la valeur mais celui de l'intérêt du bailleur, ce
+    que la phrase qui cite le rang doit nommer pour rester lisible.
+
+    Rang de compétition : deux villes à égalité partagent le rang, et
+    le suivant reprend au nombre de villes déjà classées (1, 2, 2, 4).
+    Une moyenne de communes n'a pas la précision qui justifierait de
+    départager deux valeurs identiques par un critère arbitraire.
+
+    Les villes dont l'indicateur manque sont absentes du résultat : un
+    rang inventé pour une donnée absente se lirait comme un classement
+    réel. La phrase qui s'en sert doit donc gérer leur absence.
+    """
+    if meilleur not in ("haut", "bas"):
+        raise ValueError(f"meilleur={meilleur!r} : attendu 'haut' ou 'bas'")
+    mesurees = [(v.get("slug") or slugifier(v["nom"]), val(v, champ))
+                for v in villes]
+    mesurees = [(s, x) for s, x in mesurees if x is not None]
+    mesurees.sort(key=lambda t: t[1], reverse=(meilleur == "haut"))
+
+    out: dict[str, int] = {}
+    precedente = None
+    for position, (slug, valeur) in enumerate(mesurees, start=1):
+        if precedente is not None and valeur == precedente[1]:
+            out[slug] = precedente[0]          # ex aequo : même rang
+        else:
+            out[slug] = position
+            precedente = (position, valeur)
+    return out
+
+
+def ordinal(rang: int) -> str:
+    """1 → « 1ᵉʳ », les autres → « Nᵉ ».
+
+    Masculin, parce que le mot qui suit est « rang ». La forme « 1ʳᵉ »
+    est celle de « première » et donnerait « au 1ʳᵉ rang ».
+    """
+    return "1ᵉʳ" if rang == 1 else f"{rang}ᵉ"
+
+
+def _source_datee(ville: dict, champ: str) -> str | None:
+    """« Source (millésime) », tel que le tableau des indicateurs l'affiche."""
+    i = ville.get("indicateurs", {}).get(champ) or {}
+    source, millesime = i.get("source"), i.get("millesime")
+    if not source:
+        return None
+    return f"{source} {millesime}" if millesime else source
+
+
+def phrase_reponse(ville: dict, ctx: dict) -> str:
+    """Une phrase autonome, citable hors de la page qui la porte.
+
+    Elle doit tenir seule : nom de la commune, les deux chiffres, le
+    rang dans le panel et les sources datées. Le rang cité est celui
+    du rendement quand il existe — c'est l'indicateur que la phrase
+    nomme juste avant. Une ville sans rendement reçoit le rang du prix,
+    explicitement nommé pour qu'aucun lecteur ne lise l'un pour l'autre.
+    """
+    nom = ville["nom"]
+    slug = ville.get("slug") or slugifier(ville["nom"])
+    prix, rdt = val(ville, "prix_m2"), val(ville, "rendement_brut_pct")
+    n = ctx["nb_villes"]
+
+    sources = [s for s in (_source_datee(ville, "prix_m2"),
+                           _source_datee(ville, "loyer_m2")) if s]
+    # dédoublonnage en conservant l'ordre d'apparition
+    sources = list(dict.fromkeys(sources))
+    suffixe = f" ({', '.join(sources)})" if sources else ""
+
+    if prix is not None and rdt is not None:
+        rang = ctx["rangs_rendement"].get(slug)
+        if rang:
+            return (f"À {nom}, le prix médian est de {entier(prix)} €/m² et "
+                    f"le rendement brut de {decimal(rdt)} %, au "
+                    f"{ordinal(rang)} rang des {n} villes du panel{suffixe}.")
+        return (f"À {nom}, le prix médian est de {entier(prix)} €/m² et le "
+                f"rendement brut de {decimal(rdt)} %{suffixe}.")
+
+    if prix is not None:
+        rang = ctx["rangs_prix"].get(slug)
+        position = (f", au {ordinal(rang)} rang des {n} villes du panel par "
+                    "le prix le plus bas" if rang else "")
+        return (f"À {nom}, le prix médian est de {entier(prix)} €/m²"
+                f"{position}{suffixe}. Le rendement brut n'est pas "
+                "disponible sur ce millésime.")
+
+    if rdt is not None:
+        rang = ctx["rangs_rendement"].get(slug)
+        position = (f", au {ordinal(rang)} rang des {n} villes du panel par "
+                    "le rendement" if rang else "")
+        return (f"À {nom}, le rendement brut est de {decimal(rdt)} %"
+                f"{position}{suffixe}. Le prix médian n'est pas disponible "
+                "sur ce millésime.")
+
+    return (f"À {nom}, le prix médian et le rendement brut ne sont pas "
+            f"disponibles sur ce millésime ; les autres indicateurs du "
+            f"panel de {n} villes restent affichés sur cette page.")
+
+
 def quantile(villes: list[dict], champ: str, part: float) -> float | None:
     """Valeur au rang `part` (0–1) de la distribution du panel.
 
@@ -794,6 +909,14 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
     # ne peuvent pas produire la même balise.
     if prix is not None and rdt is not None:
         titre = f"Investir à {nom} : {entier(prix)} €/m², {decimal(rdt)} % de rendement brut"
+        # Surcharge manuelle, ville par ville. Le gabarit ci-dessus reste
+        # la règle : une entrée ici ne se justifie que par un constat de
+        # performance sur la requête visée, et n'engage que cette ville.
+        # Le H1 n'est jamais touché — seuls le title, l'og:title et le
+        # headline JSON-LD suivent, pour qu'ils ne divergent pas entre eux.
+        if slug in SURCHARGES_TITRE:
+            titre = SURCHARGES_TITRE[slug].format(
+                nom=nom, prix=entier(prix), rdt=decimal(rdt))
         desc = (
             f"Prix médian {entier(prix)} €/m², loyer {decimal(loyer)} €/m² et "
             f"rendement brut {decimal(rdt)} % à {nom}. Population, vacance, "
@@ -844,11 +967,21 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
         "publisher": REF_ORGANIZATION,
     }
 
+    phrase = phrase_reponse(ville, ctx)
+
+    # La phrase-réponse termine la description quand elle y tient sans
+    # troncature. Une phrase coupée en deux au 300e caractère serait pire
+    # que pas de phrase du tout : la description reste alors inchangée.
+    desc_meta = desc
+    if len(desc) + 1 + len(phrase) <= 300:
+        desc_meta = f"{desc} {phrase}"
+
     return {
         "v": ville, "nom": nom, "slug": slug, "canonical": canonical,
         "page_title": f"{titre} | BailleurSuite",
-        "meta_description": desc[:300],
+        "meta_description": desc_meta[:300],
         "og_title": titre, "og_description": desc[:300],
+        "phrase_reponse": phrase,
         "jsonld": [jsonld_dump(article),
                    jsonld_dump(breadcrumb)],
         "accroche": accroche(ville, ctx)[1],
@@ -1304,6 +1437,14 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
         "build_date": jour,
         # Date du run radar-data : c'est elle qui date les DONNÉES.
         "genere_le": doc.get("genere_le") or jour,
+        # Classements du panel, calculés une fois pour toutes les villes.
+        "nb_villes": len(villes),
+        # Rendement : le rang 1 est le plus élevé. Prix : le rang 1 est le
+        # plus bas, la ville la moins chère étant la mieux placée pour un
+        # acheteur. Les deux classements ne se lisent donc pas dans le
+        # même sens, et la phrase le dit.
+        "rangs_rendement": rangs(villes, "rendement_brut_pct", meilleur="haut"),
+        "rangs_prix": rangs(villes, "prix_m2", meilleur="bas"),
     }
 
     # Principe : chaque seuil est calculé sur la population qui peut
