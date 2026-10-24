@@ -325,7 +325,7 @@ tr:hover td{background:rgba(45,106,79,.03)}
           <tr><td><strong>Intérêts d'emprunt</strong></td><td><span class="case-num">250</span></td><td>Intérêts + assurance emprunteur + frais de dossier. Pas le capital remboursé.</td></tr>
           <tr><td><strong>Primes d'assurance</strong></td><td><span class="case-num">223</span></td><td>PNO (propriétaire non occupant), GLI (garantie loyers impayés).</td></tr>
           <tr><td><strong>Dépenses d'entretien et réparation</strong></td><td><span class="case-num">224</span></td><td>Travaux de maintien : peinture, plomberie, électricité. Pas les agrandissements.</td></tr>
-          <tr><td><strong>Frais de gestion locative</strong></td><td><span class="case-num">221</span></td><td>Honoraires d'agence, gérance, abonnement logiciel.</td></tr>
+          <tr><td><strong>Frais de gestion locative</strong></td><td><span class="case-num">221</span></td><td>Honoraires d'agence, gérance, frais de procédure.</td></tr>
           <tr><td><strong>Taxe foncière</strong></td><td><span class="case-num">227</span></td><td>Hors TEOM si refacturée au locataire.</td></tr>
           <tr><td><strong>Provisions de copropriété</strong></td><td><span class="case-num">229</span></td><td>Provisions pour charges effectivement versées au syndic dans l'année.</td></tr>
           <tr><td><strong>Régularisation des provisions déduites en N-1</strong></td><td><span class="case-num">230</span></td><td>Part non déductible : charges non déductibles, charges couvertes par le forfait de 20 €, charges récupérables sur le locataire, solde positif de N-1.</td></tr>
@@ -339,7 +339,7 @@ tr:hover td{background:rgba(45,106,79,.03)}
     </div>
 
     <h3 id="lignes-2044" class="fade-up">Les lignes 221 à 250 de la déclaration 2044</h3>
-    <p>Le détail de la rubrique « Frais et charges », ligne par ligne. Chaque ligne a son ancre : <code>#ligne-224</code> mène directement aux dépenses de réparation.</p>
+    <p>Le détail de la rubrique « Frais et charges », ligne par ligne. Les intitulés suivent le formulaire 2044 de 2026. Chaque ligne a son ancre : <code>#ligne-224</code> mène directement aux dépenses de réparation.</p>
     <div class="table-wrap fade-up">
       <table>
         <thead><tr><th>Ligne</th><th>Intitulé</th><th>Ce qu'elle recouvre</th></tr></thead>
@@ -350,11 +350,11 @@ tr:hover td{background:rgba(45,106,79,.03)}
           <tr id="ligne-224"><td><span class="case-num">224</span></td><td>Dépenses de réparation, d'entretien et d'amélioration</td><td>Travaux qui maintiennent ou remettent l'immeuble en état, et ceux qui apportent un équipement nouveau sans modifier la structure.</td></tr>
           <tr id="ligne-225"><td><span class="case-num">225</span></td><td>Charges récupérables non récupérées au départ du locataire</td><td>Charges normalement refacturées au locataire, restées à la charge du bailleur au 31 décembre de l'année de son départ.</td></tr>
           <tr id="ligne-226"><td><span class="case-num">226</span></td><td>Indemnités d'éviction, frais de relogement</td><td>Sommes versées pour libérer un logement, déductibles lorsqu'elles servent à conserver ou à accroître le revenu foncier.</td></tr>
-          <tr id="ligne-227"><td><span class="case-num">227</span></td><td>Taxes foncières, taxes annexes</td><td>Taxe foncière et taxes additionnelles, hors taxe d'enlèvement des ordures ménagères récupérée sur le locataire.</td></tr>
+          <tr id="ligne-227"><td><span class="case-num">227</span></td><td>Taxes foncières, taxes annexes</td><td>Taxe foncière et taxes annexes. La taxe d'enlèvement des ordures ménagères (TEOM) suit un traitement particulier : voir la notice.</td></tr>
           <tr id="ligne-228"><td><span class="case-num">228</span></td><td>Déductions spécifiques</td><td>Abattements propres à certains dispositifs de location conventionnée, sous les conditions de la notice.</td></tr>
-          <tr id="ligne-229"><td><span class="case-num">229</span></td><td>Provisions pour charges de copropriété</td><td>Provisions effectivement versées au syndic au cours de l'année, déduites en totalité à ce stade.</td></tr>
-          <tr id="ligne-230"><td><span class="case-num">230</span></td><td>Régularisation des provisions déduites au titre de l'année précédente</td><td>Part des provisions de l'année précédente qui n'était pas déductible. Elle se soustrait du total, d'où le signe négatif de la ligne 240.</td></tr>
-          <tr id="ligne-240"><td><span class="case-num">240</span></td><td>Total des frais et charges</td><td>Somme des lignes 221 à 229, diminuée de la ligne 230.</td></tr>
+          <tr id="ligne-229"><td><span class="case-num">229</span></td><td>Provisions pour charges payées dans l'année</td><td>Provisions effectivement versées au syndic au cours de l'année, déduites en totalité à ce stade.</td></tr>
+          <tr id="ligne-230"><td><span class="case-num">230</span></td><td>Régularisation des provisions pour charges déduites au titre de l'année précédente</td><td>Part des provisions de l'année précédente qui n'était pas déductible. Elle se soustrait du total, d'où le signe négatif de la ligne 240.</td></tr>
+          <tr id="ligne-240"><td><span class="case-num">240</span></td><td>Total des frais et charges : lignes 221 à 229 – ligne 230</td><td>Report du total dans la colonne du bien concerné.</td></tr>
           <tr id="ligne-250"><td><span class="case-num">250</span></td><td>Intérêts d'emprunt</td><td>Intérêts, assurance emprunteur et frais de dossier. Ligne isolée : le déficit né des intérêts ne s'impute jamais sur le revenu global.</td></tr>
         </tbody>
       </table>
