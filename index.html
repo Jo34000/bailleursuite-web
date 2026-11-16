@@ -1627,10 +1627,19 @@
        sur les côtés et au-dessus : le hero est en overflow:hidden,
        c'est lui qui les coupe, de sorte qu'aucun bord droit ne
        trahisse un rectangle. */
+    /* Le collage vit DERRIÈRE LA FENÊTRE, pas derrière la page.
+       Posé sur toute la hauteur du hero, ses bandes tranchaient en
+       travers du titre et recouvraient le dégradé vert de .hero-bg,
+       qui fait tout le haut de page. Il part donc à 42 % de la
+       hauteur — sous le badge App Store — et s'ouvre en fondu sur son
+       premier cinquième. Ses bandes sont déchirées en haut comme en
+       bas : aucune arête droite ne peut plus apparaître. */
     .hero-collage{
       display:block;position:absolute;
-      top:-120px;left:-8vw;width:116vw;height:calc(100% + 120px);
+      top:42%;left:-8vw;width:116vw;height:calc(58% + 60px);
       pointer-events:none;
+      -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 20%);
+              mask-image:linear-gradient(to bottom,transparent 0%,#000 20%);
     }
     /* Le grain papier existant passe PAR-DESSUS le collage : posé
        dessous il serait masqué par les bandes opaques. */
@@ -1655,13 +1664,19 @@
       width:calc(100% + 144px);max-width:none;margin-bottom:-56px;
       border-bottom-left-radius:0;border-bottom-right-radius:0;
     }
-    /* Carte inversée : visuel à gauche, donc débord à gauche. */
-    .feature-card:nth-of-type(2) .feature-visual{justify-content:flex-end}
+    /* Les trois cartes vont dans le même sens sur grand écran :
+       texte à gauche, fenêtre à droite. L'alternance de la version
+       téléphone plaçait le visuel de « Déclarer » à gauche, donc la
+       fenêtre débordait à gauche et la carte lui coupait son bord
+       GAUCHE — c'est-à-dire la colonne des montants, l'essentiel de
+       cette capture. Le débord se fait maintenant toujours du côté
+       droit, où la capture n'a que du vide. */
+    .feature-card:nth-of-type(2) .feature-body{order:1}
+    .feature-card:nth-of-type(2) .feature-visual{order:2;justify-content:flex-start}
     /* L'ombre portée du composant remplace celle de l'image. */
     .feature-visual .device-shot{filter:none}
     /* Texte ~40 %, visuel ~60 %. */
     .feature-card{grid-template-columns:40% 1fr}
-    .feature-card:nth-of-type(2){grid-template-columns:1fr 40%}
   }
 
   /* ── 900 → 1100 px ────────────────────────────────────────────
@@ -1739,7 +1754,7 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-bg" aria-hidden="true"><svg class="hero-collage" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><path fill="var(--surface-sage,#EFF3E9)" opacity=".95" d="M-60 -120 L-25 415 L42 430 L69 424 L118 437 L166 417 L217 433 L274 416 L320 410 L355 416 L382 415 L415 434 L464 416 L498 408 L546 404 L612 432 L665 447 L725 428 L756 424 L809 416 L879 422 L937 421 L980 420 L980 -120 Z"/><path fill="var(--surface-ochre,#F6EFE0)" opacity=".9" d="M620 -120 L678 324 L707 328 L752 339 L779 331 L845 337 L894 337 L924 334 L954 346 L1013 330 L1070 350 L1111 310 L1149 310 L1212 339 L1267 336 L1315 330 L1373 333 L1417 348 L1463 348 L1492 323 L1500 335 L1500 -120 Z"/><path fill="var(--surface-warm,#F7F1E8)" opacity=".95" d="M-60 250 L-27 756 L6 747 L49 736 L106 753 L143 755 L177 743 L234 754 L289 757 L323 757 L362 748 L407 764 L468 769 L521 750 L565 751 L605 770 L644 767 L688 758 L743 770 L812 732 L857 758 L904 765 L933 752 L980 730 L1024 765 L1080 766 L1114 770 L1164 746 L1221 736 L1264 736 L1320 753 L1384 750 L1426 767 L1475 765 L1500 751 L1500 250 Z"/><path fill="#2D6A4F" opacity=".14" d="M120 300 L186 350 L230 352 L268 357 L303 347 L350 355 L407 349 L456 349 L494 360 L520 355 L520 300 Z"/><path fill="#C9A84C" opacity=".18" d="M900 232 L939 277 L974 279 L1003 273 L1039 276 L1100 279 L1155 273 L1218 273 L1277 275 L1320 278 L1320 232 Z"/></svg></div>
+  <div class="hero-bg" aria-hidden="true"><svg class="hero-collage" viewBox="0 0 1440 560" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><path fill="var(--surface-sage,#EFF3E9)" opacity=".92" d="M-60 40 L-26 27 L38 40 L64 35 L111 46 L157 29 L205 43 L260 28 L304 23 L338 28 L363 27 L395 43 L443 28 L475 22 L521 18 L584 42 L635 55 L692 38 L722 35 L773 28 L840 33 L896 33 L900 32 L900 300 L900 283 L864 291 L833 297 L801 305 L775 293 L747 318 L704 318 L661 303 L606 300 L560 306 L507 309 L447 280 L411 280 L371 320 L317 300 L261 316 L231 304 L202 307 L156 307 L92 301 L66 309 L23 298 L-4 294 Z"/><path fill="var(--surface-ochre,#F6EFE0)" opacity=".88" d="M560 90 L614 86 L650 87 L682 79 L737 86 L789 88 L823 88 L860 82 L903 92 L961 96 L1012 84 L1055 84 L1093 96 L1130 95 L1172 89 L1225 96 L1291 72 L1334 89 L1379 93 L1407 85 L1452 71 L1494 93 L1500 94 L1500 250 L1500 249 L1473 244 L1445 257 L1412 251 L1374 256 L1328 266 L1292 244 L1244 244 L1190 256 L1145 241 L1112 259 L1076 250 L1033 245 L970 244 L939 253 L892 254 L852 243 L790 246 L737 235 L695 235 L641 241 L593 256 Z"/><path fill="var(--surface-warm,#F7F1E8)" opacity=".94" d="M-60 250 L-1 258 L52 243 L112 242 L169 248 L220 257 L264 230 L306 226 L359 260 L409 275 L460 242 L491 244 L540 231 L576 267 L620 269 L662 259 L693 231 L759 267 L809 260 L873 273 L913 272 L940 233 L1004 251 L1056 249 L1122 245 L1172 258 L1214 236 L1269 228 L1296 260 L1322 266 L1359 258 L1409 227 L1470 225 L1496 257 L1500 250 L1500 520 L1500 523 L1453 529 L1422 532 L1385 497 L1329 505 L1277 496 L1213 531 L1147 513 L1097 525 L1068 525 L1042 513 L985 538 L946 517 L911 526 L876 521 L844 518 L797 512 L760 542 L714 496 L672 533 L608 514 L563 518 L526 536 L463 512 L399 528 L334 516 L281 519 L242 515 L196 544 L154 508 L121 520 L80 526 L43 522 L-13 539 Z"/><path fill="#2D6A4F" opacity=".13" d="M140 196 L205 194 L238 203 L282 188 L311 198 L341 189 L392 195 L434 200 L469 201 L503 202 L520 188 L520 232 L520 229 L510 239 L447 238 L392 235 L329 231 L269 225 L209 234 L175 233 Z"/><path fill="#C9A84C" opacity=".17" d="M880 150 L908 144 L946 152 L1004 149 L1033 150 L1077 152 L1121 153 L1174 150 L1230 145 L1280 151 L1300 155 L1300 184 L1300 180 L1295 183 L1249 185 L1202 179 L1171 186 L1131 182 L1078 183 L1037 186 L988 185 L941 184 L910 186 Z"/></svg></div>
   <div class="hero-content">
     <h1>Gérez vos locations <em>simplement</em>,<br>déclarez vos revenus fonciers sans stress.</h1>
     <p class="hero-sub"><span class="sub-long">L'application iPhone, iPad et Mac des bailleurs particuliers qui gèrent eux-mêmes leur patrimoine locatif.</span><span class="sub-court">L'app iPhone du bailleur indépendant.</span></p>
