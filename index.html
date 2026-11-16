@@ -68,7 +68,7 @@
     "name": "BailleurSuite",
     "description": "Application iOS pour bailleurs particuliers. Calcule le rendement locatif, prépare les montants de la déclaration 2044 et de la liasse LMNP, génère quittances et décomptes de charges en PDF, et calcule le loyer révisé maximal selon l'IRL. Les données restent sur l'iPhone.",
     "applicationCategory": "FinanceApplication",
-    "operatingSystem": "iOS",
+    "operatingSystem": "iOS, iPadOS, macOS (puce Apple)",
     "offers": [
       {
         "@type": "Offer",
@@ -131,14 +131,17 @@
     "installUrl": "https://apps.apple.com/fr/app/bailleursuite/id6772793420",
     "datePublished": "2026-08-29",
     "softwareVersion": "1.3",
-    "screenshot": "https://bailleursuite.fr/screen-index.png",
+    "screenshot": [
+      "https://bailleursuite.fr/screen-index.png",
+      "https://bailleursuite.fr/screen-index-desktop.png"
+    ],
     "author": {
       "@id": "https://bailleursuite.fr/#organization"
     },
     "sameAs": [
       "https://apps.apple.com/fr/app/bailleursuite/id6772793420"
     ],
-    "dateModified": "2026-10-23"
+    "dateModified": "2026-11-16"
   }
 </script>
 <!-- Schema.org FAQPage -->
@@ -277,7 +280,8 @@
 }
 </script>
 <!-- V8 — SEO : canonical, Schema.org SoftwareApplication + FAQPage, og:image, title optimisé -->
-<link rel="preload" as="image" href="/screen-index.png" fetchpriority="high">
+<link rel="preload" as="image" href="/screen-index.png" fetchpriority="high" media="(max-width:899px)">
+<link rel="preload" as="image" href="/screen-index-desktop.webp" fetchpriority="high" media="(min-width:900px)">
 <link rel="stylesheet" href="/styles/design-system.css">
 <style>
 
@@ -1519,6 +1523,142 @@
   @media(max-width:900px){
     .trust-band{margin-top:28px;background:transparent;box-shadow:none}
   }
+
+  /* ═══════════════════════════════════════════════════════════════
+     FENÊTRE MAC — composant desktop (≥ 900 px)
+
+     Sous 900 px, TOUT ce bloc doit rester sans effet : la version
+     téléphone est validée au pixel et ne doit pas bouger. Les deux
+     conteneurs ajoutés au HTML (.mac-window et le <picture>) sont donc
+     en display:contents par défaut — ils n'ont aucune boîte, et
+     l'<img> reste l'enfant direct de son parent d'origine, exactement
+     comme avant. La barre de titre est masquée, le collage aussi.
+     ═══════════════════════════════════════════════════════════════ */
+  .mac-window{display:contents}
+  /* Seul le <picture> du hero est neutralisé : avant, l'<img> y était
+     l'enfant direct de la scène flex, et il doit le rester. Dans les
+     cartes, main avait déjà un <picture> autour de l'image ; le laisser
+     tel quel garde les trois cartes identiques au nœud près. */
+  .hero-stage .mac-window > picture{display:contents}
+  .mac-barre{display:none}
+  .hero-collage{display:none}
+
+  @media(min-width:900px){
+    /* ── Le composant ──────────────────────────────────────────── */
+    .mac-window{
+      display:block;position:relative;
+      border:1px solid rgba(28,26,20,.10);
+      border-radius:12px;overflow:hidden;
+      background:#FFFDF9;
+      box-shadow:0 1px 2px rgba(28,26,20,.05),
+                 0 24px 60px -18px rgba(28,26,20,.24);
+    }
+    /* Barre de titre en HTML plutôt qu'incluse dans la capture :
+       elle reste nette quelle que soit la densité d'écran, et sa
+       hauteur ne dépend pas du facteur d'échelle de l'image. */
+    .mac-barre{
+      display:flex;align-items:center;gap:8px;
+      height:28px;padding:0 12px;
+      background:linear-gradient(#FBFAF7,#F2F0EB);
+      border-bottom:1px solid rgba(28,26,20,.09);
+    }
+    .mac-pastille{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+    .mac-rouge{background:#FF5F57}
+    .mac-jaune{background:#FEBC2E}
+    .mac-verte{background:#28C840}
+    .mac-titre{
+      position:absolute;left:0;right:0;text-align:center;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      font-size:12px;font-weight:500;color:rgba(28,26,20,.55);
+      pointer-events:none;
+    }
+
+    /* Le <picture> devient la boîte média. Son aspect-ratio réserve la
+       place AVANT que l'image n'arrive : rien ne saute au chargement.
+       2160×1557 est la capture entière ; on n'en montre que 1215 px de
+       haut, soit 78 %, ce qui coupe juste sous la rangée « Santé de
+       votre gestion » et laisse hors champ la barre d'onglets et la
+       poignée de redimensionnement. Le recadrage est donc ici, en CSS,
+       et pas dans le fichier : la part visible peut changer d'un
+       emplacement à l'autre sans regénérer les images. */
+    .hero-stage .mac-window > picture,
+    .feature-visual .mac-window > picture{
+      display:block;aspect-ratio:2160 / 1215;overflow:hidden;
+    }
+    .mac-window > picture > img{
+      display:block;width:100%;height:auto;max-width:none;
+      margin:0;filter:none;
+    }
+
+    /* ── HERO ──────────────────────────────────────────────────── */
+    .hero{overflow:hidden;padding-bottom:0}
+    .hero-stage{
+      margin-top:48px;width:min(1080px,100%);
+      margin-left:auto;margin-right:auto;
+      align-items:flex-start;
+      /* Fondu vers la section suivante : la fenêtre ne s'arrête pas
+         net, elle s'efface sur ses 110 derniers pixels. */
+      -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 110px),transparent 100%);
+              mask-image:linear-gradient(to bottom,#000 calc(100% - 110px),transparent 100%);
+    }
+    /* L'entrée et la parallaxe portent désormais sur la fenêtre et non
+       sur l'image : l'image est rognée par la boîte média, l'animer à
+       l'intérieur découvrirait une bande vide au-dessus d'elle. */
+    .hero-stage .hero-device{opacity:1;transform:none;animation:none}
+    .hero-stage .mac-window{opacity:0;transform:translateY(24px)}
+    .hero-stage .mac-window.is-in{animation:heroRise 900ms cubic-bezier(.16,1,.3,1) forwards}
+
+    /* ── COLLAGE ───────────────────────────────────────────────── */
+    /* Bandes de papier déchiré derrière la fenêtre. Elles débordent
+       sur les côtés et au-dessus : le hero est en overflow:hidden,
+       c'est lui qui les coupe, de sorte qu'aucun bord droit ne
+       trahisse un rectangle. */
+    .hero-collage{
+      display:block;position:absolute;
+      top:-120px;left:-8vw;width:116vw;height:calc(100% + 120px);
+      pointer-events:none;
+    }
+    /* Le grain papier existant passe PAR-DESSUS le collage : posé
+       dessous il serait masqué par les bandes opaques. */
+    .hero-bg::after{z-index:1}
+
+    /* ── CARTES GÉRER / DÉCLARER / PROJETER ────────────────────── */
+    /* La fenêtre est plus large que sa colonne et sort par la droite
+       et par le bas ; la carte la coupe (overflow:hidden déjà posé sur
+       .feature-card). Même débord sur les trois, pour que l'œil suive
+       une ligne d'une carte à l'autre. */
+    /* La fenêtre dépasse sa colonne d'une valeur FIXE, pas d'un
+       pourcentage : 144 px de plus que la colonne, dont 64 px mangés
+       par le rembourrage de la carte, soit 80 px visibles au-delà du
+       bord. Le décalage est ainsi le même sur les trois cartes et à
+       toutes les largeurs, ce qu'un pourcentage ne donnait pas — il
+       valait 118 px sur une carte et 301 px sur la carte inversée.
+       Elle est calée sur le bord de sa colonne et déborde d'un seul
+       côté : centrée, elle recouvrait aussi le texte à sa gauche. */
+    .feature-visual{overflow:visible;align-items:flex-end;justify-content:flex-start}
+    .feature-visual .mac-window{
+      flex:0 0 auto;
+      width:calc(100% + 144px);max-width:none;margin-bottom:-56px;
+      border-bottom-left-radius:0;border-bottom-right-radius:0;
+    }
+    /* Carte inversée : visuel à gauche, donc débord à gauche. */
+    .feature-card:nth-of-type(2) .feature-visual{justify-content:flex-end}
+    /* L'ombre portée du composant remplace celle de l'image. */
+    .feature-visual .device-shot{filter:none}
+    /* Texte ~40 %, visuel ~60 %. */
+    .feature-card{grid-template-columns:40% 1fr}
+    .feature-card:nth-of-type(2){grid-template-columns:1fr 40%}
+  }
+
+  /* ── 900 → 1100 px ────────────────────────────────────────────
+     La fenêtre suit la largeur disponible au lieu d'imposer la
+     sienne : sans cela, 168 % d'une colonne déjà étroite poussaient
+     la carte au-delà de la fenêtre du navigateur. */
+  @media(min-width:900px) and (max-width:1100px){
+    .feature-visual .mac-window{margin-bottom:-44px}
+    .hero-stage{margin-top:36px}
+    .mac-titre{font-size:11px}
+  }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="stylesheet" href="/styles/consent.css">
@@ -1585,10 +1725,10 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-bg" aria-hidden="true"><svg class="hero-collage" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><path fill="var(--surface-sage,#EFF3E9)" opacity=".95" d="M-60 -120 L-25 415 L42 430 L69 424 L118 437 L166 417 L217 433 L274 416 L320 410 L355 416 L382 415 L415 434 L464 416 L498 408 L546 404 L612 432 L665 447 L725 428 L756 424 L809 416 L879 422 L937 421 L980 420 L980 -120 Z"/><path fill="var(--surface-ochre,#F6EFE0)" opacity=".9" d="M620 -120 L678 324 L707 328 L752 339 L779 331 L845 337 L894 337 L924 334 L954 346 L1013 330 L1070 350 L1111 310 L1149 310 L1212 339 L1267 336 L1315 330 L1373 333 L1417 348 L1463 348 L1492 323 L1500 335 L1500 -120 Z"/><path fill="var(--surface-warm,#F7F1E8)" opacity=".95" d="M-60 250 L-27 756 L6 747 L49 736 L106 753 L143 755 L177 743 L234 754 L289 757 L323 757 L362 748 L407 764 L468 769 L521 750 L565 751 L605 770 L644 767 L688 758 L743 770 L812 732 L857 758 L904 765 L933 752 L980 730 L1024 765 L1080 766 L1114 770 L1164 746 L1221 736 L1264 736 L1320 753 L1384 750 L1426 767 L1475 765 L1500 751 L1500 250 Z"/><path fill="#2D6A4F" opacity=".14" d="M120 300 L186 350 L230 352 L268 357 L303 347 L350 355 L407 349 L456 349 L494 360 L520 355 L520 300 Z"/><path fill="#C9A84C" opacity=".18" d="M900 232 L939 277 L974 279 L1003 273 L1039 276 L1100 279 L1155 273 L1218 273 L1277 275 L1320 278 L1320 232 Z"/></svg></div>
   <div class="hero-content">
     <h1>Gérez vos locations <em>simplement</em>,<br>déclarez vos revenus fonciers sans stress.</h1>
-    <p class="hero-sub"><span class="sub-long">L'application iPhone des bailleurs particuliers qui gèrent eux-mêmes leur patrimoine locatif.</span><span class="sub-court">L'app iPhone du bailleur indépendant.</span></p>
+    <p class="hero-sub"><span class="sub-long">L'application iPhone, iPad et Mac des bailleurs particuliers qui gèrent eux-mêmes leur patrimoine locatif.</span><span class="sub-court">L'app iPhone du bailleur indépendant.</span></p>
     <div class="hero-actions">
       <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=hero&amp;mt=8" class="badge-officiel" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'hero'})">
         <img src="/badge-app-store-black-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store">
@@ -1597,12 +1737,22 @@
     </div>
   </div>
   <div class="hero-stage">
-    <img src="/screen-index.png"
-         alt="L'application BailleurSuite affichant le tableau de bord des biens"
-         class="hero-device"
-         width="640" height="942"
-         fetchpriority="high"
-         decoding="async">
+      <div class="mac-window">
+        <div class="mac-barre" aria-hidden="true">
+          <span class="mac-pastille mac-rouge"></span><span class="mac-pastille mac-jaune"></span><span class="mac-pastille mac-verte"></span>
+          <span class="mac-titre">BailleurSuite</span>
+        </div>
+        <picture>
+          <source media="(min-width:900px)" srcset="/screen-index-desktop.webp" type="image/webp" width="2160" height="1557">
+          <source media="(min-width:900px)" srcset="/screen-index-desktop.png" type="image/png" width="2160" height="1557">
+          <img src="/screen-index.png"
+               alt="L'application BailleurSuite affichant le tableau de bord des biens"
+               class="hero-device"
+               width="640" height="942"
+               fetchpriority="high"
+               decoding="async">
+        </picture>
+      </div>
   </div>
 </section>
 
@@ -1622,7 +1772,7 @@
      moteur génératif cite pour répondre « qu'est-ce que BailleurSuite ».
      Elle doit se tenir seule, sans contexte. -->
 <section class="definition-section">
-  <p class="definition">BailleurSuite est une application iPhone pour les bailleurs particuliers en location nue ou en LMNP&nbsp;: suivi des loyers et charges, révision IRL, régularisation des charges, préparation des montants de la 2044 et de la 2031. Les données restent sur l'iPhone.</p>
+  <p class="definition">BailleurSuite est une application iPhone, iPad et Mac pour les bailleurs particuliers en location nue ou en LMNP&nbsp;: suivi des loyers et charges, révision IRL, régularisation des charges, préparation des montants de la 2044 et de la 2031. Les données restent sur l'iPhone.</p>
 </section>
 
 <hr class="divider">
@@ -1654,10 +1804,18 @@
       <a href="/calculatrice-rendement-locatif" class="feature-link">Calculer le rendement d'un bien →</a>
     </div>
     <div class="feature-visual" aria-hidden="true">
-      <picture>
-        <source srcset="/screen-gerer.webp" type="image/webp">
-        <img class="device-shot" src="/screen-gerer.png" width="720" height="1123" alt="" loading="lazy" decoding="async">
-      </picture>
+      <div class="mac-window mac-window-carte">
+        <div class="mac-barre" aria-hidden="true">
+          <span class="mac-pastille mac-rouge"></span><span class="mac-pastille mac-jaune"></span><span class="mac-pastille mac-verte"></span>
+          <span class="mac-titre">BailleurSuite</span>
+        </div>
+        <picture>
+          <source media="(min-width:900px)" srcset="/screen-gerer-desktop.webp" type="image/webp" width="2160" height="1557">
+          <source media="(min-width:900px)" srcset="/screen-gerer-desktop.png" type="image/png" width="2160" height="1557">
+          <source srcset="/screen-gerer.webp" type="image/webp">
+          <img class="device-shot" src="/screen-gerer.png" width="720" height="1123" alt="" loading="lazy" decoding="async">
+        </picture>
+      </div>
     </div>
   </article>
 
@@ -1669,10 +1827,18 @@
       <a href="/declaration-2044-guide" class="feature-link">Comprendre la déclaration 2044 →</a>
     </div>
     <div class="feature-visual" aria-hidden="true">
-      <picture>
-        <source srcset="/screen-declarer.webp" type="image/webp">
-        <img class="device-shot" src="/screen-declarer.png" width="720" height="1156" alt="" loading="lazy" decoding="async">
-      </picture>
+      <div class="mac-window mac-window-carte">
+        <div class="mac-barre" aria-hidden="true">
+          <span class="mac-pastille mac-rouge"></span><span class="mac-pastille mac-jaune"></span><span class="mac-pastille mac-verte"></span>
+          <span class="mac-titre">BailleurSuite</span>
+        </div>
+        <picture>
+          <source media="(min-width:900px)" srcset="/screen-declarer-desktop.webp" type="image/webp" width="2160" height="1557">
+          <source media="(min-width:900px)" srcset="/screen-declarer-desktop.png" type="image/png" width="2160" height="1557">
+          <source srcset="/screen-declarer.webp" type="image/webp">
+          <img class="device-shot" src="/screen-declarer.png" width="720" height="1156" alt="" loading="lazy" decoding="async">
+        </picture>
+      </div>
     </div>
   </article>
 
@@ -1684,10 +1850,18 @@
       <a href="/lmnp-guide-complet" class="feature-link">Le guide complet du LMNP →</a>
     </div>
     <div class="feature-visual" aria-hidden="true">
-      <picture>
-        <source srcset="/screen-projeter.webp" type="image/webp">
-        <img class="device-shot" src="/screen-projeter.png" width="720" height="1060" alt="" loading="lazy" decoding="async">
-      </picture>
+      <div class="mac-window mac-window-carte">
+        <div class="mac-barre" aria-hidden="true">
+          <span class="mac-pastille mac-rouge"></span><span class="mac-pastille mac-jaune"></span><span class="mac-pastille mac-verte"></span>
+          <span class="mac-titre">BailleurSuite</span>
+        </div>
+        <picture>
+          <source media="(min-width:900px)" srcset="/screen-projeter-desktop.webp" type="image/webp" width="2160" height="1557">
+          <source media="(min-width:900px)" srcset="/screen-projeter-desktop.png" type="image/png" width="2160" height="1557">
+          <source srcset="/screen-projeter.webp" type="image/webp">
+          <img class="device-shot" src="/screen-projeter.png" width="720" height="1060" alt="" loading="lazy" decoding="async">
+        </picture>
+      </div>
     </div>
   </article>
   </div>
@@ -2292,7 +2466,14 @@
 <script>
 /* Hero device — animation d'entrée déclenchée à l'apparition (visible aussi au scroll) */
 (function(){
-  const el = document.querySelector('.hero-device'); if (!el) return;
+  /* Au-dessus de 900 px, c'est la fenêtre Mac qui entre en scène :
+     l'image y est rognée, l'animer à l'intérieur ferait apparaître une
+     bande vide au-dessus d'elle. En dessous, rien ne change : la cible
+     reste l'image, comme avant. */
+  const grand = window.matchMedia('(min-width:900px)').matches;
+  const el = (grand && document.querySelector('.hero-stage .mac-window'))
+             || document.querySelector('.hero-device');
+  if (!el) return;
   if (window.matchMedia('(prefers-reduced-motion:reduce)').matches){ el.style.opacity='1'; el.style.transform='none'; return; }
   const io = new IntersectionObserver((entries,obs)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ el.classList.add('is-in'); obs.disconnect(); } });
@@ -2303,7 +2484,9 @@
 (function(){
   if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
   if (!window.matchMedia('(hover:hover) and (min-width:900px)').matches) return;
-  const el = document.querySelector('.hero-device');
+  /* Même raison : la perspective porte sur la fenêtre entière. */
+  const el = document.querySelector('.hero-stage .mac-window')
+             || document.querySelector('.hero-device');
   const stage = document.querySelector('.hero-stage');
   if (!el || !stage) return;
   let raf;
