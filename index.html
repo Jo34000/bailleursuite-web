@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
-<meta name="description" content="Application iPhone de gestion locative pour bailleurs particuliers. Quittances automatiques, comparateur fiscal location nue et LMNP, préparation de la déclaration 2044 et 2042-C-PRO, projection patrimoniale sur 20 ans. Vos données restent sur votre iPhone.">
+<meta name="description" content="Application iPhone de gestion locative pour bailleurs particuliers. Quittances automatiques, comparateur fiscal location nue et LMNP, préparation de la déclaration 2044 et 2042-C-PRO, projection patrimoniale sur 20 ans. Vos données restent sur vos appareils et dans votre iCloud.">
 <meta name="keywords" content="bailleur particulier, revenus fonciers, déclaration 2044, LMNP, location meublée, amortissement LMNP, quittance loyer, rendement locatif, app iOS, gestion locative, micro-BIC, régime réel LMNP">
 <title>Application Gestion Locative Bailleurs | BailleurSuite</title>
 <!-- Balises Open Graph -->
@@ -66,7 +66,7 @@
     "@type": "SoftwareApplication",
     "@id": "https://bailleursuite.fr/#software",
     "name": "BailleurSuite",
-    "description": "Application iOS pour bailleurs particuliers. Calcule le rendement locatif, prépare les montants de la déclaration 2044 et de la liasse LMNP, génère quittances et décomptes de charges en PDF, et calcule le loyer révisé maximal selon l'IRL. Les données restent sur l'iPhone.",
+    "description": "Application iOS pour bailleurs particuliers. Calcule le rendement locatif, prépare les montants de la déclaration 2044 et de la liasse LMNP, génère quittances et décomptes de charges en PDF, et calcule le loyer révisé maximal selon l'IRL. Les données restent sur vos appareils et dans votre iCloud.",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "iOS, iPadOS, macOS (puce Apple)",
     "offers": [
@@ -1550,8 +1550,12 @@
       border:1px solid rgba(28,26,20,.10);
       border-radius:12px;overflow:hidden;
       background:#FFFDF9;
-      box-shadow:0 1px 2px rgba(28,26,20,.05),
-                 0 24px 60px -18px rgba(28,26,20,.24);
+      /* Trois couches : un contact net, une ombre moyenne qui donne
+         l'épaisseur, une très large et très diluée qui pose la fenêtre
+         sur la page sans la cerner. */
+      box-shadow:0 1px 2px rgba(28,26,20,.06),
+                 0 18px 36px -12px rgba(28,26,20,.18),
+                 0 56px 120px -40px rgba(28,26,20,.28);
     }
     /* Barre de titre en HTML plutôt qu'incluse dans la capture :
        elle reste nette quelle que soit la densité d'écran, et sa
@@ -1596,10 +1600,20 @@
       margin-top:48px;width:min(1080px,100%);
       margin-left:auto;margin-right:auto;
       align-items:flex-start;
-      /* Fondu vers la section suivante : la fenêtre ne s'arrête pas
-         net, elle s'efface sur ses 110 derniers pixels. */
-      -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 110px),transparent 100%);
-              mask-image:linear-gradient(to bottom,#000 calc(100% - 110px),transparent 100%);
+    }
+    /* Le bas du hero se dissout dans la couleur de la bande de
+       réassurance. Un masque sur la fenêtre seule la faisait
+       disparaître DANS le collage, dont les bandes colorées
+       continuaient en dessous : la fenêtre semblait s'enfoncer dans du
+       papier plutôt que dans la page. Le voile couvre tout — collage
+       compris — et va vers #F0EBE1, la couleur de ce qui suit. */
+    .hero::after{
+      content:'';position:absolute;left:0;right:0;bottom:0;
+      height:180px;z-index:2;pointer-events:none;
+      background:linear-gradient(to bottom,
+        rgba(240,235,225,0) 0%,
+        rgba(240,235,225,.72) 58%,
+        #F0EBE1 100%);
     }
     /* L'entrée et la parallaxe portent désormais sur la fenêtre et non
        sur l'image : l'image est rognée par la boîte média, l'animer à
@@ -1772,7 +1786,7 @@
      moteur génératif cite pour répondre « qu'est-ce que BailleurSuite ».
      Elle doit se tenir seule, sans contexte. -->
 <section class="definition-section">
-  <p class="definition">BailleurSuite est une application iPhone, iPad et Mac pour les bailleurs particuliers en location nue ou en LMNP&nbsp;: suivi des loyers et charges, révision IRL, régularisation des charges, préparation des montants de la 2044 et de la 2031. Les données restent sur l'iPhone.</p>
+  <p class="definition">BailleurSuite est une application iPhone, iPad et Mac pour les bailleurs particuliers en location nue ou en LMNP&nbsp;: suivi des loyers et charges, révision IRL, régularisation des charges, préparation des montants de la 2044 et de la 2031. Les données restent sur vos appareils et dans votre iCloud.</p>
 </section>
 
 <hr class="divider">
@@ -1871,7 +1885,7 @@
 <section class="privacy-statement">
   <div class="privacy-inner">
     <p class="privacy-kicker">Confidentialité</p>
-    <h2>Vos données ne quittent jamais votre iPhone.</h2>
+    <h2>Vos données restent sur vos appareils et dans votre iCloud. Aucun serveur BailleurSuite.</h2>
     <p class="privacy-body">Pas de compte à créer. Pas de serveur. Vos biens, vos loyers, vos locataires et vos documents restent sur votre appareil et dans votre iCloud personnel, chiffré par Apple. Nous n'y avons aucun accès — et nous n'en voulons aucun.</p>
     <a href="/politique-confidentialite.html" class="privacy-link">Notre politique de confidentialité</a>
   </div>
