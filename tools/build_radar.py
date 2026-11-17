@@ -1296,6 +1296,29 @@ def verifier_liens(pages: list[Path]) -> list[str]:
 # ══════════════════════════════════════════════════════════════════
 # Sitemap
 # ══════════════════════════════════════════════════════════════════
+def lastmod_page(chemin: str, defaut: str) -> str:
+    """Date de dernière modification d'une page éditoriale.
+
+    Les dates de URLS_EXISTANTES étaient saisies à la main et n'étaient
+    jamais revues : en novembre 2026, l'accueil était encore daté du
+    2 août et le comparatif du 19 août, alors que les deux avaient été
+    réécrits depuis. Un sitemap qui annonce des dates fausses apprend
+    aux moteurs à ne plus s'y fier.
+
+    La date vient donc de la page : le dateModified le plus récent de
+    ses blocs JSON-LD, celui que l'on met à jour quand le contenu change
+    vraiment. Sitemap et données structurées ne peuvent plus se
+    contredire. La date de URLS_EXISTANTES ne sert plus que de repli,
+    pour une page qui n'en porterait aucune.
+    """
+    fichier = RACINE / ("index.html" if chemin == "/" else f"{chemin.strip('/')}/index.html")
+    if not fichier.exists():
+        return defaut
+    dates = re.findall(r'"dateModified":\s*"(\d{4}-\d{2}-\d{2})',
+                       fichier.read_text(encoding="utf-8"))
+    return max(dates + [defaut])
+
+
 def ecrire_sitemap(villes: list[dict], jour: str) -> int:
     """Régénère le sitemap : 7 URL existantes + hub + méthodo + villes."""
     lignes = ['<?xml version="1.0" encoding="UTF-8"?>',
@@ -1312,7 +1335,7 @@ def ecrire_sitemap(villes: list[dict], jour: str) -> int:
         ])
 
     for chemin, lastmod, freq, prio in URLS_EXISTANTES:
-        url(chemin, lastmod, freq, prio)
+        url(chemin, lastmod_page(chemin, lastmod), freq, prio)
 
     url("/radar-immobilier", jour, "weekly", "0.9")
     url("/radar-immobilier/methodologie", jour, "yearly", "0.5")
