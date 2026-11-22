@@ -1,3 +1,23 @@
+/* Polices de repli aux métriques ajustées.
+   Pendant le chargement de DM Sans et d'Instrument Serif, le texte
+   s'affichait en system-ui et en Georgia, plus larges et autrement
+   proportionnés : à l'arrivée des vraies polices les lignes se
+   recomposaient et la page sautait — l'essentiel du CLS mobile.
+   Ces deux faces locales reprennent Arial et Times New Roman, mises à
+   l'échelle pour occuper la même place : largeur mesurée sur un texte
+   français aux tailles du texte courant, 12 à 24 px : DM Sans y occupe
+   102 à 104 % de la largeur d'Arial selon la graisse, Instrument Serif
+   82,9 % de celle de Times New Roman. Mesurer à grande taille fausse
+   le résultat : l'axe de taille optique de DM Sans resserre ses lettres
+   au-delà de 24 px (92 % d'Arial à 40 px), et un repli calé là-dessus
+   était trop étroit — une phrase de quatre lignes en prenait cinq à
+   l'arrivée de la vraie police. Hauteurs tirées des tables hhea
+   (ascendante 992 et 990, descendante 310, interligne 0, pour 1000).
+   Liberation Sans et Serif ont les métriques d'Arial et de Times : ce
+   sont elles qui servent sur les systèmes qui n'ont pas les originales. */
+@font-face{font-family:"DM Sans Fallback";src:local("Arial"),local("ArialMT"),local("Liberation Sans");size-adjust:103%;ascent-override:96.3%;descent-override:30.1%;line-gap-override:0%}
+@font-face{font-family:"Instrument Serif Fallback";src:local("Times New Roman"),local("TimesNewRomanPSMT"),local("Liberation Serif");size-adjust:82.9%;ascent-override:119.4%;descent-override:37.4%;line-gap-override:0%}
+
 /*
  * BailleurSuite Design System — v1
  * Source de vérité : index.html
@@ -34,8 +54,8 @@
 
   /* Structure */
   --border:      #E0D9CC;
-  --serif:       'Instrument Serif', Georgia, serif;
-  --sans:        'DM Sans', system-ui, -apple-system, sans-serif;
+  --serif:       'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
+  --sans:        'DM Sans', 'DM Sans Fallback', system-ui, -apple-system, sans-serif;
   --radius:      14px;
   --r-sm: 8px; --r-md: 14px; --r-full: 999px;
   --radius-sm:   8px;

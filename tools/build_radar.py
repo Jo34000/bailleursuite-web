@@ -221,14 +221,23 @@ def mediane(villes: list[dict], champ: str) -> float | None:
     return statistics.median(valeurs) if valeurs else None
 
 
-# Titres sur mesure, par slug. Vide pour toute ville absente : elle
-# garde le gabarit commun de `preparer_ville`. Les champs disponibles
-# sont {nom}, {prix} et {rdt}, déjà formatés. « | BailleurSuite » est
-# ajouté ensuite, comme pour les autres pages — ne pas l'écrire ici.
-SURCHARGES_TITRE: dict[str, str] = {
-    "besancon": ("Investissement locatif à {nom} : {rdt} % de rendement "
-                 "brut, {prix} €/m²"),
-}
+# Longueur visée pour le title des fiches villes. Au-delà, Google tronque
+# souvent l'affichage — la coupe réelle se fait en pixels, vers 580 px,
+# et non en caractères ; 70 caractères est la borne retenue ici.
+TITRE_VILLE_MAX = 70
+
+
+def titre_ville(nom: str, rdt) -> str:
+    """« Investissement locatif à {ville} : rendement brut de {rdt} % ».
+
+    Un seul format pour les 40 villes, sans prix : le prix reste dans
+    la phrase-réponse et la description meta. Avec le prix, le titre
+    dépassait 70 caractères pour la moitié des villes, et retirer
+    « brut » au cas par cas donnait des titres dissemblables d'une
+    ville à l'autre. Une ville dont le nom ferait encore dépasser
+    TITRE_VILLE_MAX est signalée au build, sans troncature automatique.
+    """
+    return f"Investissement locatif à {nom} : rendement brut de {decimal(rdt)} %"
 
 
 def rangs(villes: list[dict], champ: str,
@@ -908,15 +917,9 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
     # Title et description construits depuis les données : deux villes
     # ne peuvent pas produire la même balise.
     if prix is not None and rdt is not None:
-        titre = f"Investir à {nom} : {entier(prix)} €/m², {decimal(rdt)} % de rendement brut"
-        # Surcharge manuelle, ville par ville. Le gabarit ci-dessus reste
-        # la règle : une entrée ici ne se justifie que par un constat de
-        # performance sur la requête visée, et n'engage que cette ville.
-        # Le H1 n'est jamais touché — seuls le title, l'og:title et le
-        # headline JSON-LD suivent, pour qu'ils ne divergent pas entre eux.
-        if slug in SURCHARGES_TITRE:
-            titre = SURCHARGES_TITRE[slug].format(
-                nom=nom, prix=entier(prix), rdt=decimal(rdt))
+        # Le H1 n'est jamais touché : seuls le title, l'og:title et le
+        # headline JSON-LD suivent ce titre, pour ne pas diverger entre eux.
+        titre = titre_ville(nom, rdt)
         desc = (
             f"Prix médian {entier(prix)} €/m², loyer {decimal(loyer)} €/m² et "
             f"rendement brut {decimal(rdt)} % à {nom}. Population, vacance, "
@@ -978,7 +981,7 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
 
     return {
         "v": ville, "nom": nom, "slug": slug, "canonical": canonical,
-        "page_title": f"{titre} | BailleurSuite",
+        "page_title": titre,
         "meta_description": desc_meta[:300],
         "og_title": titre, "og_description": desc[:300],
         "phrase_reponse": phrase,
@@ -1514,6 +1517,11 @@ def construire(chemin_data: Path, ecrire: bool = True) -> int:
     env.globals.update(SITE=SITE, AVERTISSEMENT=AVERTISSEMENT, val=val)
 
     preparees = [preparer_ville(v, villes, ctx) for v in villes]
+    longs = [(x["nom"], len(x["page_title"])) for x in preparees
+             if len(x["page_title"]) > TITRE_VILLE_MAX]
+    if longs:
+        print(f"  ⚠ {len(longs)} title(s) au-delà de {TITRE_VILLE_MAX} caractères : "
+              + ", ".join(f"{n} ({l})" for n, l in longs))
 
     slugs = [p["slug"] for p in preparees]
     if len(set(slugs)) != len(slugs):
