@@ -8,6 +8,11 @@
 <!-- Preconnect & fonts — non-blocking -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Les fichiers que Google Fonts sert à Safari iOS et à Chrome Android.
+     Chrome et Firefox sur ordinateur en reçoivent d'autres : préchargés
+     là aussi, ils seraient téléchargés deux fois. D'où la media query. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin media="(max-width: 899px)" href="https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin media="(max-width: 899px)" href="https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjnTLgNs.woff2">
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
 
@@ -146,7 +151,7 @@ body { color: var(--ink); }
 .result-une{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
 .result-une-bloc{background:var(--surface);padding:18px 20px}
 .result-une-label{font-size:.72rem;color:var(--ink-light);margin-bottom:4px}
-.result-une-val{font-family:'Instrument Serif',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:400;line-height:1.1;display:block}
+.result-une-val{font-family:'Instrument Serif','Instrument Serif Fallback',serif;font-size:clamp(1.7rem,5vw,2.3rem);font-weight:400;line-height:1.1;display:block}
 .result-secondaire{display:flex;flex-wrap:wrap;gap:6px 22px;padding:12px 20px;border-bottom:1px solid var(--border);font-size:.8rem;color:var(--ink-soft)}
 .result-secondaire strong{color:var(--ink);font-weight:600}
 @media(max-width:420px){.result-une{grid-template-columns:1fr}}
@@ -491,7 +496,7 @@ tr:hover td{background:rgba(45,106,79,.025)}
             <div style="font-size:.85rem;color:var(--ink-soft);">Rendement réel d'acquisition</div>
             <div style="font-size:.7rem;color:var(--ink-light);">Frais de notaire inclus (~7,5%)</div>
           </div>
-          <strong id="r-notaire-blur" style="font-family:'Instrument Serif',serif;font-size:1.25rem;color:#e67e22;">4,87 %</strong>
+          <strong id="r-notaire-blur" style="font-family:'Instrument Serif','Instrument Serif Fallback',serif;font-size:1.25rem;color:#e67e22;">4,87 %</strong>
         </div>
         <div class="notaire-overlay">
           <div class="notaire-texte">

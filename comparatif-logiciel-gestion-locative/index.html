@@ -38,15 +38,40 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Les fichiers que Google Fonts sert à Safari iOS et à Chrome Android.
+     Chrome et Firefox sur ordinateur en reçoivent d'autres : préchargés
+     là aussi, ils seraient téléchargés deux fois. D'où la media query. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin media="(max-width: 899px)" href="https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin media="(max-width: 899px)" href="https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjnTLgNs.woff2">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <style>
+/* Polices de repli aux métriques ajustées.
+   Pendant le chargement de DM Sans et d'Instrument Serif, le texte
+   s'affichait en system-ui et en Georgia, plus larges et autrement
+   proportionnés : à l'arrivée des vraies polices les lignes se
+   recomposaient et la page sautait — l'essentiel du CLS mobile.
+   Ces deux faces locales reprennent Arial et Times New Roman, mises à
+   l'échelle pour occuper la même place : largeur mesurée sur un texte
+   français aux tailles du texte courant, 12 à 24 px : DM Sans y occupe
+   102 à 104 % de la largeur d'Arial selon la graisse, Instrument Serif
+   82,9 % de celle de Times New Roman. Mesurer à grande taille fausse
+   le résultat : l'axe de taille optique de DM Sans resserre ses lettres
+   au-delà de 24 px (92 % d'Arial à 40 px), et un repli calé là-dessus
+   était trop étroit — une phrase de quatre lignes en prenait cinq à
+   l'arrivée de la vraie police. Hauteurs tirées des tables hhea
+   (ascendante 992 et 990, descendante 310, interligne 0, pour 1000).
+   Liberation Sans et Serif ont les métriques d'Arial et de Times : ce
+   sont elles qui servent sur les systèmes qui n'ont pas les originales. */
+@font-face{font-family:"DM Sans Fallback";src:local("Arial"),local("ArialMT"),local("Liberation Sans");size-adjust:103%;ascent-override:96.3%;descent-override:30.1%;line-gap-override:0%}
+@font-face{font-family:"Instrument Serif Fallback";src:local("Times New Roman"),local("TimesNewRomanPSMT"),local("Liberation Serif");size-adjust:82.9%;ascent-override:119.4%;descent-override:37.4%;line-gap-override:0%}
+
 /* === TOKENS === */
 :root{
   --bg:#F7F4EE;--surface:rgba(255,255,255,.72);--surface-strong:rgba(255,255,255,.9);
   --ink:#111315;--ink-soft:#50545A;--ink-light:#6A6A64;
   --mint:#2D6A4F;--mint-pale:#E6F2EC;--gold:#C9A84C;--gold-pale:#F9F3E3;
   --line:rgba(17,19,21,.07);--radius-xl:34px;--radius-lg:26px;--radius-md:16px;
-  --serif:'Instrument Serif',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+  --serif:'Instrument Serif','Instrument Serif Fallback',Georgia,serif;--sans:'DM Sans','DM Sans Fallback',system-ui,sans-serif;
   --shadow-soft:0 10px 30px rgba(0,0,0,.04);--deep:#0E1012;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
