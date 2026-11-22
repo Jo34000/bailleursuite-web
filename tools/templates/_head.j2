@@ -32,15 +32,13 @@
 {{ bloc|safe }}
 </script>
 {% endfor -%}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Les fichiers que Google Fonts sert à Safari iOS et à Chrome Android.
-     Chrome et Firefox sur ordinateur en reçoivent d'autres : préchargés
-     là aussi, ils seraient téléchargés deux fois. D'où la media query. -->
-<link rel="preload" as="font" type="font/woff2" crossorigin media="(max-width: 899px)" href="https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin media="(max-width: 899px)" href="https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjnTLgNs.woff2">
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+<!-- Polices hébergées sur le site (OFL, licences dans /fonts). Les deux
+     fichiers utilisés au-dessus de la ligne de flottaison sont préchargés,
+     sur mobile comme sur ordinateur : ce sont les mêmes pour tous les
+     navigateurs. -->
+<link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-v17-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-serif-v5-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/styles/fonts.css">
 <link rel="stylesheet" href="/styles/design-system.css">
 <link rel="stylesheet" href="/styles/radar.css">
 <script defer src="/_vercel/insights/script.js"></script>

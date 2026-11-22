@@ -1,0 +1,57 @@
+/* ═══ POLICES ═══════════════════════════════════════════════════════
+   DM Sans et Instrument Serif, hébergées sur le site (licence SIL Open
+   Font License 1.1, textes dans /fonts/OFL-*.txt). Plus aucun appel aux
+   serveurs de Google Fonts : une connexion tierce de moins avant le
+   premier affichage, aucune adresse IP de visiteur transmise à Google, et des fichiers identiques pour tous les
+   navigateurs — ce qui rend enfin le préchargement fiable, Google
+   servant des fichiers différents à Safari, Chrome et Firefox.
+
+   Fichiers repris tels que Google Fonts les sert (DM Sans v17,
+   Instrument Serif v5), en deux sous-ensembles : latin (français
+   complet, €, guillemets, apostrophe typographique) et latin étendu.
+   Le navigateur ne télécharge le second que si la page contient un de
+   ses caractères. La plage U+1D00-1DBF, que Google rattache au latin
+   étendu, en est retirée : aucun des quatre fichiers n'y a de glyphe,
+   et le « ᵉ » de « 10ᵉ rang » (Radar) faisait télécharger 31 Ko pour
+   rien. Le numéro de version est dans le nom du fichier :
+   c'est ce qui autorise le cache « immutable » posé dans vercel.json.
+
+   DM Sans normal est variable (graisse et taille optique) ; la plage
+   300–600 reprend exactement les graisses demandées jusqu'ici à Google,
+   pour que rien ne change à l'affichage.
+
+   Deux caractères manquent aux deux polices, comme chez Google : l'espace
+   fine insécable des montants (U+202F) et, pour Instrument Serif, « ² ».
+   Le navigateur les prend dans une police système, comme avant. */
+
+/* DM Sans normal — latin */
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/dm-sans-v17-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+/* DM Sans normal — latin-ext */
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 600;font-display:swap;src:url(/fonts/dm-sans-v17-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+/* DM Sans italic — latin */
+@font-face{font-family:'DM Sans';font-style:italic;font-weight:300;font-display:swap;src:url(/fonts/dm-sans-italic-v17-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+/* DM Sans italic — latin-ext */
+@font-face{font-family:'DM Sans';font-style:italic;font-weight:300;font-display:swap;src:url(/fonts/dm-sans-italic-v17-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+/* Instrument Serif normal — latin */
+@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-v5-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+/* Instrument Serif normal — latin-ext */
+@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-v5-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+/* Instrument Serif italic — latin */
+@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-v5-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+/* Instrument Serif italic — latin-ext */
+@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-italic-v5-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+
+/* ═══ REPLIS AUX MÉTRIQUES AJUSTÉES ══════════════════════════════════
+   Pendant le chargement, le texte s'affiche dans ces deux faces locales :
+   Arial et Times New Roman mises à l'échelle des polices du site, pour
+   occuper la même place et ne pas recomposer les lignes à l'arrivée de
+   la vraie police. Largeurs mesurées sur un texte français aux tailles
+   du texte courant, 12 à 24 px : DM Sans y occupe 102 à 104 % de la
+   largeur d'Arial selon la graisse, Instrument Serif 82,9 % de celle de
+   Times New Roman. Mesurer à grande taille fausse le résultat : l'axe de
+   taille optique de DM Sans resserre ses lettres au-delà de 24 px.
+   Hauteurs tirées des tables hhea (ascendante 992 et 990, descendante
+   310, interligne 0, pour 1000). Liberation Sans et Serif reprennent les
+   métriques d'Arial et de Times là où les originales manquent. */
+@font-face{font-family:"DM Sans Fallback";src:local("Arial"),local("ArialMT"),local("Liberation Sans");size-adjust:103%;ascent-override:96.3%;descent-override:30.1%;line-gap-override:0%}
+@font-face{font-family:"Instrument Serif Fallback";src:local("Times New Roman"),local("TimesNewRomanPSMT"),local("Liberation Serif");size-adjust:82.9%;ascent-override:119.4%;descent-override:37.4%;line-gap-override:0%}

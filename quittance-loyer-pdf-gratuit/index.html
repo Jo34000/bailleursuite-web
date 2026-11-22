@@ -39,15 +39,13 @@
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Puis-je facturer l'envoi d'une quittance de loyer ?","acceptedAnswer":{"@type":"Answer","text":"Non. La remise d'une quittance est gratuite et obligatoire sur demande du locataire. Facturer des frais pour ce service est illégal selon l'article 21 de la loi du 6 juillet 1989."}},{"@type":"Question","name":"La quittance de loyer doit-elle être signée ?","acceptedAnswer":{"@type":"Answer","text":"La signature n'est pas légalement obligatoire, mais elle est fortement recommandée. Elle renforce la valeur probatoire du document en cas de litige."}},{"@type":"Question","name":"Quelle différence entre une quittance et un avis d'échéance ?","acceptedAnswer":{"@type":"Answer","text":"L'avis d'échéance est envoyé avant le paiement pour rappeler au locataire le montant à régler. La quittance est émise après le paiement pour en attester la réception. Ce sont deux documents distincts avec des fonctions opposées."}},{"@type":"Question","name":"En colocation, faut-il une quittance par locataire ?","acceptedAnswer":{"@type":"Answer","text":"En colocation avec bail commun, une seule quittance est émise au nom de tous les colocataires. En colocation avec baux individuels, chaque locataire reçoit sa propre quittance pour sa part de loyer."}},{"@type":"Question","name":"Le numéro SIREN du bailleur doit-il figurer sur la quittance ?","acceptedAnswer":{"@type":"Answer","text":"La loi du 6 juillet 1989 (article 21) ne le place pas parmi les mentions obligatoires : la quittance doit détailler les sommes versées en distinguant le loyer et les charges. Un particulier qui loue un logement nu n'a en général pas de SIREN. Un loueur en meublé (LMNP), immatriculé, en a un ; certains guides spécialisés recommandent de l'indiquer, et l'ajouter ne pose aucun problème."}}]}
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Les fichiers que Google Fonts sert à Safari iOS et à Chrome Android.
-     Chrome et Firefox sur ordinateur en reçoivent d'autres : préchargés
-     là aussi, ils seraient téléchargés deux fois. D'où la media query. -->
-<link rel="preload" as="font" type="font/woff2" crossorigin media="(max-width: 899px)" href="https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin media="(max-width: 899px)" href="https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjnTLgNs.woff2">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"></noscript>
+  <!-- Polices hébergées sur le site (OFL, licences dans /fonts). Les deux
+       fichiers utilisés au-dessus de la ligne de flottaison sont préchargés,
+       sur mobile comme sur ordinateur : ce sont les mêmes pour tous les
+       navigateurs. -->
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-v17-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-serif-v5-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="/styles/fonts.css">
   <link rel="stylesheet" href="/styles/design-system.css">
   <style>.reading-progress{display:none}</style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
