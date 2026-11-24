@@ -1,6 +1,6 @@
-# Outils de génération — Radar Immobilier
+# Outils de génération — Radar Immobilier et image de partage
 
-Deux scripts Python, exécutés à la main. Rien n'est déclenché au déploiement :
+Scripts Python exécutés à la main. Rien n'est déclenché au déploiement :
 Vercel sert les fichiers du dépôt tels quels.
 
 ## Prérequis
@@ -224,6 +224,26 @@ référence ses pages en relatif, les guides en absolu.
 
 La page `comparatif-logiciel-gestion-locative` ne charge pas le design system
 et n'a pas de `.site-footer-nav` ; une zone de repli traite son `<footer>` nu.
+
+## 3. `og/render_og.py` — image de partage
+
+```bash
+python3 tools/og/render_og.py                 # og-image-<année en cours>.png
+python3 tools/og/render_og.py --annee 2027
+python3 tools/og/render_og.py --sortie /tmp/essai.png   # aperçu, rien à la racine
+```
+
+Rend `tools/og/og-image-source.j2` (HTML/SVG, polices auto-hébergées de
+`/fonts`) dans Chrome sans interface et écrit `og-image-<année>.png` à la
+racine : 1200×630, PNG optimisé sans perte, échec au-delà de 100 Ko. Le
+surtitre et la ligne du bas sont en tête du script (`SURTITRE`, `BAS`).
+Prérequis : `pip install jinja2 pillow` et Chrome ou Chromium (chemin dans
+`$CHROME` s'il n'est pas trouvé ; si Chrome reste bloqué, utiliser
+`chrome-headless-shell`).
+
+Une nouvelle année change l'adresse : remplacer `/og-image-<ancienne>.png`
+dans les pages, `tools/templates/_head.j2` et `build_radar.py`, puis supprimer
+l'ancienne image (la 404 fait abandonner aux moteurs leur copie en cache).
 
 ## Ordre d'exécution
 
