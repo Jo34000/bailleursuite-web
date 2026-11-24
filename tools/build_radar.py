@@ -955,7 +955,7 @@ def preparer_ville(ville: dict, toutes: list[dict], ctx: dict) -> dict:
     article = {
         "@context": "https://schema.org", "@type": "Article",
         "headline": titre, "description": desc,
-        "image": f"{SITE}/og-image.png",
+        "image": f"{SITE}/og-image-2026.png",
         # Date figée : la publication ne recule pas à chaque rebuild.
         "datePublished": horodater(DATE_PUBLICATION),
         # Suit les DONNÉES (run radar-data), pas le rendu HTML.
