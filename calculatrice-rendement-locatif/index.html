@@ -40,6 +40,7 @@
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Quelle est la différence entre rendement brut et rendement net ?","acceptedAnswer":{"@type":"Answer","text":"Le rendement brut est le rapport entre les loyers annuels et le prix d'achat. Le rendement net déduit les charges et la taxe foncière. Pour un investissement rentable, visez un rendement net supérieur à 4% en zone tendue, 6% en zone secondaire."}},{"@type":"Question","name":"Un bon rendement locatif c'est combien ?","acceptedAnswer":{"@type":"Answer","text":"En France, un rendement net inférieur à 3% est faible. Entre 3 et 5%, le profil est correct. Au-delà de 5%, le bien présente un profil attractif. Au-delà de 7%, le rendement est très compétitif."}},{"@type":"Question","name":"Faut-il inclure les frais de notaire dans le calcul du rendement ?","acceptedAnswer":{"@type":"Answer","text":"Oui, pour avoir le rendement réel d'acquisition. Les frais de notaire représentent environ 7,5% pour un bien ancien. Un bien à 200 000€ coûte réellement 215 000€."}}]}
 </script>
 <link rel="stylesheet" href="/styles/design-system.css">
+<link rel="stylesheet" href="/styles/nav.css">
 <style>.reading-progress{display:none}</style>
 <style>
 /* Page-specific token overrides */
@@ -86,6 +87,12 @@ body { color: var(--ink); }
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .hero h1{font-family:var(--serif);font-size:clamp(2.3rem,5.5vw,3.8rem);line-height:1.08;color:var(--ink);letter-spacing:-0.04em;margin-bottom:18px}
 .hero h1 em{font-style:italic;color:var(--mint)}
+/* Dès 1100 px, Instrument Serif renvoie « gratuite » à la ligne ; la
+   police de repli, plus étroite, le gardait sur la première. Le passage
+   de l'une à l'autre faisait descendre le formulaire (CLS 0,17 à
+   1440 px). La coupure est donc posée ici, au même endroit que la
+   police finale : rendu identique, aucun saut. */
+@media(min-width:1100px){.hero h1 em{display:block}}
 .hero-intro{font-size:1.08rem;color:var(--ink-soft);line-height:1.7;font-weight:300;max-width:540px;margin:0 auto 28px}
 
 /* Hero stats — honnêtes */
@@ -329,11 +336,12 @@ tr:hover td{background:rgba(45,106,79,.025)}
 
 <div class="reading-progress" id="reading-progress"></div>
 
+<!-- nav:debut — produit par tools/nav.py, ne pas modifier à la main -->
 <header>
 <nav class="site-nav" aria-label="Navigation principale">
   <a class="nav-logo" href="https://bailleursuite.fr/">
     <div class="nav-logo-icon">
-      <svg width="30" height="30" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+      <svg width="30" height="30" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <linearGradient id="eg" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#2D6A4F"/><stop offset="1" stop-color="#3D8B68"/>
@@ -347,39 +355,60 @@ tr:hover td{background:rgba(45,106,79,.025)}
     </div>
     Bailleur<span class="nav-logo-suite">Suite</span>
   </a>
-  <div class="nav-links">
-    <a class="nav-link" href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice</a>
-    <a class="nav-link" href="https://bailleursuite.fr/declaration-2044-guide">Guide 2044</a>
-    <a class="nav-link" href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP</a>
-    <a class="nav-link" href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF</a>
-    <a class="nav-link" href="https://bailleursuite.fr/radar-immobilier">Radar</a>
-    <a class="nav-link" href="https://bailleursuite.fr/aide">Aide</a>
-    <div class="nav-drop">
-      <button class="nav-link nav-drop-trigger" aria-expanded="false" aria-haspopup="true">Comparatifs <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-      <div class="nav-drop-menu">
-      <a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Logiciels de gestion</a>
-      <a href="https://bailleursuite.fr/application-gestion-locative-iphone">Applications iPhone</a>
-      </div>
-    </div>
-  </div>
+  <ul class="nav-groupes">
+    <li class="nav-drop">
+      <button type="button" class="nav-link nav-drop-trigger" aria-expanded="false" aria-controls="nav-groupe-0">L'application <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <ul class="nav-drop-menu" id="nav-groupe-0">
+        <li><a href="https://bailleursuite.fr/application-gestion-locative-iphone">L'app BailleurSuite<span class="nav-sous">iPhone, iPad et Mac</span></a></li>
+        <li><a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif des logiciels</a></li>
+      </ul>
+    </li>
+    <li class="nav-drop">
+      <button type="button" class="nav-link nav-drop-trigger est-courant" aria-expanded="false" aria-controls="nav-groupe-1">Outils <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <ul class="nav-drop-menu" id="nav-groupe-1">
+        <li><a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a></li>
+        <li><a href="https://bailleursuite.fr/calculatrice-rendement-locatif" aria-current="page">Calculatrice de rendement</a></li>
+        <li><a href="https://bailleursuite.fr/radar-immobilier">Radar immobilier</a></li>
+      </ul>
+    </li>
+    <li class="nav-drop">
+      <button type="button" class="nav-link nav-drop-trigger" aria-expanded="false" aria-controls="nav-groupe-2">Guides <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <ul class="nav-drop-menu" id="nav-groupe-2">
+        <li><a href="https://bailleursuite.fr/declaration-2044-guide">Déclaration 2044</a></li>
+        <li><a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP</a></li>
+        <li><a href="https://bailleursuite.fr/loi-de-finances-bailleurs">Loi de finances</a></li>
+      </ul>
+    </li>
+  </ul>
   <a class="nav-cta" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=nav&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'nav'})">Essayer BailleurSuite</a>
-  <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-label="Ouvrir le menu">
+  <button type="button" class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-mobile-menu" aria-label="Ouvrir le menu">
     <span class="nav-burger-line"></span>
     <span class="nav-burger-line"></span>
     <span class="nav-burger-line"></span>
   </button>
 </nav>
-<div class="nav-mobile-menu" id="nav-mobile-menu">
-  <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
-  <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
-  <a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP 2026</a>
-  <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
-  <a href="https://bailleursuite.fr/radar-immobilier">Radar immobilier</a>
-  <a href="https://bailleursuite.fr/aide">Centre d’aide</a>
-  <a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif logiciels</a>
-  <a href="https://bailleursuite.fr/application-gestion-locative-iphone">Application iPhone</a>
-</div>
+<nav class="nav-mobile-menu" id="nav-mobile-menu" aria-label="Menu">
+  <p class="nav-groupe-titre" id="nav-mobile-titre-0">L'application</p>
+  <ul class="nav-groupe" aria-labelledby="nav-mobile-titre-0">
+    <li><a href="https://bailleursuite.fr/application-gestion-locative-iphone"><span>L'app BailleurSuite<span class="nav-sous">iPhone, iPad et Mac</span></span></a></li>
+    <li><a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative"><span>Comparatif des logiciels</span></a></li>
+  </ul>
+  <p class="nav-groupe-titre" id="nav-mobile-titre-1">Outils gratuits</p>
+  <ul class="nav-groupe" aria-labelledby="nav-mobile-titre-1">
+    <li><a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit"><span>Quittance PDF gratuite</span></a></li>
+    <li><a href="https://bailleursuite.fr/calculatrice-rendement-locatif" aria-current="page"><span>Calculatrice de rendement</span></a></li>
+    <li><a href="https://bailleursuite.fr/radar-immobilier"><span>Radar immobilier</span></a></li>
+  </ul>
+  <p class="nav-groupe-titre" id="nav-mobile-titre-2">Guides</p>
+  <ul class="nav-groupe" aria-labelledby="nav-mobile-titre-2">
+    <li><a href="https://bailleursuite.fr/declaration-2044-guide"><span>Déclaration 2044</span></a></li>
+    <li><a href="https://bailleursuite.fr/lmnp-guide-complet"><span>Guide LMNP</span></a></li>
+    <li><a href="https://bailleursuite.fr/loi-de-finances-bailleurs"><span>Loi de finances</span></a></li>
+  </ul>
+  <a class="nav-aide" href="https://bailleursuite.fr/aide">Centre d'aide</a>
+</nav>
 </header>
+<!-- nav:fin -->
 
 <main>
 
@@ -739,44 +768,47 @@ tr:hover td{background:rgba(45,106,79,.025)}
 
 </main>
 
+<!-- pied:debut — produit par tools/nav.py, ne pas modifier à la main -->
 <footer class="site-footer">
   <div class="site-footer-inner">
-    <nav class="site-footer-nav" aria-label="Liens de pied de page">
-      <a href="https://bailleursuite.fr/">Accueil</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/#tarifs">Tarifs</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/#faq">FAQ</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice rendement</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/declaration-2044-guide">Guide déclaration 2044</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP 2026</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif logiciels</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/application-gestion-locative-iphone">Application iPhone</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/radar-immobilier">Radar immobilier</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://bailleursuite.fr/aide">Centre d'aide</a>
-    <span class="site-footer-sep">·</span>
-    <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=footer&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'footer'})">Télécharger sur l'App Store</a>
+    <nav class="site-footer-cols" aria-label="Plan du site">
+      <div class="site-footer-col">
+        <p class="site-footer-titre" id="pied-titre-0">L'application</p>
+        <ul aria-labelledby="pied-titre-0">
+          <li><a href="https://bailleursuite.fr/application-gestion-locative-iphone">L'app BailleurSuite</a></li>
+          <li><a href="https://bailleursuite.fr/comparatif-logiciel-gestion-locative">Comparatif des logiciels</a></li>
+        </ul>
+      </div>
+      <div class="site-footer-col">
+        <p class="site-footer-titre" id="pied-titre-1">Outils gratuits</p>
+        <ul aria-labelledby="pied-titre-1">
+          <li><a href="https://bailleursuite.fr/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a></li>
+          <li><a href="https://bailleursuite.fr/calculatrice-rendement-locatif">Calculatrice de rendement</a></li>
+          <li><a href="https://bailleursuite.fr/radar-immobilier">Radar immobilier</a></li>
+        </ul>
+      </div>
+      <div class="site-footer-col">
+        <p class="site-footer-titre" id="pied-titre-2">Guides</p>
+        <ul aria-labelledby="pied-titre-2">
+          <li><a href="https://bailleursuite.fr/declaration-2044-guide">Déclaration 2044</a></li>
+          <li><a href="https://bailleursuite.fr/lmnp-guide-complet">Guide LMNP</a></li>
+          <li><a href="https://bailleursuite.fr/loi-de-finances-bailleurs">Loi de finances</a></li>
+        </ul>
+      </div>
     </nav>
+    <p class="site-footer-liens"><a href="https://bailleursuite.fr/aide">Centre d'aide</a><span class="site-footer-sep">·</span><a href="https://bailleursuite.fr/conditions-utilisation.html">CGU</a><span class="site-footer-sep">·</span><a href="https://bailleursuite.fr/politique-confidentialite.html">Confidentialité</a></p>
     <div class="site-footer-bottom">
       <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>
-      <p style="margin-top:8px;">
-        <a href="https://bailleursuite.fr/conditions-utilisation.html">Mentions légales & CGU</a>
-        <a href="https://bailleursuite.fr/politique-confidentialite.html">Politique de confidentialité</a>
+      <p>
+        <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=footer&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'footer'})">Télécharger sur l'App Store</a>
         <button type="button" data-bs-consent="ouvrir">Gérer les cookies</button>
         <a href="mailto:contact@bailleursuite.fr">Contact</a>
       </p>
     </div>
   </div>
 </footer>
+<script defer src="/scripts/nav.js"></script>
+<!-- pied:fin -->
 
 <script>
   // Progression
@@ -1052,22 +1084,6 @@ tr:hover td{background:rgba(45,106,79,.025)}
   })();
 
   calcRentab();
-</script>
-<script>
-(function(){
-  var b=document.getElementById('nav-burger'),m=document.getElementById('nav-mobile-menu');
-  if(!b||!m)return;
-  b.addEventListener('click',function(){
-    var o=m.classList.toggle('is-open');
-    b.setAttribute('aria-expanded',String(o));
-  });
-  document.addEventListener('click',function(e){
-    if(m.classList.contains('is-open')&&!m.contains(e.target)&&!b.contains(e.target)){
-      m.classList.remove('is-open');
-      b.setAttribute('aria-expanded','false');
-    }
-  });
-})();
 </script>
 </body>
 </html>

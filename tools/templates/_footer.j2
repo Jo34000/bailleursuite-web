@@ -1,55 +1,41 @@
+<!-- pied:debut — produit par tools/nav.py, ne pas modifier à la main -->
 <footer class="site-footer">
   <div class="site-footer-inner">
-    <nav class="site-footer-nav" aria-label="Liens de pied de page">
-      <a href="{{ SITE }}/">Accueil</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/#tarifs">Tarifs</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/#faq">FAQ</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/calculatrice-rendement-locatif">Calculatrice rendement</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/declaration-2044-guide">Guide déclaration 2044</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/lmnp-guide-complet">Guide LMNP 2026</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/radar-immobilier">Radar immobilier</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/comparatif-logiciel-gestion-locative">Comparatif logiciels</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/application-gestion-locative-iphone">Application iPhone</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a>
-      <span class="site-footer-sep">·</span>
-      <a href="{{ SITE }}/aide">Centre d'aide</a>
-      <span class="site-footer-sep">·</span>
-      <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=footer&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'footer'})">Télécharger sur l'App Store</a>
+    <nav class="site-footer-cols" aria-label="Plan du site">
+      <div class="site-footer-col">
+        <p class="site-footer-titre" id="pied-titre-0">L'application</p>
+        <ul aria-labelledby="pied-titre-0">
+          <li><a href="{{ SITE }}/application-gestion-locative-iphone">L'app BailleurSuite</a></li>
+          <li><a href="{{ SITE }}/comparatif-logiciel-gestion-locative">Comparatif des logiciels</a></li>
+        </ul>
+      </div>
+      <div class="site-footer-col">
+        <p class="site-footer-titre" id="pied-titre-1">Outils gratuits</p>
+        <ul aria-labelledby="pied-titre-1">
+          <li><a href="{{ SITE }}/quittance-loyer-pdf-gratuit">Quittance PDF gratuite</a></li>
+          <li><a href="{{ SITE }}/calculatrice-rendement-locatif">Calculatrice de rendement</a></li>
+          <li><a href="{{ SITE }}/radar-immobilier">Radar immobilier</a></li>
+        </ul>
+      </div>
+      <div class="site-footer-col">
+        <p class="site-footer-titre" id="pied-titre-2">Guides</p>
+        <ul aria-labelledby="pied-titre-2">
+          <li><a href="{{ SITE }}/declaration-2044-guide">Déclaration 2044</a></li>
+          <li><a href="{{ SITE }}/lmnp-guide-complet">Guide LMNP</a></li>
+          <li><a href="{{ SITE }}/loi-de-finances-bailleurs">Loi de finances</a></li>
+        </ul>
+      </div>
     </nav>
+    <p class="site-footer-liens"><a href="{{ SITE }}/aide">Centre d'aide</a><span class="site-footer-sep">·</span><a href="{{ SITE }}/conditions-utilisation.html">CGU</a><span class="site-footer-sep">·</span><a href="{{ SITE }}/politique-confidentialite.html">Confidentialité</a></p>
     <div class="site-footer-bottom">
       <p>© 2026 BailleurSuite · Édité par Joachim ANTONA, EI · SIREN 104 828 579</p>
-      <p style="margin-top:8px;">
-        <a href="{{ SITE }}/conditions-utilisation.html">Mentions légales &amp; CGU</a>
-        <a href="{{ SITE }}/politique-confidentialite.html">Politique de confidentialité</a>
+      <p>
+        <a href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=footer&amp;mt=8" target="_blank" rel="noopener" onclick="track('AppStore_Click',{ct:'footer'})">Télécharger sur l'App Store</a>
         <button type="button" data-bs-consent="ouvrir">Gérer les cookies</button>
         <a href="mailto:contact@bailleursuite.fr">Contact</a>
       </p>
     </div>
   </div>
 </footer>
-
-<script>
-(function(){
-  var b=document.getElementById('nav-burger'),m=document.getElementById('nav-mobile-menu');
-  if(!b||!m)return;
-  b.addEventListener('click',function(){
-    var o=m.classList.toggle('is-open');
-    b.setAttribute('aria-expanded',String(o));
-  });
-  document.addEventListener('click',function(e){
-    if(m.classList.contains('is-open')&&!m.contains(e.target)&&!b.contains(e.target)){
-      m.classList.remove('is-open');
-      b.setAttribute('aria-expanded','false');
-    }
-  });
-})();
-</script>
+<script defer src="/scripts/nav.js"></script>
+<!-- pied:fin -->

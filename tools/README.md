@@ -205,25 +205,25 @@ villes sur 40 en baisse — afin que le calibrage mesuré en développement
 corresponde à celui de la production. Sans cet alignement, un seuil réglé sur
 une fixture optimiste passe pour sain et meurt en production.
 
-## 2. `add_nav_link.py` — lien entrant vers le Radar
+## 2. `nav.py` — navigation de tout le site
 
 ```bash
-python3 tools/add_nav_link.py           # simulation (défaut)
-python3 tools/add_nav_link.py --apply   # écrit
-python3 tools/add_nav_link.py --revert --apply   # retire
+python3 tools/nav.py              # contrôle : pages et gabarits à jour ?
+python3 tools/nav.py --appliquer  # réécrit les blocs
 ```
 
-Insère « Radar » dans `.nav-links`, `.nav-mobile-menu` et le pied de page des
-9 pages existantes. Sans ce lien, un sitemap ne suffit pas : Google
-n'indexerait pas 42 URL orphelines.
+Une seule source pour la barre, le menu mobile et le pied de page :
+trois groupes (L'application, Outils gratuits, Guides) et le Centre
+d'aide en lien secondaire, définis en tête du script (`GROUPES`, `AIDE`).
+Pour ajouter ou renommer une page de la navigation, on modifie ces
+listes puis on lance `--appliquer` : les pages statiques (entre les
+marqueurs `<!-- nav:debut -->` / `<!-- nav:fin -->` et `<!-- pied:debut -->`
+/ `<!-- pied:fin -->`), les gabarits Radar `_header.j2` / `_footer.j2` et
+les pages Radar déjà générées sont mis à jour ensemble. La page courante
+porte `aria-current`. Styles : `styles/nav.css` ; comportement (menus
+déroulants au clavier, Échap, menu mobile) : `scripts/nav.js`.
 
-**Idempotent** — un second passage ne fait rien. Le script repère un lien
-voisin connu (`/quittance-loyer-pdf-gratuit`) et insère le sien juste après, en
-recopiant son indentation, sa classe et sa **forme d'URL** : `index.html`
-référence ses pages en relatif, les guides en absolu.
-
-La page `comparatif-logiciel-gestion-locative` ne charge pas le design system
-et n'a pas de `.site-footer-nav` ; une zone de repli traite son `<footer>` nu.
+Une nouvelle page statique s'ajoute aussi au dictionnaire `PAGES`.
 
 ## 3. `og/render_og.py` — image de partage
 
@@ -248,9 +248,9 @@ l'ancienne image (la 404 fait abandonner aux moteurs leur copie en cache).
 ## Ordre d'exécution
 
 ```bash
+python3 tools/nav.py --appliquer   # si la navigation a changé
 python3 tools/build_radar.py
-python3 tools/add_nav_link.py --apply
 ```
 
-Le premier ne touche jamais aux pages existantes, le second ne touche jamais
-aux pages générées.
+`build_radar.py` reprend les gabarits de navigation écrits par `nav.py` ;
+il ne touche jamais aux pages statiques.

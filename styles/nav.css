@@ -1,0 +1,248 @@
+/* ═══ NAVIGATION ET PIED DE PAGE ══════════════════════════════════
+   Une seule feuille pour toutes les pages, y compris celles qui ne
+   chargent pas design-system.css (comparatif, application iPhone) et
+   les pages Radar. Le balisage est produit par tools/nav.py : ne pas
+   le modifier à la main dans les pages.
+
+   Trois groupes, dans le même ordre partout : L'application, Outils
+   gratuits, Guides. Le Centre d'aide est un lien secondaire : sous les
+   groupes dans le menu mobile, dans le pied de page sur ordinateur.
+
+   Couleurs fixées ici plutôt que lues dans les jetons des pages : les
+   deux pages autonomes définissent leurs propres --ink et --mint, et
+   la navigation doit rester identique d'une page à l'autre. */
+
+:root {
+  --nav-encre: #1C1C1E;
+  --nav-encre-moyenne: #4A4A44;
+  --nav-encre-claire: #6A6A64;   /* 4,8:1 sur l'ivoire */
+  --nav-menthe: #2D6A4F;
+  --nav-menthe-pale: #E8F2ED;
+  --nav-police: 'DM Sans', 'DM Sans Fallback', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Remise à zéro ──────────────────────────────────────────────────
+   Certaines pages stylent ul, li, p ou a globalement (puces en tiret,
+   retraits, marges). La navigation ne doit en hériter de rien. */
+.site-nav ul, .site-nav li, .nav-mobile-menu ul, .nav-mobile-menu li,
+.site-footer ul, .site-footer li {
+  margin: 0; padding: 0; list-style: none; font-size: inherit; line-height: inherit;
+}
+.site-nav li::before, .site-nav li::after, .nav-mobile-menu li::after,
+.site-footer li::before, .site-footer li::after { content: none; }
+.nav-mobile-menu p, .site-footer p { font-size: inherit; line-height: inherit; color: inherit; }
+
+/* ── Barre (capsule fixe) ───────────────────────────────────────── */
+.site-nav {
+  position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 100;
+  width: calc(100% - 32px); max-width: 1140px;
+  padding: 10px 10px 10px 22px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(24px) saturate(190%); -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(28,26,20,.04), 0 12px 32px -12px rgba(28,26,20,.18);
+  box-sizing: border-box;
+  font-family: var(--nav-police);
+}
+@media (max-width: 860px) {
+  .site-nav { top: 12px; width: calc(100% - 24px); padding: 8px 8px 8px 16px; }
+}
+.nav-logo {
+  font-family: var(--nav-police); font-size: 1.1rem; font-weight: 600;
+  letter-spacing: -0.02em; color: var(--nav-encre);
+  display: flex; align-items: center; gap: 9px; text-decoration: none;
+  flex-shrink: 0;
+}
+.nav-logo-icon {
+  width: 32px; height: 32px; background: var(--nav-menthe);
+  border-radius: 8px; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; overflow: hidden;
+}
+.nav-logo-suite { color: var(--nav-menthe); }
+.nav-cta {
+  background: var(--nav-encre); color: #fff;
+  padding: 11px 22px; border-radius: 999px;
+  font-size: 0.8125rem; font-weight: 600; text-decoration: none;
+  white-space: nowrap; flex-shrink: 0;
+  transition: transform .18s cubic-bezier(.4,0,.2,1);
+}
+.nav-cta:hover { transform: translateY(-1px); }
+@media (max-width: 700px) { .nav-cta { display: none; } }
+
+/* ── Groupes (ordinateur) ───────────────────────────────────────── */
+.nav-groupes {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  flex: 1;
+}
+.nav-drop { position: relative; display: flex; align-items: center; }
+.nav-drop-trigger {
+  font: 400 0.85rem/1 var(--nav-police); color: var(--nav-encre-moyenne);
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: none; cursor: pointer;
+  padding: 9px 10px; border-radius: 10px; white-space: nowrap;
+  transition: color .15s, background .15s;
+}
+.nav-drop-trigger:hover { color: var(--nav-encre); background: rgba(0,0,0,.06); }
+.nav-drop-trigger.est-courant { color: var(--nav-encre); font-weight: 500; }
+.nav-drop-trigger svg { transition: transform .18s cubic-bezier(.4,0,.2,1); }
+.nav-drop:hover .nav-drop-trigger svg,
+.nav-drop-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
+.nav-drop-menu {
+  position: absolute; top: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  min-width: 240px; padding: 6px; margin: 0; list-style: none;
+  display: flex; flex-direction: column; gap: 2px;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(28,26,20,.06);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(28,26,20,.04), 0 16px 40px -12px rgba(28,26,20,.24);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  /* visibility bascule tout de suite à l'ouverture (les liens sont
+     atteignables au clavier dès l'appui sur Entrée) et seulement après
+     le fondu à la fermeture. */
+  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+}
+/* Pont invisible : sans lui, le curseur qui descend vers le menu
+   quitte le déclencheur et referme tout avant de l'atteindre. */
+.nav-drop::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 12px; }
+.nav-drop:hover .nav-drop-menu,
+.nav-drop-trigger[aria-expanded="true"] + .nav-drop-menu {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+  transition-delay: 0s;
+}
+.nav-drop-menu a {
+  display: block; font-size: 0.85rem; font-weight: 400; line-height: 1.3;
+  color: var(--nav-encre-moyenne); text-decoration: none;
+  padding: 9px 12px; border-radius: 9px; white-space: nowrap;
+  transition: color .15s, background .15s;
+}
+.nav-drop-menu a:hover { color: var(--nav-encre); background: rgba(0,0,0,.06); }
+.nav-drop-menu a[aria-current] { color: var(--nav-menthe); font-weight: 500; background: var(--nav-menthe-pale); }
+.nav-sous { display: block; font-size: 0.75rem; font-weight: 400; color: var(--nav-encre-claire); margin-top: 2px; }
+
+/* ── Bouton du menu mobile ──────────────────────────────────────── */
+.nav-burger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; background: none; border: none; border-radius: 8px;
+  padding: 9px 8px; flex-shrink: 0; transition: background .15s;
+}
+.nav-burger:hover { background: rgba(0,0,0,.06); }
+.nav-burger-line {
+  display: block; width: 20px; height: 2px; background: var(--nav-encre);
+  border-radius: 1px; transition: transform .2s, opacity .2s; transform-origin: center;
+}
+.nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(2) { opacity: 0; }
+.nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+@media (max-width: 900px) {
+  .nav-groupes { display: none; }
+  .nav-burger { display: flex; }
+}
+
+/* ── Menu mobile : liste groupée façon Réglages iOS ─────────────────
+   Le panneau défile en interne s'il dépasse la fenêtre (360 × 640) ;
+   la page, elle, est figée tant qu'il est ouvert. */
+.nav-mobile-menu {
+  display: none;
+  position: fixed; top: 72px; left: 12px; right: 12px; z-index: 99;
+  max-height: calc(100vh - 84px); max-height: calc(100dvh - 84px);
+  overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+  background: rgba(245,240,232,.97);
+  backdrop-filter: blur(24px) saturate(190%); -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 22px;
+  box-shadow: 0 1px 2px rgba(28,26,20,.04), 0 16px 40px -12px rgba(28,26,20,.24);
+  padding: 6px 12px 10px;
+  box-sizing: border-box;
+  font-family: var(--nav-police);
+}
+.nav-mobile-menu.is-open { display: block; }
+@media (min-width: 901px) { .nav-mobile-menu { display: none !important; } }
+@media (max-width: 900px) { html.nav-ouvert { overflow: hidden; } }
+.nav-mobile-menu .nav-groupe-titre {
+  font: 500 12px/1.2 var(--nav-police); text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--nav-encre-claire);
+  margin: 14px 4px 6px 16px;
+}
+.nav-groupe {
+  list-style: none; margin: 0; padding: 0;
+  background: #fff; border-radius: 12px; overflow: hidden;
+}
+/* Séparateur fin, en retrait à gauche comme dans Réglages. */
+.nav-groupe li { position: relative; }
+.nav-mobile-menu .nav-groupe li + li::before {
+  content: ''; position: absolute; top: 0; left: 16px; right: 0; height: 1px;
+  background: rgba(60,60,67,.14);
+}
+.nav-groupe a {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  color: var(--nav-encre); text-decoration: none;
+  font-size: 1rem; font-weight: 400; line-height: 1.3;
+  padding: 11px 16px; min-height: 44px; box-sizing: border-box;
+}
+.nav-groupe a::after { content: '›'; color: #A3A39E; font-size: 1.25rem; line-height: 1; flex-shrink: 0; }
+.nav-groupe a:active { background: rgba(0,0,0,.05); }
+.nav-groupe a[aria-current] { color: var(--nav-menthe); font-weight: 600; }
+.nav-groupe a[aria-current]::after { color: var(--nav-menthe); }
+.nav-aide {
+  display: block; margin: 14px 16px 4px; padding: 6px 0;
+  font-size: 0.875rem; color: var(--nav-encre-moyenne); text-decoration: none;
+}
+.nav-aide[aria-current] { color: var(--nav-menthe); font-weight: 600; }
+
+/* ── Focus clavier ──────────────────────────────────────────────── */
+.nav-logo:focus-visible, .nav-cta:focus-visible, .nav-drop-trigger:focus-visible,
+.nav-drop-menu a:focus-visible, .nav-burger:focus-visible,
+.nav-groupe a:focus-visible, .nav-aide:focus-visible {
+  outline: 2px solid var(--nav-menthe); outline-offset: 2px;
+}
+.nav-groupe a:focus-visible { outline-offset: -2px; border-radius: 12px; }
+
+/* ══ PIED DE PAGE ══════════════════════════════════════════════════ */
+.site-footer {
+  background: #1C1C1E; color: rgba(255,255,255,.6);
+  padding: 48px 24px 32px; font-family: var(--nav-police);
+  text-align: left;
+}
+.site-footer-inner { max-width: 900px; margin: 0 auto; }
+.site-footer-cols {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px;
+  margin-bottom: 32px;
+}
+@media (max-width: 640px) {
+  .site-footer-cols { grid-template-columns: 1fr; gap: 24px; }
+}
+.site-footer .site-footer-titre {
+  font: 500 12px/1.2 var(--nav-police); text-transform: uppercase; letter-spacing: 0.06em;
+  color: rgba(255,255,255,.55); margin: 0 0 10px;
+}
+.site-footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.site-footer-col a, .site-footer-liens a {
+  color: rgba(255,255,255,.78); text-decoration: none; font-size: 0.875rem;
+  display: inline-block; padding: 5px 0; transition: color .2s;
+}
+.site-footer-col a:hover, .site-footer-liens a:hover { color: #74C69D; }
+.site-footer-col .nav-sous { color: rgba(255,255,255,.5); }
+.site-footer .site-footer-liens {
+  border-top: 1px solid rgba(255,255,255,.08); padding-top: 18px; margin: 0 0 6px;
+  font-size: 0.875rem;
+}
+.site-footer-liens .site-footer-sep { color: rgba(255,255,255,.3); margin: 0 8px; user-select: none; }
+.site-footer-bottom {
+  font-size: 0.75rem; color: rgba(255,255,255,.5); line-height: 1.7;
+}
+.site-footer .site-footer-bottom p { margin: 8px 0 0; font-size: 0.75rem; line-height: 1.7; color: rgba(255,255,255,.5); }
+.site-footer-bottom a, .site-footer-bottom button {
+  color: rgba(255,255,255,.6); text-decoration: none; margin-right: 14px;
+}
+.site-footer-bottom a:hover { color: rgba(255,255,255,.85); }
+.site-footer a:focus-visible, .site-footer button:focus-visible {
+  outline: 2px solid #74C69D; outline-offset: 2px; border-radius: 3px;
+}

@@ -11,8 +11,9 @@ Produit :
     radar-immobilier/methodologie/index.html     sources, limites, formule
     sitemap.xml                                  régénéré intégralement
 
-Aucune page existante n'est modifiée ici — l'insertion du lien de
-navigation est le travail de `tools/add_nav_link.py`.
+Aucune page existante n'est modifiée ici. La navigation (en-tête, menu
+mobile, pied de page) vient de `tools/nav.py`, qui écrit aussi les
+gabarits `_header.j2` et `_footer.j2` utilisés par ce build.
 
 Principe directeur, hérité du pipeline radar-data : **rien n'est
 imputé**. Une donnée absente du JSON produit une mention « non

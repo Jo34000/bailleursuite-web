@@ -55,3 +55,10 @@
    métriques d'Arial et de Times là où les originales manquent. */
 @font-face{font-family:"DM Sans Fallback";src:local("Arial"),local("ArialMT"),local("Liberation Sans");size-adjust:103%;ascent-override:96.3%;descent-override:30.1%;line-gap-override:0%}
 @font-face{font-family:"Instrument Serif Fallback";src:local("Times New Roman"),local("TimesNewRomanPSMT"),local("Liberation Serif");size-adjust:82.9%;ascent-override:119.4%;descent-override:37.4%;line-gap-override:0%}
+/* Italique : sans face dédiée, le navigateur penchait le Times droit,
+   4 à 14 % plus étroit que l'italique d'Instrument Serif. Un H1 qui
+   tenait sur une ligne en repli passait à deux au chargement de la
+   police (calculatrice, 1440 px : CLS 0,17). Largeur mesurée sur six
+   accroches en italique à 40 et 60 px : 87,3 % ; hauteurs recalées pour
+   garder la boîte de ligne de la face droite. */
+@font-face{font-family:"Instrument Serif Fallback";font-style:italic;src:local("Times New Roman Italic"),local("TimesNewRomanPS-ItalicMT"),local("Liberation Serif Italic");size-adjust:87.3%;ascent-override:113.4%;descent-override:35.5%;line-gap-override:0%}
