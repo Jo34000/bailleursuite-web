@@ -150,6 +150,7 @@ URLS_EXISTANTES = [
     ("/comparatif-logiciel-gestion-locative", "2026-08-19", "monthly", "0.8"),
     ("/application-gestion-locative-iphone", "2026-08-25", "monthly", "0.8"),
     ("/aide",                              "2026-08-17", "monthly", "0.7"),
+    ("/loi-de-finances-bailleurs",         "2026-11-26", "weekly",  "0.8"),
 ]
 
 AVERTISSEMENT = (
@@ -1198,6 +1199,7 @@ PAGES_HISTORIQUES = [
     "lmnp-guide-complet/index.html",
     "quittance-loyer-pdf-gratuit/index.html",
     "application-gestion-locative-iphone/index.html",
+    "loi-de-finances-bailleurs/index.html",
     "conditions-utilisation.html",
     "politique-confidentialite.html",
 ]

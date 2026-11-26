@@ -14,7 +14,7 @@ export const CT_CONNUS = [
   'calculatrice', 'quittance', 'guide2044', 'guidelmnp',
   'comparatif', 'compariphone', 'radar', 'aide',
   'quittance_qr', 'calculatrice_qr', 'cta_final_qr',
-  'quittance_modal',
+  'quittance_modal', 'loi_finances',
 ];
 
 // Posé au chargement par scripts/source-tracking.js quand la visite

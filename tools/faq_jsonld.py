@@ -68,6 +68,14 @@ PAGES: dict[str, tuple[str, re.Pattern]] = {
             r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon">.*?'
             r'<div class="faq-a">\s*(?P<r>.*?)\s*</div>', re.S),
     ),
+    # Créée en novembre 2026 : FAQPage produit mot pour mot depuis la
+    # page dès sa mise en ligne.
+    "loi-de-finances-bailleurs/index.html": (
+        GENERE,
+        re.compile(
+            r'<button class="faq-q"[^>]*>\s*(?P<q>.*?)\s*<span class="faq-icon">.*?'
+            r'<div class="faq-a">\s*(?P<r>.*?)\s*</div>', re.S),
+    ),
     # 13 questions écrites à la main, bloc JSON-LD indenté : on
     # contrôle le nombre, sans réécrire la mise en forme.
     "index.html": (

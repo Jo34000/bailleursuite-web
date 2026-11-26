@@ -26,7 +26,7 @@
   </url>
   <url>
     <loc>https://bailleursuite.fr/lmnp-guide-complet</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -47,6 +47,12 @@
     <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bailleursuite.fr/loi-de-finances-bailleurs</loc>
+    <lastmod>2026-11-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bailleursuite.fr/radar-immobilier</loc>
