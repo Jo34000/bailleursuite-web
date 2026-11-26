@@ -16,6 +16,7 @@ const EVENEMENTS = [
   'Quittance_CTA_Hero',
   'Calculatrice_Resultat',
   'Quittance_Generee',
+  'Quittance_Modal_Vue',
   'Email_Capture',
   'Home_MiniCalc',
 ];

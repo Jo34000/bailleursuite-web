@@ -21,6 +21,7 @@ const EVENEMENTS = new Set([
   'Calculatrice_Resultat',
   'Quittance_CTA_Hero',
   'Quittance_Generee',
+  'Quittance_Modal_Vue',
   'AppStore_Click',
   'Email_Capture',
   'Home_MiniCalc',

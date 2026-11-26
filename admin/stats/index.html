@@ -102,6 +102,15 @@
     </section>
 
     <section>
+      <h2>Fenêtre après téléchargement (quittance)</h2>
+      <div class="cartes" id="cartes-fenetre"></div>
+      <p class="legende">Taux = clics App Store depuis la fenêtre
+        (ct quittance_modal, variante publicitaire comprise) ÷ affichages
+        de la fenêtre (Quittance Modal Vue). Les scans du QR de la fenêtre
+        sont comptés avec ceux des cartes de la page (quittance_qr).</p>
+    </section>
+
+    <section>
       <h2>Clics App Store par emplacement</h2>
       <div class="tableau"><table id="tbl-ct">
         <thead><tr><th>Emplacement</th><th class="num">Clics</th><th class="num">Part</th></tr></thead>
@@ -161,11 +170,22 @@
     AppStore_Click: 'App Store',
     Quittance_CTA_Hero: 'CTA quittance',
     Quittance_Generee: 'Quittance',
+    Quittance_Modal_Vue: 'Fenêtre',
     Calculatrice_Resultat: 'Calculatrice',
     Email_Capture: 'Email',
     Home_MiniCalc: 'Mini-calc'
   };
   function court(nom) { return COURT[nom] || nom.replace(/_/g, ' '); }
+
+  /* Conversion de la fenêtre ouverte après le téléchargement d'une
+   * quittance : clics sur son badge rapportés à ses affichages. */
+  function tauxFenetre(d) {
+    var vues = d.evenements.Quittance_Modal_Vue ? d.evenements.Quittance_Modal_Vue.total : 0;
+    var p = d.appstore_par_ct || {};
+    var clics = (p.quittance_modal || 0) + (p.ads_quittance_modal || 0);
+    return { vues: vues, clics: clics,
+             taux: vues ? (clics / vues * 100).toFixed(1).replace('.', ',') + ' %' : '—' };
+  }
 
   // Dernier jeu de données rendu : l'export travaille dessus plutôt que
   // de relire le DOM, ce qui garderait les nombres déjà mis en forme.
@@ -186,6 +206,18 @@
       n.className = 'nom';
       n.textContent = nom.replace(/_/g, ' ');
       c.appendChild(v); c.appendChild(n); cartes.appendChild(c);
+    });
+
+    // Fenêtre après téléchargement
+    var f = tauxFenetre(d);
+    var cf = $('cartes-fenetre');
+    cf.innerHTML = '';
+    [[nombre(f.vues), 'Affichages'], [nombre(f.clics), 'Clics App Store'],
+     [f.taux, 'Taux de clic']].forEach(function (x) {
+      var c = document.createElement('div'); c.className = 'carte';
+      var v = document.createElement('div'); v.className = 'valeur'; v.textContent = x[0];
+      var n = document.createElement('div'); n.className = 'nom'; n.textContent = x[1];
+      c.appendChild(v); c.appendChild(n); cf.appendChild(c);
     });
 
     // Par emplacement
@@ -271,6 +303,11 @@
     L.push(ligne(['Événement', 'Total']));
     noms.forEach(function (n) { L.push(ligne([n, d.evenements[n].total])); });
     L.push('');
+    var f = tauxFenetre(d);
+    L.push(ligne(['Fenêtre après téléchargement (quittance)']));
+    L.push(ligne(['Affichages', 'Clics App Store', 'Taux']));
+    L.push(ligne([f.vues, f.clics, f.taux]));
+    L.push('');
     L.push(ligne(['Clics App Store par emplacement']));
     L.push(ligne(['Emplacement', 'Clics', 'Part']));
     var cts = Object.keys(d.appstore_par_ct)
@@ -309,6 +346,9 @@
     noms.forEach(function (n) {
       L.push('• ' + n.replace(/_/g, ' ') + ' : ' + nombre(d.evenements[n].total));
     });
+    var f = tauxFenetre(d);
+    L.push('', 'Fenêtre quittance : ' + nombre(f.vues) + ' affichages, '
+           + nombre(f.clics) + ' clics App Store, taux ' + f.taux);
     var cts = Object.keys(d.appstore_par_ct)
       .map(function (k) { return [k, d.appstore_par_ct[k]]; })
       .sort(function (a, b) { return b[1] - a[1]; });

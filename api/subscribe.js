@@ -49,7 +49,7 @@ function emailRappel(email) {
       </p>
       <hr style="border: none; border-top: 1px solid #E0D9CC; margin: 28px 0;">
       <p style="color: #8A8A84; font-size: 0.82rem; line-height: 1.6; margin: 0;">
-        BailleurSuite est disponible sur l'App Store : quittances automatiques,
+        BailleurSuite est disponible sur l'App Store : quittances prêtes chaque mois,
         suivi du rendement et préparation de la déclaration, directement sur iPhone.
       </p>`, email),
   };
@@ -77,7 +77,7 @@ function emailGuide(email) {
         Dans l'application
       </p>
       <ul style="color: #4A4A44; font-size: 0.88rem; line-height: 1.8; padding-left: 20px; margin: 0 0 24px;">
-        <li>Quittances PDF automatiques chaque mois</li>
+        <li>Quittances PDF prêtes chaque mois, envoyées en un geste</li>
         <li>Déclaration 2044 pré-remplie depuis vos données</li>
         <li>Module LMNP avec configurateur d'amortissements</li>
       </ul>

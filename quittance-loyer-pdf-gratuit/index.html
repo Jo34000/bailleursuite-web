@@ -1056,6 +1056,91 @@
       .content-section:last-child { margin-bottom: 0; }
       .upsell-banner { margin-top: var(--bloc-gap); margin-bottom: 0; }
     }
+    /* ── FENÊTRE APRÈS TÉLÉCHARGEMENT ─────────────────────────────
+       Ouverte 600 ms après le clic sur « Télécharger le PDF », une fois
+       par session, jamais à l'arrivée sur la page. Calque en position
+       fixed : il ne déplace rien dans la page, d'où un CLS nul.
+       Mobile : feuille qui monte du bas. Ordinateur : fenêtre centrée,
+       480 px au plus, avec le QR code (le badge seul n'installe rien
+       depuis un ordinateur). */
+    .qm[hidden] { display: none; }
+    /* 9500 : au-dessus du bandeau cookies (9000), qui sinon recouvre le
+       badge chez un premier visiteur ; il réapparaît à la fermeture. */
+    .qm { position: fixed; inset: 0; z-index: 9500;
+          display: flex; align-items: flex-end; justify-content: center; }
+    .qm-fond { position: absolute; inset: 0; background: rgba(17,19,21,.45);
+               opacity: 0; transition: opacity .25s ease; }
+    .qm-boite {
+      position: relative; width: 100%; max-height: 92vh; max-height: 92dvh;
+      overflow-y: auto; overscroll-behavior: contain;
+      background: var(--cream); color: var(--text-dark);
+      border-radius: 20px 20px 0 0;
+      padding: 28px 22px calc(22px + env(safe-area-inset-bottom, 0px));
+      box-shadow: 0 -8px 40px rgba(27,67,50,.18);
+      transform: translateY(100%); transition: transform .3s cubic-bezier(.2,.8,.2,1);
+      font-family: var(--sans);
+    }
+    .qm.qm-ouvert .qm-fond { opacity: 1; }
+    .qm.qm-ouvert .qm-boite { transform: none; }
+    .qm-boite:focus { outline: none; }
+    .qm-fermer {
+      position: absolute; top: 14px; right: 14px;
+      font: 600 .8rem/1 var(--sans); color: var(--text-mid);
+      background: var(--cream-dark); border: 0; border-radius: var(--r-full, 999px);
+      padding: 9px 14px; cursor: pointer;
+    }
+    .qm-pastille {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--green-pale); color: var(--green-dark);
+      font: 600 .78rem/1 var(--sans); border-radius: 999px; padding: 7px 12px 7px 9px;
+    }
+    .qm-pastille svg { flex-shrink: 0; }
+    .qm-boite h2 {
+      font-family: var(--serif); font-weight: 400; font-size: 1.85rem; line-height: 1.15;
+      color: var(--green-dark); margin: 16px 0 10px;
+    }
+    .qm-texte { font-size: .95rem; line-height: 1.55; color: var(--text-mid); margin: 0 0 14px; }
+    .qm-puces { list-style: none; margin: 0 0 18px; padding: 0;
+                display: flex; flex-direction: column; gap: 8px; }
+    .qm-puces li { display: flex; gap: 8px; font-size: .9rem; line-height: 1.4; color: var(--text-dark); }
+    .qm-puces li::before { content: '✓'; color: var(--green-mid); font-weight: 700; }
+    .qm-action { display: flex; align-items: center; gap: 20px; }
+    .qm-badge-bloc { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+    .qm-badge { display: inline-block; }
+    .qm-badge img { display: block; height: 48px; width: auto; }
+    .qm-gratuit { font-size: .8rem; color: var(--text-mid); }
+    .qm-qr { display: none; }
+    .qm-non {
+      display: block; margin: 18px auto 0; background: none; border: 0; padding: 6px;
+      font: .82rem/1.2 var(--sans); color: var(--text-mid);
+      text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+    }
+    .qm-fermer:focus-visible, .qm-non:focus-visible, .qm-badge:focus-visible,
+    .qm-qr:focus-visible { outline: 2px solid var(--green-main); outline-offset: 3px; }
+    @media (max-width: 899px) {
+      .qm-action { justify-content: center; }
+      .qm-badge-bloc { align-items: center; }
+    }
+    @media (min-width: 900px) {
+      .qm { align-items: center; padding: 24px; }
+      .qm-boite {
+        max-width: 480px; border-radius: 20px; padding: 32px 32px 24px;
+        box-shadow: 0 24px 64px rgba(27,67,50,.24);
+        transform: translateY(12px) scale(.98); opacity: 0;
+        transition: transform .25s ease, opacity .25s ease;
+      }
+      .qm.qm-ouvert .qm-boite { opacity: 1; }
+      .qm-qr {
+        display: inline-flex; flex-direction: column; align-items: center; gap: 6px;
+        text-decoration: none; color: var(--text-mid);
+        font-size: .7rem; line-height: 1.3; text-align: center;
+      }
+      .qm-qr img { display: block; width: 88px; height: 88px; background: #fff;
+                   border-radius: 8px; padding: 6px; border: 1px solid var(--border); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .qm-fond, .qm-boite { transition: none; }
+    }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="stylesheet" href="/styles/consent.css">
@@ -1273,10 +1358,10 @@
     <div class="upsell-banner" id="tool-conversion" hidden>
       <div class="upsell-content">
         <div class="upsell-texte">
-          <h3>Votre quittance est prête.<br><em>Le mois prochain, elle partira toute seule.</em></h3>
-          <p>BailleurSuite génère et envoie vos quittances chaque mois, pour chaque locataire, et les archive pour votre déclaration.</p>
+          <h3>Votre quittance est prête.<br><em>Le mois prochain, elle sera prête en un geste.</em></h3>
+          <p>BailleurSuite prépare votre quittance chaque mois&nbsp;: vous l'envoyez en un geste, par mail ou message. Elle reste archivée pour votre déclaration.</p>
           <div class="upsell-features">
-            <span class="upsell-feature">Quittances PDF envoyées automatiquement au locataire</span>
+            <span class="upsell-feature">Quittance prête chaque mois, pour chaque locataire</span>
             <span class="upsell-feature">Révision IRL calculée à la date anniversaire du bail</span>
             <span class="upsell-feature">Données stockées sur votre iPhone, sans compte</span>
           </div>
@@ -1297,7 +1382,7 @@
             </a>
           </div>
           <div class="upsell-gratuit">Téléchargement gratuit</div>
-          <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
+          <div class="upsell-price-sub">Quittances mensuelles avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
         </div>
       </div>
     </div>
@@ -1306,10 +1391,10 @@
     <div class="upsell-banner" id="upsell-statique">
       <div class="upsell-content">
         <div class="upsell-texte">
-          <h3>Et le mois prochain&nbsp;?<br><em>Elle partira toute seule.</em></h3>
-          <p>BailleurSuite génère et envoie vos quittances chaque mois, pour chaque locataire, et les archive pour votre déclaration.</p>
+          <h3>Et le mois prochain&nbsp;?<br><em>Elle sera prête en un geste.</em></h3>
+          <p>BailleurSuite prépare votre quittance chaque mois&nbsp;: vous l'envoyez en un geste, par mail ou message. Elle reste archivée pour votre déclaration.</p>
           <div class="upsell-features">
-            <span class="upsell-feature">Quittances PDF envoyées automatiquement au locataire</span>
+            <span class="upsell-feature">Quittance prête chaque mois, pour chaque locataire</span>
             <span class="upsell-feature">Révision IRL calculée à la date anniversaire du bail</span>
             <span class="upsell-feature">Données stockées sur votre iPhone, sans compte</span>
           </div>
@@ -1330,7 +1415,7 @@
             </a>
           </div>
           <div class="upsell-gratuit">Téléchargement gratuit</div>
-          <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
+          <div class="upsell-price-sub">Quittances mensuelles avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
         </div>
       </div>
     </div>
@@ -1497,8 +1582,8 @@
       </div>
 
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">BailleurSuite génère-t-il les quittances automatiquement ?</div>
-        <div class="faq-a">Oui. Dans l'app BailleurSuite (disponible sur l'App Store), les quittances sont générées et envoyées automatiquement chaque mois, en PDF, directement depuis votre iPhone. Vous n'avez rien à faire — l'app récupère les données du bail, génère le document et l'envoie au locataire.</div>
+        <div class="faq-q" onclick="toggleFaq(this)">BailleurSuite envoie-t-il les quittances automatiquement ?</div>
+        <div class="faq-a">Non, et c'est voulu&nbsp;: rien ne part sans vous. Dans l'app BailleurSuite (disponible sur l'App Store), la quittance PDF est préparée chaque mois à partir des données du bail, sur votre iPhone, iPad ou Mac. Vous l'envoyez au locataire en un geste, par mail ou message, et elle reste archivée pour votre déclaration.</div>
       </div>
 
     </div>
@@ -1510,7 +1595,7 @@
           <h3>Tout votre patrimoine locatif<br><em>dans votre poche</em></h3>
           <p>Loyers, charges, quittances, déclaration fiscale et projection sur 20 ans. Vos données restent sur vos appareils et dans votre iCloud.</p>
           <div class="upsell-features">
-            <span class="upsell-feature">Quittances envoyées automatiquement chaque mois</span>
+            <span class="upsell-feature">Quittance prête chaque mois, envoyée en un geste</span>
             <span class="upsell-feature">Déclaration 2044 et LMNP préparée case par case</span>
             <span class="upsell-feature">Projection patrimoniale et simulation de revente</span>
           </div>
@@ -1531,7 +1616,7 @@
             </a>
           </div>
           <div class="upsell-gratuit">Téléchargement gratuit</div>
-          <div class="upsell-price-sub">Envoi automatique des quittances avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
+          <div class="upsell-price-sub">Quittances mensuelles avec Gestion&nbsp;Zen — 5,99&nbsp;€/mois ou 49,99&nbsp;€/an</div>
         </div>
       </div>
     </div>
@@ -1578,6 +1663,39 @@
     </div>
   </div>
 </footer>
+
+<!-- Fenêtre après téléchargement : voir le script en fin de page. -->
+<div class="qm" id="quittance-modal" hidden>
+  <div class="qm-fond" data-qm-fermer></div>
+  <div class="qm-boite" role="dialog" aria-modal="true" aria-labelledby="qm-titre" aria-describedby="qm-texte" tabindex="-1">
+    <button type="button" class="qm-fermer" data-qm-fermer>Fermer</button>
+    <span class="qm-pastille"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12.5 10 17.5 19 7.5"/></svg> Quittance téléchargée</span>
+    <h2 id="qm-titre">Et le mois prochain&nbsp;?</h2>
+    <p class="qm-texte" id="qm-texte">BailleurSuite prépare votre quittance chaque mois&nbsp;: vous l'envoyez en un geste, par mail ou message. Elle reste archivée pour votre déclaration.</p>
+    <ul class="qm-puces">
+      <li>Quittance prête chaque mois, pour chaque locataire</li>
+      <li>Révision IRL calculée à la date anniversaire du bail</li>
+      <li>Données sur votre iPhone, iPad ou Mac, sans compte</li>
+    </ul>
+    <div class="qm-action">
+      <div class="qm-badge-bloc">
+        <a class="qm-badge" target="_blank" rel="noopener"
+          href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance_modal&amp;mt=8"
+          onclick="track('AppStore_Click',{ct:'quittance_modal'})">
+          <img src="/badge-app-store-black-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store">
+        </a>
+        <span class="qm-gratuit">Téléchargement gratuit</span>
+      </div>
+      <a class="qm-qr" target="_blank" rel="noopener"
+        href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=quittance_qr&amp;mt=8"
+        onclick="track('AppStore_Click',{ct:'quittance_qr'})">
+        <img src="/qr-appstore-quittance.svg" width="96" height="96" alt="" aria-hidden="true" loading="lazy">
+        <span>Scannez avec votre iPhone</span>
+      </a>
+    </div>
+    <button type="button" class="qm-non" data-qm-fermer>Non merci</button>
+  </div>
+</div>
 
 <script>
   /* ── Mois concerné et période ──────────────────────────────────
@@ -1881,7 +1999,80 @@
 
     doc.save(`quittance-${loc.replace(/\s+/g,'-').toLowerCase()}-${debut?.slice(0,7) || 'loyer'}.pdf`);
     track('Quittance_Generee');
+    // Après le téléchargement, jamais avant ; isolé pour qu'une erreur
+    // de la fenêtre ne puisse rien coûter au PDF, déjà parti.
+    try { planifierFenetreQuittance(); } catch (e) { /* fenêtre ignorée */ }
   }
+
+  /* ── Fenêtre après téléchargement ──────────────────────────────
+   * Une fois par session. sessionStorage peut lever (navigation
+   * privée, stockage bloqué) : la fenêtre s'affiche alors normalement,
+   * et le drapeau en mémoire évite de la rouvrir sur la même page. */
+  const CLE_FENETRE = 'bs_quittance_modal_vue';
+  let fenetrePlanifiee = false;
+  let fenetreRetour = null;
+
+  function fenetreDejaVue() {
+    try { return sessionStorage.getItem(CLE_FENETRE) === '1'; }
+    catch (e) { return false; }
+  }
+
+  function planifierFenetreQuittance() {
+    if (fenetrePlanifiee || fenetreDejaVue()) return;
+    fenetrePlanifiee = true;
+    setTimeout(() => {
+      try { ouvrirFenetreQuittance(); } catch (e) { /* fenêtre ignorée */ }
+    }, 600);
+  }
+
+  function focusables(boite) {
+    return Array.from(boite.querySelectorAll('a[href], button:not([disabled])'))
+      .filter((el) => el.offsetParent !== null);
+  }
+
+  function ouvrirFenetreQuittance() {
+    const fen = document.getElementById('quittance-modal');
+    if (!fen) return;
+    const boite = fen.querySelector('.qm-boite');
+    try { sessionStorage.setItem(CLE_FENETRE, '1'); } catch (e) { /* indisponible */ }
+    fenetreRetour = document.querySelector('.btn-download');
+    fen.hidden = false;
+    // Une image de retard : la transition part de l'état fermé.
+    requestAnimationFrame(() => requestAnimationFrame(() => fen.classList.add('qm-ouvert')));
+    boite.focus();
+    document.addEventListener('keydown', clavierFenetre, true);
+    track('Quittance_Modal_Vue');
+  }
+
+  function fermerFenetreQuittance() {
+    const fen = document.getElementById('quittance-modal');
+    if (!fen || fen.hidden) return;
+    fen.classList.remove('qm-ouvert');
+    fen.hidden = true;
+    document.removeEventListener('keydown', clavierFenetre, true);
+    if (fenetreRetour) fenetreRetour.focus();
+  }
+
+  function clavierFenetre(e) {
+    const fen = document.getElementById('quittance-modal');
+    if (!fen || fen.hidden) return;
+    if (e.key === 'Escape') { e.preventDefault(); fermerFenetreQuittance(); return; }
+    if (e.key !== 'Tab') return;
+    const boite = fen.querySelector('.qm-boite');
+    const liste = focusables(boite);
+    if (!liste.length) { e.preventDefault(); return; }
+    const premier = liste[0], dernier = liste[liste.length - 1];
+    const actif = document.activeElement;
+    if (e.shiftKey && (actif === premier || actif === boite || !boite.contains(actif))) {
+      e.preventDefault(); dernier.focus();
+    } else if (!e.shiftKey && (actif === dernier || !boite.contains(actif))) {
+      e.preventDefault(); premier.focus();
+    }
+  }
+
+  document.querySelectorAll('#quittance-modal [data-qm-fermer]').forEach((el) => {
+    el.addEventListener('click', fermerFenetreQuittance);
+  });
 
   // ── FAQ toggle ──
   function toggleFaq(el) {
