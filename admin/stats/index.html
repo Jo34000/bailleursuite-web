@@ -192,7 +192,7 @@
     <section>
       <h2>Clics App Store par emplacement</h2>
       <div class="tableau"><table id="tbl-ct">
-        <thead><tr><th>Emplacement</th><th class="num">Organique</th><th class="num">Google Ads</th><th class="num">Total</th><th class="num">Part</th><th class="num">vs période préc.</th></tr></thead>
+        <thead><tr><th>Emplacement</th><th class="num">Organique</th><th class="num">Google Ads</th><th class="num">Total</th><th class="num">Part</th><th class="num" id="th-ct-prec">vs période préc.</th></tr></thead>
         <tbody></tbody>
       </table></div>
     </section>
@@ -375,7 +375,7 @@
   }
   function tableParcours(id, lignes, aPrec) {
     var t = $(id); t.innerHTML = '';
-    var tb = entete(t, ['Étape', 'Volume', 'Taux', 'vs période préc.']);
+    var tb = entete(t, ['Étape', 'Volume', 'Taux', LIB_PREC]);
     lignes.forEach(function (l) {
       var tr = document.createElement('tr');
       cellule(tr, l[0], 'etape');
@@ -565,12 +565,12 @@
       var v = document.createElement('div'); v.className = 'valeur'; v.textContent = x[0];
       var n = document.createElement('div'); n.className = 'nom'; n.textContent = x[1];
       c.appendChild(v); c.appendChild(n);
-      if (x[2] && x[2].t !== '—') { var e = document.createElement('div'); e.className = 'evol ' + x[2].c; e.textContent = x[2].t + ' vs période préc.'; c.appendChild(e); }
+      if (x[2] && x[2].t !== '—') { var e = document.createElement('div'); e.className = 'evol ' + x[2].c; e.textContent = x[2].t + ' ' + LIB_PREC; c.appendChild(e); }
       c0.appendChild(c);
     });
     $('comparaison-ensemble').textContent = aPrec
-      ? 'Période du ' + d.periode.debut + ' au ' + d.periode.fin + ', comparée à celle du ' + P.periode.debut + ' au ' + P.periode.fin + '.'
-      : 'Période du ' + d.periode.debut + ' au ' + d.periode.fin + ' (pas de comparaison au-delà de 90 jours).';
+      ? 'Période affichée : du ' + jjmmaaaa(d.periode.debut) + ' au ' + jjmmaaaa(d.periode.fin) + ' (' + d.periode.jours + ' jours). Les évolutions (+ / −) la comparent aux ' + P.periode.jours + ' jours précédents, du ' + jjmmaaaa(P.periode.debut) + ' au ' + jjmmaaaa(P.periode.fin) + '.'
+      : 'Période affichée : du ' + jjmmaaaa(d.periode.debut) + ' au ' + jjmmaaaa(d.periode.fin) + ' (' + d.periode.jours + ' jours). Pas de comparaison au-delà de 90 jours.';
 
     var ul = $('constats'); ul.innerHTML = '';
     var LIB = { ok: ['etat-ok', '✓ Fonctionne'], alerte: ['etat-alerte', '! À regarder'], info: ['etat-info', 'ⓘ Info'] };
@@ -586,7 +586,7 @@
     graphe('graphe-clics', d.evenements.AppStore_Click ? d.evenements.AppStore_Click.par_jour : {}, 'Clics');
 
     var t = $('tbl-pages'); t.innerHTML = '';
-    var tb = entete(t, ['Page', 'Visites', 'dont Google Ads', 'Clics App Store', 'Taux de clic', 'Visites vs période préc.', 'Verdict']);
+    var tb = entete(t, ['Page', 'Visites', 'dont Google Ads', 'Clics App Store', 'Taux de clic', 'Visites ' + LIB_PREC, 'Verdict']);
     var VERD = { ok: '✓ au-dessus du site', moyen: '≈ dans la moyenne', faible: '! à améliorer', peu: 'peu de données' };
     lp.lignes.forEach(function (l) {
       var tr = document.createElement('tr');
@@ -601,16 +601,26 @@
     });
   }
 
+  /* Libellé des comparaisons : les dates de la période comparée, en
+   * clair, plutôt qu'un « période précédente » qu'il fallait deviner. */
+  var LIB_PREC = 'vs période préc.';
+  function jjmm(iso) { return iso.slice(8, 10) + '/' + iso.slice(5, 7); }
+  function jjmmaaaa(iso) { return jjmm(iso) + '/' + iso.slice(0, 4); }
+
   // Dernier jeu de données rendu : l'export travaille dessus plutôt que
   // de relire le DOM, ce qui garderait les nombres déjà mis en forme.
   var dernier = null;
 
   function rendre(d) {
     dernier = d;
+    LIB_PREC = d.precedent
+      ? 'vs ' + jjmm(d.precedent.periode.debut) + ' → ' + jjmm(d.precedent.periode.fin)
+      : 'vs période préc.';
+    $('th-ct-prec').textContent = LIB_PREC;
     rendreEnsemble(d);
     var P = d.precedent, aPrec = !!P;
     $('comparaison').textContent = aPrec
-      ? 'Comparaison avec la période précédente de même durée : du ' + P.periode.debut + ' au ' + P.periode.fin + '.'
+      ? 'Évolutions : comparaison avec les ' + P.periode.jours + ' jours précédents, du ' + jjmmaaaa(P.periode.debut) + ' au ' + jjmmaaaa(P.periode.fin) + '.'
       : 'Pas de comparaison au-delà de 90 jours.';
 
     // Fenêtre après téléchargement
@@ -626,7 +636,7 @@
       c.appendChild(v); c.appendChild(n);
       if (x[2] && x[2].t !== '—') {
         var e = document.createElement('div'); e.className = 'evol ' + x[2].c;
-        e.textContent = x[2].t + ' vs période préc.'; c.appendChild(e);
+        e.textContent = x[2].t + ' ' + LIB_PREC; c.appendChild(e);
       }
       cf.appendChild(c);
     });
@@ -636,7 +646,7 @@
 
     // Familles
     var tf = $('tbl-familles'); tf.innerHTML = '';
-    var tbf = entete(tf, ['Famille', 'Organique', 'Google Ads', 'Total', 'Part', 'vs période préc.']);
+    var tbf = entete(tf, ['Famille', 'Organique', 'Google Ads', 'Total', 'Part', LIB_PREC]);
     familles(d).forEach(function (l) {
       var tr = document.createElement('tr');
       cellule(tr, l.nom, 'etape');
@@ -664,7 +674,7 @@
       var e = evol(d.evenements[nom].total, total(P && P.evenements, nom), aPrec);
       if (e.t !== '—') {
         var ev = document.createElement('div'); ev.className = 'evol ' + e.c;
-        ev.textContent = e.t + ' vs période préc.'; c.appendChild(ev);
+        ev.textContent = e.t + ' ' + LIB_PREC; c.appendChild(ev);
       }
       cartes.appendChild(c);
     });
