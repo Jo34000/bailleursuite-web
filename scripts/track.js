@@ -51,4 +51,58 @@
       try { navigator.sendBeacon(POINT, texte); } catch (e2) { /* tant pis */ }
     }
   };
+
+  /* ── Visite de page ────────────────────────────────────────────
+   * Un compteur par page et par jour, rien de plus : ni URL complète,
+   * ni paramètres, ni identifiant. Le chemin est ramené à un jeton de
+   * la liste fermée de api/_pages.js ; une page hors liste n'envoie
+   * rien. Envoyé à DOMContentLoaded, une fois source-tracking.js passé,
+   * pour que les visites venues d'une campagne Google portent ads_. */
+  var PAGES = {
+    '': 'accueil',
+    'quittance-loyer-pdf-gratuit': 'quittance',
+    'calculatrice-rendement-locatif': 'calculatrice',
+    'declaration-2044-guide': 'guide2044',
+    'lmnp-guide-complet': 'guidelmnp',
+    'loi-de-finances-bailleurs': 'loi_finances',
+    'comparatif-logiciel-gestion-locative': 'comparatif',
+    'application-gestion-locative-iphone': 'app',
+    'aide': 'aide',
+    'radar-immobilier': 'radar',
+    'radar-immobilier/methodologie': 'radar_methodo',
+    'conditions-utilisation': 'cgu',
+    'politique-confidentialite': 'confidentialite'
+  };
+
+  function jetonPage(chemin) {
+    var c = String(chemin || '/').replace(/\/index\.html$/, '').replace(/\.html$/, '')
+      .replace(/^\/+|\/+$/g, '');
+    if (Object.prototype.hasOwnProperty.call(PAGES, c)) return PAGES[c];
+    if (/^radar-immobilier\/[a-z0-9-]+$/.test(c)) return 'radar_ville';
+    return null;
+  }
+
+  var envoyee = false;
+  function visite() {
+    if (envoyee) return;
+    envoyee = true;
+    // Navigateurs pilotés (robots de test, outils d'automatisation) :
+    // pas une visite.
+    if (navigator.webdriver) return;
+    var page = jetonPage(location.pathname);
+    if (!page) return;
+    window.track('Page_Vue', { page: window.__bsAds ? 'ads_' + page : page });
+  }
+
+  /* Les scripts différés s'exécutent alors que readyState vaut déjà
+   * « interactive » : envoyer tout de suite partirait avant que
+   * source-tracking.js ait marqué une visite Google Ads. DOMContentLoaded
+   * tombe après tous les scripts différés ; load sert de filet si le
+   * script était chargé plus tard. Le drapeau évite le double compte. */
+  if (document.readyState === 'complete') {
+    visite();
+  } else {
+    document.addEventListener('DOMContentLoaded', visite);
+    window.addEventListener('load', visite);
+  }
 })();

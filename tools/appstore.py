@@ -98,8 +98,36 @@ def verifier_liste_js() -> list[str]:
     return erreurs
 
 
+# Compteur de visites : le navigateur (scripts/track.js) ramène chaque
+# chemin à un jeton de page, que /api/track valide contre api/_pages.js.
+# Un jeton envoyé mais non déclaré serait refusé en silence ; un jeton
+# déclaré mais jamais envoyé laisserait une ligne vide dans /admin/stats.
+PAGES_JS = RACINE / "api" / "_pages.js"
+TRACK_JS = RACINE / "scripts" / "track.js"
+
+
+def verifier_pages() -> list[str]:
+    if not PAGES_JS.exists() or not TRACK_JS.exists():
+        return ["api/_pages.js ou scripts/track.js absent — visites non comptées"]
+    bloc = re.search(r"export const PAGES_CONNUES = \[(.*?)\];",
+                     PAGES_JS.read_text(encoding="utf-8"), re.S)
+    carte = re.search(r"var PAGES = \{(.*?)\};", TRACK_JS.read_text(encoding="utf-8"), re.S)
+    if not bloc or not carte:
+        return ["liste des pages introuvable dans api/_pages.js ou scripts/track.js"]
+    declarees = set(re.findall(r"'([a-z0-9_]+)'", bloc.group(1)))
+    envoyees = set(re.findall(r":\s*'([a-z0-9_]+)'", carte.group(1))) | {"radar_ville"}
+    erreurs = []
+    if envoyees - declarees:
+        erreurs.append(f"scripts/track.js envoie {sorted(envoyees - declarees)} "
+                       "qu'api/_pages.js refuse")
+    if declarees - envoyees:
+        erreurs.append(f"api/_pages.js déclare {sorted(declarees - envoyees)} "
+                       "que scripts/track.js n'envoie jamais")
+    return erreurs
+
+
 def verifier() -> list[str]:
-    erreurs: list[str] = verifier_liste_js()
+    erreurs: list[str] = verifier_liste_js() + verifier_pages()
     cts: Counter[str] = Counter()
     nb_canonique = 0
 

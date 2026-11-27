@@ -1,4 +1,5 @@
 import { ctValide } from './_ct.js';
+import { pageValide } from './_pages.js';
 import { pipeline, jour, identifiants } from './_redis.js';
 
 /* Compteur d'usage de première partie.
@@ -25,6 +26,8 @@ const EVENEMENTS = new Set([
   'AppStore_Click',
   'Email_Capture',
   'Home_MiniCalc',
+  // Visite d'une page : jeton de page seul, voir _pages.js.
+  'Page_Vue',
 ]);
 
 // Un corps légitime fait moins de cent octets. Au-delà, ce n'est pas
@@ -80,9 +83,17 @@ export default async function handler(req, res) {
     return res.status(204).end();
   }
 
+  // Le jeton de page n'a de sens que pour une visite, et une visite
+  // n'existe pas sans lui.
+  const page = donnees.page;
+  if (evenement === 'Page_Vue' ? !pageValide(page) : page !== undefined) {
+    return res.status(400).json({ error: 'page inconnue' });
+  }
+
   const j = jour();
   const cles = [`stats:${evenement}:${j}`];
   if (ct) cles.push(`stats:${evenement}:${ct}:${j}`);
+  if (page) cles.push(`stats:Page_Vue:p:${page}:${j}`);
 
   const commandes = [];
   for (const cle of cles) {
