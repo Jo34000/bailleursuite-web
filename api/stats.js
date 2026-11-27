@@ -1,5 +1,6 @@
 import crypto from 'node:crypto';
 import { CT_CONNUS, PREFIXE_ADS } from './_ct.js';
+import { PAGES_CONNUES } from './_pages.js';
 import { pipeline, jour, identifiants } from './_redis.js';
 
 /* Lecture des compteurs d'usage.
@@ -19,6 +20,7 @@ const EVENEMENTS = [
   'Quittance_Modal_Vue',
   'Email_Capture',
   'Home_MiniCalc',
+  'Page_Vue',
 ];
 
 const JOURS_MAX = 365;
@@ -91,7 +93,20 @@ async function lirePeriode(dates) {
     for (let d = 0; d < dates.length; d++) somme += valeursCt[k++];
     if (somme > 0) parCt[c] = somme;
   }
-  return { evenements, parCt };
+
+  // Visites par page, campagnes Google comprises (préfixe ads_).
+  const toutesPages = [...PAGES_CONNUES, ...PAGES_CONNUES.map((p) => PREFIXE_ADS + p)];
+  const clesPages = [];
+  for (const p of toutesPages) for (const d of dates) clesPages.push(`stats:Page_Vue:p:${p}:${d}`);
+  const valeursPages = await lire(clesPages);
+  const parPage = {};
+  let q = 0;
+  for (const p of toutesPages) {
+    let somme = 0;
+    for (let d = 0; d < dates.length; d++) somme += valeursPages[q++];
+    if (somme > 0) parPage[p] = somme;
+  }
+  return { evenements, parCt, parPage };
 }
 
 export default async function handler(req, res) {
@@ -127,14 +142,31 @@ export default async function handler(req, res) {
       periode: { debut: dates[0], fin: dates[dates.length - 1], jours },
       evenements: periode.evenements,
       appstore_par_ct: periode.parCt,
+      visites_par_page: periode.parPage,
       ct_connus: CT_CONNUS,
+      pages_connues: PAGES_CONNUES,
     };
-    if (avant.length) {
-      const p = await lirePeriode(avant);
+    // Premier jour où des visites ont été comptées : la mesure des visites
+    // par page a démarré après les autres compteurs, et une période qui
+    // la précède en partie ne se compare pas.
+    const pv = (e) => (e.Page_Vue ? e.Page_Vue.par_jour : {});
+    let p = null;
+    if (avant.length) p = await lirePeriode(avant);
+    const parJourVisites = { ...(p ? pv(p.evenements) : {}), ...pv(periode.evenements) };
+    corps.debut_visites = Object.keys(parJourVisites).sort().find((d) => parJourVisites[d] > 0) || null;
+    // Pendant la montée en charge du compteur, un taux de clic doit
+    // rapporter des clics et des visites des mêmes jours : les clics sont
+    // relus sur les seuls jours où les visites sont mesurées.
+    if (corps.debut_visites && corps.debut_visites > dates[0]) {
+      const r = await lirePeriode(dates.filter((d) => d >= corps.debut_visites));
+      corps.depuis_visites = { debut: corps.debut_visites, appstore_par_ct: r.parCt };
+    }
+    if (p) {
       corps.precedent = {
         periode: { debut: avant[0], fin: avant[avant.length - 1], jours },
         evenements: Object.fromEntries(Object.entries(p.evenements).map(([e, v]) => [e, v.total])),
         appstore_par_ct: p.parCt,
+        visites_par_page: p.parPage,
       };
     }
     return res.status(200).json(corps);
