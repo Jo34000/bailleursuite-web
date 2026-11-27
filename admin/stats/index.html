@@ -70,6 +70,11 @@
   /* Le nom complet de l'événement reste accessible au survol et aux
      lecteurs d'écran, l'en-tête n'en montre qu'une forme courte. */
   th[title] { cursor: help; }
+  h3 { font-size: .95rem; font-weight: 600; margin: 22px 0 10px; }
+  h3:first-of-type { margin-top: 4px; }
+  .carte .evol { font-size: .72rem; color: var(--ink-light); margin-top: 6px; }
+  .hausse { color: #1A6B3C; } .baisse { color: #8A3A1F; }
+  td.etape { white-space: normal; }
   .legende { font-size: .75rem; color: var(--ink-light); margin: 10px 0 0; line-height: 1.6; }
   [hidden] { display: none !important; }
 </style>
@@ -97,23 +102,39 @@
 
   <div id="resultats" hidden>
     <section>
-      <h2>Totaux sur la période</h2>
-      <div class="cartes" id="cartes"></div>
-    </section>
+      <h2>Conversion</h2>
+      <p class="legende" id="comparaison" style="margin:0 0 6px"></p>
 
-    <section>
-      <h2>Fenêtre après téléchargement (quittance)</h2>
+      <h3>Fenêtre après téléchargement (quittance)</h3>
       <div class="cartes" id="cartes-fenetre"></div>
       <p class="legende">Taux = clics App Store depuis la fenêtre
         (ct quittance_modal, variante publicitaire comprise) ÷ affichages
         de la fenêtre (Quittance Modal Vue). Les scans du QR de la fenêtre
         sont comptés avec ceux des cartes de la page (quittance_qr).</p>
+
+      <h3>Parcours quittance</h3>
+      <div class="tableau"><table id="tbl-parcours-quittance"></table></div>
+
+      <h3>Parcours calculatrice</h3>
+      <div class="tableau"><table id="tbl-parcours-calc"></table></div>
+
+      <h3>Clics App Store par famille d'emplacements</h3>
+      <div class="tableau"><table id="tbl-familles"></table></div>
+      <p class="legende">Organique : visites hors campagne. Google Ads :
+        visites arrivées avec utm_source=google (jeton ct préfixé ads_).
+        Les compteurs n'ont ni identifiant ni session : un même visiteur
+        peut compter plusieurs fois, les taux sont des ordres de grandeur.</p>
+    </section>
+
+    <section>
+      <h2>Totaux sur la période</h2>
+      <div class="cartes" id="cartes"></div>
     </section>
 
     <section>
       <h2>Clics App Store par emplacement</h2>
       <div class="tableau"><table id="tbl-ct">
-        <thead><tr><th>Emplacement</th><th class="num">Clics</th><th class="num">Part</th></tr></thead>
+        <thead><tr><th>Emplacement</th><th class="num">Organique</th><th class="num">Google Ads</th><th class="num">Total</th><th class="num">Part</th><th class="num">vs période préc.</th></tr></thead>
         <tbody></tbody>
       </table></div>
     </section>
@@ -177,14 +198,133 @@
   };
   function court(nom) { return COURT[nom] || nom.replace(/_/g, ' '); }
 
+  /* ── Calculs ────────────────────────────────────────────────── */
+  var ADS = 'ads_';
+
+  /* Familles d'emplacements, dans l'ordre du parcours commercial. Un ct
+   * absent de cette liste tombe dans « Autres » : ajouter un emplacement
+   * ne fait rien disparaître. */
+  var FAMILLES = [
+    ['Fenêtre quittance', ['quittance_modal']],
+    ['Outils gratuits (cartes et QR)', ['quittance', 'quittance_qr', 'calculatrice', 'calculatrice_qr', 'radar']],
+    ['Guides et aide', ['guide2044', 'guidelmnp', 'loi_finances', 'aide']],
+    ['Comparatifs', ['comparatif', 'compariphone']],
+    ['Accueil', ['hero', 'cta_final', 'cta_final_qr', 'tarifs', 'sticky']],
+    ['Navigation et pied de page', ['nav', 'footer']]
+  ];
+
+  function total(evts, nom) {
+    var v = evts && evts[nom];
+    return typeof v === 'number' ? v : (v ? v.total : 0);
+  }
+  function clic(parCt, ct) {
+    parCt = parCt || {};
+    return { org: parCt[ct] || 0, ads: parCt[ADS + ct] || 0 };
+  }
+  function clicsDe(parCt, cts) {
+    return cts.reduce(function (s, ct) {
+      var c = clic(parCt, ct); s.org += c.org; s.ads += c.ads; return s;
+    }, { org: 0, ads: 0 });
+  }
+  function pct(a, b) { return b ? (a / b * 100).toFixed(1).replace('.', ',') + ' %' : '—'; }
+  /* Évolution à durée égale. Sans période précédente (plus de 90 jours),
+   * ou sans rien des deux côtés, on n'affiche rien plutôt qu'un 0 %. */
+  function evol(cur, prev, aPrec) {
+    if (!aPrec || (!cur && !prev)) return { t: '—', c: '' };
+    if (!prev) return { t: 'nouveau', c: 'hausse' };
+    var v = (cur - prev) / prev * 100;
+    var t = (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(0) + ' %';
+    return { t: t, c: v > 0 ? 'hausse' : v < 0 ? 'baisse' : '' };
+  }
+  function ctConnus(d) {
+    if (d.ct_connus) return d.ct_connus.slice();
+    var vus = {};
+    Object.keys(d.appstore_par_ct).forEach(function (k) {
+      vus[k.indexOf(ADS) === 0 ? k.slice(ADS.length) : k] = 1;
+    });
+    return Object.keys(vus);
+  }
+
   /* Conversion de la fenêtre ouverte après le téléchargement d'une
    * quittance : clics sur son badge rapportés à ses affichages. */
   function tauxFenetre(d) {
-    var vues = d.evenements.Quittance_Modal_Vue ? d.evenements.Quittance_Modal_Vue.total : 0;
-    var p = d.appstore_par_ct || {};
-    var clics = (p.quittance_modal || 0) + (p.ads_quittance_modal || 0);
-    return { vues: vues, clics: clics,
-             taux: vues ? (clics / vues * 100).toFixed(1).replace('.', ',') + ' %' : '—' };
+    var vues = total(d.evenements, 'Quittance_Modal_Vue');
+    var c = clic(d.appstore_par_ct, 'quittance_modal');
+    var clics = c.org + c.ads;
+    return { vues: vues, clics: clics, taux: pct(clics, vues) };
+  }
+
+  /* Parcours : [libellé, valeur, valeur période précédente, taux, base du taux] */
+  function parcoursQuittance(d) {
+    var P = d.precedent || {}, E = d.evenements, EP = P.evenements;
+    var page = ['quittance', 'quittance_qr', 'quittance_modal'];
+    var cta = total(E, 'Quittance_CTA_Hero'), pdf = total(E, 'Quittance_Generee'),
+        vue = total(E, 'Quittance_Modal_Vue'), fen = clicsDe(d.appstore_par_ct, ['quittance_modal']),
+        tout = clicsDe(d.appstore_par_ct, page);
+    return [
+      ['Clics « Créer ma quittance »', cta, total(EP, 'Quittance_CTA_Hero'), '—', ''],
+      ['PDF téléchargés', pdf, total(EP, 'Quittance_Generee'), '—', ''],
+      ['Fenêtre affichée (1 fois par session)', vue, total(EP, 'Quittance_Modal_Vue'), pct(vue, pdf), 'des PDF'],
+      ['Clics App Store depuis la fenêtre', fen.org + fen.ads,
+        (function (c) { return c.org + c.ads; })(clicsDe(P.appstore_par_ct, ['quittance_modal'])), pct(fen.org + fen.ads, vue), 'des affichages'],
+      ['Clics App Store, toute la page quittance', tout.org + tout.ads,
+        (function (c) { return c.org + c.ads; })(clicsDe(P.appstore_par_ct, page)), pct(tout.org + tout.ads, pdf), 'des PDF']
+    ];
+  }
+  function parcoursCalc(d) {
+    var P = d.precedent || {};
+    var res = total(d.evenements, 'Calculatrice_Resultat');
+    var c = clicsDe(d.appstore_par_ct, ['calculatrice', 'calculatrice_qr']);
+    var cp = clicsDe(P.appstore_par_ct, ['calculatrice', 'calculatrice_qr']);
+    return [
+      ['Résultats calculés', res, total(P.evenements, 'Calculatrice_Resultat'), '—', ''],
+      ['Clics App Store depuis la calculatrice', c.org + c.ads, cp.org + cp.ads, pct(c.org + c.ads, res), 'des résultats']
+    ];
+  }
+  function familles(d) {
+    var connus = ctConnus(d), ranges = {};
+    var lignes = FAMILLES.map(function (f) {
+      f[1].forEach(function (ct) { ranges[ct] = 1; });
+      return [f[0], f[1]];
+    });
+    var autres = connus.filter(function (ct) { return !ranges[ct]; });
+    if (autres.length) lignes.push(['Autres', autres]);
+    var P = d.precedent || {};
+    var calc = lignes.map(function (l) {
+      var c = clicsDe(d.appstore_par_ct, l[1]), p = clicsDe(P.appstore_par_ct, l[1]);
+      return { nom: l[0], org: c.org, ads: c.ads, tot: c.org + c.ads, prev: p.org + p.ads };
+    });
+    var somme = calc.reduce(function (s, l) { return s + l.tot; }, 0);
+    calc.forEach(function (l) { l.part = pct(l.tot, somme); });
+    return calc;
+  }
+
+  /* ── Rendu ──────────────────────────────────────────────────── */
+  function cellule(tr, texte, classe) {
+    var td = document.createElement('td');
+    if (classe) td.className = classe;
+    td.textContent = texte; tr.appendChild(td); return td;
+  }
+  function entete(table, titres) {
+    var thead = document.createElement('thead'), tr = document.createElement('tr');
+    titres.forEach(function (t, i) {
+      var th = document.createElement('th'); th.textContent = t;
+      if (i) th.className = 'num'; tr.appendChild(th);
+    });
+    thead.appendChild(tr); table.appendChild(thead);
+    var tb = document.createElement('tbody'); table.appendChild(tb); return tb;
+  }
+  function tableParcours(id, lignes, aPrec) {
+    var t = $(id); t.innerHTML = '';
+    var tb = entete(t, ['Étape', 'Volume', 'Taux', 'vs période préc.']);
+    lignes.forEach(function (l) {
+      var tr = document.createElement('tr');
+      cellule(tr, l[0], 'etape');
+      cellule(tr, nombre(l[1]), 'num' + (l[1] ? '' : ' zero'));
+      cellule(tr, l[3] + (l[3] !== '—' ? ' ' + l[4] : ''), 'num');
+      var e = evol(l[1], l[2], aPrec); cellule(tr, e.t, 'num ' + e.c);
+      tb.appendChild(tr);
+    });
   }
 
   // Dernier jeu de données rendu : l'export travaille dessus plutôt que
@@ -193,6 +333,46 @@
 
   function rendre(d) {
     dernier = d;
+    var P = d.precedent, aPrec = !!P;
+    $('comparaison').textContent = aPrec
+      ? 'Comparaison avec la période précédente de même durée : du ' + P.periode.debut + ' au ' + P.periode.fin + '.'
+      : 'Pas de comparaison au-delà de 90 jours.';
+
+    // Fenêtre après téléchargement
+    var f = tauxFenetre(d), fp = aPrec ? tauxFenetre({ evenements: P.evenements, appstore_par_ct: P.appstore_par_ct }) : null;
+    var cf = $('cartes-fenetre');
+    cf.innerHTML = '';
+    [[nombre(f.vues), 'Affichages', fp && evol(f.vues, fp.vues, true)],
+     [nombre(f.clics), 'Clics App Store', fp && evol(f.clics, fp.clics, true)],
+     [f.taux, 'Taux de clic', null]].forEach(function (x) {
+      var c = document.createElement('div'); c.className = 'carte';
+      var v = document.createElement('div'); v.className = 'valeur'; v.textContent = x[0];
+      var n = document.createElement('div'); n.className = 'nom'; n.textContent = x[1];
+      c.appendChild(v); c.appendChild(n);
+      if (x[2] && x[2].t !== '—') {
+        var e = document.createElement('div'); e.className = 'evol ' + x[2].c;
+        e.textContent = x[2].t + ' vs période préc.'; c.appendChild(e);
+      }
+      cf.appendChild(c);
+    });
+
+    tableParcours('tbl-parcours-quittance', parcoursQuittance(d), aPrec);
+    tableParcours('tbl-parcours-calc', parcoursCalc(d), aPrec);
+
+    // Familles
+    var tf = $('tbl-familles'); tf.innerHTML = '';
+    var tbf = entete(tf, ['Famille', 'Organique', 'Google Ads', 'Total', 'Part', 'vs période préc.']);
+    familles(d).forEach(function (l) {
+      var tr = document.createElement('tr');
+      cellule(tr, l.nom, 'etape');
+      cellule(tr, nombre(l.org), 'num' + (l.org ? '' : ' zero'));
+      cellule(tr, nombre(l.ads), 'num' + (l.ads ? '' : ' zero'));
+      cellule(tr, nombre(l.tot), 'num' + (l.tot ? '' : ' zero'));
+      cellule(tr, l.part, 'num');
+      var e = evol(l.tot, l.prev, aPrec); cellule(tr, e.t, 'num ' + e.c);
+      tbf.appendChild(tr);
+    });
+
     // Totaux
     var cartes = $('cartes');
     cartes.innerHTML = '';
@@ -205,42 +385,32 @@
       var n = document.createElement('div');
       n.className = 'nom';
       n.textContent = nom.replace(/_/g, ' ');
-      c.appendChild(v); c.appendChild(n); cartes.appendChild(c);
+      c.appendChild(v); c.appendChild(n);
+      var e = evol(d.evenements[nom].total, total(P && P.evenements, nom), aPrec);
+      if (e.t !== '—') {
+        var ev = document.createElement('div'); ev.className = 'evol ' + e.c;
+        ev.textContent = e.t + ' vs période préc.'; c.appendChild(ev);
+      }
+      cartes.appendChild(c);
     });
 
-    // Fenêtre après téléchargement
-    var f = tauxFenetre(d);
-    var cf = $('cartes-fenetre');
-    cf.innerHTML = '';
-    [[nombre(f.vues), 'Affichages'], [nombre(f.clics), 'Clics App Store'],
-     [f.taux, 'Taux de clic']].forEach(function (x) {
-      var c = document.createElement('div'); c.className = 'carte';
-      var v = document.createElement('div'); v.className = 'valeur'; v.textContent = x[0];
-      var n = document.createElement('div'); n.className = 'nom'; n.textContent = x[1];
-      c.appendChild(v); c.appendChild(n); cf.appendChild(c);
-    });
-
-    // Par emplacement
+    // Par emplacement : tous les ct connus, zéros compris, pour qu'un
+    // emplacement sans clic se voie au lieu de disparaître du tableau.
     var corpsCt = $('tbl-ct').querySelector('tbody');
     corpsCt.innerHTML = '';
-    var entrees = Object.keys(d.appstore_par_ct)
-      .map(function (k) { return [k, d.appstore_par_ct[k]]; })
-      .sort(function (a, b) { return b[1] - a[1]; });
-    var somme = entrees.reduce(function (s, e) { return s + e[1]; }, 0);
-    if (!entrees.length) {
-      var vide = document.createElement('tr');
-      var td = document.createElement('td');
-      td.colSpan = 3; td.className = 'zero';
-      td.textContent = 'Aucun clic enregistré sur la période.';
-      vide.appendChild(td); corpsCt.appendChild(vide);
-    }
-    entrees.forEach(function (e) {
+    var lignesCt = ctConnus(d).map(function (ct) {
+      var c = clic(d.appstore_par_ct, ct), p = clic(P && P.appstore_par_ct, ct);
+      return { ct: ct, org: c.org, ads: c.ads, tot: c.org + c.ads, prev: p.org + p.ads };
+    }).sort(function (a, b) { return b.tot - a.tot || a.ct.localeCompare(b.ct); });
+    var somme = lignesCt.reduce(function (s, l) { return s + l.tot; }, 0);
+    lignesCt.forEach(function (l) {
       var tr = document.createElement('tr');
-      var a = document.createElement('td'); a.textContent = e[0];
-      var b = document.createElement('td'); b.className = 'num'; b.textContent = nombre(e[1]);
-      var c = document.createElement('td'); c.className = 'num';
-      c.textContent = somme ? (e[1] / somme * 100).toFixed(1) + ' %' : '—';
-      tr.appendChild(a); tr.appendChild(b); tr.appendChild(c);
+      cellule(tr, l.ct, l.tot ? '' : 'zero');
+      cellule(tr, l.org ? nombre(l.org) : '·', 'num' + (l.org ? '' : ' zero'));
+      cellule(tr, l.ads ? nombre(l.ads) : '·', 'num' + (l.ads ? '' : ' zero'));
+      cellule(tr, l.tot ? nombre(l.tot) : '·', 'num' + (l.tot ? '' : ' zero'));
+      cellule(tr, l.tot ? pct(l.tot, somme) : '·', 'num' + (l.tot ? '' : ' zero'));
+      var e = evol(l.tot, l.prev, aPrec); cellule(tr, e.t, 'num ' + e.c);
       corpsCt.appendChild(tr);
     });
 
@@ -294,29 +464,44 @@
   function csv(d) {
     var noms = Object.keys(d.evenements);
     var jours = Object.keys(d.evenements[noms[0]].par_jour).reverse();
+    var aPrec = !!d.precedent;
     var L = [];
     L.push(ligne(['Statistiques BailleurSuite']));
     L.push(ligne(['Période', d.periode.debut + ' → ' + d.periode.fin,
                   d.periode.jours + ' jours']));
-    L.push('');
-    L.push(ligne(['Totaux sur la période']));
-    L.push(ligne(['Événement', 'Total']));
-    noms.forEach(function (n) { L.push(ligne([n, d.evenements[n].total])); });
+    if (aPrec) L.push(ligne(['Période précédente', d.precedent.periode.debut + ' → ' + d.precedent.periode.fin]));
     L.push('');
     var f = tauxFenetre(d);
     L.push(ligne(['Fenêtre après téléchargement (quittance)']));
     L.push(ligne(['Affichages', 'Clics App Store', 'Taux']));
     L.push(ligne([f.vues, f.clics, f.taux]));
+    [['Parcours quittance', parcoursQuittance(d)], ['Parcours calculatrice', parcoursCalc(d)]].forEach(function (p) {
+      L.push('');
+      L.push(ligne([p[0]]));
+      L.push(ligne(['Étape', 'Volume', 'Taux', 'Période précédente', 'Évolution']));
+      p[1].forEach(function (l) {
+        L.push(ligne([l[0], l[1], l[3] + (l[3] !== '—' ? ' ' + l[4] : ''), aPrec ? l[2] : '', evol(l[1], l[2], aPrec).t]));
+      });
+    });
+    L.push('');
+    L.push(ligne(['Clics App Store par famille']));
+    L.push(ligne(['Famille', 'Organique', 'Google Ads', 'Total', 'Part', 'Période précédente', 'Évolution']));
+    familles(d).forEach(function (l) {
+      L.push(ligne([l.nom, l.org, l.ads, l.tot, l.part, aPrec ? l.prev : '', evol(l.tot, l.prev, aPrec).t]));
+    });
+    L.push('');
+    L.push(ligne(['Totaux sur la période']));
+    L.push(ligne(['Événement', 'Total', 'Période précédente', 'Évolution']));
+    noms.forEach(function (n) {
+      var p = total(d.precedent && d.precedent.evenements, n);
+      L.push(ligne([n, d.evenements[n].total, aPrec ? p : '', evol(d.evenements[n].total, p, aPrec).t]));
+    });
     L.push('');
     L.push(ligne(['Clics App Store par emplacement']));
-    L.push(ligne(['Emplacement', 'Clics', 'Part']));
-    var cts = Object.keys(d.appstore_par_ct)
-      .map(function (k) { return [k, d.appstore_par_ct[k]]; })
-      .sort(function (a, b) { return b[1] - a[1]; });
-    var somme = cts.reduce(function (s, e) { return s + e[1]; }, 0);
-    cts.forEach(function (e) {
-      L.push(ligne([e[0], e[1],
-        somme ? (e[1] / somme * 100).toFixed(1).replace('.', ',') + ' %' : '']));
+    L.push(ligne(['Emplacement', 'Organique', 'Google Ads', 'Total']));
+    ctConnus(d).forEach(function (ct) {
+      var c = clic(d.appstore_par_ct, ct);
+      L.push(ligne([ct, c.org, c.ads, c.org + c.ads]));
     });
     L.push('');
     L.push(ligne(['Détail par jour']));
@@ -340,22 +525,21 @@
   }
 
   function resume(d) {
-    var noms = Object.keys(d.evenements);
+    var noms = Object.keys(d.evenements), aPrec = !!d.precedent;
     var L = ['BailleurSuite — usage du ' + d.periode.debut + ' au ' + d.periode.fin
-             + ' (' + d.periode.jours + ' jours)', ''];
+             + ' (' + d.periode.jours + ' jours' + (aPrec ? ', comparé à la période précédente' : '') + ')', ''];
     noms.forEach(function (n) {
-      L.push('• ' + n.replace(/_/g, ' ') + ' : ' + nombre(d.evenements[n].total));
+      var e = evol(d.evenements[n].total, total(d.precedent && d.precedent.evenements, n), aPrec);
+      L.push('• ' + n.replace(/_/g, ' ') + ' : ' + nombre(d.evenements[n].total) + (e.t !== '—' ? ' (' + e.t + ')' : ''));
     });
     var f = tauxFenetre(d);
     L.push('', 'Fenêtre quittance : ' + nombre(f.vues) + ' affichages, '
            + nombre(f.clics) + ' clics App Store, taux ' + f.taux);
-    var cts = Object.keys(d.appstore_par_ct)
-      .map(function (k) { return [k, d.appstore_par_ct[k]]; })
-      .sort(function (a, b) { return b[1] - a[1]; });
-    if (cts.length) {
-      L.push('', 'Clics App Store par emplacement :');
-      cts.forEach(function (e) { L.push('• ' + e[0] + ' : ' + nombre(e[1])); });
-    }
+    L.push('', 'Clics App Store par famille (organique / Google Ads) :');
+    familles(d).forEach(function (l) {
+      if (l.tot || l.prev) L.push('• ' + l.nom + ' : ' + nombre(l.tot) + ' (' + l.org + ' / ' + l.ads + ')'
+        + (evol(l.tot, l.prev, aPrec).t !== '—' ? ', ' + evol(l.tot, l.prev, aPrec).t : ''));
+    });
     return L.join('\n');
   }
 
