@@ -57,6 +57,43 @@ async function lire(cles) {
   return valeurs;
 }
 
+/* Totaux et détail journalier par événement, et clics App Store par ct
+ * (variantes publicitaires comprises), sommés sur les jours donnés. */
+async function lirePeriode(dates) {
+  const clesJour = [];
+  for (const e of EVENEMENTS) for (const d of dates) clesJour.push(`stats:${e}:${d}`);
+  const valeursJour = await lire(clesJour);
+
+  const evenements = {};
+  let i = 0;
+  for (const e of EVENEMENTS) {
+    const parJour = {};
+    let total = 0;
+    for (const d of dates) {
+      const v = valeursJour[i++];
+      parJour[d] = v;
+      total += v;
+    }
+    evenements[e] = { total, par_jour: parJour };
+  }
+
+  // Le croisement ct × jour donnerait des centaines de lignes pour peu
+  // d'usage : les clics par ct sont sommés sur la période.
+  const tousCt = [...CT_CONNUS, ...CT_CONNUS.map((c) => PREFIXE_ADS + c)];
+  const clesCt = [];
+  for (const c of tousCt) for (const d of dates) clesCt.push(`stats:AppStore_Click:${c}:${d}`);
+  const valeursCt = await lire(clesCt);
+
+  const parCt = {};
+  let k = 0;
+  for (const c of tousCt) {
+    let somme = 0;
+    for (let d = 0; d < dates.length; d++) somme += valeursCt[k++];
+    if (somme > 0) parCt[c] = somme;
+  }
+  return { evenements, parCt };
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -76,48 +113,31 @@ export default async function handler(req, res) {
   if (!Number.isFinite(jours) || jours < 1) jours = JOURS_DEFAUT;
   jours = Math.min(jours, JOURS_MAX);
 
-  const dates = joursRecents(jours);
+  // Période demandée, puis la période de même durée qui la précède :
+  // c'est elle qui donne le sens d'une évolution (« +40 % » n'a de
+  // valeur qu'à durée égale). Bornée à 90 jours pour garder la lecture
+  // rapide : au-delà, le nombre de clés à lire double sans grand profit.
+  const toutes = joursRecents(jours <= 90 ? jours * 2 : jours);
+  const dates = toutes.slice(-jours);
+  const avant = jours <= 90 ? toutes.slice(0, jours) : [];
 
   try {
-    // 1. Totaux et détail journalier, par événement.
-    const clesJour = [];
-    for (const e of EVENEMENTS) for (const d of dates) clesJour.push(`stats:${e}:${d}`);
-    const valeursJour = await lire(clesJour);
-
-    const evenements = {};
-    let i = 0;
-    for (const e of EVENEMENTS) {
-      const parJour = {};
-      let total = 0;
-      for (const d of dates) {
-        const v = valeursJour[i++];
-        parJour[d] = v;
-        total += v;
-      }
-      evenements[e] = { total, par_jour: parJour };
-    }
-
-    // 2. Détail par ct pour AppStore_Click, variantes publicitaires
-    //    comprises. Sommé sur la période : le croisement ct × jour
-    //    donnerait des centaines de lignes pour peu d'usage.
-    const tousCt = [...CT_CONNUS, ...CT_CONNUS.map((c) => PREFIXE_ADS + c)];
-    const clesCt = [];
-    for (const c of tousCt) for (const d of dates) clesCt.push(`stats:AppStore_Click:${c}:${d}`);
-    const valeursCt = await lire(clesCt);
-
-    const parCt = {};
-    let k = 0;
-    for (const c of tousCt) {
-      let somme = 0;
-      for (let d = 0; d < dates.length; d++) somme += valeursCt[k++];
-      if (somme > 0) parCt[c] = somme;
-    }
-
-    return res.status(200).json({
+    const periode = await lirePeriode(dates);
+    const corps = {
       periode: { debut: dates[0], fin: dates[dates.length - 1], jours },
-      evenements,
-      appstore_par_ct: parCt,
-    });
+      evenements: periode.evenements,
+      appstore_par_ct: periode.parCt,
+      ct_connus: CT_CONNUS,
+    };
+    if (avant.length) {
+      const p = await lirePeriode(avant);
+      corps.precedent = {
+        periode: { debut: avant[0], fin: avant[avant.length - 1], jours },
+        evenements: Object.fromEntries(Object.entries(p.evenements).map(([e, v]) => [e, v.total])),
+        appstore_par_ct: p.parCt,
+      };
+    }
+    return res.status(200).json(corps);
   } catch (err) {
     console.error('Lecture des compteurs :', err.message);
     return res.status(500).json({ error: 'Lecture impossible' });
