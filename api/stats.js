@@ -106,24 +106,19 @@ async function lirePeriode(dates) {
     for (let d = 0; d < dates.length; d++) somme += valeursPages[q++];
     if (somme > 0) parPage[p] = somme;
   }
-  // Fenêtre quittance par appareil, inscriptions e-mail par source.
-  const dims = [
-    ...['apple', 'autre', 'android'].map((a) => ['fenetre', a, `Quittance_Modal_Vue:a:${a}`]),
-    ...['autre', 'android'].map((a) => ['email', 'appareil_' + a, `Email_Capture:a:${a}`]),
-    ...['guide2044', 'guidelmnp', 'calculatrice', 'radar', 'guide-2044-pdf', 'quittance_modal']
-      .map((s) => ['email', s, `Email_Capture:s:${s}`]),
-  ];
-  const clesDims = [];
-  for (const [, , cle] of dims) for (const d of dates) clesDims.push(`stats:${cle}:${d}`);
-  const valeursDims = await lire(clesDims);
-  const fenetreParAppareil = {}, emailsParSource = {};
+  // Affichages de la fenêtre quittance par appareil.
+  const appareils = ['apple', 'autre', 'android'];
+  const clesApp = [];
+  for (const a of appareils) for (const d of dates) clesApp.push(`stats:Quittance_Modal_Vue:a:${a}:${d}`);
+  const valeursApp = await lire(clesApp);
+  const fenetreParAppareil = {};
   let r = 0;
-  for (const [type, nom] of dims) {
+  for (const a of appareils) {
     let somme = 0;
-    for (let d = 0; d < dates.length; d++) somme += valeursDims[r++];
-    (type === 'fenetre' ? fenetreParAppareil : emailsParSource)[nom] = somme;
+    for (let d = 0; d < dates.length; d++) somme += valeursApp[r++];
+    fenetreParAppareil[a] = somme;
   }
-  return { evenements, parCt, parPage, fenetreParAppareil, emailsParSource };
+  return { evenements, parCt, parPage, fenetreParAppareil };
 }
 
 export default async function handler(req, res) {
@@ -161,7 +156,6 @@ export default async function handler(req, res) {
       appstore_par_ct: periode.parCt,
       visites_par_page: periode.parPage,
       fenetre_par_appareil: periode.fenetreParAppareil,
-      emails_par_source: periode.emailsParSource,
       ct_connus: CT_CONNUS,
       pages_connues: PAGES_CONNUES,
     };
@@ -187,7 +181,6 @@ export default async function handler(req, res) {
         appstore_par_ct: p.parCt,
         visites_par_page: p.parPage,
         fenetre_par_appareil: p.fenetreParAppareil,
-        emails_par_source: p.emailsParSource,
       };
     }
     return res.status(200).json(corps);

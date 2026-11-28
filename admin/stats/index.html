@@ -170,9 +170,9 @@
         affichages de la fenêtre.</p>
       <div class="tableau" style="margin-top:12px"><table id="tbl-fenetre-appareil"></table></div>
       <p class="legende">La fenêtre propose une action selon l'appareil : badge App
-        Store sur iPhone, iPad et Mac ; QR code et rappel e-mail sur les autres
-        ordinateurs ; rappel e-mail seul sur Android. Taux d'action = (clics +
-        inscriptions) ÷ affichages.</p>
+        Store sur iPhone, iPad et Mac ; QR code sur les autres ordinateurs ;
+        sur Android, seulement la mention « Disponible sur iPhone, iPad et
+        Mac » (pas d'action possible). Taux = clics ÷ affichages.</p>
 
       <h3>Page Loi de finances : liens vers l'app</h3>
       <div class="cartes" id="cartes-loi"></div>
@@ -322,14 +322,14 @@
     return { vues: vues, clics: clics, taux: pct(clics, vues) };
   }
 
-  /* Fenêtre par appareil : [libellé, affichages, clics App Store, inscriptions] */
+  /* Fenêtre par appareil : [libellé, affichages, clics App Store (null si sans objet)] */
   function fenetreAppareils(d) {
-    var fa = d.fenetre_par_appareil || {}, es = d.emails_par_source || {};
+    var fa = d.fenetre_par_appareil || {};
     var b = clicsDe(d.appstore_par_ct, ['quittance_modal']), q = clicsDe(d.appstore_par_ct, ['quittance_modal_qr']);
     return [
-      ['iPhone, iPad, Mac — badge App Store', fa.apple || 0, b.org + b.ads, null],
-      ['Autre ordinateur — QR + rappel e-mail', fa.autre || 0, q.org + q.ads, es.appareil_autre || 0],
-      ['Android — rappel e-mail', fa.android || 0, null, es.appareil_android || 0]
+      ['iPhone, iPad, Mac — badge App Store', fa.apple || 0, b.org + b.ads],
+      ['Autre ordinateur — QR code', fa.autre || 0, q.org + q.ads],
+      ['Android — mention des plateformes', fa.android || 0, null]
     ];
   }
 
@@ -514,10 +514,6 @@
     if (fen.vues >= MIN_VISITES) {
       out.push([fen.clics ? 'info' : 'alerte', 'Fenêtre après téléchargement : ' + nombre(fen.vues) + ' affichages, ' + nombre(fen.clics) + ' clics (' + fen.taux + ').']);
     }
-    var rq = (d.emails_par_source || {}).quittance_modal || 0;
-    if (fen.vues >= MIN_VISITES) {
-      out.push(['info', 'Rappel quittance : ' + nombre(rq) + ' inscription' + (rq > 1 ? 's' : '') + ' depuis la fenêtre, pour ' + nombre(fen.vues) + ' affichages.']);
-    }
     var emails = total(d.evenements, 'Email_Capture');
     if (lp.visitesSite >= 200 && !emails) {
       out.push(['alerte', 'Aucune inscription au rappel par email sur la période, pour ' + nombre(lp.visitesSite) + ' visites.']);
@@ -685,14 +681,13 @@
     });
 
     var tfa = $('tbl-fenetre-appareil'); tfa.innerHTML = '';
-    var tbfa = entete(tfa, ['Appareil et action proposée', 'Affichages', 'Clics App Store', 'Inscriptions rappel', 'Taux d\'action']);
+    var tbfa = entete(tfa, ['Appareil et action proposée', 'Affichages', 'Clics App Store', 'Taux de clic']);
     fenetreAppareils(d).forEach(function (l) {
       var tr = document.createElement('tr');
       cellule(tr, l[0], 'etape');
       cellule(tr, l[1] ? nombre(l[1]) : '·', 'num' + (l[1] ? '' : ' zero'));
       cellule(tr, l[2] === null ? '—' : l[2] ? nombre(l[2]) : '·', 'num' + (l[2] ? '' : ' zero'));
-      cellule(tr, l[3] === null ? '—' : l[3] ? nombre(l[3]) : '·', 'num' + (l[3] ? '' : ' zero'));
-      cellule(tr, pct((l[2] || 0) + (l[3] || 0), l[1]), 'num');
+      cellule(tr, l[2] === null ? '—' : pct(l[2], l[1]), 'num');
       tbfa.appendChild(tr);
     });
 
@@ -824,9 +819,9 @@
     L.push(ligne(['Fenêtre après téléchargement (quittance)']));
     L.push(ligne(['Affichages', 'Clics App Store', 'Taux']));
     L.push(ligne([f.vues, f.clics, f.taux]));
-    L.push(ligne(['Appareil', 'Affichages', 'Clics App Store', 'Inscriptions rappel']));
+    L.push(ligne(['Appareil', 'Affichages', 'Clics App Store']));
     fenetreAppareils(d).forEach(function (l) {
-      L.push(ligne([l[0], l[1], l[2] === null ? '' : l[2], l[3] === null ? '' : l[3]]));
+      L.push(ligne([l[0], l[1], l[2] === null ? '' : l[2]]));
     });
     L.push('');
     L.push(ligne(['Page Loi de finances : liens vers l\'app']));

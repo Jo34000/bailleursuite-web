@@ -5,33 +5,7 @@ import { lienDesinscription } from './_token.js';
 // polluer la segmentation Brevo de variantes non rapprochables.
 const SOURCES = new Set([
   'guide2044', 'guidelmnp', 'calculatrice', 'radar', 'guide-2044-pdf',
-  'quittance_rappel',
 ]);
-
-// Rappel de quittance : un seul e-mail, le 1er du mois suivant
-// l'inscription, envoyé par une automatisation Brevo déclenchée sur
-// l'attribut date RAPPEL_QUITTANCE. Le consentement est une case à
-// cocher, vérifiée ici aussi : un appel direct à l'API ne doit pas
-// pouvoir s'en passer.
-const SOURCES_CONSENTEMENT = new Set(['quittance_rappel']);
-
-// 1er du mois suivant, en heure de Paris, au format AAAA-MM-JJ attendu
-// par un attribut date Brevo.
-function premierDuMoisSuivant(maintenant = new Date()) {
-  const [a, m] = new Intl.DateTimeFormat('fr-CA', {
-    timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit',
-  }).format(maintenant).split('-').map(Number);
-  const annee = m === 12 ? a + 1 : a;
-  const mois = m === 12 ? 1 : m + 1;
-  return `${annee}-${String(mois).padStart(2, '0')}-01`;
-}
-
-function dateLisible(iso) {
-  const [a, m] = iso.split('-').map(Number);
-  return new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
-    .format(new Date(Date.UTC(a, m - 1, 1)))
-    .replace(/^1 /, '1er ');
-}
 
 // Sources qui déclenchent l'envoi immédiat du guide PDF. Les autres
 // formulaires ne promettent qu'un rappel avant la déclaration : leur
@@ -77,28 +51,6 @@ function emailRappel(email) {
       <p style="color: #8A8A84; font-size: 0.82rem; line-height: 1.6; margin: 0;">
         BailleurSuite est disponible sur l'App Store : quittances prêtes chaque mois,
         suivi du rendement et préparation de la déclaration, directement sur iPhone.
-      </p>`, email),
-  };
-}
-
-function emailRappelQuittance(email, iso) {
-  const quand = dateLisible(iso);
-  return {
-    subject: `C'est noté — rappel quittance le ${quand}`,
-    htmlContent: ENVELOPPE(`
-      <h1 style="font-size: 1.4rem; color: #1C1C1E; margin: 0 0 12px; font-weight: 600; line-height: 1.3;">
-        Votre rappel est enregistré
-      </h1>
-      <p style="color: #4A4A44; font-size: 0.95rem; line-height: 1.65; margin: 0 0 20px;">
-        Le ${quand}, vous recevrez un e-mail pour préparer la quittance de loyer du mois.
-      </p>
-      <p style="color: #4A4A44; font-size: 0.95rem; line-height: 1.65; margin: 0 0 24px;">
-        D'ici là, nous ne vous écrirons pas. C'est le seul e-mail que vous avez demandé.
-      </p>
-      <hr style="border: none; border-top: 1px solid #E0D9CC; margin: 28px 0;">
-      <p style="color: #8A8A84; font-size: 0.82rem; line-height: 1.6; margin: 0;">
-        BailleurSuite est disponible sur l'App Store, pour iPhone, iPad et Mac :
-        la quittance est prête chaque mois, il ne reste qu'à l'envoyer.
       </p>`, email),
   };
 }
@@ -151,11 +103,6 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Email invalide' });
   }
 
-  if (SOURCES_CONSENTEMENT.has(source) && req.body.consentement !== true) {
-    return res.status(400).json({ error: 'Cochez la case pour accepter de recevoir le rappel.' });
-  }
-  const rappel = source === 'quittance_rappel' ? premierDuMoisSuivant() : null;
-
   const BREVO_API_KEY = process.env.BREVO_API_KEY;
   const LIST_ID = parseInt(process.env.BREVO_LIST_ID);
 
@@ -172,10 +119,7 @@ export default async function handler(req, res) {
 
   async function creerContact(avecAttributs) {
     const corps = { email, listIds: [LIST_ID], updateEnabled: true };
-    if (avecAttributs) {
-      corps.attributes = { SOURCE: source };
-      if (rappel) corps.attributes.RAPPEL_QUITTANCE = rappel;
-    }
+    if (avecAttributs) corps.attributes = { SOURCE: source };
     return fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST', headers: entetes, body: JSON.stringify(corps),
     });
@@ -191,9 +135,8 @@ export default async function handler(req, res) {
     if (contactRes.status === 400) {
       const err = await contactRes.clone().json().catch(() => ({}));
       if (err.code === 'invalid_parameter') {
-        console.warn('Attribut inconnu de Brevo — inscription sans attributs. Créer dans Brevo '
-                     + 'un attribut texte « SOURCE »' + (rappel ? ' et un attribut date '
-                     + '« RAPPEL_QUITTANCE » : sans lui, le rappel de quittance ne partira pas.' : '.'));
+        console.warn('Attribut SOURCE inconnu de Brevo — inscription sans segmentation. '
+                     + 'Créer un attribut texte « SOURCE » dans Brevo.');
         contactRes = await creerContact(false);
       }
     }
@@ -207,8 +150,7 @@ export default async function handler(req, res) {
       }
     }
 
-    const modele = SOURCES_GUIDE.has(source) ? emailGuide(email)
-      : rappel ? emailRappelQuittance(email, rappel) : emailRappel(email);
+    const modele = SOURCES_GUIDE.has(source) ? emailGuide(email) : emailRappel(email);
 
     const emailRes = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',

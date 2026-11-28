@@ -30,13 +30,9 @@ const EVENEMENTS = new Set([
   'Page_Vue',
 ]);
 
-// Dimensions secondaires, listes fermées comme les ct et les pages :
-// l'appareil pour les affichages de la fenêtre quittance (l'action
-// proposée en dépend), la source pour les inscriptions e-mail.
+// Appareil pour les affichages de la fenêtre quittance (l'action
+// proposée en dépend). Liste fermée, comme les ct et les pages.
 const APPAREILS = new Set(['apple', 'autre', 'android']);
-const SOURCES_EMAIL = new Set([
-  'guide2044', 'guidelmnp', 'calculatrice', 'radar', 'guide-2044-pdf', 'quittance_modal',
-]);
 
 // Un corps légitime fait moins de cent octets. Au-delà, ce n'est pas
 // notre client.
@@ -105,10 +101,6 @@ export default async function handler(req, res) {
   // Valeur hors liste : ignorée plutôt que refusée, le total compte quand même.
   if (evenement === 'Quittance_Modal_Vue' && APPAREILS.has(donnees.appareil)) {
     cles.push(`stats:Quittance_Modal_Vue:a:${donnees.appareil}:${j}`);
-  }
-  if (evenement === 'Email_Capture' && SOURCES_EMAIL.has(donnees.source)) {
-    cles.push(`stats:Email_Capture:s:${donnees.source}:${j}`);
-    if (APPAREILS.has(donnees.appareil)) cles.push(`stats:Email_Capture:a:${donnees.appareil}:${j}`);
   }
 
   const commandes = [];
