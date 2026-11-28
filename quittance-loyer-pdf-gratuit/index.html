@@ -1105,6 +1105,27 @@
                 display: flex; flex-direction: column; gap: 8px; }
     .qm-puces li { display: flex; gap: 8px; font-size: .9rem; line-height: 1.4; color: var(--text-dark); }
     .qm-puces li::before { content: '✓'; color: var(--green-mid); font-weight: 700; }
+    /* Visuel : le haut de la quittance dans un cadre d'iPhone fin, coupé
+       en bas. Hauteur 180 px sur mobile, 220 px sur ordinateur, réduite à
+       l'ouverture si la fenêtre dépasse 75 % de la hauteur d'écran
+       (ajusterVisuelFenetre) ; masqué sous 80 px. La largeur du cadre
+       suit la hauteur, les proportions restent celles d'un téléphone. */
+    .qm-visuel { --qm-visuel-h: 180px; height: var(--qm-visuel-h); display: flex;
+                 justify-content: center; overflow: hidden; margin: 0 0 14px;
+                 -webkit-mask-image: linear-gradient(#000 72%, transparent);
+                 mask-image: linear-gradient(#000 72%, transparent); }
+    .qm-visuel[hidden] { display: none; }
+    /* Décoratif : ne capte pas la souris. Son masque crée une couche qui
+       passait au-dessus du bouton « Fermer » et avalait les clics. */
+    .qm-visuel { pointer-events: none; }
+    .qm-fermer { z-index: 2; }
+    .qm-iphone { position: relative; flex-shrink: 0; box-sizing: border-box;
+                 width: calc(var(--qm-visuel-h) * 1.12); padding-top: 14px; background: #fff;
+                 border: 5px solid #2A2A2C; border-bottom: 0; border-radius: 26px 26px 0 0;
+                 box-shadow: 0 8px 22px rgba(27,67,50,.14); }
+    .qm-iphone::before { content: ''; position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
+                         width: 34%; height: 8px; border-radius: 999px; background: #2A2A2C; }
+    .qm-iphone img { display: block; width: 100%; height: auto; }
     .qm-action { display: flex; align-items: center; gap: 20px; }
     .qm-action[hidden] { display: none; }
     .qm-badge { display: inline-block; }
@@ -1166,6 +1187,7 @@
         transition: transform .25s ease, opacity .25s ease;
       }
       .qm.qm-ouvert .qm-boite { opacity: 1; }
+      .qm-visuel { --qm-visuel-h: 220px; }
     }
     @media (prefers-reduced-motion: reduce) {
       .qm-fond, .qm-boite { transition: none; }
@@ -1725,6 +1747,9 @@
   <div class="qm-fond" data-qm-fermer></div>
   <div class="qm-boite" role="dialog" aria-modal="true" aria-labelledby="qm-titre" aria-describedby="qm-texte" tabindex="-1">
     <button type="button" class="qm-fermer" data-qm-fermer>Fermer</button>
+    <div class="qm-visuel" aria-hidden="true">
+      <div class="qm-iphone"><img src="/quittance-fenetre.webp" width="440" height="362" alt="" decoding="async"></div>
+    </div>
     <span class="qm-pastille"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5 12.5 10 17.5 19 7.5"/></svg> Quittance téléchargée</span>
     <h2 id="qm-titre">Le mois prochain, plus rien à ressaisir.</h2>
     <p class="qm-texte" id="qm-texte">BailleurSuite garde votre bail, votre locataire et vos montants. Chaque mois, la quittance est prête&nbsp;: il ne reste qu'à l'envoyer.</p>
@@ -2123,6 +2148,26 @@
     } catch (e) { return 'autre'; }
   }
 
+  /* Le visuel cède la place au texte et à l'action : si la fenêtre
+   * dépasse 75 % de la hauteur d'écran sur mobile (85 % sur ordinateur,
+   * où elle est centrée), il est réduit, et masqué sous 80 px. */
+  function ajusterVisuelFenetre() {
+    const fen = document.getElementById('quittance-modal');
+    const v = fen && fen.querySelector('.qm-visuel');
+    if (!v || fen.hidden) return;
+    const large = window.innerWidth >= 900;
+    const max = large ? 220 : 180;
+    const limite = window.innerHeight * (large ? 0.85 : 0.75);
+    v.hidden = false;
+    v.style.setProperty('--qm-visuel-h', max + 'px');
+    const exces = fen.querySelector('.qm-boite').scrollHeight - limite;
+    if (exces <= 0) return;
+    const h = Math.floor(max - exces);
+    if (h < 80) v.hidden = true;
+    else v.style.setProperty('--qm-visuel-h', h + 'px');
+  }
+  window.addEventListener('resize', () => { try { ajusterVisuelFenetre(); } catch (e) { /* sans effet */ } });
+
   function ouvrirFenetreQuittance() {
     const fen = document.getElementById('quittance-modal');
     if (!fen) return;
@@ -2134,6 +2179,7 @@
       bloc.hidden = bloc.getAttribute('data-appareil') !== appareil;
     });
     fen.hidden = false;
+    ajusterVisuelFenetre();
     // Une image de retard : la transition part de l'état fermé.
     requestAnimationFrame(() => requestAnimationFrame(() => fen.classList.add('qm-ouvert')));
     boite.focus();
