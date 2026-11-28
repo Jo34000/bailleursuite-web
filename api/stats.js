@@ -106,7 +106,19 @@ async function lirePeriode(dates) {
     for (let d = 0; d < dates.length; d++) somme += valeursPages[q++];
     if (somme > 0) parPage[p] = somme;
   }
-  return { evenements, parCt, parPage };
+  // Affichages de la fenêtre quittance par appareil.
+  const appareils = ['apple', 'autre', 'android'];
+  const clesApp = [];
+  for (const a of appareils) for (const d of dates) clesApp.push(`stats:Quittance_Modal_Vue:a:${a}:${d}`);
+  const valeursApp = await lire(clesApp);
+  const fenetreParAppareil = {};
+  let r = 0;
+  for (const a of appareils) {
+    let somme = 0;
+    for (let d = 0; d < dates.length; d++) somme += valeursApp[r++];
+    fenetreParAppareil[a] = somme;
+  }
+  return { evenements, parCt, parPage, fenetreParAppareil };
 }
 
 export default async function handler(req, res) {
@@ -143,6 +155,7 @@ export default async function handler(req, res) {
       evenements: periode.evenements,
       appstore_par_ct: periode.parCt,
       visites_par_page: periode.parPage,
+      fenetre_par_appareil: periode.fenetreParAppareil,
       ct_connus: CT_CONNUS,
       pages_connues: PAGES_CONNUES,
     };
@@ -167,6 +180,7 @@ export default async function handler(req, res) {
         evenements: Object.fromEntries(Object.entries(p.evenements).map(([e, v]) => [e, v.total])),
         appstore_par_ct: p.parCt,
         visites_par_page: p.parPage,
+        fenetre_par_appareil: p.fenetreParAppareil,
       };
     }
     return res.status(200).json(corps);

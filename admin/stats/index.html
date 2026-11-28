@@ -165,10 +165,14 @@
 
       <h3>Fenêtre après téléchargement (quittance)</h3>
       <div class="cartes" id="cartes-fenetre"></div>
-      <p class="legende">Taux = clics App Store depuis la fenêtre
-        (ct quittance_modal, variante publicitaire comprise) ÷ affichages
-        de la fenêtre (Quittance Modal Vue). Les scans du QR de la fenêtre
-        sont comptés avec ceux des cartes de la page (quittance_qr).</p>
+      <p class="legende">Taux = clics App Store depuis la fenêtre (badge
+        quittance_modal et QR quittance_modal_qr, Google Ads compris) ÷
+        affichages de la fenêtre.</p>
+      <div class="tableau" style="margin-top:12px"><table id="tbl-fenetre-appareil"></table></div>
+      <p class="legende">La fenêtre propose une action selon l'appareil : badge App
+        Store sur iPhone, iPad et Mac ; QR code sur les autres ordinateurs ;
+        sur Android, seulement la mention « Disponible sur iPhone, iPad et
+        Mac » (pas d'action possible). Taux = clics ÷ affichages.</p>
 
       <h3>Page Loi de finances : liens vers l'app</h3>
       <div class="cartes" id="cartes-loi"></div>
@@ -269,7 +273,7 @@
    * absent de cette liste tombe dans « Autres » : ajouter un emplacement
    * ne fait rien disparaître. */
   var FAMILLES = [
-    ['Fenêtre quittance', ['quittance_modal']],
+    ['Fenêtre quittance', ['quittance_modal', 'quittance_modal_qr']],
     ['Outils gratuits (cartes et QR)', ['quittance', 'quittance_qr', 'calculatrice', 'calculatrice_qr', 'radar']],
     ['Guides et aide', ['guide2044', 'guidelmnp', 'loi_finances', 'loi_finances_csg', 'loi_finances_lmnp', 'loi_finances_qr', 'aide']],
     ['Comparatifs', ['comparatif', 'compariphone']],
@@ -313,24 +317,35 @@
    * quittance : clics sur son badge rapportés à ses affichages. */
   function tauxFenetre(d) {
     var vues = total(d.evenements, 'Quittance_Modal_Vue');
-    var c = clic(d.appstore_par_ct, 'quittance_modal');
+    var c = clicsDe(d.appstore_par_ct, ['quittance_modal', 'quittance_modal_qr']);
     var clics = c.org + c.ads;
     return { vues: vues, clics: clics, taux: pct(clics, vues) };
+  }
+
+  /* Fenêtre par appareil : [libellé, affichages, clics App Store (null si sans objet)] */
+  function fenetreAppareils(d) {
+    var fa = d.fenetre_par_appareil || {};
+    var b = clicsDe(d.appstore_par_ct, ['quittance_modal']), q = clicsDe(d.appstore_par_ct, ['quittance_modal_qr']);
+    return [
+      ['iPhone, iPad, Mac — badge App Store', fa.apple || 0, b.org + b.ads],
+      ['Autre ordinateur — QR code', fa.autre || 0, q.org + q.ads],
+      ['Android — mention des plateformes', fa.android || 0, null]
+    ];
   }
 
   /* Parcours : [libellé, valeur, valeur période précédente, taux, base du taux] */
   function parcoursQuittance(d) {
     var P = d.precedent || {}, E = d.evenements, EP = P.evenements;
-    var page = ['quittance', 'quittance_qr', 'quittance_modal'];
+    var page = ['quittance', 'quittance_qr', 'quittance_modal', 'quittance_modal_qr'];
     var cta = total(E, 'Quittance_CTA_Hero'), pdf = total(E, 'Quittance_Generee'),
-        vue = total(E, 'Quittance_Modal_Vue'), fen = clicsDe(d.appstore_par_ct, ['quittance_modal']),
+        vue = total(E, 'Quittance_Modal_Vue'), fen = clicsDe(d.appstore_par_ct, ['quittance_modal', 'quittance_modal_qr']),
         tout = clicsDe(d.appstore_par_ct, page);
     return [
       ['Clics « Créer ma quittance »', cta, total(EP, 'Quittance_CTA_Hero'), '—', ''],
       ['PDF téléchargés', pdf, total(EP, 'Quittance_Generee'), '—', ''],
       ['Fenêtre affichée (1 fois par session)', vue, total(EP, 'Quittance_Modal_Vue'), pct(vue, pdf), 'des PDF'],
       ['Clics App Store depuis la fenêtre', fen.org + fen.ads,
-        (function (c) { return c.org + c.ads; })(clicsDe(P.appstore_par_ct, ['quittance_modal'])), pct(fen.org + fen.ads, vue), 'des affichages'],
+        (function (c) { return c.org + c.ads; })(clicsDe(P.appstore_par_ct, ['quittance_modal', 'quittance_modal_qr'])), pct(fen.org + fen.ads, vue), 'des affichages'],
       ['Clics App Store, toute la page quittance', tout.org + tout.ads,
         (function (c) { return c.org + c.ads; })(clicsDe(P.appstore_par_ct, page)), pct(tout.org + tout.ads, pdf), 'des PDF']
     ];
@@ -396,7 +411,7 @@
   /* Lignes du tableau par page : [libellé, jetons de page, ct posés sur ces pages] */
   var LIGNES_PAGES = [
     ['Accueil', ['accueil'], ['hero', 'cta_final', 'cta_final_qr', 'tarifs', 'sticky']],
-    ['Quittance PDF', ['quittance'], ['quittance', 'quittance_qr', 'quittance_modal']],
+    ['Quittance PDF', ['quittance'], ['quittance', 'quittance_qr', 'quittance_modal', 'quittance_modal_qr']],
     ['Calculatrice', ['calculatrice'], ['calculatrice', 'calculatrice_qr']],
     ['Radar immobilier (accueil, villes, méthodologie)', ['radar', 'radar_ville', 'radar_methodo'], ['radar']],
     ['Guide 2044', ['guide2044'], ['guide2044']],
@@ -492,7 +507,7 @@
     }
     var pdf = total(d.evenements, 'Quittance_Generee');
     if (pdf >= MIN_VISITES) {
-      var cq = clicsDe(d.appstore_par_ct, ['quittance', 'quittance_qr', 'quittance_modal']);
+      var cq = clicsDe(d.appstore_par_ct, ['quittance', 'quittance_qr', 'quittance_modal', 'quittance_modal_qr']);
       out.push(['info', 'Quittance : ' + nombre(pdf) + ' PDF téléchargés, ' + nombre(cq.org + cq.ads) + ' clics App Store depuis la page, soit ' + pct(cq.org + cq.ads, pdf) + ' des téléchargements.']);
     }
     var fen = tauxFenetre(d);
@@ -665,6 +680,17 @@
       cl.appendChild(carte);
     });
 
+    var tfa = $('tbl-fenetre-appareil'); tfa.innerHTML = '';
+    var tbfa = entete(tfa, ['Appareil et action proposée', 'Affichages', 'Clics App Store', 'Taux de clic']);
+    fenetreAppareils(d).forEach(function (l) {
+      var tr = document.createElement('tr');
+      cellule(tr, l[0], 'etape');
+      cellule(tr, l[1] ? nombre(l[1]) : '·', 'num' + (l[1] ? '' : ' zero'));
+      cellule(tr, l[2] === null ? '—' : l[2] ? nombre(l[2]) : '·', 'num' + (l[2] ? '' : ' zero'));
+      cellule(tr, l[2] === null ? '—' : pct(l[2], l[1]), 'num');
+      tbfa.appendChild(tr);
+    });
+
     tableParcours('tbl-parcours-quittance', parcoursQuittance(d), aPrec);
     tableParcours('tbl-parcours-calc', parcoursCalc(d), aPrec);
 
@@ -793,6 +819,10 @@
     L.push(ligne(['Fenêtre après téléchargement (quittance)']));
     L.push(ligne(['Affichages', 'Clics App Store', 'Taux']));
     L.push(ligne([f.vues, f.clics, f.taux]));
+    L.push(ligne(['Appareil', 'Affichages', 'Clics App Store']));
+    fenetreAppareils(d).forEach(function (l) {
+      L.push(ligne([l[0], l[1], l[2] === null ? '' : l[2]]));
+    });
     L.push('');
     L.push(ligne(['Page Loi de finances : liens vers l\'app']));
     L.push(ligne(['Emplacement', 'Organique', 'Google Ads', 'Total']));

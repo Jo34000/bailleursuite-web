@@ -44,6 +44,7 @@ CT_CONNUS = {
     "quittance_qr", "calculatrice_qr", "cta_final_qr",
     "quittance_modal", "loi_finances",
     "loi_finances_csg", "loi_finances_lmnp", "loi_finances_qr",
+    "quittance_modal_qr",
 }
 
 # Préfixe posé au chargement par scripts/source-tracking.js quand la

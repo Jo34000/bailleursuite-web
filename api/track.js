@@ -30,6 +30,10 @@ const EVENEMENTS = new Set([
   'Page_Vue',
 ]);
 
+// Appareil pour les affichages de la fenêtre quittance (l'action
+// proposée en dépend). Liste fermée, comme les ct et les pages.
+const APPAREILS = new Set(['apple', 'autre', 'android']);
+
 // Un corps légitime fait moins de cent octets. Au-delà, ce n'est pas
 // notre client.
 const TAILLE_MAX = 200;
@@ -94,6 +98,10 @@ export default async function handler(req, res) {
   const cles = [`stats:${evenement}:${j}`];
   if (ct) cles.push(`stats:${evenement}:${ct}:${j}`);
   if (page) cles.push(`stats:Page_Vue:p:${page}:${j}`);
+  // Valeur hors liste : ignorée plutôt que refusée, le total compte quand même.
+  if (evenement === 'Quittance_Modal_Vue' && APPAREILS.has(donnees.appareil)) {
+    cles.push(`stats:Quittance_Modal_Vue:a:${donnees.appareil}:${j}`);
+  }
 
   const commandes = [];
   for (const cle of cles) {
