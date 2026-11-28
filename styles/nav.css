@@ -28,7 +28,10 @@
 .site-footer ul, .site-footer li {
   margin: 0; padding: 0; list-style: none; font-size: inherit; line-height: inherit;
 }
-.site-nav li::before, .site-nav li::after, .nav-mobile-menu li::after,
+/* .nav-drop exclu : son ::after est le pont invisible qui garde le menu
+   ouvert pendant que le curseur descend vers lui. L'annuler ici fermait
+   chaque sous-menu à mi-chemin. */
+.site-nav li::before, .site-nav li:not(.nav-drop)::after, .nav-mobile-menu li::after,
 .site-footer li::before, .site-footer li::after { content: none; }
 .nav-mobile-menu p, .site-footer p { font-size: inherit; line-height: inherit; color: inherit; }
 
