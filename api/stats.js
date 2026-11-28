@@ -106,7 +106,24 @@ async function lirePeriode(dates) {
     for (let d = 0; d < dates.length; d++) somme += valeursPages[q++];
     if (somme > 0) parPage[p] = somme;
   }
-  return { evenements, parCt, parPage };
+  // Fenêtre quittance par appareil, inscriptions e-mail par source.
+  const dims = [
+    ...['apple', 'autre', 'android'].map((a) => ['fenetre', a, `Quittance_Modal_Vue:a:${a}`]),
+    ...['autre', 'android'].map((a) => ['email', 'appareil_' + a, `Email_Capture:a:${a}`]),
+    ...['guide2044', 'guidelmnp', 'calculatrice', 'radar', 'guide-2044-pdf', 'quittance_modal']
+      .map((s) => ['email', s, `Email_Capture:s:${s}`]),
+  ];
+  const clesDims = [];
+  for (const [, , cle] of dims) for (const d of dates) clesDims.push(`stats:${cle}:${d}`);
+  const valeursDims = await lire(clesDims);
+  const fenetreParAppareil = {}, emailsParSource = {};
+  let r = 0;
+  for (const [type, nom] of dims) {
+    let somme = 0;
+    for (let d = 0; d < dates.length; d++) somme += valeursDims[r++];
+    (type === 'fenetre' ? fenetreParAppareil : emailsParSource)[nom] = somme;
+  }
+  return { evenements, parCt, parPage, fenetreParAppareil, emailsParSource };
 }
 
 export default async function handler(req, res) {
@@ -143,6 +160,8 @@ export default async function handler(req, res) {
       evenements: periode.evenements,
       appstore_par_ct: periode.parCt,
       visites_par_page: periode.parPage,
+      fenetre_par_appareil: periode.fenetreParAppareil,
+      emails_par_source: periode.emailsParSource,
       ct_connus: CT_CONNUS,
       pages_connues: PAGES_CONNUES,
     };
@@ -167,6 +186,8 @@ export default async function handler(req, res) {
         evenements: Object.fromEntries(Object.entries(p.evenements).map(([e, v]) => [e, v.total])),
         appstore_par_ct: p.parCt,
         visites_par_page: p.parPage,
+        fenetre_par_appareil: p.fenetreParAppareil,
+        emails_par_source: p.emailsParSource,
       };
     }
     return res.status(200).json(corps);

@@ -38,6 +38,12 @@
       var champ = form.querySelector('input[type="email"]');
       var bouton = form.querySelector('button[type="submit"]');
       var source = form.getAttribute('data-source') || 'inconnu';
+      // Source du compteur de première partie, quand elle diffère de la
+      // segmentation Brevo (fenêtre quittance : quittance_modal côté
+      // statistiques, quittance_rappel côté Brevo).
+      var sourceSuivi = form.getAttribute('data-track-source') || source;
+      var appareil = form.getAttribute('data-track-appareil');
+      var consent = form.querySelector('input[type="checkbox"][name="consentement"]');
       var email = (champ.value || '').trim();
       var msg = statut(form);
 
@@ -51,7 +57,11 @@
       fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: source }),
+        // Case de consentement, quand le formulaire en porte une : son état
+        // est transmis, l'API la vérifie pour les sources qui l'exigent.
+        body: JSON.stringify(consent
+          ? { email: email, source: source, consentement: consent.checked }
+          : { email: email, source: source }),
       })
         .then(function (r) {
           return r.json().catch(function () { return {}; }).then(function (data) {
@@ -74,7 +84,8 @@
                         + 'dans quelques instants.', true);
           // track() relaie vers le compteur de première partie, vers Vercel
           // Analytics et vers la conversion Google Ads, en un seul appel.
-          track('Email_Capture', { source: source });
+          track('Email_Capture', appareil ? { source: sourceSuivi, appareil: appareil }
+                                          : { source: sourceSuivi });
         })
         .catch(function (err) {
           afficher(msg, err.message
