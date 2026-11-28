@@ -34,6 +34,7 @@ CODES = {
     "quittance_qr": RACINE / "qr-appstore-quittance.svg",
     "calculatrice_qr": RACINE / "qr-appstore-calculatrice.svg",
     "cta_final_qr": RACINE / "qr-appstore-accueil.svg",
+    "loi_finances_qr": RACINE / "qr-appstore-loi-finances.svg",
 }
 
 

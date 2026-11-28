@@ -148,12 +148,33 @@ td .statut{margin-top:2px}
 .sources ul{font-size:.9rem}
 .sources li{font-size:.9rem}
 
-/* CARTE APP — sobre */
-.carte-app{margin-top:56px;padding:28px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--surface-strong);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.carte-app p{margin:0;font-size:1rem;color:var(--ink);font-weight:400;line-height:1.5;max-width:420px}
+/* ENCARTS APP — discrets : texte courant sur fond vert d'eau, filet
+   vert à gauche, lien texte. Ni image ni badge. */
+:root{--surface-sage:#ECEFE4}
+.encart-app{background:var(--surface-sage);border-left:3px solid var(--mint);border-radius:0 var(--r-md) var(--r-md) 0;padding:16px 20px;margin:28px 0 8px}
+.article-content .encart-app p{margin:0;font-size:.98rem;line-height:1.7;color:var(--ink);font-weight:400;max-width:70ch}
+.encart-app a{color:var(--mint);font-weight:600;text-decoration:none;white-space:nowrap}
+.encart-app a:hover{text-decoration:underline;text-underline-offset:3px}
+.encart-app a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:3px}
+
+/* CARTE APP — avant la FAQ */
+.carte-app{margin:56px 0 8px;padding:28px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--surface-strong);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.carte-app-texte{flex:1 1 320px;min-width:0}
+.carte-app-titre{font-family:var(--serif);font-weight:400;font-size:clamp(1.4rem,2.6vw,1.75rem);line-height:1.2;letter-spacing:-0.02em;color:var(--ink);margin:0 0 10px}
+.article-content .carte-app p.carte-app-desc{margin:0 0 10px;font-size:1rem;line-height:1.65;color:var(--ink-soft);font-weight:400;max-width:58ch}
+.article-content .carte-app p.carte-app-mention{margin:0;font-size:.85rem;line-height:1.5;color:var(--ink-light);font-weight:400}
+.carte-app-action{display:flex;align-items:center;gap:20px;flex-shrink:0}
 .carte-app .badge-appstore{display:inline-block;flex-shrink:0}
 .carte-app .badge-appstore img{display:block;height:48px;width:auto}
 .carte-app .badge-appstore:focus-visible{outline:2px solid var(--mint);outline-offset:4px}
+/* Le QR n'a de sens que devant un écran d'ordinateur : sur téléphone, le
+   badge installe l'app directement. */
+.carte-app .qr-appstore{display:none}
+@media(min-width:900px){
+  .carte-app .qr-appstore{display:inline-flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--ink-light);font-size:.7rem;line-height:1.3;text-align:center}
+  .carte-app .qr-appstore img{display:block;width:88px;height:88px;background:#fff;border-radius:8px;padding:6px;border:1px solid var(--line)}
+  .carte-app .qr-appstore:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+}
 
   /* refonte éditoriale : tokens */
   :root{--r-sm:8px;--r-md:14px;--r-full:999px;--radius-xl:14px;--radius-lg:14px;--radius-md:14px;--shadow:0 1px 2px rgba(17,19,21,.04),0 8px 24px rgba(17,19,21,.06);--shadow-soft:none;--shadow-large:none}
@@ -336,6 +357,9 @@ td .statut{margin-top:2px}
       </table>
     </div>
     <p class="source-note">Source&nbsp;: loi n° 2025-1403 du 30 décembre 2025 de financement de la sécurité sociale pour 2026, article 12&nbsp;; article L136-8, IV du code de la sécurité sociale.</p>
+    <aside class="encart-app" aria-label="BailleurSuite">
+      <p>En LMNP, BailleurSuite calcule vos prélèvements sociaux à 18,6&nbsp;% sur votre propre résultat. <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=loi_finances_csg&amp;mt=8" onclick="track('AppStore_Click',{ct:'loi_finances_csg'})">Voir dans BailleurSuite&nbsp;→</a></p>
+    </aside>
 
     <h2 id="budget-2027">Budget 2027&nbsp;: où en est le plafonnement de l'amortissement LMNP&nbsp;?</h2>
     <p class="reponse-directe">Au 26 novembre 2026, rien n'est voté&nbsp;: le plafonnement de l'amortissement LMNP figure dans le projet de loi de finances pour 2027, que le Sénat examine en séance du 23 novembre au 9 décembre 2026.</p>
@@ -356,6 +380,9 @@ td .statut{margin-top:2px}
       <li>les résidences étudiantes, seniors et les EHPAD hors plafond, mais pas hors fin du report.</li>
     </ul>
     <p>Application envisagée&nbsp;: revenus 2027. <span class="statut statut-discussion">En discussion — 26/11/2026</span></p>
+    <aside class="encart-app" aria-label="BailleurSuite">
+      <p>Le projet prévoit un plafond de 7&nbsp;000&nbsp;€ par foyer. BailleurSuite calcule votre amortissement LMNP de l'année à partir de vos biens. Gratuit, sans compte. <a target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=loi_finances_lmnp&amp;mt=8" onclick="track('AppStore_Click',{ct:'loi_finances_lmnp'})">Voir mon amortissement&nbsp;→</a></p>
+    </aside>
 
     <h2 id="ce-qui-ne-change-pas">Ce qui ne change pas</h2>
     <ul>
@@ -370,6 +397,18 @@ td .statut{margin-top:2px}
       <li>Les prélèvements sociaux sur les revenus LMNP sont calculés à 18,6&nbsp;%, dès les revenus 2025.</li>
       <li>Le détail des cases&nbsp;: <a href="https://bailleursuite.fr/declaration-2044-guide">guide de la déclaration 2044</a> et <a href="https://bailleursuite.fr/lmnp-guide-complet">guide LMNP</a>.</li>
     </ul>
+
+    <div class="carte-app">
+      <div class="carte-app-texte">
+        <p class="carte-app-titre">Votre déclaration 2026, préparée au fil de l'année</p>
+        <p class="carte-app-desc">Montants 2044 et 2031 calculés depuis vos loyers, charges et prêts. Pour les situations complexes, l'app vous oriente vers un expert-comptable.</p>
+        <p class="carte-app-mention">Gratuit · sans compte · vos données restent sur votre iPhone, iPad ou Mac</p>
+      </div>
+      <div class="carte-app-action">
+        <a class="badge-appstore" target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=loi_finances&amp;mt=8" onclick="track('AppStore_Click',{ct:'loi_finances'})"><img src="/badge-app-store-black-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store"></a>
+        <a class="qr-appstore" target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=loi_finances_qr&amp;mt=8" onclick="track('AppStore_Click',{ct:'loi_finances_qr'})"><img src="/qr-appstore-loi-finances.svg" width="96" height="96" alt="" aria-hidden="true" loading="lazy"><span>Scannez avec votre iPhone</span></a>
+      </div>
+    </div>
 
     <h2 id="faq">Questions fréquentes</h2>
 
@@ -402,10 +441,6 @@ td .statut{margin-top:2px}
       <p class="source-note">Faits vérifiés le 26 novembre 2026. Cette page est informative et ne constitue pas un conseil fiscal.</p>
     </section>
 
-    <div class="carte-app">
-      <p>Préparez vos montants 2044 et 2031 sur iPhone, iPad et Mac.</p>
-      <a class="badge-appstore" target="_blank" rel="noopener" href="https://apps.apple.com/app/apple-store/id6772793420?pt=128946892&amp;ct=loi_finances&amp;mt=8" onclick="track('AppStore_Click',{ct:'loi_finances'})"><img src="/badge-app-store-black-fr.svg" width="152" height="48" alt="Télécharger dans l'App Store"></a>
-    </div>
 
   </main>
 </div>

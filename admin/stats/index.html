@@ -170,6 +170,11 @@
         de la fenêtre (Quittance Modal Vue). Les scans du QR de la fenêtre
         sont comptés avec ceux des cartes de la page (quittance_qr).</p>
 
+      <h3>Page Loi de finances : liens vers l'app</h3>
+      <div class="cartes" id="cartes-loi"></div>
+      <p class="legende">Clics App Store de chaque lien de la page /loi-de-finances-bailleurs
+        (Google Ads compris), et taux = clics ÷ visites de la page sur les jours mesurés.</p>
+
       <h3>Parcours quittance</h3>
       <div class="tableau"><table id="tbl-parcours-quittance"></table></div>
 
@@ -266,7 +271,7 @@
   var FAMILLES = [
     ['Fenêtre quittance', ['quittance_modal']],
     ['Outils gratuits (cartes et QR)', ['quittance', 'quittance_qr', 'calculatrice', 'calculatrice_qr', 'radar']],
-    ['Guides et aide', ['guide2044', 'guidelmnp', 'loi_finances', 'aide']],
+    ['Guides et aide', ['guide2044', 'guidelmnp', 'loi_finances', 'loi_finances_csg', 'loi_finances_lmnp', 'loi_finances_qr', 'aide']],
     ['Comparatifs', ['comparatif', 'compariphone']],
     ['Accueil', ['hero', 'cta_final', 'cta_final_qr', 'tarifs', 'sticky']],
     ['Navigation et pied de page', ['nav', 'footer']]
@@ -396,7 +401,7 @@
     ['Radar immobilier (accueil, villes, méthodologie)', ['radar', 'radar_ville', 'radar_methodo'], ['radar']],
     ['Guide 2044', ['guide2044'], ['guide2044']],
     ['Guide LMNP', ['guidelmnp'], ['guidelmnp']],
-    ['Loi de finances', ['loi_finances'], ['loi_finances']],
+    ['Loi de finances', ['loi_finances'], ['loi_finances', 'loi_finances_csg', 'loi_finances_lmnp', 'loi_finances_qr']],
     ["L'app BailleurSuite", ['app'], ['compariphone']],
     ['Comparatif des logiciels', ['comparatif'], ['comparatif']],
     ["Centre d'aide", ['aide'], ['aide']],
@@ -641,6 +646,25 @@
       cf.appendChild(c);
     });
 
+    // Page Loi de finances : un emplacement par carte, côte à côte.
+    var visLoi = visitesDe(d.visites_par_page, ['loi_finances']);
+    var nbVisLoi = visLoi.org + visLoi.ads, ctT = clicsPourTaux(d);
+    var cl = $('cartes-loi'); cl.innerHTML = '';
+    [['loi_finances_csg', 'Encadré CSG 18,6 %'], ['loi_finances_lmnp', 'Encadré amortissement LMNP'],
+     ['loi_finances', 'Carte finale — badge'], ['loi_finances_qr', 'Carte finale — QR (ordinateur)']].forEach(function (x) {
+      var c = clic(d.appstore_par_ct, x[0]), cp = clic(P && P.appstore_par_ct, x[0]), ct = clic(ctT, x[0]);
+      var n = c.org + c.ads;
+      var carte = document.createElement('div'); carte.className = 'carte';
+      var v = document.createElement('div'); v.className = 'valeur'; v.textContent = nombre(n);
+      var nom = document.createElement('div'); nom.className = 'nom'; nom.textContent = x[1] + ' · ' + x[0];
+      var t = document.createElement('div'); t.className = 'evol';
+      t.textContent = nbVisLoi ? 'taux ' + pct(ct.org + ct.ads, nbVisLoi) + ' des visites' : 'taux : visites pas encore mesurées';
+      carte.appendChild(v); carte.appendChild(nom); carte.appendChild(t);
+      var e = evol(n, cp.org + cp.ads, aPrec);
+      if (e.t !== '—') { var ev = document.createElement('div'); ev.className = 'evol ' + e.c; ev.textContent = e.t + ' ' + LIB_PREC; carte.appendChild(ev); }
+      cl.appendChild(carte);
+    });
+
     tableParcours('tbl-parcours-quittance', parcoursQuittance(d), aPrec);
     tableParcours('tbl-parcours-calc', parcoursCalc(d), aPrec);
 
@@ -769,6 +793,12 @@
     L.push(ligne(['Fenêtre après téléchargement (quittance)']));
     L.push(ligne(['Affichages', 'Clics App Store', 'Taux']));
     L.push(ligne([f.vues, f.clics, f.taux]));
+    L.push('');
+    L.push(ligne(['Page Loi de finances : liens vers l\'app']));
+    L.push(ligne(['Emplacement', 'Organique', 'Google Ads', 'Total']));
+    ['loi_finances_csg', 'loi_finances_lmnp', 'loi_finances', 'loi_finances_qr'].forEach(function (ct) {
+      var c = clic(d.appstore_par_ct, ct); L.push(ligne([ct, c.org, c.ads, c.org + c.ads]));
+    });
     [['Parcours quittance', parcoursQuittance(d)], ['Parcours calculatrice', parcoursCalc(d)]].forEach(function (p) {
       L.push('');
       L.push(ligne([p[0]]));
